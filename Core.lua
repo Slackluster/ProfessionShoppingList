@@ -3310,7 +3310,17 @@ end)
 
 -- When a recipe is selected in the tradeskillUI
 EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelected", function(_, recipeInfo)
-	app.SelectedRecipe.Profession = { recipeID = recipeInfo["recipeID"], recraft = recipeInfo["isRecraft"], recipeType = C_TradeSkillUI.GetRecipeSchematic(recipeInfo["recipeID"],false).recipeType }
+	local recipeID = recipeInfo["recipeID"]
+
+	-- Check for ranks
+	if recipeInfo.nextRecipeID and C_TradeSkillUI.GetRecipeInfo(recipeInfo.nextRecipeID).learned then
+		recipeID = recipeInfo.nextRecipeID
+		if C_TradeSkillUI.GetRecipeInfo(recipeInfo.nextRecipeID).nextRecipeID and C_TradeSkillUI.GetRecipeInfo(C_TradeSkillUI.GetRecipeInfo(recipeInfo.nextRecipeID).nextRecipeID).learned then
+			recipeID = C_TradeSkillUI.GetRecipeInfo(recipeInfo.nextRecipeID).nextRecipeID
+		end
+	end
+
+	app.SelectedRecipe.Profession = { recipeID = recipeID, recraft = C_TradeSkillUI.GetRecipeInfo(recipeID).isRecraft, recipeType = C_TradeSkillUI.GetRecipeSchematic(recipeID, false).recipeType }
 	app.UpdateAssets()
 end)
 
