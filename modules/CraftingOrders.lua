@@ -279,7 +279,7 @@ function app.CreateCraftingOrdersAssets()
 	-- Create the repeat last crafting order button text
 	app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP
 
-	if ProfessionShoppingList_CharacterData.Orders["last"] ~= nil and ProfessionShoppingList_CharacterData.Orders["last"] ~= 0 then
+	if ProfessionShoppingList_CharacterData.Orders["last"] ~= nil and ProfessionShoppingList_CharacterData.Orders["last"] ~= 0 and ProfessionShoppingList_CharacterData.Orders[ProfessionShoppingList_CharacterData.Orders["last"]] ~= nil then
 		app.RepeatQuickOrderTooltip.Reagents = L.FALSE
 		if ProfessionShoppingList_Settings["useLocalReagents"] then
 			app.RepeatQuickOrderTooltip.Reagents = L.TRUE
