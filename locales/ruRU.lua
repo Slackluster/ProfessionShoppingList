@@ -135,7 +135,7 @@ L.ADDED_RECIPES2 =						"подходящие рецепты"	-- Preceded by a n
 
 -- Tooltip info
 L.MORE_NEEDED =							"нужно больше" -- Preceded by a number
-L.MADE_WITH =							"Сделано с"	-- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
+L.MADE_WITH =							"Сделано"	-- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
 L.RECIPE_LEARNED =						"рецепт изучен"
 L.RECIPE_UNLEARNED =					"рецепт не изучен"
 L.REGION =								"Регион"	-- Preceded by an abbreviated region name such as "EU" or "US"
