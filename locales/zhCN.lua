@@ -1,272 +1,234 @@
 ----------------------------------------
 -- Profession Shopping List: zhCN.lua --
 ----------------------------------------
--- Chinese (Simplified, PRC) localisation
-
--- Initialisation
-local appName, app =  ...	-- Returns the AddOn name and a unique table
+-- 简体中文本地化
+-- 初始化
+local appName, app = ... -- 返回插件名称和唯一表
 local L = app.locales
 
--- Only load this file when the appropriate locale is found
-if GetLocale() ~= "zhCN" then return end
+-- 仅当检测到简体中文客户端时加载
+if GetLocale() ~= "zhCN" then
+    return
+end
 
--- Main window
--- L.WINDOW_BUTTON_CLOSE =					"Close the window."
--- L.WINDOW_BUTTON_LOCK =					"Lock the window."
--- L.WINDOW_BUTTON_UNLOCK =				"Unlock the window."
--- L.WINDOW_BUTTON_SETTINGS =				"Open the settings."
--- L.WINDOW_BUTTON_CLEAR =					"Clear all tracked recipes."
--- L.WINDOW_BUTTON_AUCTIONATOR =			"Create an Auctionator shopping list.\n" ..
--- 										"Also initiates a search if you have the Shopping tab open at the Auction House."
--- L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF: Autosize to fit the window."
+-- 主窗口
+L.WINDOW_BUTTON_CLOSE = "关闭窗口。"
+L.WINDOW_BUTTON_LOCK = "锁定窗口位置。"
+L.WINDOW_BUTTON_UNLOCK = "解锁窗口位置。"
+L.WINDOW_BUTTON_SETTINGS = "打开设置。"
+L.WINDOW_BUTTON_CLEAR = "清除所有追踪的配方。"
+L.WINDOW_BUTTON_AUCTIONATOR = "创建Auctionator购物清单。\n" ..
+                                  "如果在拍卖行打开购物标签页，将自动开始搜索。"
+L.WINDOW_BUTTON_CORNER = "双击" .. app.IconLMB .. "|cffFFFFFF：自动调整窗口尺寸。|r"
 
--- L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB	-- "Recipes"
--- L.WINDOW_HEADER_ITEMS =					ITEMS	-- "Items"
--- L.WINDOW_HEADER_REAGENTS =				PROFESSIONS_COLUMN_HEADER_REAGENTS	-- "Reagents"
--- L.WINDOW_HEADER_COSTS =					"Costs"
--- L.WINDOW_HEADER_COOLDOWNS =				"Cooldowns"
+L.WINDOW_HEADER_RECIPES = PROFESSIONS_RECIPES_TAB -- "配方"
+L.WINDOW_HEADER_ITEMS = ITEMS -- "物品"
+L.WINDOW_HEADER_REAGENTS = PROFESSIONS_COLUMN_HEADER_REAGENTS -- "材料"
+L.WINDOW_HEADER_COSTS = "成本"
+L.WINDOW_HEADER_COOLDOWNS = "冷却时间"
 
--- L.WINDOW_TOOLTIP_RECIPES =				"Shift " .. app.IconLMB .. "|cffFFFFFF: Link the recipe.\n|r" ..
--- 										"Ctrl " .. app.IconLMB .. "|cffFFFFFF: Open the recipe (if known).\n|r" ..
--- 										"Alt " .. app.IconLMB .. "|cffFFFFFF: Attempt to craft this recipe (as many times as you have it tracked).\n\n|r" ..
--- 										app.IconRMB .. "|cffFFFFFF: Untrack 1 of the selected recipe.\n|r" ..
--- 										"Ctrl " .. app.IconRMB .. "|cffFFFFFF: Untrack all of the selected recipe."
--- L.WINDOW_TOOLTIP_REAGENTS =				"Shift " .. app.IconLMB .. "|cffFFFFFF: Link the reagent.\n|r" ..
--- 										"Ctrl " .. app.IconLMB .. "|cffFFFFFF: Add recipe for the selected subreagent, if it exists and is cached."
--- L.WINDOW_TOOLTIP_COOLDOWNS =			"Shift " .. app.IconRMB .. "|cffFFFFFF: Remove this specific cooldown reminder.\n|r" ..
--- 										"Ctrl " .. app.IconLMB .. "|cffFFFFFF: Open the recipe (if known).\n|r" ..
--- 										"Alt " .. app.IconLMB .. "|cffFFFFFF: Attempt to craft this recipe."
-									
--- L.CLEAR_CONFIRMATION =					"This will clear all recipes."
--- L.CONFIRMATION =						"Do you wish to proceed?"
--- L.SUBREAGENTS1 =						"There are multiple recipes that can create"	-- Followed by an item link
--- L.SUBREAGENTS2 =						"Please select one of the following"
--- L.GOLD =								BONUS_ROLL_REWARD_MONEY	-- "Gold"
+L.WINDOW_TOOLTIP_RECIPES =
+    "Shift + " .. app.IconLMB .. "|cffFFFFFF：链接配方。|r\n" .. "Ctrl + " .. app.IconLMB ..
+        "|cffFFFFFF：打开配方（如果已学会）。|r\n" .. "Alt + " .. app.IconLMB ..
+        "|cffFFFFFF：尝试制作该配方（按追踪数量）。|r\n\n" .. app.IconRMB ..
+        "|cffFFFFFF：取消追踪1个该配方。|r\n" .. "Ctrl + " .. app.IconRMB ..
+        "|cffFFFFFF：取消追踪全部该配方。|r"
+L.WINDOW_TOOLTIP_REAGENTS =
+    "Shift + " .. app.IconLMB .. "|cffFFFFFF：链接材料。|r\n" .. "Ctrl + " .. app.IconLMB ..
+        "|cffFFFFFF：添加该次级材料的配方（如果存在缓存）。|r"
+L.WINDOW_TOOLTIP_COOLDOWNS = "Shift + " .. app.IconRMB .. "|cffFFFFFF：移除该冷却提醒。|r\n" .. "Ctrl + " ..
+                                 app.IconLMB .. "|cffFFFFFF：打开配方（如果已学会）。|r\n" .. "Alt + " ..
+                                 app.IconLMB .. "|cffFFFFFF：尝试制作该配方。|r"
 
--- Cooldowns
--- L.RECHARGED =							"Fully recharged"
--- L.READY =								"Ready"
--- L.DAYS =								"d"
--- L.HOURS =								"h"
--- L.MINUTES =								"m"
--- L.READY_TO_CRAFT =						"is ready to craft again on"	-- Preceded by a recipe name, followed by a character name
+L.CLEAR_CONFIRMATION = "这将清除所有配方。"
+L.CONFIRMATION = "确定要继续吗？"
+L.SUBREAGENTS1 = "存在多个可制作" -- 后接物品链接
+L.SUBREAGENTS2 = "请选择以下配方之一"
+L.GOLD = BONUS_ROLL_REWARD_MONEY -- "金币"
 
--- Recipe tracking
--- L.TRACK =								"Track"
--- L.UNTRACK =								"Untrack"
--- L.RANK =								RANK	-- "Rank"
--- L.RECRAFT_TOOLTIP =						"Select an item with a cached recipe to track it.\n" .. 
--- 										"To cache a recipe, open the profession the recipe belongs to on any character\nor view the item as a regular crafting order."
--- L.QUICKORDER =							"Quick Order"
--- L.QUICKORDER_TOOLTIP =					"|cffFF0000Instantly|r create a crafting order for the specified recipient.\n\n" ..
--- 										"Use |cffFFFFFFGUILD|r (all uppercase) to place a " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. ".\n" ..	-- "Guild Order". Don't translate "|cffFFFFFFGUILD|r" as this is hardcoded
--- 										"Use a character name to place a " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_PRIVATE .. ".\n" ..	-- "Personal Order"
--- 										"Recipients are saved per recipe."
--- L.LOCALREAGENTS_LABEL =					"Use local reagents"
--- L.LOCALREAGENTS_TOOLTIP =				"Use (the lowest quality) available local reagents. Which reagents are used |cffFF0000cannot|r be customised."
--- L.QUICKORDER_REPEAT_TOOLTIP =			"Repeat the last " .. L.QUICKORDER .. " done on this character."
--- L.RECIPIENT =							"Recipient"
+-- 冷却时间
+L.RECHARGED = "已完全恢复"
+L.READY = "准备就绪"
+L.DAYS = "天"
+L.HOURS = "小时"
+L.MINUTES = "分钟"
+L.READY_TO_CRAFT = "的冷却时间已重置，可在角色" -- 前接配方名称，后接角色名
 
--- Profession window
--- L.MILLING_INFO =						"Milling Information"
--- L.THAUMATURGY_INFO =					"Thaumaturgy Information"
--- L.FROM =								"from"	-- I will convert this whole section to item links, then this is the only localisation needed. I recommend skipping the rest of this section. :)
+-- 配方追踪
+L.TRACK = "追踪"
+L.UNTRACK = "取消追踪"
+L.RANK = RANK -- "等级"
+L.RECRAFT_TOOLTIP = "选择带有缓存配方的物品进行追踪。\n" ..
+                        "要缓存配方，请在任何角色上打开对应专业窗口\n或查看普通制造订单中的物品。"
+L.QUICKORDER = "快速订单"
+L.QUICKORDER_TOOLTIP = "|cffFF0000立即|r为指定接收者创建制造订单。\n\n" ..
+                           "使用|cffFFFFFFGUILD|r（全大写）创建" ..
+                           PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. "。\n" .. -- "公会订单"
+"使用角色名创建" .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_PRIVATE .. "。\n" .. -- "个人订单"
+"接收者按配方保存。"
+L.LOCALREAGENTS_LABEL = "使用本地材料"
+L.LOCALREAGENTS_TOOLTIP = "使用（最低品质的）本地材料。|cffFF0000无法|r自定义使用的材料。"
+L.QUICKORDER_REPEAT_TOOLTIP = "重复该角色上次的" .. L.QUICKORDER .. "。"
+L.RECIPIENT = "接收者"
 
--- L.MILLING_CLASSIC =						"Sapphire Pigment: 25% from Golden Sansam, Dreamfoil, Mountain Silversage, Sorrowmoss, Icecap\n" ..
--- 										"Silvery Pigment: 75% from Golden Sansam, Dreamfoil, Mountain Silversage, Sorrowmoss, Icecap\n\n" ..
--- 										"Ruby Pigment: 25% from Firebloom, Purple Lotus, Arthas' Tears, Sungrass, Blindweed,\n      Ghost Mushroom, Gromsblood\n" ..
--- 										"Violet Pigment: 75% from Firebloom, Purple Lotus, Arthas' Tears, Sungrass, Blindweed,\n      Ghost Mushroom, Gromsblood\n\n" ..
--- 										"Indigo Pigment: 25% from Fadeleaf, Goldthorn, Khadgar's Whisker, Dragon's Teeth\n" ..
--- 										"Emerald Pigment: 75% from Fadeleaf, Goldthorn, Khadgar's Whisker, Dragon's Teeth\n\n" ..
--- 										"Burnt Pigment: 25% from Wild Steelbloom, Grave Moss, Kingsblood, Liferoot\n" ..
--- 										"Golden Pigment: 75% from Wild Steelbloom, Grave Moss, Kingsblood, Liferoot\n\n" ..
--- 										"Verdant Pigment: 25% from Mageroyal, Briarthorn, Swiftthistle, Bruiseweed, Stranglekelp\n" ..
--- 										"Dusky Pigment: 75% from Mageroyal, Briarthorn, Swiftthistle, Bruiseweed, Stranglekelp\n\n" ..
--- 										"Alabaster Pigment: 100% from Peacebloom, Silverleaf, Earthroot"
--- L.MILLING_TBC =							"Ebon Pigment: 25%\n" ..
--- 										"Nether Pigment: 100%"
--- L.MILLING_WOTLK =						"Icy Pigment: 25%\n" ..
--- 										"Azure Pigment: 100%"
--- L.MILLING_CATA =						"Burning Embers: 25%, 50% from Twilight Jasmine, Whiptail\n" ..
--- 										"Ashen Pigment: 100%"
--- L.MILLING_MOP =							"Misty Pigment: 25%, 50% from Fool's Cap\n" ..
--- 										"Shadow Pigment: 100%"
--- L.MILLING_WOD =							"Cerulean Pigment: 100%"
--- L.MILLING_LEGION =						"Sallow Pigment: 10%, 80% from Felwort\n" ..
--- 										"Roseate Pigment: 90%"
--- L.MILLING_BFA =							"Viridescent Pigment: 10%, 30% from Anchor Weed\n" ..
--- 										"Ultramarine Pigment: 25%\n" ..
--- 										"Crimson Pigment: 75%"
--- L.MILLING_SL =							"Tranquil Pigment: Nightshade\n" ..
--- 										"Luminous Pigment: Death Blossom, Rising Glory, Vigil's Torch\n" ..
--- 										"Umbral Pigment: Death's Blossom, Marrowroot, Widowbloom"
--- L.MILLING_DF =							"Blazing Pigment: Saxifrage\n" ..
--- 										"Flourishing Pigment: Writhebark\n" ..
--- 										"Serene Pigment: Bubble Poppy\n" ..
--- 										"Shimmering Pigment: Hochenblume"
--- L.MILLING_TWW =							"Blossom Pigment: Blessing Blossom\n" ..
--- 										"Luredrop Pigment: Luredrop\n" ..
--- 										"Orbinid Pigment: Orbinid\n" ..
--- 										"Nacreous Pigment: Mycobloom"
--- L.THAUMATURGY_TWW =						"Mercurial Transmutagen: Aqirite, Gloom Chitin, Luredrop, Orbinid\n" ..
--- 										"Ominous Transmutagen: Bismuth, Mycobloom, Storm Dust, Weavercloth\n" ..
--- 										"Volatile Transmutagen: Arathor's Spear, Blessing Blossom, Ironclaw Ore, Stormcharged Leather"
+-- 专业窗口
+L.MILLING_INFO = "研磨信息"
+L.THAUMATURGY_INFO = "炼金转化信息"
+L.FROM = "来自" -- 用于材料来源说明
 
--- L.BUTTON_COOKINGFIRE =					app.IconLMB .. ": " .. BINDING_NAME_TARGETSELF .. "\n" ..
--- 										app.IconRMB .. ": " .. STATUS_TEXT_TARGET
--- L.BUTTON_COOKINGPET =					app.IconLMB .. ": Summon this pet\n" ..
--- 										app.IconRMB .. ": Switch between available pets"
--- L.BUTTON_CHEFSHAT =						app.IconLMB .. ": Use the"
--- L.BUTTON_THERMALANVIL =					app.IconLMB .. ": Use a"
--- L.BUTTON_ALVIN =						app.IconLMB .. ": Summon this pet"
--- L.BUTTON_LIGHTFORGE =					app.IconLMB .. ": Cast"
+-- 新外观追踪
+L.BUTTON_TRACKNEW = "追踪新外观"
+L.CURRENT_SETTING = "当前设置："
+L.MODE_APPEARANCES = "新外观"
+L.MODE_SOURCES = "新外观及来源"
+L.TRACK_NEW1 = "即将扫描" -- 后接数字
+L.TRACK_NEW2 = "个可见配方中的" -- 前接数字，后接L.MODE_APPEARANCES或L.MODE_SOURCES
+L.TRACK_NEW3 = "游戏可能会卡顿数秒。"
+L.ADDED_RECIPES1 = "已添加" -- 后接数字
+L.ADDED_RECIPES2 = "个符合条件的配方" -- 前接数字
 
--- Track new mogs
--- L.BUTTON_TRACKNEW =						"Track New Mogs"
--- L.CURRENT_SETTING =						"Current setting:"
--- L.MODE_APPEARANCES =					"new appearances"
--- L.MODE_SOURCES =						"new appearances and sources"
--- L.TRACK_NEW1 =							"This will check the"	-- Followed by a number
--- L.TRACK_NEW2 =							"visible recipes for"	-- Preceded by a number, followed by L.MODE_APPEARANCES or L.MODE_SOURCES
--- L.TRACK_NEW3 =							"Your game may freeze for a few seconds."
--- L.ADDED_RECIPES1 =						"Added"	-- Followed by a number
--- L.ADDED_RECIPES2 =						"eligible recipes"	-- Preceded by a number
+-- 鼠标提示信息
+L.MORE_NEEDED = "个仍需" -- 前接数字
+L.MADE_WITH = "制造专业：" -- 后接专业名称如"锻造"、"制皮"
+L.RECIPE_LEARNED = "配方已学会"
+L.RECIPE_UNLEARNED = "配方未学会"
+L.REGION = "地区" -- 前接地区缩写如"欧服"、"美服"
 
--- Tooltip info
--- L.MORE_NEEDED =							"more needed" -- Preceded by a number
--- L.MADE_WITH =							"Made with"	-- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
--- L.RECIPE_LEARNED =						"recipe learned"
--- L.RECIPE_UNLEARNED =					"recipe not learned"
--- L.REGION =								"Region"	-- Preceded by an abbreviated region name such as "EU" or "US"
+-- 专业技能知识
+L.PERKS_UNLOCKED = "特长已解锁"
+L.PROFESSION_KNOWLEDGE = "知识点数"
+L.VENDORS = "供应商"
+L.RENOWN = RENOWN_LEVEL_LABEL -- "名望 "
+L.WORLD = "世界"
+L.HIDDEN_PROFESSION_MASTER = "隐藏专业大师"
+L.CATCHUP_KNOWLEDGE = "可用追赶知识："
+L.LOADING = SEARCH_LOADING_TEXT
 
--- Profession knowledge
--- L.PERKS_UNLOCKED =						"perks unlocked"
--- L.PROFESSION_KNOWLEDGE =				"knowledge"
--- L.VENDORS =								"Vendors"
--- L.RENOWN =								RENOWN_LEVEL_LABEL	-- "Renown "
--- L.WORLD =								"World"
--- L.HIDDEN_PROFESSION_MASTER =			"Hidden Profession Master"
--- L.CATCHUP_KNOWLEDGE =					"Available catch-up knowledge:"
--- L.LOADING =								SEARCH_LOADING_TEXT
+-- 功能调整
+L.CATALYSTBUTTON_LABEL = "立即催化"
 
--- Tweaks
--- L.CATALYSTBUTTON_LABEL =				"Instantly Catalyze"
+-- 聊天反馈
+L.INVALID_PARAMETERS = "参数无效。"
+L.INVALID_RECIPEQUANTITY = L.INVALID_PARAMETERS .. " 请输入有效的配方数量。"
+L.INVALID_RECIPE_CACHE = L.INVALID_PARAMETERS .. " 请输入已缓存的配方ID。"
+L.INVALID_RECIPE_TRACKED = L.INVALID_PARAMETERS .. " 请输入已追踪的配方ID。"
+L.INVALID_ACHIEVEMENT = L.INVALID_PARAMETERS .. " 这不是制造类成就。未添加任何配方。"
+L.INVALID_RESET_ARG = L.INVALID_PARAMETERS .. " 可用参数："
+L.INVALID_COMMAND = "无效指令。输入" .. app.Colour("/psl settings") .. "查看帮助。"
+L.DEBUG_ENABLED = "调试模式已启用。"
+L.DEBUG_DISABLED = "调试模式已禁用。"
+L.RESET_DONE = "数据重置成功。"
+L.REQUIRES_RELOAD = "|cffFF0000需要重新加载界面。|r使用|cffFFFFFF/reload|r或重新登录。" -- "需要重载界面"
 
--- Chat feedback
--- L.INVALID_PARAMETERS =					"Invalid parameters."
--- L.INVALID_RECIPEQUANTITY =				L.INVALID_PARAMETERS .. " Please enter a valid recipe quantity."
--- L.INVALID_RECIPE_CACHE =				L.INVALID_PARAMETERS .. " Please enter a cached recipeID."
--- L.INVALID_RECIPE_TRACKED =				L.INVALID_PARAMETERS .. " Please enter a tracked recipeID."
--- L.INVALID_ACHIEVEMENT =					L.INVALID_PARAMETERS .. " This is not a crafting achievement. No recipes were added."
--- L.INVALID_RESET_ARG =					L.INVALID_PARAMETERS .. " You can use the following arguments:"
--- L.INVALID_COMMAND =						"Invalid command. See " .. app.Colour("/psl settings") .. " for more info."
--- L.DEBUG_ENABLED =						"Debug mode enabled."
--- L.DEBUG_DISABLED =						"Debug mode disabled."
--- L.RESET_DONE =							"Data reset performed successfully."
--- L.REQUIRES_RELOAD =						"|cffFF0000" .. REQUIRES_RELOAD .. ".|r Use |cffFFFFFF/reload|r or relog."	-- "Requires Reload"
+L.FALSE = "否"
+L.TRUE = "是"
+L.NOLASTORDER = "未找到最近的" .. L.QUICKORDER .. "。"
+L.ERROR = "错误"
+L.ERROR_CRAFTSIM = L.ERROR .. "：无法读取CraftSim数据。"
+L.ERROR_QUICKORDER = L.ERROR .. "：" .. L.QUICKORDER .. "失败。"
+L.ERROR_REAGENTS = L.ERROR .. "：无法为需要指定材料的物品创建" .. L.QUICKORDER .. "。"
+L.ERROR_WARBANK = L.ERROR .. "：无法使用战争银行材料创建" .. L.QUICKORDER .. "。"
+L.ERROR_GUILD = L.ERROR .. "：未加入公会时无法创建" .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD ..
+                    "。" -- "公会订单"
+L.ERROR_RECIPIENT = L.ERROR .. "：目标接收者无法制作该物品。请输入有效角色名。"
+L.ERROR_MULTISIM = L.ERROR .. "：未使用模拟材料。请启用以下支持插件之一："
 
--- L.FALSE =								"false"
--- L.TRUE =								"true"
--- L.NOLASTORDER =							"No last " .. L.QUICKORDER .. " found."
--- L.ERROR =								"Error"
--- L.ERROR_CRAFTSIM =						L.ERROR .. ": Could not read the information from CraftSim."
--- L.ERROR_QUICKORDER =					L.ERROR .. ": " .. L.QUICKORDER  .. " failed. Sorry. :("
--- L.ERROR_REAGENTS =						L.ERROR .. ": Can't create a " .. L.QUICKORDER .. " for items with mandatory reagents. Sorry. :("
--- L.ERROR_WARBANK =						L.ERROR .. ": Can't create a " .. L.QUICKORDER .. " with items in the Warbank."
--- L.ERROR_GUILD =							L.ERROR .. ": Can't create a " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. " while not in a guild."	-- "Guild Order"
--- L.ERROR_RECIPIENT =						L.ERROR .. ": Target recipient cannot craft that item. Please enter a valid recipient name."
--- L.ERROR_MULTISIM =						L.ERROR .. ": No simulated reagents have been used. Please only enable one of the following supported AddOns:"
+L.VERSION_CHECK = app.NameLong .. "有新版本可用："
 
--- L.VERSION_CHECK =						"There is a newer version of " .. app.NameLong .. " available:"
+-- 设置选项
+L.SETTINGS_TOOLTIP = app.IconLMB .. "|cffFFFFFF：切换窗口。|r\n" .. app.IconRMB .. "：打开设置"
 
--- Settings
--- L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF: Toggle the window.\n" ..
--- 										app.IconRMB .. ": " .. L.WINDOW_BUTTON_SETTINGS
+L.SETTINGS_MINIMAP_TITLE = "显示小地图图标"
+L.SETTINGS_MINIMAP_TOOLTIP = "显示小地图图标。禁用后仍可通过插件菜单访问。"
+L.SETTINGS_COOLDOWNS_TITLE = "追踪配方冷却"
+L.SETTINGS_COOLDOWNS_TOOLTIP =
+    "启用配方冷却时间追踪。显示在追踪窗口，并在登录时通过聊天提醒就绪冷却。"
+L.SETTINGS_COOLDOWNSWINDOW_TITLE = "冷却就绪时显示窗口"
+L.SETTINGS_COOLDOWNSWINDOW_TOOLTIP = "登录时若有冷却就绪，除聊天提醒外同时打开追踪窗口。"
+L.SETTINGS_TOOLTIP_TITLE = "显示提示信息"
+L.SETTINGS_TOOLTIP_TOOLTIP = "在物品提示中显示拥有/需要的材料数量。"
+L.SETTINGS_CRAFTTOOLTIP_TITLE = "显示制造信息"
+L.SETTINGS_CRAFTTOOLTIP_TOOLTIP = "在装备提示中显示制造专业及配方是否学会。"
+L.SETTINGS_REAGENTQUALITY_TITLE = "最低材料品质"
+L.SETTINGS_REAGENTQUALITY_TOOLTIP =
+    "设置计入物品数量的最低材料品质。CraftSim结果将覆盖此设置。"
+L.SETTINGS_INCLUDEHIGHER_TITLE = "包含更高品质"
+L.SETTINGS_INCLUDEHIGHER_TOOLTIP =
+    "设置追踪低品质材料时包含哪些更高品质材料。（例如是否在统计1级材料时包含3级材料）"
+L.SETTINGS_COLLECTMODE_TITLE = "收集模式"
+L.SETTINGS_COLLECTMODE_TOOLTIP = "设置使用" .. app.Colour(L.BUTTON_TRACKNEW) .. "按钮时包含的物品类型。"
+L.SETTINGS_QUICKORDER_TITLE = "快速订单时长"
+L.SETTINGS_QUICKORDER_TOOLTIP = "设置" .. app.NameShort .. "快速订单的持续时间。"
 
--- L.SETTINGS_MINIMAP_TITLE =				"Show Minimap Icon"
--- L.SETTINGS_MINIMAP_TOOLTIP =			"Show the minimap icon. If you disable this, " .. app.NameShort .. " is still available from the AddOn Compartment."
--- L.SETTINGS_COOLDOWNS_TITLE =			"Track Recipe Cooldowns"
--- L.SETTINGS_COOLDOWNS_TOOLTIP =			"Enable the tracking of recipe cooldowns. These will show in the tracking window, and in chat upon login if ready."
--- L.SETTINGS_COOLDOWNSWINDOW_TITLE =		"Show Window When Ready"
--- L.SETTINGS_COOLDOWNSWINDOW_TOOLTIP =	"Open the tracking window on login when a cooldown is ready, in addition to the reminder via chat message."
--- L.SETTINGS_TOOLTIP_TITLE =				"Show Tooltip Information"
--- L.SETTINGS_TOOLTIP_TOOLTIP =			"Show how many of a reagent you have/need on the item's tooltip."
--- L.SETTINGS_CRAFTTOOLTIP_TITLE =			"Show Crafting Information"
--- L.SETTINGS_CRAFTTOOLTIP_TOOLTIP =		"Show with which profession a piece of gear is made, and if the recipe is known on your account."
--- L.SETTINGS_REAGENTQUALITY_TITLE =		"Minimum Reagent Quality"
--- L.SETTINGS_REAGENTQUALITY_TOOLTIP =		"Set the minimum quality reagents need to be before " .. app.NameShort .. " includes them in the item count. CraftSim results will still override this."
--- L.SETTINGS_INCLUDEHIGHER_TITLE =		"Include Higher Quality"
--- L.SETTINGS_INCLUDEHIGHER_TOOLTIP =		"Set which higher qualities to include when tracking lower quality reagents. (I.e. whether to include owned tier 3 reagents when counting tier 1 reagents.)"
--- L.SETTINGS_COLLECTMODE_TITLE =			"Collection Mode"
--- L.SETTINGS_COLLECTMODE_TOOLTIP =		"Set which items are included when using the " .. app.Colour(L.BUTTON_TRACKNEW) .. " button."
--- L.SETTINGS_QUICKORDER_TITLE =			"Quick Order Duration"
--- L.SETTINGS_QUICKORDER_TOOLTIP =			"Set the duration for placing quick orders with " .. app.NameShort .. "."
+L.SETTINGS_REAGENTTIER = "等级" -- 后接数字
+L.SETTINGS_INCLUDE = "包含" -- 后接"第X级"
+L.SETTINGS_ONLY_INCLUDE = "仅包含" -- 后接"第X级"
+L.SETTINGS_DONT_INCLUDE = "不包含更高品质"
+L.SETTINGS_APPEARANCES_TITLE = WARDROBE -- "外观"
+L.SETTINGS_APPEARANCES_TEXT = "仅包含新外观物品。"
+L.SETTINGS_SOURCES_TITLE = "来源"
+L.SETTINGS_SOURCES_TEXT = "包含新来源物品（包括已知外观的新来源）。"
+L.SETTINGS_DURATION_SHORT = "短（12小时）"
+L.SETTINGS_DURATION_MEDIUM = "中（24小时）"
+L.SETTINGS_DURATION_LONG = "长（48小时）"
 
--- L.SETTINGS_REAGENTTIER =				"Tier"	-- Followed by a number
--- L.SETTINGS_INCLUDE =					"Include"	-- Followed by "Tier X"
--- L.SETTINGS_ONLY_INCLUDE =				"Only include"	-- Followed by "Tier X"
--- L.SETTINGS_DONT_INCLUDE =				"Don't include higher qualities"
--- L.SETTINGS_APPEARANCES_TITLE =			WARDROBE	-- "Appearances"
--- L.SETTINGS_APPEARANCES_TEXT =			"Include items only if they have a new appearance."
--- L.SETTINGS_SOURCES_TITLE =				"Sources"
--- L.SETTINGS_SOURCES_TEXT =				"Include items if they are a new source, including for known appearances."
--- L.SETTINGS_DURATION_SHORT =				"Short (12 hours)"
--- L.SETTINGS_DURATION_MEDIUM =			"Medium (24 hours)"
--- L.SETTINGS_DURATION_LONG =				"Long (48 hours)"
+L.SETTINGS_HEADER_TRACK = "追踪窗口"
+L.SETTINGS_PERSONALWINDOWS_TITLE = "角色独立窗口位置"
+L.SETTINGS_PERSONALWINDOWS_TOOLTIP = "按角色保存窗口位置，而非账号通用。"
+L.SETTINGS_PERSONALRECIPES_TITLE = "角色独立配方追踪"
+L.SETTINGS_PERSONALRECIPES_TOOLTIP = "按角色追踪配方，而非账号通用。"
+L.SETTINGS_SHOWREMAINING_TITLE = "显示剩余材料"
+L.SETTINGS_SHOWREMAINING_TOOLTIP = "在追踪窗口仅显示仍需材料数量，而非拥有/需要。"
+L.SETTINGS_REMOVECRAFT_TITLE = "制作后取消追踪"
+L.SETTINGS_REMOVECRAFT_TOOLTIP = "成功制作后减少1个追踪数量。"
+L.SETTINGS_CLOSEWHENDONE_TITLE = "完成后关闭窗口"
+L.SETTINGS_CLOSEWHENDONE_TOOLTIP = "制作完最后一个追踪配方后关闭窗口。"
 
--- L.SETTINGS_HEADER_TRACK =				"Tracking Window"
--- L.SETTINGS_PERSONALWINDOWS_TITLE =		"Window Position per Character"
--- L.SETTINGS_PERSONALWINDOWS_TOOLTIP =	"Save the window position per character, instead of account wide."	
--- L.SETTINGS_PERSONALRECIPES_TITLE =		"Track Recipes per Character"
--- L.SETTINGS_PERSONALRECIPES_TOOLTIP =	"Track recipes per character, instead of account wide."	
--- L.SETTINGS_SHOWREMAINING_TITLE =		"Show Remaining Reagents"
--- L.SETTINGS_SHOWREMAINING_TOOLTIP =		"Only show how many reagents you still need in the tracking window, instead of have/need."
--- L.SETTINGS_REMOVECRAFT_TITLE =			"Untrack on Craft"
--- L.SETTINGS_REMOVECRAFT_TOOLTIP =		"Remove one of a tracked recipe when you successfully craft it."
--- L.SETTINGS_CLOSEWHENDONE_TITLE =		"Close Window When Done"	
--- L.SETTINGS_CLOSEWHENDONE_TOOLTIP =		"Close the tracking window after crafting the last tracked recipe."
+L.SETTINGS_HEADER_INFO = "信息"
+L.SETTINGS_SLASHCOMMANDS_TITLE = "斜杠命令"
+L.SETTINGS_SLASHCOMMANDS_TOOLTIP = "在聊天中输入以下命令："
+L.SETTINGS_SLASH_TOGGLE = "切换追踪窗口。"
+L.SETTINGS_SLASH_RESETPOS = "重置窗口位置。"
+L.SETTINGS_SLASH_RESET = "重置保存的数据。"
+L.SETTINGS_SLASH_TRACK = "追踪配方。"
+L.SETTINGS_SLASH_UNTRACK = "取消追踪配方。"
+L.SETTINGS_SLASH_UNTRACKALL = "取消追踪全部该配方。"
+L.SETTINGS_SLASH_TRACKACHIE = "追踪链接成就所需配方。"
+L.SETTINGS_SLASH_CRAFTINGACHIE = "制造成就"
+L.SETTINGS_SLASH_RECIPEID = "配方ID"
+L.SETTINGS_SLASH_QUANTITY = "数量"
+L.SETTINGS_DEFAULT = CHAT_DEFAULT -- "默认"
+L.SETTINGS_LTOR = "从左到右"
+L.SETTINGS_RTOL = "从右到左"
 
--- L.SETTINGS_HEADER_INFO =				"Information"
--- L.SETTINGS_SLASHCOMMANDS_TITLE =		"Slash Commands"
--- L.SETTINGS_SLASHCOMMANDS_TOOLTIP =		"Type these in chat to use them!"
--- L.SETTINGS_SLASH_TOGGLE =				"Toggle the tracking window."
--- L.SETTINGS_SLASH_RESETPOS =				"Reset the tracking window position."
--- L.SETTINGS_SLASH_RESET =				"Reset saved data."
--- L.SETTINGS_SLASH_TRACK =				"Track a recipe."
--- L.SETTINGS_SLASH_UNTRACK =				"Untrack a recipe."
--- L.SETTINGS_SLASH_UNTRACKALL =			"Untrack all of a recipe."
--- L.SETTINGS_SLASH_TRACKACHIE =			"Track the recipes needed for the linked achievement."
--- L.SETTINGS_SLASH_CRAFTINGACHIE =		"crafting achievement"
--- L.SETTINGS_SLASH_RECIPEID =				"recipeID"
--- L.SETTINGS_SLASH_QUANTITY =				"quantity"
--- L.SETTINGS_DEFAULT =					CHAT_DEFAULT	-- "Default"
--- L.SETTINGS_LTOR =						"Left-to-Right"
--- L.SETTINGS_RTOL =						"Right-to-Left"
+L.SETTINGS_HEADER_TWEAKS = "功能调整"
+L.SETTINGS_SPLITBAG_TITLE = "拆分材料背包计数"
+L.SETTINGS_SPLITBAG_TOOLTIP = "在背包图标上方分别显示普通背包和材料背包的空位。"
+L.SETTINGS_BAG_EXPLAIN = "- " .. CHAT_DEFAULT .. " 表示" .. app.NameShort .. "不修改默认行为。\n" ..
+                             "- 其他选项将强制应用该设置。"
+L.SETTINGS_CLEANBAG_TITLE = BAG_CLEANUP_BAGS
+L.SETTINGS_CLEANBAG_TOOLTIP = "让" .. app.NameShort .. "强制指定整理方向。\n" .. L.SETTINGS_BAG_EXPLAIN
+L.SETTINGS_LOOTBAG_TITLE = "拾取顺序"
+L.SETTINGS_LOOTBAG_TOOLTIP = "让" .. app.NameShort .. "强制指定拾取方向。\n" .. L.SETTINGS_BAG_EXPLAIN
 
--- L.SETTINGS_HEADER_TWEAKS =				"Tweaks"
--- L.SETTINGS_SPLITBAG_TITLE =				"Split Reagent Bag Count"
--- L.SETTINGS_SPLITBAG_TOOLTIP =			"Shows the free slots of your regular bags and your reagent bag separately on top of the backpack icon."
--- L.SETTINGS_BAG_EXPLAIN =				"- " .. CHAT_DEFAULT .. " means " .. app.NameShort .. " won't touch the game's default behavior.\n" ..
--- 										"- The other options let " .. app.NameShort .. " enforce that particular setting."
--- L.SETTINGS_CLEANBAG_TITLE =				BAG_CLEANUP_BAGS
--- L.SETTINGS_CLEANBAG_TOOLTIP =			"Let " ..  app.NameShort .. " enforce cleanup sorting direction.\n" .. L.SETTINGS_BAG_EXPLAIN
--- L.SETTINGS_LOOTBAG_TITLE =				"Loot Order"
--- L.SETTINGS_LOOTBAG_TOOLTIP =			"Let " .. app.NameShort .. " enforce loot sorting direction.\n" .. L.SETTINGS_BAG_EXPLAIN
-
--- L.SETTINGS_HEADER_OTHERTWEAKS =			"Other Tweaks"
--- L.SETTINGS_VENDORFILTER_TITLE =			"Disable Vendor Filter"
--- L.SETTINGS_VENDORFILTER_TOOLTIP =		"Automatically set all vendor filters to |cffFFFFFFAll|R to display items normally not shown to your class."
--- L.SETTINGS_CATALYSTBUTTON_TITLE =		"Show Catalyst Button"
--- L.SETTINGS_CATALYSTBUTTON_TOOLTIP =		"Show a button on the Revival Catalyst that allows you to instantly catalyze an item, skipping the 5 second confirmation timer."
--- L.SETTINGS_QUEUESOUND_TITLE =			"Play Queue Sound"
--- L.SETTINGS_QUEUESOUND_TOOLTIP =			"Play the Deadly Boss Mods style queue sound when any queue pops, including battlegrounds and pet battles."
--- L.SETTINGS_HANDYNOTESFIX_TITLE =		"Disable HandyNotes Alt " .. app.IconRMB
--- L.SETTINGS_HANDYNOTESFIX_TOOLTIP =		"Let " .. app.NameShort .. " disable HandyNotes' keybind on the map, re-enabling it for TomTom waypoints instead.\n\n" .. L.REQUIRES_RELOAD
--- L.SETTINGS_ORIBOSEXCHANGEFIX_TITLE =	"Fix Oribos Exchange Tooltip"
--- L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	"Let " .. app.NameShort .. " simplify and fix the tooltip provided by the Oribos Exchange AddOn:\n" ..
--- 										"- Round to the nearest gold.\n" ..
--- 										"- Fix recipe prices.\n" ..
--- 										"- Fix profession window prices.\n" ..
--- 										"- Show battle pet prices inside the existing tooltip."
--- L.SETTINGS_QA_TITLE =					"Quality Assurance"
--- L.SETTINGS_QA_TOOLTIP =					"Since the game lacks QA, let's add some of our own. Remove title spam on login and the <Right click for Frame Settings> on tooltips.\n\n" .. L.REQUIRES_RELOAD
+L.SETTINGS_HEADER_OTHERTWEAKS = "其他调整"
+L.SETTINGS_VENDORFILTER_TITLE = "禁用商人过滤"
+L.SETTINGS_VENDORFILTER_TOOLTIP =
+    "自动将商人过滤设为|cffFFFFFF全部|R，显示对本职业通常不可见的物品。"
+L.SETTINGS_CATALYSTBUTTON_TITLE = "显示催化按钮"
+L.SETTINGS_CATALYSTBUTTON_TOOLTIP = "在重塑催化器界面显示按钮，可跳过5秒确认直接催化物品。"
+L.SETTINGS_QUEUESOUND_TITLE = "播放队列音效"
+L.SETTINGS_QUEUESOUND_TOOLTIP =
+    "当任何队列就绪时（包括战场和宠物对战）播放Deadly Boss Mods风格音效。"
+L.SETTINGS_HANDYNOTESFIX_TITLE = "禁用HandyNotes右键"
+L.SETTINGS_HANDYNOTESFIX_TOOLTIP =
+    "禁用HandyNotes在地图上的快捷键绑定，恢复TomTom的右键设标记功能。\n\n" .. L.REQUIRES_RELOAD
+L.SETTINGS_ORIBOSEXCHANGEFIX_TITLE = "修复Oribos Exchange提示"
+L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP = "简化并修复Oribos Exchange插件的提示：\n" ..
+                                           "- 四舍五入到整数金币\n" .. "- 修正配方价格\n" ..
+                                           "- 修正专业窗口价格\n" ..
+                                           "- 在现有提示中显示战斗宠物价格"
+L.SETTINGS_QA_TITLE = "质量检测"
+L.SETTINGS_QA_TOOLTIP =
+    "修复游戏内缺失的QA功能：移除登录时的称号刷屏和提示中的<右键设置>文本。\n\n" ..
+        L.REQUIRES_RELOAD
