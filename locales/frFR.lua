@@ -95,8 +95,8 @@ L.MILLING_WOD =							"Pigment céruléen : 100%"
 L.MILLING_LEGION =						"Pigment jaunâtre : 10%, 80% depuis Gangrèche\n" ..
 										"Pigment rosé : 90%"
 L.MILLING_BFA =							"Pigment smaragdin : 10%, 30% depuis Ancoracée\n" ..
-										"Pigment bleu outremer : 25%\n" ..
-										"Pigment cramoisi : 75%"
+										"Pigment cramoisi : 25%\n" ..
+										"Pigment bleu outremer : 75%"
 L.MILLING_SL =							"Pigment paisible : Belladone\n" ..
 										"Pigment lumineux : Fatalée, Belle-de-l’aube, Plante-torche du veilleur\n" ..
 										"Pigment ombreux : Fatalée, Courgineuse, Endeuillée"

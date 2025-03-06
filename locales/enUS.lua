@@ -95,8 +95,8 @@ L.MILLING_WOD =							"Cerulean Pigment: 100%"
 L.MILLING_LEGION =						"Sallow Pigment: 10%, 80% from Felwort\n" ..
 										"Roseate Pigment: 90%"
 L.MILLING_BFA =							"Viridescent Pigment: 10%, 30% from Anchor Weed\n" ..
-										"Ultramarine Pigment: 25%\n" ..
-										"Crimson Pigment: 75%"
+										"Crimson Pigment: 25%\n" ..
+										"Ultramarine Pigment: 75%"
 L.MILLING_SL =							"Tranquil Pigment: Nightshade\n" ..
 										"Luminous Pigment: Death Blossom, Rising Glory, Vigil's Torch\n" ..
 										"Umbral Pigment: Death's Blossom, Marrowroot, Widowbloom"
