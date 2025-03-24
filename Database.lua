@@ -563,10 +563,11 @@ app.ProfessionKnowledge = {
 		{ quest = 81148, type = "vendor", item = 227431, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 83058, type = "vendor", item = 224645, source = 2590, renown = 12 },
 		{ quest = 82633, type = "vendor", item = 224024, source = 2213, sourceType = "zone"},
+		{ quest = 85734, type = "vendor", item = 232499, source = 2653, renown = 16 },
 
 		-- Treasures
 		{ quest = 83840, type = "world", item = 226265, zone = 2339 },	-- Earthen Iron Powder
-		{ quest = 83841, type = "world", item = 226266, zone = 2248 },	-- Metal 2339 Frame
+		{ quest = 83841, type = "world", item = 226266, zone = 2248 },	-- Metal Frame
 		{ quest = 83842, type = "world", item = 226267, zone = 2214 },	-- Reinforced Beaker
 		{ quest = 83843, type = "world", item = 226268, zone = 2214 },	-- Engraved Stirring Rod
 		{ quest = 83844, type = "world", item = 226269, zone = 2215 },	-- Chemist's Purified Water
@@ -584,9 +585,10 @@ app.ProfessionKnowledge = {
 		{ quest = 84228, type = "vendor", item = 227429, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 83059, type = "vendor", item = 224647, source = 2590, renown = 12 },
 		{ quest = 82631, type = "vendor", item = 224038, source = 2213, sourceType = "zone"},
+		{ quest = 85735, type = "vendor", item = 232500, source = 2653, renown = 16 },
 
 		-- Treasures
-		{ quest = 83849, type = "world", item = 226277, zone = 2339 },	-- 2339 Hammer
+		{ quest = 83849, type = "world", item = 226277, zone = 2339 },	-- Hammer
 		{ quest = 83848, type = "world", item = 226276, zone = 2248 },	-- Ancient Earthen Anvil
 		{ quest = 83850, type = "world", item = 226278, zone = 2214 },	-- Ringing Hammer Vise
 		{ quest = 83851, type = "world", item = 226279, zone = 2214 },	-- Earthen Chisels
@@ -605,9 +607,10 @@ app.ProfessionKnowledge = {
 		{ quest = 81078, type = "vendor", item = 227433, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 83060, type = "vendor", item = 224652, source = 2590, renown = 12 },
 		{ quest = 82635, type = "vendor", item = 224050, source = 2213, sourceType = "zone"},
+		{ quest = 85736, type = "vendor", item = 232501, source = 2653, renown = 16 },
 
 		-- Treasures
-		{ quest = 83859, type = "world", item = 226285, zone = 2339 },	-- Silver 2339 Rod
+		{ quest = 83859, type = "world", item = 226285, zone = 2339 },	-- Silver Rod
 		{ quest = 83856, type = "world", item = 226284, zone = 2248 },	-- Grinded Earthen Gem
 		{ quest = 83860, type = "world", item = 226286, zone = 2214 },	-- Soot-Coated Orb
 		{ quest = 83861, type = "world", item = 226287, zone = 2214 },	-- Animated Enchanting Dust
@@ -626,9 +629,10 @@ app.ProfessionKnowledge = {
 		{ quest = 84231, type = "vendor", item = 227434, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 83063, type = "vendor", item = 224653, source = 2594, renown = 12 },
 		{ quest = 82632, type = "vendor", item = 224052, source = 2213, sourceType = "zone"},
+		{ quest = 85737, type = "vendor", item = 232507, source = 2653, renown = 16 },
 
 		-- Treasures
-		{ quest = 83867, type = "world", item = 226293, zone = 2339 },	-- 2339 Spectacles
+		{ quest = 83867, type = "world", item = 226293, zone = 2339 },	-- Spectacles
 		{ quest = 83866, type = "world", item = 226292, zone = 2248 },	-- Rock Engineer's Wrench
 		{ quest = 83868, type = "world", item = 226294, zone = 2214 },	-- Inert Mining Bomb
 		{ quest = 83869, type = "world", item = 226295, zone = 2214 },	-- Earthen Construct Blueprints
@@ -647,9 +651,10 @@ app.ProfessionKnowledge = {
 		{ quest = 81424, type = "vendor", item = 227437, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 83066, type = "vendor", item = 224656, source = 2570, renown = 14 },
 		{ quest = 82630, type = "vendor", item = 224023, source = 2213, sourceType = "zone"},
+		{ quest = 85738, type = "vendor", item = 232503, source = 2653, renown = 16 },
 
 		-- Treasures
-		{ quest = 83875, type = "world", item = 226301, zone = 2339 },	-- 2339 Gardening Scythe
+		{ quest = 83875, type = "world", item = 226301, zone = 2339 },	-- Gardening Scythe
 		{ quest = 83874, type = "world", item = 226300, zone = 2248 },	-- Ancient Flower
 		{ quest = 83876, type = "world", item = 226302, zone = 2214 },	-- Earthen Digging Fork
 		{ quest = 83877, type = "world", item = 226303, zone = 2214 },	-- Fungarian Slicer's Knife
@@ -668,9 +673,10 @@ app.ProfessionKnowledge = {
 		{ quest = 80751, type = "vendor", item = 227430, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 83064, type = "vendor", item = 224654, source = 2594, renown = 12 },
 		{ quest = 82636, type = "vendor", item = 224053, source = 2213, sourceType = "zone"},
+		{ quest = 85739, type = "vendor", item = 232508, source = 2653, renown = 16 },
 		
 		-- Treasures
-		{ quest = 83882, type = "world", item = 226308, zone = 2339 },	-- 2339 Scribe's Quill
+		{ quest = 83882, type = "world", item = 226308, zone = 2339 },	-- Scribe's Quill
 		{ quest = 83883, type = "world", item = 226309, zone = 2248 },	-- Historian's Dip Pen
 		{ quest = 83884, type = "world", item = 226310, zone = 2214 },	-- Runic Scroll
 		{ quest = 83885, type = "world", item = 226311, zone = 2214 },	-- Blue Earthen Pigment
@@ -689,6 +695,7 @@ app.ProfessionKnowledge = {
 		{ quest = 81261, type = "vendor", item = 227435, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 83065, type = "vendor", item = 224655, source = 2570, renown = 14 },
 		{ quest = 82637, type = "vendor", item = 224054, source = 2213, sourceType = "zone"},
+		{ quest = 85740, type = "vendor", item = 232504, source = 2653, renown = 16 },
 
 		-- Treasures
 		{ quest = 83891, type = "world", item = 226317, zone = 2339 },	-- Earthen Gem Pliers
@@ -710,9 +717,10 @@ app.ProfessionKnowledge = {
 		{ quest = 80980, type = "vendor", item = 227436, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 83068, type = "vendor", item = 224658, source = 2570, renown = 14 },
 		{ quest = 82626, type = "vendor", item = 224056, source = 2213, sourceType = "zone"},
+		{ quest = 85741, type = "vendor", item = 232505, source = 2653, renown = 16 },
 
 		-- Treasures
-		{ quest = 83899, type = "world", item = 226325, zone = 2339 },	-- 2339 Stitching Clamp
+		{ quest = 83899, type = "world", item = 226325, zone = 2339 },	-- Stitching Clamp
 		{ quest = 83898, type = "world", item = 226324, zone = 2248 },	-- Earthen Leatherworking Knife
 		{ quest = 83900, type = "world", item = 226326, zone = 2214 },	-- Preserved Needle Kit
 		{ quest = 83901, type = "world", item = 226327, zone = 2214 },	-- Reinforced Wax Thread
@@ -731,9 +739,10 @@ app.ProfessionKnowledge = {
 		{ quest = 81392, type = "vendor", item = 227438, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 83062, type = "vendor", item = 224651, source = 2594, renown = 12 },
 		{ quest = 82614, type = "vendor", item = 224055, source = 2213, sourceType = "zone"},
+		{ quest = 85742, type = "vendor", item = 232509, source = 2653, renown = 16 },
 
 		-- Treasures
-		{ quest = 83907, type = "world", item = 226333, zone = 2339 },	-- Engraved 2339 Chisel
+		{ quest = 83907, type = "world", item = 226333, zone = 2339 },	-- Engraved Chisel
 		{ quest = 83906, type = "world", item = 226332, zone = 2248 },	-- Ancient Earthen Pickaxe
 		{ quest = 83908, type = "world", item = 226334, zone = 2214 },	-- Ringing Hammer Shovel
 		{ quest = 83909, type = "world", item = 226335, zone = 2214 },	-- Sooty Hammer
@@ -752,9 +761,10 @@ app.ProfessionKnowledge = {
 		{ quest = 84234, type = "vendor", item = 227439, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 83067, type = "vendor", item = 224657, source = 2570, renown = 14 },
 		{ quest = 82596, type = "vendor", item = 224007, source = 2213, sourceType = "zone"},
+		{ quest = 85744, type = "vendor", item = 232506, source = 2653, renown = 16 },
 
 		-- Treasures
-		{ quest = 83915, type = "world", item = 226341, zone = 2339 },	-- 2339 Preservation Kit
+		{ quest = 83915, type = "world", item = 226341, zone = 2339 },	-- Preservation Kit
 		{ quest = 83914, type = "world", item = 226340, zone = 2248 },	-- Earthen Skinning Knife
 		{ quest = 83916, type = "world", item = 226342, zone = 2214 },	-- Hammer-Treated Hides
 		{ quest = 83917, type = "world", item = 226343, zone = 2214 },	-- Shiny Bug-Hide
@@ -774,9 +784,10 @@ app.ProfessionKnowledge = {
 		{ quest = 80873, type = "vendor", item = 227432, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 83061, type = "vendor", item = 224648, source = 2590, renown = 12 },
 		{ quest = 82634, type = "vendor", item = 224036, source = 2213, sourceType = "zone"},
+		{ quest = 85745, type = "vendor", item = 232502, source = 2653, renown = 16 },
 
 		-- Treasures
-		{ quest = 83922, type = "world", item = 226348, zone = 2339 },	-- 2339 Seam Ripper
+		{ quest = 83922, type = "world", item = 226348, zone = 2339 },	-- Seam Ripper
 		{ quest = 83923, type = "world", item = 226349, zone = 2248 },	-- Earthen Tape Measure
 		{ quest = 83924, type = "world", item = 226350, zone = 2214 },	-- Runed Earthen Pins
 		{ quest = 83925, type = "world", item = 226351, zone = 2214 },	-- Earthen Stitcher's Snips
