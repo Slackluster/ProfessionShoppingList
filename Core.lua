@@ -1187,7 +1187,10 @@ function app.UpdateRecipes()
 
 					for recipe, recipeInfo in pairs(ProfessionShoppingList_Library) do
 						if type(recipeInfo) ~= "number" then	-- Because of old ProfessionShoppingList_Library
-							if ((ProfessionShoppingList_Cache.ReagentTiers[itemID] and (recipeInfo.itemID == ProfessionShoppingList_Cache.ReagentTiers[itemID].one or recipeInfo.itemID == ProfessionShoppingList_Cache.ReagentTiers[itemID].two or recipeInfo.itemID == ProfessionShoppingList_Cache.ReagentTiers[itemID].three)) or recipeInfo.itemID == itemID) and not app.nyiRecipes[recipe] then
+							local lookupItemID = itemID
+							if ProfessionShoppingList_Cache.ReagentTiers[itemID] then lookupItemID = ProfessionShoppingList_Cache.ReagentTiers[itemID].one end
+
+							if recipeInfo.itemID == lookupItemID and not app.nyiRecipes[recipe] then
 								no = no + 1
 								recipeIDs[no] = recipe
 							end
