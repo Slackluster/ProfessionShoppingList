@@ -1180,7 +1180,6 @@ function app.UpdateRecipes()
 				if button == "LeftButton" and IsControlKeyDown() then
 					-- Get itemIDs
 					local itemID = reagentInfo.reagentID
-					if ProfessionShoppingList_Cache.ReagentTiers[itemID] then itemID = ProfessionShoppingList_Cache.ReagentTiers[itemID].one end
 
 					-- Get possible recipeIDs
 					local recipeIDs = {}
@@ -1188,7 +1187,7 @@ function app.UpdateRecipes()
 
 					for recipe, recipeInfo in pairs(ProfessionShoppingList_Library) do
 						if type(recipeInfo) ~= "number" then	-- Because of old ProfessionShoppingList_Library
-							if recipeInfo.itemID == itemID and not app.nyiRecipes[recipe] then
+							if ((ProfessionShoppingList_Cache.ReagentTiers[itemID] and (recipeInfo.itemID == ProfessionShoppingList_Cache.ReagentTiers[itemID].one or recipeInfo.itemID == ProfessionShoppingList_Cache.ReagentTiers[itemID].two or recipeInfo.itemID == ProfessionShoppingList_Cache.ReagentTiers[itemID].three)) or recipeInfo.itemID == itemID) and not app.nyiRecipes[recipe] then
 								no = no + 1
 								recipeIDs[no] = recipe
 							end
