@@ -637,20 +637,23 @@ function app.UpdateNumbers()
 			if math.max(0,amount-reagentAmountHave) == 0 then
 				itemIcon = app.IconReady
 				itemAmount = "|cff9d9d9d"
-				itemLink = string.gsub(itemLink, "|cff9d9d9d|", "|cff9d9d9d|") -- Poor
-				itemLink = string.gsub(itemLink, "|cffffffff|", "|cff9d9d9d|") -- Common
-				itemLink = string.gsub(itemLink, "|cff1eff00|", "|cff9d9d9d|") -- Uncommon
-				itemLink = string.gsub(itemLink, "|cff0070dd|", "|cff9d9d9d|") -- Rare
-				itemLink = string.gsub(itemLink, "|cffa335ee|", "|cff9d9d9d|") -- Epic
-				itemLink = string.gsub(itemLink, "|cffff8000|", "|cff9d9d9d|") -- Legendary
-				itemLink = string.gsub(itemLink, "|cffe6cc80|", "|cff9d9d9d|") -- Artifact
+				itemLink = string.gsub(itemLink, "cnIQ0", "cnIQ0") -- Poor
+				itemLink = string.gsub(itemLink, "cnIQ1", "cnIQ0") -- Common
+				itemLink = string.gsub(itemLink, "cnIQ2", "cnIQ0") -- Uncommon
+				itemLink = string.gsub(itemLink, "cnIQ3", "cnIQ0") -- Rare
+				itemLink = string.gsub(itemLink, "cnIQ4", "cnIQ0") -- Epic
+				itemLink = string.gsub(itemLink, "cnIQ5", "cnIQ0") -- Legendary
+				itemLink = string.gsub(itemLink, "cnIQ6", "cnIQ0") -- Artifact
 			-- Make the icon an arrow if it is a subreagent, but not at 0 needed
 			else
 				for k, v in pairs(ProfessionShoppingList_Data.Recipes) do
-					if ProfessionShoppingList_Library[k] and ProfessionShoppingList_Library[k].itemID == reagentID then
+					local lookupReagentID = reagentID
+					if ProfessionShoppingList_Cache.ReagentTiers[reagentID] then lookupReagentID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].one end
+
+					if ProfessionShoppingList_Library[k] and ProfessionShoppingList_Library[k].itemID == lookupReagentID then
 						itemIcon = app.IconArrow
-						-- Set the itemlink to be Artifact colour and then its original colour, to force it being sorted at the top
-						itemLink = "|cff000000|r" .. itemLink
+						-- Add a non-functional colour to be replaced with the quality colour, so we can sort it separately
+						itemLink = "|cffFF0000|r" .. itemLink
 						break
 					end
 				end
@@ -685,14 +688,14 @@ function app.UpdateNumbers()
 			local colour = ""
 			if math.max(0,amount-quantity) == 0 then
 				itemIcon = app.IconReady
-				colour = "|cff9d9d9d"
-				itemLink = string.gsub(itemLink, "|cff9d9d9d|", "|cff9d9d9d|") -- Poor
-				itemLink = string.gsub(itemLink, "|cffffffff|", "|cff9d9d9d|") -- Common
-				itemLink = string.gsub(itemLink, "|cff1eff00|", "|cff9d9d9d|") -- Uncommon
-				itemLink = string.gsub(itemLink, "|cff0070dd|", "|cff9d9d9d|") -- Rare
-				itemLink = string.gsub(itemLink, "|cffa335ee|", "|cff9d9d9d|") -- Epic
-				itemLink = string.gsub(itemLink, "|cffff8000|", "|cff9d9d9d|") -- Legendary
-				itemLink = string.gsub(itemLink, "|cffe6cc80|", "|cff9d9d9d|") -- Artifact
+				itemAmount = "|cff9d9d9d"
+				itemLink = string.gsub(itemLink, "cnIQ0", "cnIQ0") -- Poor
+				itemLink = string.gsub(itemLink, "cnIQ1", "cnIQ0") -- Common
+				itemLink = string.gsub(itemLink, "cnIQ2", "cnIQ0") -- Uncommon
+				itemLink = string.gsub(itemLink, "cnIQ3", "cnIQ0") -- Rare
+				itemLink = string.gsub(itemLink, "cnIQ4", "cnIQ0") -- Epic
+				itemLink = string.gsub(itemLink, "cnIQ5", "cnIQ0") -- Legendary
+				itemLink = string.gsub(itemLink, "cnIQ6", "cnIQ0") -- Artifact
 			end
 
 			-- Set the displayed amount based on settings
@@ -727,21 +730,21 @@ function app.UpdateNumbers()
 
 	local customSortList = {
 		-- Needed reagents
-		"|cffe6cc80",				-- Artifact
-		"|cffff8000",				-- Legendary
-		"|cffa335ee",				-- Epic
-		"|cff0070dd",				-- Rare
-		"|cff1eff00",				-- Uncommon
-		"|cffffffff",				-- Common
+		"|cnIQ6",				-- Artifact
+		"|cnIQ5",				-- Legendary
+		"|cnIQ4",				-- Epic
+		"|cnIQ3",				-- Rare
+		"|cnIQ2",				-- Uncommon
+		"|cnIQ1",				-- Common
 		-- Subreagents
-		"|cff000000|r|cffe6cc80",	-- Artifact
-		"|cff000000|r|cffff8000",	-- Legendary
-		"|cff000000|r|cffa335ee",	-- Epic
-		"|cff000000|r|cff0070dd",	-- Rare
-		"|cff000000|r|cff1eff00",	-- Uncommon
-		"|cff000000|r|cffffffff",	-- Common
+		"|cffFF0000|r|cnIQ6",	-- Artifact
+		"|cffFF0000|r|cnIQ5",	-- Legendary
+		"|cffFF0000|r|cnIQ4",	-- Epic
+		"|cffFF0000|r|cnIQ3",	-- Rare
+		"|cffFF0000|r|cnIQ2",	-- Uncommon
+		"|cffFF0000|r|cnIQ1",	-- Common
 		-- Collected reagents
-		"|cff9d9d9d",				-- Poor (quantity 0)
+		"|cnIQ0",				-- Poor (quantity 0)
 	}
 
 	local function customSort(a, b)
@@ -947,13 +950,13 @@ function app.UpdateRecipes()
 		end)
 
 		local customSortList = {
-			"|cffe6cc80",	-- Artifact
-			"|cffff8000",	-- Legendary
-			"|cffa335ee",	-- Epic
-			"|cff0070dd",	-- Rare
-			"|cff1eff00",	-- Uncommon
-			"|cffffffff",	-- Common
-			"|cff9d9d9d",	-- Poor (quantity 0)
+			"|cnIQ6",	-- Artifact
+			"|cnIQ5",	-- Legendary
+			"|cnIQ4",	-- Epic
+			"|cnIQ3",	-- Rare
+			"|cnIQ2",	-- Uncommon
+			"|cnIQ1",	-- Common
+			"|cnIQ0",	-- Poor (quantity 0)
 		}
 
 		-- Custom comparison function based on the beginning of the string (thanks ChatGPT)
@@ -3295,6 +3298,7 @@ end
 -- Clear everything except the recipe cache
 function app.Clear()
 	ProfessionShoppingList_Data.Recipes = {}
+	ProfessionShoppingList_Cache.Reagents = {}	-- Wasn't needed before, but it is with the new link formatting
 	ProfessionShoppingList_Cache.FakeRecipes = {}
 	ProfessionShoppingList_Cache.SimulatedRecipes = {}
 	app.UpdateRecipes()
