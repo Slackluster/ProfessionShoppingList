@@ -178,7 +178,7 @@ function app.KnowledgeTracker()
 					if v.renown then
 						factionName = C_Reputation.GetFactionDataByID(v.source).name
 						if C_MajorFactions.GetRenownLevels(v.source)[v.renown].locked then
-							status = "|cffD222D"
+							status = "|cffDD222D"
 						else
 							status = "|cff238823"
 						end
@@ -219,7 +219,7 @@ function app.KnowledgeTracker()
 						local factionTitle = C_Reputation.GetFactionDataByID(v.faction).name or ""
 						local status
 						if C_MajorFactions.GetRenownLevels(v.faction)[v.renown].locked then
-							status = "|cffD222D"
+							status = "|cffDD222D"
 						else
 							status = "|cff238823"
 						end
