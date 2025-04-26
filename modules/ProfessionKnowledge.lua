@@ -188,7 +188,7 @@ function app.KnowledgeTracker()
 
 					-- Add text
 					if v.renown then
-						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffffffff (" .. factionName .. " - " .. status .. L.RENOWN .. v.renown .. "|r)|r"
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffffffff (" .. factionName .. " - " .. status .. L.RENOWN .. " " .. v.renown .. "|r)|r"
 					elseif v.sourceType == "zone" then
 						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffffffff (" .. zoneName .. ")|r"
 					elseif v.sourceType == "static" then
@@ -225,7 +225,7 @@ function app.KnowledgeTracker()
 						end
 
 						-- Add text
-						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. "|cffffff00|Hquest:" .. v.quest .. "62|h[" .. questTitle .. "]|h|r" .. "|cffffffff (" .. factionTitle .. " - " .. status .. L.RENOWN .. v.renown .. "|r)|r"
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. "|cffffff00|Hquest:" .. v.quest .. "62|h[" .. questTitle .. "]|h|r" .. "|cffffffff (" .. factionTitle .. " - " .. status .. L.RENOWN .. " " .. v.renown .. "|r)|r"
 					end
 				end
 			end
