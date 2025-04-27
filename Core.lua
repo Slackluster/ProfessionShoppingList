@@ -685,7 +685,6 @@ function app.UpdateNumbers()
 			local quantity = C_CurrencyInfo.GetCurrencyInfo(tonumber(number)).quantity
 
 			-- Set the colour of both strings and the icon
-			local colour = ""
 			if math.max(0,amount-quantity) == 0 then
 				itemIcon = app.IconReady
 				itemAmount = "|cff9d9d9d"
@@ -700,9 +699,9 @@ function app.UpdateNumbers()
 
 			-- Set the displayed amount based on settings
 			if ProfessionShoppingList_Settings["showRemaining"] == false then
-				itemAmount = colour .. quantity .. "/" .. amount
+				itemAmount = itemAmount .. quantity .. "/" .. amount
 			else
-				itemAmount = colour .. math.max(0,amount-quantity)
+				itemAmount = itemAmount .. math.max(0,amount-quantity)
 			end
 		end
 
