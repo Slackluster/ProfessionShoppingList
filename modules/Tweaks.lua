@@ -363,6 +363,51 @@ function app.HideFrameSettings()
 	end
 end
 
+-----------------
+-- Tokyo Drift --
+-----------------
+
+app.Event:Register("UNIT_POWER_UPDATE", function(unitTarget, powerType)
+	-- Only run this if the setting is enabled
+	if ProfessionShoppingList_Settings["tokyoDrift"] then
+		-- Local function to check buffs
+		local function hasBuff(spellID)
+			for i = 1, 40 do
+				local aura = C_UnitAuras.GetBuffDataByIndex("player", i)
+				if aura and aura.spellId == spellID then
+					return true
+				end
+			end
+			-- If we haven't found a true
+			return false
+		end
+
+		-- If we're gaining or losing alternative power (turbo!) and are mounted on our DRIVE mount
+		if unitTarget == "player" and powerType == "ALTERNATE" and hasBuff(460013) then
+			-- Start playing the music
+			if not app.TDHandle then
+				_, app.TDHandle = PlaySoundFile("Interface\\AddOns\\ProfessionShoppingList\\assets\\TokyoDrift.ogg", "Master")
+			end
+
+			-- Set "now" as the last time we saw ourselves gain or lose turbo
+			app.TDLastPlayTime = GetTime()
+
+			-- Check every 2 seconds if we're not stagnant
+			local function checkStop()
+				-- If we've been stagnant for at least 2 seconds
+				if app.TDHandle and GetTime() >= app.TDLastPlayTime + 2 and not hasBuff(471755) then
+					StopSound(app.TDHandle)
+					app.TDHandle = nil
+				-- If not, check again in 2 seconds
+				else
+					C_Timer.After(2, checkStop)
+				end
+			end
+			checkStop()
+		end
+	end
+end)
+
 --------------
 -- SETTINGS --
 --------------
@@ -460,4 +505,8 @@ function app.SettingsTweaks()
 	setting:SetValueChangedCallback(function()
 		app.HideFrameSettings()
 	end)
+
+	local variable, name, tooltip = "tokyoDrift", L.SETTINGS_TOKYODRIFT_TITLE, L.SETTINGS_TOKYODRIFT_TOOLTIP
+	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, false)
+	Settings.CreateCheckbox(category, setting, tooltip)
 end

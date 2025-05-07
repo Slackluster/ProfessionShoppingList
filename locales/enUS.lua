@@ -270,3 +270,5 @@ L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	"Let " .. app.NameShort .. " simplify and
 										"- Show battle pet prices inside the existing tooltip."
 L.SETTINGS_QA_TITLE =					"Quality Assurance"
 L.SETTINGS_QA_TOOLTIP =					"Since the game lacks QA, let's add some of our own. Remove title spam on login and the <Right click for Frame Settings> on tooltips.\n\n" .. L.REQUIRES_RELOAD
+L.SETTINGS_TOKYODRIFT_TITLE = 			"Tokyo Drift"
+L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Vroom vroom."
