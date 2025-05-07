@@ -1841,7 +1841,7 @@ end
 
 -- When the player gains currency
 app.Event:Register("CHAT_MSG_CURRENCY", function()
-	if not UnitAffectingCombat("player") then
+	if not InCombatLockdown() then
 		-- If any recipes are tracked
 		local next = next
 		if next(ProfessionShoppingList_Data.Recipes) ~= nil then
@@ -1852,7 +1852,7 @@ end)
 
 -- When bag changes occur (out of combat)
 app.Event:Register("BAG_UPDATE_DELAYED", function()
-	if not UnitAffectingCombat("player") then
+	if not InCombatLockdown() then
 		-- If any recipes are tracked
 		local next = next
 		if next(ProfessionShoppingList_Data.Recipes) ~= nil then
@@ -2508,7 +2508,7 @@ end
 
 -- When a tradeskill window is opened
 app.Event:Register("TRADE_SKILL_SHOW", function()
-	if not UnitAffectingCombat("player") then
+	if not InCombatLockdown() then
 		if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
 			app.CreateTradeskillAssets()
 		end
@@ -2595,7 +2595,7 @@ end
 
 -- When a recipe is selected
 app.Event:Register("SPELL_DATA_LOAD_RESULT", function(spellID, success)
-	if not UnitAffectingCombat("player") then
+	if not InCombatLockdown() then
 		-- Recipe-specific assets
 		local function recipeAssets()
 			if spellID == 444181 then	-- The War Within Thaumaturgy
@@ -2727,7 +2727,7 @@ end)
 
 -- When a spell is succesfully cast by the player (for updating profession buttons)
 app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, spellID)
-	if not UnitAffectingCombat("player") and unitTarget == "player" then
+	if not InCombatLockdown() and unitTarget == "player" then
 		-- Profession button stuff
 		if spellID == 818 or spellID == 67556 or spellID == 126462 or spellID == 279205 or spellID == 259930 then
 			C_Timer.After(0.1, function()
@@ -2768,7 +2768,7 @@ end
 
 -- When a tradeskill window is opened
 app.Event:Register("TRADE_SKILL_SHOW", function()
-	if not UnitAffectingCombat("player") then
+	if not InCombatLockdown() then
 		-- Register all recipes for this profession, on a delay so we give all this info time to load.
 		C_Timer.After(2, function()
 			for _, recipeID in pairs(C_TradeSkillUI.GetAllRecipeIDs()) do
@@ -3422,7 +3422,7 @@ end)
 
 -- When a spell is succesfully cast by the player (for  removing crafted recipes)
 app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, spellID)
-	if not UnitAffectingCombat("player") and unitTarget == "player" then
+	if not InCombatLockdown() and unitTarget == "player" then
 		-- Run only when crafting a tracked recipe, and if the remove craft option is enabled
 		if ProfessionShoppingList_Data.Recipes[spellID] and ProfessionShoppingList_Settings["removeCraft"] then
 			-- Remove 1 tracked recipe when it has been crafted (if the option is enabled)
@@ -3493,7 +3493,7 @@ end)
 
 -- When a spell is succesfully cast by the player
 app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, spellID)
-	if not UnitAffectingCombat("player") and unitTarget == "player" then	
+	if not InCombatLockdown() and unitTarget == "player" then	
 		-- Run only when the spell cast is a known recipe
 		if ProfessionShoppingList_Library[spellID] then
 			-- With a delay due to how quickly that info is updated after UNIT_SPELLCAST_SUCCEEDED

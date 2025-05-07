@@ -315,7 +315,7 @@ end)
 
 -- When a recipe is selected (or rather, when any spell is loaded, but this is the only way to grab the recipeID for placing a recrafting order)
 app.Event:Register("SPELL_DATA_LOAD_RESULT", function(spellID, success)
-	if not UnitAffectingCombat("player") and app.SelectedRecipe.PlaceOrder.recraft and ProfessionShoppingList_Library[spellID] then
+	if not InCombatLockdown() and app.SelectedRecipe.PlaceOrder.recraft and ProfessionShoppingList_Library[spellID] then
 		app.SelectedRecipe.PlaceOrder.recipeID = spellID
 		app.UpdateAssets()
 	end
