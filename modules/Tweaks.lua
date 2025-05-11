@@ -154,12 +154,17 @@ function app.UnderminePrices()
 
 				-- Process the pricing information
 				if marketPrice + regionPrice > 0 then
-					-- Round up to the nearest full gold value
-					local function round(number)
-						return math.ceil(number / 10000) * 10000
+					-- Round our number up to only show full gold, silver or copper values
+					if marketPrice >= 10000 then
+						marketPrice = math.ceil(marketPrice / 10000) * 10000
+					elseif marketPrice >= 100 then
+						marketPrice = math.ceil(marketPrice / 100) * 100
 					end
-					marketPrice = round(marketPrice)
-					regionPrice = round(regionPrice)
+					if regionPrice >= 10000 then
+						regionPrice = math.ceil(regionPrice / 10000) * 10000
+					elseif regionPrice >= 100 then
+						regionPrice = math.ceil(regionPrice / 100) * 100
+					end
 
 					-- Set the tooltip information
 					tooltip:AddLine(" ")	-- Blank line
