@@ -20,20 +20,20 @@ app.Event.handlers = {}
 
 -- Register the event and add it to the handlers table
 function app.Event:Register(eventName, func)
-    if not self.handlers[eventName] then
-        self.handlers[eventName] = {}
-        self:RegisterEvent(eventName)
-    end
-    table.insert(self.handlers[eventName], func)
+	if not self.handlers[eventName] then
+		self.handlers[eventName] = {}
+		self:RegisterEvent(eventName)
+	end
+	table.insert(self.handlers[eventName], func)
 end
 
 -- Run all handlers for a given event, when it fires
 app.Event:SetScript("OnEvent", function(self, event, ...)
-    if self.handlers[event] then
-        for _, handler in ipairs(self.handlers[event]) do
-            handler(...)
-        end
-    end
+	if self.handlers[event] then
+		for _, handler in ipairs(self.handlers[event]) do
+			handler(...)
+		end
+	end
 end)
 
 ----------------------
@@ -2321,29 +2321,40 @@ function app.CreateTradeskillAssets()
 		app.ThaumaturgyTheWarWithin:SetText(app.Colour(L.THAUMATURGY_INFO) .. "\n|cffFFFFFF" .. L.THAUMATURGY_TWW)
 	end
 
+	-- Append an (un)track button to the RMB-menu
+	if not app.RightClickOrderMenu then
+		Menu.ModifyMenu("MENU_PROFESSIONS_CRAFTER_ORDER", function(ownerRegion, rootDescription, contextData)
+			-- Append a new section to the end of the menu
+			rootDescription:CreateDivider()
+			-- rootDescription:CreateTitle(app.NameLong)
+
+			-- Decide if we need to create a track or untrack option
+			local key = "order:" .. ownerRegion.rowData.option.orderID .. ":" .. ownerRegion.rowData.option.spellID
+				
+			if ProfessionShoppingList_Data.Recipes[key] then
+				rootDescription:CreateButton(app.IconPSL .. " " .. L.UNTRACK, function()
+					-- Untrack the recipe
+					app.UntrackRecipe(key, 1)
+
+					-- Show window
+					app.Show()
+				end)
+			else
+				rootDescription:CreateButton(app.IconPSL .. " " .. L.TRACK, function()
+					-- Track the recipe
+					app.TrackRecipe(ownerRegion.rowData.option.spellID, 1, ownerRegion.rowData.option.isRecraft, ownerRegion.rowData.option.orderID)
+				end)
+			end
+		end)
+
+		app.RightClickOrderMenu = true
+	end
+
 	-- Grab the order information when opening a crafting order (THANK YOU PLUSMOUSE <3)
 	hooksecurefunc(ProfessionsFrame.OrdersPage, "ViewOrder", function(_, orderDetails)
 		app.SelectedRecipe.MakeOrder = orderDetails
 		app.UpdateAssets()
 	end)
-
-	-- Overwrite TestFlight's order tracking with our own, so we can account for provided reagents
-	if C_AddOns.IsAddOnLoaded("TestFlight") then
-		TestFlight.GUI.OrdersPage.SetOrderTracked = function(_, orderDetails, checked)
-			local key = "order:" .. orderDetails.orderID .. ":" .. orderDetails.spellID
-
-			if checked or ProfessionShoppingList_Data.Recipes[key] == nil then
-				-- Track the recipe
-				app.TrackRecipe(orderDetails.spellID, 1, orderDetails.isRecraft, orderDetails.orderID)
-			else
-				-- Untrack the recipe
-				app.UntrackRecipe(key, 1)
-			end
-
-			-- Show window
-			app.Show()
-		end
-	end
 
 	-- Create the fulfil crafting orders UI (Un)track button
 	if not app.TrackMakeOrderButton then
@@ -2359,6 +2370,9 @@ function app.CreateTradeskillAssets()
 				-- Change button text
 				app.TrackMakeOrderButton:SetText(L.TRACK)
 				app.TrackMakeOrderButton:SetWidth(app.TrackMakeOrderButton:GetTextWidth()+20)
+
+				-- Show window
+				app.Show()
 			else
 				-- Track the recipe
 				app.TrackRecipe(app.SelectedRecipe.MakeOrder.spellID, 1, app.SelectedRecipe.MakeOrder.isRecraft, app.SelectedRecipe.MakeOrder.orderID)
@@ -2367,10 +2381,25 @@ function app.CreateTradeskillAssets()
 				app.TrackMakeOrderButton:SetText(L.UNTRACK)
 				app.TrackMakeOrderButton:SetWidth(app.TrackMakeOrderButton:GetTextWidth()+20)
 			end
-
-			-- Show window
-			app.Show()
 		end)
+	end
+
+	-- Overwrite TestFlight's order tracking with our own, so we can account for provided reagents
+	if C_AddOns.IsAddOnLoaded("TestFlight") then
+		TestFlight.GUI.OrdersPage.SetOrderTracked = function(_, orderDetails, checked)
+			local key = "order:" .. orderDetails.orderID .. ":" .. orderDetails.spellID
+
+			if not checked and ProfessionShoppingList_Data.Recipes[key] then
+				-- Untrack the recipe
+				app.UntrackRecipe(key, 1)
+
+				-- Show window
+				app.Show()
+			elseif checked and ProfessionShoppingList_Data.Recipes[key] == nil then
+				-- Track the recipe
+				app.TrackRecipe(orderDetails.spellID, 1, orderDetails.isRecraft, orderDetails.orderID)
+			end
+		end
 	end
 
 	-- Create Concentration info
