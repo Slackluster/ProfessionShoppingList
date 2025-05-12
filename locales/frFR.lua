@@ -137,7 +137,7 @@ L.MORE_NEEDED =							"de plus sont nécessaires" -- Preceded by a number
 L.MADE_WITH =							"Fabriqué via"	-- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
 L.RECIPE_LEARNED =						"recette apprise"
 L.RECIPE_UNLEARNED =					"recette non apprise"
-L.REGION =								"Region"	-- Preceded by an abbreviated region name such as "EU" or "US"
+L.REGION =								"Région"	-- Preceded by an abbreviated region name such as "EU" or "US"
 
 -- Profession knowledge
 L.PERKS_UNLOCKED =						"avantages débloqués"
@@ -160,7 +160,7 @@ L.INVALID_RECIPE_TRACKED =				L.INVALID_PARAMETERS .. " Veuillez saisir un numé
 L.INVALID_ACHIEVEMENT =					L.INVALID_PARAMETERS .. " Il ne s'agit pas d'un haut fait de métier. Aucune recette n'a été ajoutée"
 L.INVALID_RESET_ARG =					L.INVALID_PARAMETERS .. " Vous pouvez utiliser les arguments suivants :"
 L.INVALID_COMMAND =						"Commande non valide. Voir " .. app.Colour("/psl settings") .. " pour plus d'informations."
-L.DEBUG_ENABLED =						"Mode ddébogage activé"
+L.DEBUG_ENABLED =						"Mode débogage activé"
 L.DEBUG_DISABLED =						"Mode débogage désactivé"
 L.RESET_DONE =							"La réinitialisation des données a été effectuée avec succès."
 L.REQUIRES_RELOAD =						"|cffFF0000" .. REQUIRES_RELOAD .. ".|r Faites |cffFFFFFF/reload|r ou |cffFFFFFF/rl|r ou reconnectez-vous."
@@ -170,7 +170,7 @@ L.TRUE =								"faux"
 L.NOLASTORDER =							"Aucune dernière " .. L.QUICKORDER .. " trouvée."
 L.ERROR =								"Erreur"
 L.ERROR_CRAFTSIM =						L.ERROR .. " : Impossible de lire les informations provenant de CraftSim"
-L.ERROR_QUICKORDER =					L.ERROR .. " : La " .. L.QUICKORDER .. " a échouée. Désolé. :("
+L.ERROR_QUICKORDER =					L.ERROR .. " : La " .. L.QUICKORDER .. " a échoué. Désolé. :("
 L.ERROR_REAGENTS =						L.ERROR .. " : Impossible de créer une " .. L.QUICKORDER .. " pour les objets comportant des composants obligatoires. Désolé. :("
 L.ERROR_WARBANK =						L.ERROR .. " : Impossible de créer une " .. L.QUICKORDER .. " avec des objets provenants de la Banque de bataillon"
 L.ERROR_GUILD =							L.ERROR .. " : Impossible de créer une " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. " en dehors d'une guilde"	-- "Guild Order"
@@ -231,7 +231,7 @@ L.SETTINGS_SLASHCOMMANDS_TITLE =		"Commandes « Slash »"
 L.SETTINGS_SLASHCOMMANDS_TOOLTIP =		"Tapez-les dans le chat pour les utiliser !"
 L.SETTINGS_SLASH_TOGGLE =				"Afficher / masquer la fenêtre de suivi"
 L.SETTINGS_SLASH_RESETPOS =				"Réinitialise la position de la fenêtre de suivi"
-L.SETTINGS_SLASH_SETTINGS =				"accédez aux paramètres"
+L.SETTINGS_SLASH_RESET =				"Réinitialiser les données enregistrées"
 L.SETTINGS_SLASH_TRACK =				"Suivre une recette"
 L.SETTINGS_SLASH_UNTRACK =				"Ne pas suivre une recette"
 L.SETTINGS_SLASH_UNTRACKALL =			"Ne plus suivre l'ensemble des recettes"
@@ -269,4 +269,6 @@ L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	app.NameShort .. " simplifie et corrige l
 										"- Corrige les prix dans la fenêtre des professions\n" ..
 										"- Affiche les prix des mascottes de combat dans l'info-bulle existante"
 L.SETTINGS_QA_TITLE =					"Jouer sans problème"
-L.SETTINGS_QA_TOOLTIP =					"Puisque le jeu a encore quelques problèmes, essayons de les corriger par nous même ! Lors de la connexion, supprime le spam « Vous avez mérité le titre ... » et supprime le texte <Clic droit pour les paramètres de bordure.> dans l'info-bulle des différentes frame\n\n" .. L.REQUIRES_RELOAD
+L.SETTINGS_QA_TOOLTIP =					"Puisque le jeu a encore quelques problèmes, essayons de les corriger par nous même ! Lors de la connexion, supprime les messages « Vous avez mérité le titre ... » et supprime le texte <Clic droit pour les paramètres de bordure.> dans l'info-bulle des différentes frame\n\n" .. L.REQUIRES_RELOAD
+L.SETTINGS_TOKYODRIFT_TITLE = 			"Tokyo Drift"
+L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Vroom vroom."
