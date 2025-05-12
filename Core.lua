@@ -2324,9 +2324,26 @@ function app.CreateTradeskillAssets()
 	-- Grab the order information when opening a crafting order (THANK YOU PLUSMOUSE <3)
 	hooksecurefunc(ProfessionsFrame.OrdersPage, "ViewOrder", function(_, orderDetails)
 		app.SelectedRecipe.MakeOrder = orderDetails
-
 		app.UpdateAssets()
 	end)
+
+	-- Overwrite TestFlight's order tracking with our own, so we can account for provided reagents
+	if C_AddOns.IsAddOnLoaded("TestFlight") then
+		TestFlight.GUI.OrdersPage.SetOrderTracked = function(_, orderDetails, checked)
+			local key = "order:" .. orderDetails.orderID .. ":" .. orderDetails.spellID
+
+			if checked or ProfessionShoppingList_Data.Recipes[key] == nil then
+				-- Track the recipe
+				app.TrackRecipe(orderDetails.spellID, 1, orderDetails.isRecraft, orderDetails.orderID)
+			else
+				-- Untrack the recipe
+				app.UntrackRecipe(key, 1)
+			end
+
+			-- Show window
+			app.Show()
+		end
+	end
 
 	-- Create the fulfil crafting orders UI (Un)track button
 	if not app.TrackMakeOrderButton then
