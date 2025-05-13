@@ -271,3 +271,5 @@ L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	"Позвольте " .. app.NameShort ..
 										"- Показывать цены на питомцев внутри существующей подсказки."
 L.SETTINGS_QA_TITLE =					"Гарантия качества"
 L.SETTINGS_QA_TOOLTIP =					"Поскольку в игре нет ГК, давайте добавим немного своего. Удалим спам в заголовках при входе и <ПКМ для настроек фрейма> в подсказках.\n\n" .. L.REQUIRES_RELOAD
+L.SETTINGS_TOKYODRIFT_TITLE = 			"Токийский Дрифт"
+L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Врум врум."
