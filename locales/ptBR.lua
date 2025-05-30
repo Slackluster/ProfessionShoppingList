@@ -16,8 +16,8 @@ if GetLocale() ~= "ptBR" then return end
 -- L.WINDOW_BUTTON_UNLOCK =				"Unlock the window."
 -- L.WINDOW_BUTTON_SETTINGS =				"Open the settings."
 -- L.WINDOW_BUTTON_CLEAR =					"Clear all tracked recipes."
--- L.WINDOW_BUTTON_AUCTIONATOR =			"Create an Auctionator shopping list.\n" ..
--- 										"Also initiates a search if you have the Shopping tab open at the Auction House."
+-- L.WINDOW_BUTTON_AUCTIONATOR =			"Update the Auctionator shopping list.\n" ..
+-- 										"The shopping list is automatically generated when opening the Auction House."
 -- L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF: Autosize to fit the window."
 
 -- L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB	-- "Recipes"

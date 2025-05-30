@@ -17,8 +17,8 @@ L.WINDOW_BUTTON_LOCK = "锁定窗口位置。"
 L.WINDOW_BUTTON_UNLOCK = "解锁窗口位置。"
 L.WINDOW_BUTTON_SETTINGS = "打开设置。"
 L.WINDOW_BUTTON_CLEAR = "清除所有追踪的配方。"
-L.WINDOW_BUTTON_AUCTIONATOR = "创建Auctionator购物清单。\n" ..
-                                  "如果在拍卖行打开购物标签页，将自动开始搜索。"
+-- L.WINDOW_BUTTON_AUCTIONATOR =			"Update the Auctionator shopping list.\n" ..
+-- 										"The shopping list is automatically generated when opening the Auction House."
 L.WINDOW_BUTTON_CORNER = "双击" .. app.IconLMB .. "|cffFFFFFF：自动调整窗口尺寸。|r"
 
 L.WINDOW_HEADER_RECIPES = PROFESSIONS_RECIPES_TAB -- "配方"

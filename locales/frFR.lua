@@ -16,8 +16,8 @@ L.WINDOW_BUTTON_LOCK =					"Verrouiller la fenêtre"
 L.WINDOW_BUTTON_UNLOCK =				"Déverrouiller la fenêtre"
 L.WINDOW_BUTTON_SETTINGS =				"Ouvrir les paramètres"
 L.WINDOW_BUTTON_CLEAR =					"Effacer toutes les recettes suivies"
-L.WINDOW_BUTTON_AUCTIONATOR =			"Créer une liste d'achat Auctionator.\n" ..
-										"Lance également une recherche si l'onglet « Achats » est ouvert à l'Hôtel des ventes."
+-- L.WINDOW_BUTTON_AUCTIONATOR =			"Update the Auctionator shopping list.\n" ..
+-- 										"The shopping list is automatically generated when opening the Auction House."
 L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF : Dimensionner automatiquement pour s'adapter à la fenêtre."
 
 L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB	-- "Recettes"

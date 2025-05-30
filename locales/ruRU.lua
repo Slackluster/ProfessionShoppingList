@@ -17,8 +17,8 @@ L.WINDOW_BUTTON_LOCK =					"Заблокировать окно."
 L.WINDOW_BUTTON_UNLOCK =				"Разблокировать окно."
 L.WINDOW_BUTTON_SETTINGS =				"Откройте настройки."
 L.WINDOW_BUTTON_CLEAR =					"Очистить все отслеживаемые рецепты."
-L.WINDOW_BUTTON_AUCTIONATOR =			"Создайте список покупок для Auctionator.\n" ..
-										"Также инициирует поиск, если у вас открыта вкладка Покупки на аукционе."
+-- L.WINDOW_BUTTON_AUCTIONATOR =			"Update the Auctionator shopping list.\n" ..
+-- 										"The shopping list is automatically generated when opening the Auction House."
 L.WINDOW_BUTTON_CORNER =				"Двойной " .. app.IconLMB .. "|cffFFFFFF: Автоматическое изменение размера окна."
 
 L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB	-- "Recipes"
