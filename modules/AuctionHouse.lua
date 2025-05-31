@@ -142,10 +142,4 @@ function app.CreateAuctionatorButton()
 	app.AuctionatorButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
 	end)
-
-	-- Only show the button if Auctionator is enabled and loaded
-	local loaded, finished = C_AddOns.IsAddOnLoaded("Auctionator")
-	if finished == false then
-		app.AuctionatorButton:Hide()
-	end
 end
