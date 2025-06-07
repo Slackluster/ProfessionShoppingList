@@ -232,31 +232,36 @@ function app.HideOribos()
 	-- Only run this if the setting is enabled
 	if ProfessionShoppingList_Settings["underminePrices"] then
 		-- If Oribos Exchange is loaded
-		local loaded, finished = C_AddOns.IsAddOnLoaded("OribosExchange")
-		if finished then
+		if C_AddOns.IsAddOnLoaded("OribosExchange") then
 			-- Disable the original tooltip
 			OETooltip(false)
 
 			-- And hide the warning about it
-			local function removeMessage()
-				local message = "Tooltip prices disabled. Run |cFFFFFF78/oetooltip on|r to enable."
-				local removed = 0
+			if C_AddOns.IsAddOnLoaded("Chattynator") then
+				Chattynator.API.AddFilter(function(data)
+					return data.typeInfo.type ~= "ADDON" or data.typeInfo.source ~= "OribosExchange" or not data.text:match("Tooltip prices disabled")
+				end, 1, 1)
+			else
+				local function removeMessage()
+					local message = "Tooltip prices disabled. Run |cFFFFFF78/oetooltip on|r to enable."
+					local removed = 0
 
-				-- Remove the message if it contains the message string above
-				ChatFrame1:RemoveMessagesByPredicate(function(m)
-					-- We're probably too fast, so mark removed as +1
-					if m:find(message) ~= nil then removed = removed + 1 end
-					return m:find(message) ~= nil
-				end)
-
-				-- Try again if we failed, but only 10 times max
-				if removed < 10 then
-					C_Timer.After(1, function()
-						RunNextFrame(removeMessage)
+					-- Remove the message if it contains the message string above
+					ChatFrame1:RemoveMessagesByPredicate(function(m)
+						-- We're probably too fast, so mark removed as +1
+						if m:find(message) ~= nil then removed = removed + 1 end
+						return m:find(message) ~= nil
 					end)
+
+					-- Try again if we failed, but only 10 times max
+					if removed < 10 then
+						C_Timer.After(1, function()
+							RunNextFrame(removeMessage)
+						end)
+					end
 				end
+				removeMessage()
 			end
-			removeMessage()
 		end
 	end
 end
