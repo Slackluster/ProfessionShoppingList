@@ -2558,6 +2558,23 @@ function app.UpdateAssets()
 			app.QuickOrderTargetBox:SetText("")
 		end
 	end
+
+	-- Order adjustments
+	if app.OrderAdjustments then
+		for _, row in pairs(app.OrderAdjustments) do
+			row.tracked:Hide()
+			row.unlearned:Hide()
+			row.firstCraft:Hide()
+			
+			if ProfessionShoppingList_Data.Recipes[row.key] then
+				row.tracked:Show()
+			elseif not C_TradeSkillUI.GetRecipeInfo(row.recipeID).learned then
+				row.unlearned:Show()
+			elseif C_TradeSkillUI.GetRecipeInfo(row.recipeID).firstCraft then
+				row.firstCraft:Show()
+			end
+		end
+	end
 end
 
 -- When a tradeskill window is opened
@@ -2903,7 +2920,7 @@ function app.GetReagents(reagentVariable, recipeID, recipeQuantity, recraft)
 			end
 
 			-- Adjust the numbers for crafting orders
-			if craftingOrder and not ProfessionShoppingList_Data.Recipes[craftingRecipeID].simRecipe then
+			if craftingOrder and (not ProfessionShoppingList_Data.Recipes[craftingRecipeID] or not ProfessionShoppingList_Data.Recipes[craftingRecipeID].simRecipe) then
 				for k, v in pairs(ProfessionShoppingList_Cache.FakeRecipes[craftingRecipeID].reagents) do
 					if v.reagent.itemID == reagentID1 or v.reagent.itemID == reagentID2 or v.reagent.itemID == reagentID3 then
 						reagentAmount = reagentAmount - v.reagent.quantity
@@ -3764,6 +3781,250 @@ function app.TrackUnlearnedMog()
 	end
 end
 
+-----------------------
+-- ORDER ADJUSTMENTS --
+-----------------------
+
+app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numOrders)
+	if ProfessionShoppingList_Settings["enhancedOrders"] and numOrders >= 1 then
+		if not app.OrderAdjustments then app.OrderAdjustments = {} end
+		if not app.OrderIcons then app.OrderIcons = {} end
+
+		local function OnFrameInitialized(_, v, data)
+			local function doTheThing()
+				if data and v and v.cells and not C_AddOns.IsAddOnLoaded("PublicOrdersReagentsColumn") then	-- Don't interfere with No Mats, No Make
+					local key = "order:" .. data.option.orderID .. ":" .. data.option.spellID
+					if not app.OrderAdjustments[v] then app.OrderAdjustments[v] = {} end
+
+					-- Order profit
+					if C_AddOns.IsAddOnLoaded("Auctionator") and not C_AddOns.IsAddOnLoaded("TestFlight") then	-- Requires Auctionator, and don't interfere with TestFlight
+						v.cells[3].TipMoneyDisplayFrame:Hide()
+
+						local calculations = {}
+						local reagents = {}
+
+						ProfessionShoppingList_Cache.FakeRecipes[key] = {
+							["spellID"] = data.option.spellID,
+							["tradeskillID"] = 1,	-- Crafting order
+							["reagents"] = data.option.reagents
+						}
+						app.GetReagents(reagents, key, 1, false)
+
+						-- Grab the costs for crafting this order
+						for reagentID, quantity in pairs(reagents) do
+							if quantity > 0 then
+								local prices = {}
+								table.insert(prices, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, reagentID))
+								if ProfessionShoppingList_Cache.ReagentTiers[reagentID].one then
+									table.insert(prices, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, ProfessionShoppingList_Cache.ReagentTiers[reagentID].one))
+								end
+								if ProfessionShoppingList_Cache.ReagentTiers[reagentID].two then
+									table.insert(prices, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, ProfessionShoppingList_Cache.ReagentTiers[reagentID].two))
+								end
+								if ProfessionShoppingList_Cache.ReagentTiers[reagentID].three then
+									table.insert(prices, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, ProfessionShoppingList_Cache.ReagentTiers[reagentID].three))
+								end
+
+								local min = math.huge
+								for _, value in ipairs(prices) do
+									if value < min then
+										min = value
+									end
+								end
+
+								local _, itemLink, _, _, _, _, _, _, _, fileID = C_Item.GetItemInfo(reagentID)
+								if not itemLink then
+									app.CacheItem(reagentID)
+									C_Timer.After(1, doTheThing)
+									return
+								end
+								itemLink = itemLink:gsub("%s*|A:.-|a%s*", "")
+								table.insert(calculations, {type = "cost", icon = fileID, link = itemLink, quantity = quantity, amount = min * quantity})
+							end
+						end
+				
+						-- Grab the rewards for crafting this order
+						table.insert(calculations, {type = "reward", icon = 133785, link = PROFESSIONS_COLUMN_HEADER_TIP, quantity = 0, amount = math.floor((data.option.tipAmount - data.option.consortiumCut) / 100 + 0.5) * 100})
+						for k, reward in pairs(data.option.npcOrderRewards) do
+							local _, itemLink, _, _, _, _, _, _, _, fileID = C_Item.GetItemInfo(reward.itemLink)
+							if not itemLink then
+								local itemID = C_Item.GetItemInfoInstant(reward.itemLink)
+								app.CacheItem(itemID)
+								C_Timer.After(1, doTheThing)
+								return
+							end
+							table.insert(calculations, {type = "reward", icon = fileID, link = itemLink, quantity = 0, amount = Auctionator.API.v1.GetAuctionPriceByItemLink(app.Name, itemLink)})
+						end
+						
+						-- Do maths
+						local commissionResult = 0
+						local allProvided = true
+						for _, entry in ipairs(calculations) do
+							if entry.type == "cost" and entry.amount then
+								commissionResult = commissionResult - entry.amount
+								allProvided = false
+							elseif entry.type == "reward" and entry.amount then
+								commissionResult = commissionResult + entry.amount
+							end
+						end
+						local roundedCommissionResult = math.floor(commissionResult / 10000 + 0.5) * 10000
+						local _, itemLink = C_Item.GetItemInfo(data.option.itemID)
+
+						-- Replace the commission price text with an actual profit calculation
+						if not app.OrderAdjustments[v].rewardText then
+							app.OrderAdjustments[v].rewardText = v:CreateFontString("ARTWORK", nil, "GameFontNormal")
+							app.OrderAdjustments[v].rewardText:SetJustifyH("RIGHT")
+						end
+						app.OrderAdjustments[v].rewardText:SetPoint("TOPLEFT", v.cells[3])
+						app.OrderAdjustments[v].rewardText:SetPoint("BOTTOMRIGHT", v.cells[3], 10, 0)
+						
+						if roundedCommissionResult < 0 then
+							app.OrderAdjustments[v].rewardText:SetText("|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(-roundedCommissionResult))
+						elseif allProvided then
+							app.OrderAdjustments[v].rewardText:SetText("|cff008000" .. C_CurrencyInfo.GetCoinTextureString(roundedCommissionResult))
+						else
+							app.OrderAdjustments[v].rewardText:SetText(C_CurrencyInfo.GetCoinTextureString(roundedCommissionResult))
+						end
+						app.OrderAdjustments[v].rewardText:SetScript("OnEnter", function()
+							GameTooltip:SetOwner(app.OrderAdjustments[v].rewardText, "ANCHOR_BOTTOMRIGHT")
+							GameTooltip:ClearLines()
+
+							-- Header
+							if commissionResult >= 0 then
+								GameTooltip:AddDoubleLine(app.IconPSL .. " " .. TOTAL, C_CurrencyInfo.GetCoinTextureString(commissionResult))
+							else
+								GameTooltip:AddDoubleLine(app.IconPSL .. " " .. TOTAL, "|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(-commissionResult))
+							end
+							GameTooltip:AddLine(" ")
+
+							-- Costs
+							for _, entry in ipairs(calculations) do
+								if entry.type == "cost" then
+									GameTooltip:AddDoubleLine("|T" .. entry.icon .. ":0|t " .. entry.link .. " ×" .. entry.quantity , "|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(entry.amount))
+								end
+							end
+							GameTooltip:AddLine(" ")
+
+							-- Rewards
+							for _, entry in ipairs(calculations) do
+								if entry.type == "reward" and entry.amount then
+									GameTooltip:AddDoubleLine("|T" .. entry.icon .. ":0|t " .. entry.link, C_CurrencyInfo.GetCoinTextureString(entry.amount))
+								elseif entry.type == "reward" then
+									GameTooltip:AddDoubleLine("|T" .. entry.icon .. ":0|t " .. entry.link, "-")
+								end
+							end
+
+							GameTooltip:Show()
+						end)
+						app.OrderAdjustments[v].rewardText:SetScript("OnLeave", function()
+							GameTooltip:Hide()
+						end)
+					end
+
+					-- Order rewards
+					if not C_AddOns.IsAddOnLoaded("TestFlight") then	-- Don't interfere with TestFlight
+						v.cells[3].RewardIcon:Hide()
+						v.cells[3].RewardsContainer:Hide()
+
+						local rewards = {}
+						table.insert(rewards, {icon = 133785, link = CRAFTING_ORDER_FINAL_TIP .. " " .. C_CurrencyInfo.GetCoinTextureString(math.floor((data.option.tipAmount - data.option.consortiumCut) / 100 + 0.5) * 100)})
+						for _, reward in pairs(data.option.npcOrderRewards) do
+							local _, itemLink, _, _, _, _, _, _, _, fileID = C_Item.GetItemInfo(reward.itemLink)
+							if not itemLink then
+								local itemID = C_Item.GetItemInfoInstant(reward.itemLink)
+								app.CacheItem(itemID)
+								C_Timer.After(1, doTheThing)
+								return
+							end
+							table.insert(rewards, {icon = fileID, link = itemLink, count = reward.count})
+						end
+
+						if not app.OrderAdjustments[v].button then app.OrderAdjustments[v].button = {} end
+
+						for i, button in pairs(app.OrderAdjustments[v].button) do
+							button:Hide()
+						end
+
+						for i, reward in ipairs(rewards) do
+							if not app.OrderAdjustments[v].button[i] then
+								app.OrderAdjustments[v].button[i] = CreateFrame("Button", "RewardButton", v, "UIPanelButtonTemplate")
+								app.OrderAdjustments[v].button[i]:SetWidth(20)
+								app.OrderAdjustments[v].button[i]:SetHeight(20)
+								app.OrderAdjustments[v].button[i]:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+								app.OrderAdjustments[v].button[i].Text = app.OrderAdjustments[v].button[i]:CreateFontString("ARTWORK", nil, "GameFontNormalOutline")
+								app.OrderAdjustments[v].button[i].Text:SetJustifyH("RIGHT")
+								app.OrderAdjustments[v].button[i].Text:SetTextScale(0.9)
+							end
+							app.OrderAdjustments[v].button[i]:Show()
+							app.OrderAdjustments[v].button[i]:SetPoint("BOTTOMLEFT", v.cells[3], "BOTTOMLEFT", -44+i*22, 0)
+							app.OrderAdjustments[v].button[i]:SetScript("OnEnter", function(self)
+								GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
+								if i == 1 then
+									GameTooltip:SetText(reward.link)
+								else
+									GameTooltip:SetHyperlink(reward.link)
+								end
+								GameTooltip:Show()
+							end)
+							app.OrderAdjustments[v].button[i]:SetScript("OnLeave", function()
+								GameTooltip:Hide()
+							end)
+							app.OrderAdjustments[v].button[i]:SetNormalTexture(reward.icon)
+							app.OrderAdjustments[v].button[i].Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].button[i], "BOTTOMRIGHT", 0, 0)
+							if reward.count and reward.count > 1 then
+								app.OrderAdjustments[v].button[i].Text:SetText("|cffFFFFFF" .. reward.count)
+							else
+								app.OrderAdjustments[v].button[i].Text:SetText("")
+							end
+						end
+					end
+
+					-- Recipe icons
+					if not app.OrderAdjustments[v].tracked then
+						app.OrderAdjustments[v].tracked = v:CreateFontString("ARTWORK", nil, "GameFontNormalHuge")
+						app.OrderAdjustments[v].tracked:SetJustifyH("RIGHT")
+						app.OrderAdjustments[v].tracked:SetText(app.IconReady)
+
+						app.OrderAdjustments[v].unlearned = v:CreateFontString("ARTWORK", nil, "GameFontNormalHuge")
+						app.OrderAdjustments[v].unlearned:SetJustifyH("RIGHT")
+						app.OrderAdjustments[v].unlearned:SetText(app.IconNotReady)
+
+						app.OrderAdjustments[v].firstCraft = CreateFrame("Frame", nil, v)
+						app.OrderAdjustments[v].firstCraft:SetSize(17, 23)
+						local texture = app.OrderAdjustments[v].firstCraft:CreateTexture(nil, "ARTWORK")
+						texture:SetAllPoints(app.OrderAdjustments[v].firstCraft)
+						texture:SetAtlas("Professions_Icon_FirstTimeCraft", true)
+					end
+					
+					app.OrderAdjustments[v].key = key
+					app.OrderAdjustments[v].recipeID = data.option.spellID
+					app.OrderAdjustments[v].tracked:SetPoint("RIGHT", v.cells[1], -10, 0)
+					app.OrderAdjustments[v].unlearned:SetPoint("RIGHT", v.cells[1], -10, 0)
+					app.OrderAdjustments[v].firstCraft:SetPoint("RIGHT", v.cells[1], -12, 0)
+					app.OrderAdjustments[v].tracked:Hide()
+					app.OrderAdjustments[v].unlearned:Hide()
+					app.OrderAdjustments[v].firstCraft:Hide()
+					
+					if ProfessionShoppingList_Data.Recipes[key] then
+						app.OrderAdjustments[v].tracked:Show()
+					elseif not C_TradeSkillUI.GetRecipeInfo(data.option.spellID).learned then
+						app.OrderAdjustments[v].unlearned:Show()
+					elseif C_TradeSkillUI.GetRecipeInfo(data.option.spellID).firstCraft then
+						app.OrderAdjustments[v].firstCraft:Show()
+					end
+				end
+			end
+
+			-- Run our function thrice, because gah loading times and shit
+			doTheThing()
+			C_Timer.After(1, doTheThing)
+			C_Timer.After(2, doTheThing)
+		end
+
+		ScrollUtil.AddInitializedFrameCallback(ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ScrollBox, OnFrameInitialized)
+	end
+end)
+
 --------------
 -- SETTINGS --
 --------------
@@ -3901,6 +4162,10 @@ function app.Settings()
 	end
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Number, name, 1)
 	Settings.CreateDropdown(category, setting, GetOptions, tooltip)
+
+	local variable, name, tooltip = "enhancedOrders", L.SETTINGS_ENHANCEDORDERS_TITLE, L.SETTINGS_ENHANCEDORDERS_TOOLTIP
+	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, true)
+	Settings.CreateCheckbox(category, setting, tooltip)
 
 	local variable, name, tooltip = "quickOrderDuration", L.SETTINGS_QUICKORDER_TITLE, L.SETTINGS_QUICKORDER_TOOLTIP
 	local function GetOptions()

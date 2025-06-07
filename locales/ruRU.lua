@@ -200,6 +200,8 @@ L.SETTINGS_INCLUDEHIGHER_TITLE =		"Включить более высокое к
 L.SETTINGS_INCLUDEHIGHER_TOOLTIP =		"Установите, какие более высокие качества учитывать при отслеживании реагентов более низкого качества. (Например, учитывать ли реагенты 3-го уровня при подсчёте реагентов 1-го уровня.)"
 L.SETTINGS_COLLECTMODE_TITLE =			"Режим сбора"
 L.SETTINGS_COLLECTMODE_TOOLTIP =		"Установите, какие предметы будут включены при использовании " .. app.Colour(L.BUTTON_TRACKNEW) .. " кнопки."
+-- L.SETTINGS_ENHANCEDORDERS_TITLE =		"Enhanced Orders"
+-- L.SETTINGS_ENHANCEDORDERS_TOOLTIP =	"Enhance the preview of order rewards and commission, and add icons for first crafts, unlearned recipes, and tracked recipes.\n\n" .. L.REQUIRES_RELOAD
 L.SETTINGS_QUICKORDER_TITLE =			"Продолжительность быстрого заказа"
 L.SETTINGS_QUICKORDER_TOOLTIP =			"Установите продолжительность размещения быстрых заказов с помощью " .. app.NameShort .. "."
 

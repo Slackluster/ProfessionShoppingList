@@ -199,6 +199,8 @@ if GetLocale() ~= "itIT" then return end
 -- L.SETTINGS_INCLUDEHIGHER_TOOLTIP =		"Set which higher qualities to include when tracking lower quality reagents. (I.e. whether to include owned tier 3 reagents when counting tier 1 reagents.)"
 -- L.SETTINGS_COLLECTMODE_TITLE =			"Collection Mode"
 -- L.SETTINGS_COLLECTMODE_TOOLTIP =		"Set which items are included when using the " .. app.Colour(L.BUTTON_TRACKNEW) .. " button."
+-- L.SETTINGS_ENHANCEDORDERS_TITLE =		"Enhanced Orders"
+-- L.SETTINGS_ENHANCEDORDERS_TOOLTIP =	"Enhance the preview of order rewards and commission, and add icons for first crafts, unlearned recipes, and tracked recipes.\n\n" .. L.REQUIRES_RELOAD
 -- L.SETTINGS_QUICKORDER_TITLE =			"Quick Order Duration"
 -- L.SETTINGS_QUICKORDER_TOOLTIP =			"Set the duration for placing quick orders with " .. app.NameShort .. "."
 

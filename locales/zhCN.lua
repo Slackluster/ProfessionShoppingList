@@ -157,6 +157,8 @@ L.SETTINGS_INCLUDEHIGHER_TOOLTIP =
     "设置追踪低品质材料时包含哪些更高品质材料。（例如是否在统计1级材料时包含3级材料）"
 L.SETTINGS_COLLECTMODE_TITLE = "收集模式"
 L.SETTINGS_COLLECTMODE_TOOLTIP = "设置使用" .. app.Colour(L.BUTTON_TRACKNEW) .. "按钮时包含的物品类型。"
+-- L.SETTINGS_ENHANCEDORDERS_TITLE =		"Enhanced Orders"
+-- L.SETTINGS_ENHANCEDORDERS_TOOLTIP =	"Enhance the preview of order rewards and commission, and add icons for first crafts, unlearned recipes, and tracked recipes.\n\n" .. L.REQUIRES_RELOAD
 L.SETTINGS_QUICKORDER_TITLE = "快速订单时长"
 L.SETTINGS_QUICKORDER_TOOLTIP = "设置" .. app.NameShort .. "快速订单的持续时间。"
 

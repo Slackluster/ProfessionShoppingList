@@ -199,6 +199,8 @@ L.SETTINGS_INCLUDEHIGHER_TITLE =		"Inclure une qualité supérieure"
 L.SETTINGS_INCLUDEHIGHER_TOOLTIP =		"Définir les qualités supérieures à inclure dans le suivi des composants de qualité inférieure. (Par exemple, déterminer si les composants de niveau 3 doivent être pris en compte dans le décompte des composants de niveau 1)."
 L.SETTINGS_COLLECTMODE_TITLE =			"Mode de collection"
 L.SETTINGS_COLLECTMODE_TOOLTIP =		"Définir les objets à inclure lors de l'utilisation du bouton " .. app.Colour(L.BUTTON_TRACKNEW) .. "."
+-- L.SETTINGS_ENHANCEDORDERS_TITLE =		"Enhanced Orders"
+-- L.SETTINGS_ENHANCEDORDERS_TOOLTIP =	"Enhance the preview of order rewards and commission, and add icons for first crafts, unlearned recipes, and tracked recipes.\n\n" .. L.REQUIRES_RELOAD
 L.SETTINGS_QUICKORDER_TITLE =			"Durée de la commande rapide"
 L.SETTINGS_QUICKORDER_TOOLTIP =			"Définir la durée pour passer des commandes rapides avec " .. app.NameShort .. "."
 
