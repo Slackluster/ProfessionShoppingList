@@ -127,8 +127,7 @@ function app.UnderminePrices()
 		-- Only run this if the setting is enabled
 		if ProfessionShoppingList_Settings["underminePrices"] then
 			-- If Oribos Exchange is loaded
-			local loaded, finished = C_AddOns.IsAddOnLoaded("OribosExchange")
-			if finished then
+			if C_AddOns.IsAddOnLoaded("OribosExchange") then
 				-- Grab the pricing information
 				local marketPrice = 0
 				local regionPrice = 0
@@ -149,6 +148,17 @@ function app.UnderminePrices()
 				end
 				if oeData["region"] ~= nil then
 					regionPrice = oeData["region"]
+				end
+
+				-- Prefer Auctionator data if available
+				if C_AddOns.IsAddOnLoaded("Auctionator") then
+					local price = Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, itemID)
+
+					if marketPrice > 0 and regionPrice > 0 and price then
+						marketPrice = price
+					elseif marketPrice == 0 and regionPrice > 0 and price then
+						regionPrice = price
+					end
 				end
 
 				-- Process the pricing information
@@ -185,8 +195,7 @@ hooksecurefunc("BattlePetToolTip_Show", function(...)
 	-- Only run this if the setting is enabled
 	if ProfessionShoppingList_Settings["underminePrices"] then
 		-- If Oribos Exchange is loaded
-		local loaded, finished = C_AddOns.IsAddOnLoaded("OribosExchange")
-		if finished then
+		if C_AddOns.IsAddOnLoaded("OribosExchange") then
 			local speciesID1, level, breedQuality, maxHealth, power, speed, bracketName =  ...
 
 			-- Make itemLink if it grabs the proper pet
@@ -208,11 +217,30 @@ hooksecurefunc("BattlePetToolTip_Show", function(...)
 				regionPrice = oeData["region"]
 			end
 
+			-- Prefer Auctionator data if available
+				if C_AddOns.IsAddOnLoaded("Auctionator") then
+					local price = Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, itemID)
+
+					if marketPrice > 0 and regionPrice > 0 and price then
+						marketPrice = price
+					elseif marketPrice == 0 and regionPrice > 0 and price then
+						regionPrice = price
+					end
+				end
+
 			-- Process the pricing information
 			if marketPrice + regionPrice > 0 then
-				-- Round up to the nearest full gold value
-				marketPrice = math.ceil(marketPrice / 10000) * 10000
-				regionPrice = math.ceil(regionPrice / 10000) * 10000
+				-- Round our number up to only show full gold, silver or copper values
+					if marketPrice >= 10000 then
+						marketPrice = math.ceil(marketPrice / 10000) * 10000
+					elseif marketPrice >= 100 then
+						marketPrice = math.ceil(marketPrice / 100) * 100
+					end
+					if regionPrice >= 10000 then
+						regionPrice = math.ceil(regionPrice / 10000) * 10000
+					elseif regionPrice >= 100 then
+						regionPrice = math.ceil(regionPrice / 100) * 100
+					end
 
 				-- Set the tooltip information
 				LibBattlePetTooltipLine:AddDoubleLine(BattlePetTooltip, " ", " ")
