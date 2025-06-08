@@ -17,8 +17,8 @@ L.WINDOW_BUTTON_LOCK =					"Заблокировать окно."
 L.WINDOW_BUTTON_UNLOCK =				"Разблокировать окно."
 L.WINDOW_BUTTON_SETTINGS =				"Откройте настройки."
 L.WINDOW_BUTTON_CLEAR =					"Очистить все отслеживаемые рецепты."
--- L.WINDOW_BUTTON_AUCTIONATOR =			"Update the Auctionator shopping list.\n" ..
--- 										"The shopping list is automatically generated when opening the Auction House."
+L.WINDOW_BUTTON_AUCTIONATOR =			        "Обновите список покупок на аукционе.\n" ..
+										"Список покупок формируется автоматически при открытии Аукционного дома."
 L.WINDOW_BUTTON_CORNER =				"Двойной " .. app.IconLMB .. "|cffFFFFFF: Автоматическое изменение размера окна."
 
 L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB	-- "Recipes"
@@ -200,8 +200,8 @@ L.SETTINGS_INCLUDEHIGHER_TITLE =		"Включить более высокое к
 L.SETTINGS_INCLUDEHIGHER_TOOLTIP =		"Установите, какие более высокие качества учитывать при отслеживании реагентов более низкого качества. (Например, учитывать ли реагенты 3-го уровня при подсчёте реагентов 1-го уровня.)"
 L.SETTINGS_COLLECTMODE_TITLE =			"Режим сбора"
 L.SETTINGS_COLLECTMODE_TOOLTIP =		"Установите, какие предметы будут включены при использовании " .. app.Colour(L.BUTTON_TRACKNEW) .. " кнопки."
--- L.SETTINGS_ENHANCEDORDERS_TITLE =		"Enhanced Orders"
--- L.SETTINGS_ENHANCEDORDERS_TOOLTIP =	"Enhance the preview of order rewards and commission, and add icons for first crafts, unlearned recipes, and tracked recipes.\n\n" .. L.REQUIRES_RELOAD
+L.SETTINGS_ENHANCEDORDERS_TITLE =		"Улучшенные заказы"
+L.SETTINGS_ENHANCEDORDERS_TOOLTIP =	"Улучшите предварительный просмотр наград за заказы и комиссионных, а также добавьте значки для первых созданных, неизученных рецептов и отслеживаемых рецептов.\n\n" .. L.REQUIRES_RELOAD
 L.SETTINGS_QUICKORDER_TITLE =			"Продолжительность быстрого заказа"
 L.SETTINGS_QUICKORDER_TOOLTIP =			"Установите продолжительность размещения быстрых заказов с помощью " .. app.NameShort .. "."
 
