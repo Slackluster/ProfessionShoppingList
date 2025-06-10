@@ -219,7 +219,7 @@ hooksecurefunc("BattlePetToolTip_Show", function(...)
 
 			-- Prefer Auctionator data if available
 				if C_AddOns.IsAddOnLoaded("Auctionator") then
-					local price = Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, itemID)
+					local price = Auctionator.API.v1.GetAuctionPriceByItemLink(app.Name, itemLink)
 
 					if marketPrice > 0 and regionPrice > 0 and price then
 						marketPrice = price
