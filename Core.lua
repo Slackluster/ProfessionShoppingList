@@ -4033,13 +4033,13 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 				end
 			end
 
-			-- Run our function thrice, because gah loading times and shit
+			-- Run our function twice, because gah loading times and shit
 			doTheThing()
 			C_Timer.After(1, doTheThing)
 			C_Timer.After(2, doTheThing)
 		end
 
-		ScrollUtil.AddInitializedFrameCallback(ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ScrollBox, OnFrameInitialized)
+		ScrollUtil.AddInitializedFrameCallback(ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ScrollBox, OnFrameInitialized, nil, true)
 	end
 end)
 
