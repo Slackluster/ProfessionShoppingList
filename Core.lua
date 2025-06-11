@@ -3629,6 +3629,24 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 					-- And then update our window
 					app.UpdateRecipes()
 				end
+
+				-- Recharge timer
+				C_Timer.After(1, function()
+					if ProfessionsFrame.CraftingPage.ConcentrationDisplay.Amount:GetText() then
+						local concentration = string.match(ProfessionsFrame.CraftingPage.ConcentrationDisplay.Amount:GetText(), "%d+")
+					
+						if concentration then
+							-- 250 Concentration per 24 hours
+							local timeLeft = math.ceil((1000 - concentration) / 250 * 24)
+
+							app.Concentration1:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r " .. timeLeft .. L.HOURS)
+							app.Concentration2:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r " .. timeLeft .. L.HOURS)
+						else
+							app.Concentration1:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r ?")
+							app.Concentration2:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r ?")
+						end
+					end
+				end)
 			end)
 		end
 	end
