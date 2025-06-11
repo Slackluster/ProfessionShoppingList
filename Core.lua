@@ -2562,16 +2562,18 @@ function app.UpdateAssets()
 	-- Order adjustments
 	if app.OrderAdjustments then
 		for _, row in pairs(app.OrderAdjustments) do
-			row.tracked:Hide()
-			row.unlearned:Hide()
-			row.firstCraft:Hide()
-			
-			if ProfessionShoppingList_Data.Recipes[row.key] then
-				row.tracked:Show()
-			elseif not C_TradeSkillUI.GetRecipeInfo(row.recipeID).learned then
-				row.unlearned:Show()
-			elseif C_TradeSkillUI.GetRecipeInfo(row.recipeID).firstCraft then
-				row.firstCraft:Show()
+			if row.tracked then
+				row.tracked:Hide()
+				row.unlearned:Hide()
+				row.firstCraft:Hide()
+				
+				if ProfessionShoppingList_Data.Recipes[row.key] then
+					row.tracked:Show()
+				elseif not C_TradeSkillUI.GetRecipeInfo(row.recipeID).learned then
+					row.unlearned:Show()
+				elseif C_TradeSkillUI.GetRecipeInfo(row.recipeID).firstCraft then
+					row.firstCraft:Show()
+				end
 			end
 		end
 	end
