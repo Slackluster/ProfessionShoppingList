@@ -3641,11 +3641,19 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 							-- 250 Concentration per 24 hours
 							local timeLeft = math.ceil((1000 - concentration) / 250 * 24)
 
-							app.Concentration1:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r " .. timeLeft .. L.HOURS)
-							app.Concentration2:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r " .. timeLeft .. L.HOURS)
+							if app.Concentration1 then
+								app.Concentration1:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r " .. timeLeft .. L.HOURS)
+							end
+							if app.Concentration2 then
+								app.Concentration2:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r " .. timeLeft .. L.HOURS)
+							end
 						else
-							app.Concentration1:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r ?")
-							app.Concentration2:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r ?")
+							if app.Concentration1 then
+								app.Concentration1:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r ?")
+							end
+							if app.Concentration2 then
+								app.Concentration2:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r ?")
+							end
 						end
 					end
 				end)
