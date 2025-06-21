@@ -3853,7 +3853,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 									table.insert(prices, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, ProfessionShoppingList_Cache.ReagentTiers[reagentID].three))
 								end
 
-								local min = math.huge
+								local min = 100000000
 								for _, value in ipairs(prices) do
 									if value < min then
 										min = value
