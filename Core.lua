@@ -879,14 +879,6 @@ function app.UpdateRecipes()
 			end
 		end
 
-		-- Retry the update in 0.1s if the reagent quantities weren't populated, if we have recipes (caching issues, my favourite)
-		if next(ProfessionShoppingList_Data.Recipes) and not next(app.ReagentQuantities) then
-			C_Timer.After(0.1, function()
-				app.UpdateRecipes()
-			end)
-			return
-		end
-
 		local rowNo = 0
 		local showRecipes = true
 		local maxLength1 = 0
