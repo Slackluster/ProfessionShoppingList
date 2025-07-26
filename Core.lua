@@ -3626,7 +3626,7 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 
 				-- Recharge timer
 				C_Timer.After(1, function()
-					if ProfessionsFrame.CraftingPage.ConcentrationDisplay.Amount:GetText() then
+					if ProfessionsFrame and ProfessionsFrame.CraftingPage.ConcentrationDisplay.Amount:GetText() then
 						local concentration = string.match(ProfessionsFrame.CraftingPage.ConcentrationDisplay.Amount:GetText(), "%d+")
 					
 						if concentration then
