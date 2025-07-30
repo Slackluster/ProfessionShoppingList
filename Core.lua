@@ -3887,7 +3887,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 								commissionResult = commissionResult + entry.amount
 							end
 						end
-						local roundedCommissionResult = math.floor(commissionResult / 10000 + 0.5) * 10000
+						local roundedCommissionResult = math.floor((commissionResult + (commissionResult >= 0 and 5000 or -5000)) / 10000) * 10000
 						local _, itemLink = C_Item.GetItemInfo(data.option.itemID)
 
 						-- Replace the commission price text with an actual profit calculation
