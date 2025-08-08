@@ -2,13 +2,12 @@
 -- Profession Shopping List: deDE.lua --
 ----------------------------------------
 -- German (Germany) localisation
+-- Translator(s):
 
 -- Initialisation
-local appName, app =  ...	-- Returns the AddOn name and a unique table
-local L = app.locales
-
--- Only load this file when the appropriate locale is found
 if GetLocale() ~= "deDE" then return end
+local appName, app = ...
+local L = app.locales
 
 -- Main window
 -- L.WINDOW_BUTTON_CLOSE =					"Close the window."
@@ -36,7 +35,7 @@ if GetLocale() ~= "deDE" then return end
 -- L.WINDOW_TOOLTIP_COOLDOWNS =			"Shift " .. app.IconRMB .. "|cffFFFFFF: Remove this specific cooldown reminder.\n|r" ..
 -- 										"Ctrl " .. app.IconLMB .. "|cffFFFFFF: Open the recipe (if known).\n|r" ..
 -- 										"Alt " .. app.IconLMB .. "|cffFFFFFF: Attempt to craft this recipe."
-									
+
 -- L.CLEAR_CONFIRMATION =					"This will clear all recipes."
 -- L.CONFIRMATION =						"Do you wish to proceed?"
 -- L.SUBREAGENTS1 =						"There are multiple recipes that can create"	-- Followed by an item link
@@ -55,7 +54,7 @@ if GetLocale() ~= "deDE" then return end
 -- L.TRACK =								"Track"
 -- L.UNTRACK =								"Untrack"
 -- L.RANK =								RANK	-- "Rank"
--- L.RECRAFT_TOOLTIP =						"Select an item with a cached recipe to track it.\n" .. 
+-- L.RECRAFT_TOOLTIP =						"Select an item with a cached recipe to track it.\n" ..
 -- 										"To cache a recipe, open the profession the recipe belongs to on any character\nor view the item as a regular crafting order."
 -- L.QUICKORDER =							"Quick Order"
 -- L.QUICKORDER_TOOLTIP =					"|cffFF0000Instantly|r create a crafting order for the specified recipient.\n\n" ..
@@ -170,7 +169,7 @@ if GetLocale() ~= "deDE" then return end
 -- L.NOLASTORDER =							"No last " .. L.QUICKORDER .. " found."
 -- L.ERROR =								"Error"
 -- L.ERROR_CRAFTSIM =						L.ERROR .. ": Could not read the information from CraftSim."
--- L.ERROR_QUICKORDER =					L.ERROR .. ": " .. L.QUICKORDER  .. " failed. Sorry. :("
+-- L.ERROR_QUICKORDER =					L.ERROR .. ": " .. L.QUICKORDER.. " failed. Sorry. :("
 -- L.ERROR_REAGENTS =						L.ERROR .. ": Can't create a " .. L.QUICKORDER .. " for items with mandatory reagents. Sorry. :("
 -- L.ERROR_WARBANK =						L.ERROR .. ": Can't create a " .. L.QUICKORDER .. " with items in the Warbank."
 -- L.ERROR_GUILD =							L.ERROR .. ": Can't create a " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. " while not in a guild."	-- "Guild Order"
@@ -218,14 +217,14 @@ if GetLocale() ~= "deDE" then return end
 
 -- L.SETTINGS_HEADER_TRACK =				"Tracking Window"
 -- L.SETTINGS_PERSONALWINDOWS_TITLE =		"Window Position per Character"
--- L.SETTINGS_PERSONALWINDOWS_TOOLTIP =	"Save the window position per character, instead of account wide."	
+-- L.SETTINGS_PERSONALWINDOWS_TOOLTIP =	"Save the window position per character, instead of account wide."
 -- L.SETTINGS_PERSONALRECIPES_TITLE =		"Track Recipes per Character"
--- L.SETTINGS_PERSONALRECIPES_TOOLTIP =	"Track recipes per character, instead of account wide."	
+-- L.SETTINGS_PERSONALRECIPES_TOOLTIP =	"Track recipes per character, instead of account wide."
 -- L.SETTINGS_SHOWREMAINING_TITLE =		"Show Remaining Reagents"
 -- L.SETTINGS_SHOWREMAINING_TOOLTIP =		"Only show how many reagents you still need in the tracking window, instead of have/need."
 -- L.SETTINGS_REMOVECRAFT_TITLE =			"Untrack on Craft"
 -- L.SETTINGS_REMOVECRAFT_TOOLTIP =		"Remove one of a tracked recipe when you successfully craft it."
--- L.SETTINGS_CLOSEWHENDONE_TITLE =		"Close Window When Done"	
+-- L.SETTINGS_CLOSEWHENDONE_TITLE =		"Close Window When Done"
 -- L.SETTINGS_CLOSEWHENDONE_TOOLTIP =		"Close the tracking window after crafting the last tracked recipe."
 
 -- L.SETTINGS_HEADER_INFO =				"Information"
@@ -251,7 +250,7 @@ if GetLocale() ~= "deDE" then return end
 -- L.SETTINGS_BAG_EXPLAIN =				"- " .. CHAT_DEFAULT .. " means " .. app.NameShort .. " won't touch the game's default behavior.\n" ..
 -- 										"- The other options let " .. app.NameShort .. " enforce that particular setting."
 -- L.SETTINGS_CLEANBAG_TITLE =				BAG_CLEANUP_BAGS
--- L.SETTINGS_CLEANBAG_TOOLTIP =			"Let " ..  app.NameShort .. " enforce cleanup sorting direction.\n" .. L.SETTINGS_BAG_EXPLAIN
+-- L.SETTINGS_CLEANBAG_TOOLTIP =			"Let " .. app.NameShort .. " enforce cleanup sorting direction.\n" .. L.SETTINGS_BAG_EXPLAIN
 -- L.SETTINGS_LOOTBAG_TITLE =				"Loot Order"
 -- L.SETTINGS_LOOTBAG_TOOLTIP =			"Let " .. app.NameShort .. " enforce loot sorting direction.\n" .. L.SETTINGS_BAG_EXPLAIN
 
@@ -272,3 +271,5 @@ if GetLocale() ~= "deDE" then return end
 -- 										"- Show battle pet prices inside the existing tooltip."
 -- L.SETTINGS_QA_TITLE =					"Quality Assurance"
 -- L.SETTINGS_QA_TOOLTIP =					"Since the game lacks QA, let's add some of our own. Remove title spam on login and the <Right click for Frame Settings> on tooltips.\n\n" .. L.REQUIRES_RELOAD
+-- L.SETTINGS_TOKYODRIFT_TITLE = 			"Tokyo Drift"
+-- L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Vroom vroom."

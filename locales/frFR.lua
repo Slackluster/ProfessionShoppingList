@@ -2,13 +2,12 @@
 -- Profession Shopping List: frFR.lua --
 ----------------------------------------
 -- French (France) localisation
+-- Translator(s): Machou
 
 -- Initialisation
-local appName, app = ... -- Returns the AddOn name and a unique table
-local L = app.locales
-
--- Only load this file when the appropriate locale is found
 if GetLocale() ~= "frFR" then return end
+local appName, app = ...
+local L = app.locales
 
 -- Main window
 L.WINDOW_BUTTON_CLOSE =					"Fermer la fenêtre"
