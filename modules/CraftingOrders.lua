@@ -4,7 +4,7 @@
 -- Crafting Orders module
 
 -- Initialisation
-local appName, app =  ...	-- Returns the AddOn name and a unique table
+local appName, app = ...	-- Returns the AddOn name and a unique table
 local L = app.locales
 
 ------------------
@@ -57,7 +57,7 @@ function app.CreateCraftingOrdersAssets()
 		app.UntrackPlaceOrderButton:SetPoint("TOPLEFT", app.TrackPlaceOrderButton, "TOPRIGHT", 2, 0)
 		app.UntrackPlaceOrderButton:SetScript("OnClick", function()
 			app.UntrackRecipe(app.SelectedRecipe.PlaceOrder.recipeID, 1)
-	
+
 			-- Show windows
 			app.Show()
 		end)
@@ -121,7 +121,7 @@ function app.CreateCraftingOrdersAssets()
 
 			-- Get recipe info
 			local recipeInfo = C_TradeSkillUI.GetRecipeSchematic(recipeID, false).reagentSlotSchematics
-			
+
 			-- Go through all the reagents for this recipe
 			local no1 = 1
 			local no2 = 1
@@ -174,7 +174,7 @@ function app.CreateCraftingOrdersAssets()
 
 		-- Place the order
 		C_CraftingOrders.PlaceNewOrder({ skillLineAbilityID=ProfessionShoppingList_Library[recipeID].abilityID, orderType=typeOrder, orderDuration=ProfessionShoppingList_Settings["quickOrderDuration"], tipAmount=100, customerNotes="", orderTarget=ProfessionShoppingList_CharacterData.Orders[recipeID], reagentItems=reagentInfo, craftingReagentItems=craftingReagentInfo })
-		
+
 		-- If there are tiered reagents and the user wants to use local reagents, adjust the dataSlotIndex and try again in case the first one failed
 		local next = next
 		if next(craftingReagentInfo) ~= nil and ProfessionShoppingList_Settings["useLocalReagents"] then
@@ -184,14 +184,14 @@ function app.CreateCraftingOrdersAssets()
 
 			-- Place the alternative order (only one can succeed, worst case scenario it'll fail again)
 			C_CraftingOrders.PlaceNewOrder({ skillLineAbilityID=ProfessionShoppingList_Library[recipeID].abilityID, orderType=typeOrder, orderDuration=ProfessionShoppingList_Settings["quickOrderDuration"], tipAmount=100, customerNotes="", orderTarget=ProfessionShoppingList_CharacterData.Orders[recipeID], reagentItems=reagentInfo, craftingReagentItems=craftingReagentInfo })
-		
+
 			for i, _ in ipairs(craftingReagentInfo) do
 				craftingReagentInfo[i].dataSlotIndex = math.max(craftingReagentInfo[i].dataSlotIndex - 1, 0)
 			end
 
 			-- Place the alternative order (only one can succeed, worst case scenario it'll fail again)
 			C_CraftingOrders.PlaceNewOrder({ skillLineAbilityID=ProfessionShoppingList_Library[recipeID].abilityID, orderType=typeOrder, orderDuration=ProfessionShoppingList_Settings["quickOrderDuration"], tipAmount=100, customerNotes="", orderTarget=ProfessionShoppingList_CharacterData.Orders[recipeID], reagentItems=reagentInfo, craftingReagentItems=craftingReagentInfo })
-		
+
 			for i, _ in ipairs(craftingReagentInfo) do
 				craftingReagentInfo[i].dataSlotIndex = math.max(craftingReagentInfo[i].dataSlotIndex - 1, 0)
 			end
@@ -284,7 +284,7 @@ function app.CreateCraftingOrdersAssets()
 		if ProfessionShoppingList_Settings["useLocalReagents"] then
 			app.RepeatQuickOrderTooltip.Reagents = L.TRUE
 		end
-		app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP .. "\n" .. L.RECIPIENT  .. ": " .. ProfessionShoppingList_CharacterData.Orders[ProfessionShoppingList_CharacterData.Orders["last"]] .. "\n" .. L.LOCALREAGENTS_LABEL .. ": " .. app.RepeatQuickOrderTooltip.Reagents
+		app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP .. "\n" .. L.RECIPIENT .. ": " .. ProfessionShoppingList_CharacterData.Orders[ProfessionShoppingList_CharacterData.Orders["last"]] .. "\n" .. L.LOCALREAGENTS_LABEL .. ": " .. app.RepeatQuickOrderTooltip.Reagents
 	end
 
 	-- Set the flag for assets created to true
@@ -354,7 +354,7 @@ app.Event:Register("CRAFTINGORDERS_ORDER_PLACEMENT_RESPONSE", function(result)
 	if app.Flag["quickOrder"] >= 1 then
 		-- Count a(nother) quick order attempt
 		app.QuickOrderAttempts = app.QuickOrderAttempts + 1
-		
+
 		-- If this gives an error
 		if result ~= 0 then
 			-- Count a(nother) error for the quick order attempt
@@ -393,7 +393,7 @@ app.Event:Register("CRAFTINGORDERS_ORDER_PLACEMENT_RESPONSE", function(result)
 			if ProfessionShoppingList_Settings["useLocalReagents"] then
 				app.RepeatQuickOrderTooltip.Reagents = L.TRUE
 			end
-			app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP .. "\n" .. L.RECIPIENT  .. ": " .. ProfessionShoppingList_CharacterData.Orders[ProfessionShoppingList_CharacterData.Orders["last"]] .. "\n" .. L.LOCALREAGENTS_LABEL .. ": " .. app.RepeatQuickOrderTooltip.Reagents
+			app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP .. "\n" .. L.RECIPIENT .. ": " .. ProfessionShoppingList_CharacterData.Orders[ProfessionShoppingList_CharacterData.Orders["last"]] .. "\n" .. L.LOCALREAGENTS_LABEL .. ": " .. app.RepeatQuickOrderTooltip.Reagents
 		end
 		app.RepeatQuickOrderButton:SetText(recipeName)
 		app.RepeatQuickOrderButton:SetWidth(app.RepeatQuickOrderButton:GetTextWidth()+20)

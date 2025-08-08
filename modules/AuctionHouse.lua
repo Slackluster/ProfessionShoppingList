@@ -4,7 +4,7 @@
 -- Auction House module
 
 -- Initialisation
-local appName, app =  ...	-- Returns the AddOn name and a unique table
+local appName, app = ...	-- Returns the AddOn name and a unique table
 local L = app.locales
 
 ------------------
@@ -64,14 +64,14 @@ function app.MakeShoppingList()
 
 						C_Item.RequestLoadItemDataByID(reagentID)
 						local item = Item:CreateFromItemID(reagentID)
-						
+
 						item:ContinueOnItemLoad(function()
 							app.MakeShoppingList()
 						end)
 
 						return
 					end
-					
+
 					-- Get item info
 					local itemName = C_Item.GetItemInfo(reagentID)
 

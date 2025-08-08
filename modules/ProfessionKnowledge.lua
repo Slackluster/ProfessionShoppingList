@@ -4,7 +4,7 @@
 -- Profession Knowledge module
 
 -- Initialisation
-local appName, app =  ...	-- Returns the AddOn name and a unique table
+local appName, app = ...	-- Returns the AddOn name and a unique table
 local L = app.locales
 
 ------------------
@@ -42,7 +42,7 @@ function app.CreateProfessionKnowledgeAssets()
 		-- Bar
 		app.KnowledgePointTracker.Bar = CreateFrame("StatusBar", nil, app.KnowledgePointTracker)
 		app.KnowledgePointTracker.Bar:SetStatusBarTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\profbars\\generic.blp")
-		
+
 		app.KnowledgePointTracker.Bar:SetPoint("TOPLEFT", 5, -5)
 		app.KnowledgePointTracker.Bar:SetPoint("BOTTOMRIGHT", -5, 5)
 		Mixin(app.KnowledgePointTracker.Bar, SmoothStatusBarMixin)
@@ -144,7 +144,7 @@ function app.KnowledgeTracker()
 		-- Populate the profession knowledge tooltip
 		if app.ProfessionKnowledge[skillLineID] then
 			local renownCount = 0
-			
+
 			-- Vendors
 			app.KnowledgePointTooltip = L.VENDORS
 
@@ -159,14 +159,14 @@ function app.KnowledgeTracker()
 					-- Cache item
 					if not C_Item.IsItemDataCachedByID(v.item) then
 						app.Debug("kpTooltip1(" .. v.item .. ")")
-		
+
 						C_Item.RequestLoadItemDataByID(v.item)
 						local item = Item:CreateFromItemID(v.item)
-						
+
 						item:ContinueOnItemLoad(function()
 							kpTooltip()
 						end)
-		
+
 						return
 					end
 
@@ -212,7 +212,7 @@ function app.KnowledgeTracker()
 					if C_QuestLog.IsQuestFlaggedCompleted(v.quest) then
 						icon = app.IconReady
 					end
-	
+
 					if v.type == "renown" then
 						-- Quest and faction info
 						local questTitle = C_QuestLog.GetTitleForQuestID(v.quest) or ""
@@ -250,14 +250,14 @@ function app.KnowledgeTracker()
 						-- Cache item
 						if not C_Item.IsItemDataCachedByID(v.item) then
 							app.Debug("kpTooltip2(" .. v.item .. ")")
-			
+
 							C_Item.RequestLoadItemDataByID(v.item)
 							local item = Item:CreateFromItemID(v.item)
-							
+
 							item:ContinueOnItemLoad(function()
 								kpTooltip()
 							end)
-			
+
 							return
 						end
 

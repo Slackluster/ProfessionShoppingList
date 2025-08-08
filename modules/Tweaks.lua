@@ -4,7 +4,7 @@
 -- Tweaks module
 
 -- Initialisation
-local appName, app =  ...	-- Returns the AddOn name and a unique table
+local appName, app = ...	-- Returns the AddOn name and a unique table
 local L = app.locales
 
 ------------------
@@ -32,7 +32,7 @@ app.Event:Register("PLAYER_ENTERING_WORLD", function(isInitialLogin, isReloading
 	elseif ProfessionShoppingList_Settings["backpackCleanup"] == 2 then
 		C_Container.SetSortBagsRightToLeft(true)
 	end
-	
+
 	if ProfessionShoppingList_Settings["backpackLoot"] == 1 then
 		C_Container.SetInsertItemsLeftToRight(true)
 	elseif ProfessionShoppingList_Settings["backpackLoot"] == 2 then
@@ -142,7 +142,7 @@ function app.UnderminePrices()
 						OEMarketInfo(unreliableItemLink,oeData)
 					end
 				end
-				
+
 				if oeData["market"] ~= nil then
 					marketPrice = oeData["market"]
 				end
@@ -196,7 +196,7 @@ hooksecurefunc("BattlePetToolTip_Show", function(...)
 	if ProfessionShoppingList_Settings["underminePrices"] then
 		-- If Oribos Exchange is loaded
 		if C_AddOns.IsAddOnLoaded("OribosExchange") then
-			local speciesID1, level, breedQuality, maxHealth, power, speed, bracketName =  ...
+			local speciesID1, level, breedQuality, maxHealth, power, speed, bracketName = ...
 
 			-- Make itemLink if it grabs the proper pet
 			local itemLink = "|cff0070dd|Hbattlepet:" .. speciesID1 .. ":" .. level .. ":" .. breedQuality .. ":" .. maxHealth .. ":" .. power .. ":" .. speed .. "|h" .. bracketName .. "|h|r"

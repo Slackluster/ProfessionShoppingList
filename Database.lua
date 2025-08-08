@@ -4,7 +4,7 @@
 -- Raw information to refer to
 
 -- Initialisation
-local appName, app =  ...	-- Returns the AddOn name and a unique table
+local appName, app = ...	-- Returns the AddOn name and a unique table
 
 -- Used strings
 app.Name = "Profession Shopping List"
@@ -341,8 +341,6 @@ app.ProfessionKnowledge = {
 		{ quest = 78308, type = "world", item = 210228, zone = 2200 },	-- Pure Dream Water
 		{ quest = 78309, type = "world", item = 210231, zone = 2200 },	-- Everburning Core
 		{ quest = 78310, type = "world", item = 210234, zone = 2200 },	-- Essence of Dreams
-
-		
 	},
 	[2827] = {	-- Dragonflight Engineering
 		-- Vendors
@@ -674,7 +672,7 @@ app.ProfessionKnowledge = {
 		{ quest = 83064, type = "vendor", item = 224654, source = 2594, renown = 12 },
 		{ quest = 82636, type = "vendor", item = 224053, source = 2213, sourceType = "zone"},
 		{ quest = 85739, type = "vendor", item = 232508, source = 2653, renown = 16 },
-		
+
 		-- Treasures
 		{ quest = 83882, type = "world", item = 226308, zone = 2339 },	-- Scribe's Quill
 		{ quest = 83883, type = "world", item = 226309, zone = 2248 },	-- Historian's Dip Pen
