@@ -89,26 +89,6 @@ hooksecurefunc("PVPReadyDialog_Display", function()
 	app.QueueSound()
 end)
 
----------------------
--- MERCHANT FILTER --
----------------------
-
--- Set the Vendor filter to 'All'
-function app.MerchantFilter()
-	-- If the setting is enabled
-	if ProfessionShoppingList_Settings["vendorAll"] then
-		RunNextFrame(function()
-			SetMerchantFilter(1)
-			MerchantFrame_Update()
-		end)
-	end
-end
-
--- When a vendor window is opened
-app.Event:Register("MERCHANT_SHOW", function()
-	app.MerchantFilter()
-end)
-
 ----------------------
 -- UNDERMINE PRICES --
 ----------------------
@@ -310,31 +290,6 @@ function app.DisableHandyNotesAltRMB()
 	end
 end
 
-------------------------
--- INSTANTLY CATALYSE --
-------------------------
-
-app.Event:Register("PLAYER_INTERACTION_MANAGER_FRAME_SHOW", function(type)
-	-- Only run this if the setting is enabled
-	if ProfessionShoppingList_Settings["catalystButton"] then
-		if type == 44 and not app.CatalystSkipButton then
-			app.CatalystSkipButton = app.Button(ItemInteractionFrame, L.CATALYSTBUTTON_LABEL)
-			app.CatalystSkipButton:SetPoint("CENTER", ItemInteractionFrameTitleText, 0, -30)
-			app.CatalystSkipButton:SetScript("OnClick", function()
-				ItemInteractionFrame:CompleteItemInteraction()
-			end)
-		elseif type == 44 and app.CatalystSkipButton then
-			app.CatalystSkipButton:Show()
-		end
-	end
-end)
-
-app.Event:Register("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function(type)
-	if app.CatalystSkipButton then
-		app.CatalystSkipButton:Hide()
-	end
-end)
-
 -----------------
 -- Tokyo Drift --
 -----------------
@@ -388,8 +343,6 @@ function app.SettingsTweaks()
 	local category, layout = Settings.RegisterVerticalLayoutSubcategory(app.Category, L.SETTINGS_HEADER_TWEAKS)
 	Settings.RegisterAddOnCategory(category)
 
-	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(BAG_NAME_BACKPACK))
-
 	local variable, name, tooltip = "backpackCount", L.SETTINGS_SPLITBAG_TITLE, L.SETTINGS_SPLITBAG_TOOLTIP
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, true)
 	Settings.CreateCheckbox(category, setting, tooltip)
@@ -408,54 +361,6 @@ function app.SettingsTweaks()
 		end
 	end)
 
-	local variable, name, tooltip = "backpackCleanup", L.SETTINGS_CLEANBAG_TITLE, L.SETTINGS_CLEANBAG_TOOLTIP
-	local function GetOptions()
-		local container = Settings.CreateControlTextContainer()
-		container:Add(0, L.SETTINGS_DEFAULT)
-		container:Add(1, L.SETTINGS_LTOR)
-		container:Add(2, L.SETTINGS_RTOL)
-		return container:GetData()
-	end
-	local defaultValue = 0
-	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Number, name, 0)
-	Settings.CreateDropdown(category, setting, GetOptions, tooltip)
-	setting:SetValueChangedCallback(function()
-		if ProfessionShoppingList_Settings["backpackCleanup"] == 1 then
-			C_Container.SetSortBagsRightToLeft(false)
-		elseif ProfessionShoppingList_Settings["backpackCleanup"] == 2 then
-			C_Container.SetSortBagsRightToLeft(true)
-		end
-	end)
-
-	local variable, name, tooltip = "backpackLoot", L.SETTINGS_LOOTBAG_TITLE, L.SETTINGS_LOOTBAG_TOOLTIP
-	local function GetOptions()
-		local container = Settings.CreateControlTextContainer()
-		container:Add(0, L.SETTINGS_DEFAULT)
-		container:Add(1, L.SETTINGS_LTOR)
-		container:Add(2, L.SETTINGS_RTOL)
-		return container:GetData()
-	end
-	local defaultValue = 0
-	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Number, name, 0)
-	Settings.CreateDropdown(category, setting, GetOptions, tooltip)
-	setting:SetValueChangedCallback(function()
-		if ProfessionShoppingList_Settings["backpackLoot"] == 1 then
-			C_Container.SetInsertItemsLeftToRight(true)
-		elseif ProfessionShoppingList_Settings["backpackLoot"] == 2 then
-			C_Container.SetInsertItemsLeftToRight(false)
-		end
-	end)
-
-	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L.SETTINGS_HEADER_OTHERTWEAKS))
-
-	local variable, name, tooltip = "vendorAll", L.SETTINGS_VENDORFILTER_TITLE, L.SETTINGS_VENDORFILTER_TOOLTIP
-	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, true)
-	Settings.CreateCheckbox(category, setting, tooltip)
-
-	local variable, name, tooltip = "catalystButton", L.SETTINGS_CATALYSTBUTTON_TITLE, L.SETTINGS_CATALYSTBUTTON_TOOLTIP
-	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, true)
-	Settings.CreateCheckbox(category, setting, tooltip)
-
 	local variable, name, tooltip = "queueSound", L.SETTINGS_QUEUESOUND_TITLE, L.SETTINGS_QUEUESOUND_TOOLTIP
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, false)
 	Settings.CreateCheckbox(category, setting, tooltip)
@@ -470,10 +375,6 @@ function app.SettingsTweaks()
 	setting:SetValueChangedCallback(function()
 		app.HideOribos()
 	end)
-
-	-- local variable, name, tooltip = "qualityAssurance", L.SETTINGS_QA_TITLE, L.SETTINGS_QA_TOOLTIP
-	-- local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, true)
-	-- Settings.CreateCheckbox(category, setting, tooltip)
 
 	local variable, name, tooltip = "tokyoDrift", L.SETTINGS_TOKYODRIFT_TITLE, L.SETTINGS_TOKYODRIFT_TOOLTIP
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, false)

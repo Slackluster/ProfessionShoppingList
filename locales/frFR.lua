@@ -148,9 +148,6 @@ L.HIDDEN_PROFESSION_MASTER =			"Maître de métier masqué"
 L.CATCHUP_KNOWLEDGE =					"Connaissances de rattrapage disponibles :"
 -- L.LOADING =								SEARCH_LOADING_TEXT
 
--- Tweaks
-L.CATALYSTBUTTON_LABEL =				"Catalyseur instantané"
-
 -- Chat feedback
 L.INVALID_PARAMETERS =					"Paramètres non valides"
 L.INVALID_RECIPEQUANTITY =				L.INVALID_PARAMETERS .. " Veuillez saisir une quantité de recette valide"
@@ -247,18 +244,6 @@ L.SETTINGS_RTOL =						"Droite-vers-Gauche"
 L.SETTINGS_HEADER_TWEAKS =				"Ajustements"
 L.SETTINGS_SPLITBAG_TITLE =				"Nombre de composants dans les sacs"
 L.SETTINGS_SPLITBAG_TOOLTIP =			"Affiche les emplacements libres de vos sacs et sac de composants séparément au-dessus de l’icône du sac à dos."
-L.SETTINGS_BAG_EXPLAIN =				"- " .. CHAT_DEFAULT .. ", " .. app.NameShort .. " ne modifiera pas le comportement par défaut du jeu.\n" ..
-										"- Les autres options permettent à " .. app.NameShort .. " d’appliquer ce paramètre spécifique."
-L.SETTINGS_CLEANBAG_TITLE =				BAG_CLEANUP_BAGS
-L.SETTINGS_CLEANBAG_TOOLTIP =			"Permettre à " .. app.NameShort .. " d’appliquer la direction du tri lors du nettoyage.\n" .. L.SETTINGS_BAG_EXPLAIN
-L.SETTINGS_LOOTBAG_TITLE =				"Ordre du butin"
-L.SETTINGS_LOOTBAG_TOOLTIP =			"Permettre à " .. app.NameShort .. " d’appliquer la direction du tri lors du ramassage.\n" .. L.SETTINGS_BAG_EXPLAIN
-
-L.SETTINGS_HEADER_OTHERTWEAKS =			"Autres ajustements"
-L.SETTINGS_VENDORFILTER_TITLE =			"Désactiver le filtre des vendeurs"
-L.SETTINGS_VENDORFILTER_TOOLTIP =		"Définissez automatiquement les filtres des vendeurs sur |cffFFFFFFTous|R pour afficher les objets qui ne sont normalement pas montrés à votre classe."
-L.SETTINGS_CATALYSTBUTTON_TITLE =		"Afficher le bouton du Catalyseur"
-L.SETTINGS_CATALYSTBUTTON_TOOLTIP =		"Affiche un bouton sur le Catalyseur de renouveau qui vous permet de catalyser instantanément un objet, en sautant le minuteur de confirmation de 5 secondes."
 L.SETTINGS_QUEUESOUND_TITLE =			"Jouer un son pour la file d’attente"
 L.SETTINGS_QUEUESOUND_TOOLTIP =			"Joue le son de la file d’attente comme celui de « Deadly Boss Mods » lorsque n’importe quelle file d’attente s’ouvre, y compris les champs de bataille et les combats de mascottes."
 L.SETTINGS_HANDYNOTESFIX_TITLE =		"Désactiver HandyNotes Alt " .. app.IconRMB
@@ -269,7 +254,5 @@ L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	app.NameShort .. " simplifie et corrige l
 										"- Corrige les prix des recettes\n" ..
 										"- Corrige les prix dans la fenêtre des professions\n" ..
 										"- Affiche les prix des mascottes de combat dans l’info-bulle existante"
-L.SETTINGS_QA_TITLE =					"Jouer sans problème"
-L.SETTINGS_QA_TOOLTIP =					"Puisque le jeu a encore quelques problèmes, essayons de les corriger par nous même ! Lors de la connexion, supprime les messages « Vous avez mérité le titre ... » et supprime le texte <Clic droit pour les paramètres de bordure.> dans l’info-bulle des différentes frame\n\n" .. L.REQUIRES_RELOAD
 L.SETTINGS_TOKYODRIFT_TITLE = 			"Tokyo Drift"
 L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Vroom vroom."

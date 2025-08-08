@@ -148,9 +148,6 @@ L.HIDDEN_PROFESSION_MASTER =			"隐藏专业大师"
 L.CATCHUP_KNOWLEDGE =					"可用追赶知识："
 L.LOADING =								SEARCH_LOADING_TEXT
 
--- Tweaks
-L.CATALYSTBUTTON_LABEL =				"立即催化"
-
 -- Chat feedback
 L.INVALID_PARAMETERS =					"参数无效。"
 L.INVALID_RECIPEQUANTITY =				L.INVALID_PARAMETERS .. " 请输入有效的配方数量。"
@@ -247,18 +244,6 @@ L.SETTINGS_RTOL =						"从右到左"
 L.SETTINGS_HEADER_TWEAKS =				"功能调整"
 L.SETTINGS_SPLITBAG_TITLE =				"拆分材料背包计数"
 L.SETTINGS_SPLITBAG_TOOLTIP =			"在背包图标上方分别显示普通背包和材料背包的空位。"
-L.SETTINGS_BAG_EXPLAIN =				"- " .. CHAT_DEFAULT .. " 表示" .. app.NameShort .. "不修改默认行为。\n" ..
-										"- 其他选项将强制应用该设置。"
-L.SETTINGS_CLEANBAG_TITLE =				BAG_CLEANUP_BAGS
-L.SETTINGS_CLEANBAG_TOOLTIP =			"让" .. app.NameShort .. "强制指定整理方向。\n" .. L.SETTINGS_BAG_EXPLAIN
-L.SETTINGS_LOOTBAG_TITLE =				"拾取顺序"
-L.SETTINGS_LOOTBAG_TOOLTIP =			"让" .. app.NameShort .. "强制指定拾取方向。\n" .. L.SETTINGS_BAG_EXPLAIN
-
-L.SETTINGS_HEADER_OTHERTWEAKS =			"其他调整"
-L.SETTINGS_VENDORFILTER_TITLE =			"禁用商人过滤"
-L.SETTINGS_VENDORFILTER_TOOLTIP =		"自动将商人过滤设为|cffFFFFFF全部|R，显示对本职业通常不可见的物品。"
-L.SETTINGS_CATALYSTBUTTON_TITLE =		"显示催化按钮"
-L.SETTINGS_CATALYSTBUTTON_TOOLTIP =		"在重塑催化器界面显示按钮，可跳过5秒确认直接催化物品。"
 L.SETTINGS_QUEUESOUND_TITLE =			"播放队列音效"
 L.SETTINGS_QUEUESOUND_TOOLTIP =			"当任何队列就绪时（包括战场和宠物对战）播放Deadly Boss Mods风格音效。"
 L.SETTINGS_HANDYNOTESFIX_TITLE =		"禁用HandyNotes右键"
@@ -269,7 +254,5 @@ L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	"简化并修复Oribos Exchange插件的�
 										"- 修正配方价格\n" ..
 										"- 修正专业窗口价格\n" ..
 										"- 在现有提示中显示战斗宠物价格"
-L.SETTINGS_QA_TITLE =					"质量检测"
-L.SETTINGS_QA_TOOLTIP =					"修复游戏内缺失的QA功能：移除登录时的称号刷屏和提示中的<右键设置>文本。\n\n" .. L.REQUIRES_RELOAD
 -- L.SETTINGS_TOKYODRIFT_TITLE = 			"Tokyo Drift"
 -- L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Vroom vroom."

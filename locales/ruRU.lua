@@ -148,9 +148,6 @@ L.HIDDEN_PROFESSION_MASTER =			"Скрыть мастера профессии"
 L.CATCHUP_KNOWLEDGE =					"Доступные дополнительные знания:"
 L.LOADING =								SEARCH_LOADING_TEXT
 
--- Tweaks
-L.CATALYSTBUTTON_LABEL =				"Мгновенно катализировать"
-
 -- Chat feedback
 L.INVALID_PARAMETERS =					"Неверные параметры."
 L.INVALID_RECIPEQUANTITY =				L.INVALID_PARAMETERS .. " Пожалуйста, введите допустимое количество по рецепту."
@@ -247,18 +244,6 @@ L.SETTINGS_RTOL =						"Справа налево"
 L.SETTINGS_HEADER_TWEAKS =				"Настройки"
 L.SETTINGS_SPLITBAG_TITLE =				"Разделение количества мешков с реагентами"
 L.SETTINGS_SPLITBAG_TOOLTIP =			"Показывает свободные слоты ваших обычных сумок и сумки с реагентами отдельно над значком рюкзака."
-L.SETTINGS_BAG_EXPLAIN =				"- " .. CHAT_DEFAULT .. " означает, что " .. app.NameShort .. " не повлияет на поведение игры по умолчанию.\n" ..
-										"- Другие параметры позволяют " .. app.NameShort .. " применять эту конкретную настройку."
-L.SETTINGS_CLEANBAG_TITLE =				BAG_CLEANUP_BAGS
-L.SETTINGS_CLEANBAG_TOOLTIP =			"Пусть " .. app.NameShort .. " применит направление сортировки очистки.\n" .. L.SETTINGS_BAG_EXPLAIN
-L.SETTINGS_LOOTBAG_TITLE =				"Порядок добычи"
-L.SETTINGS_LOOTBAG_TOOLTIP =			"Пусть " .. app.NameShort .. " обеспечит соблюдение правил сортировки добычи.\n" .. L.SETTINGS_BAG_EXPLAIN
-
-L.SETTINGS_HEADER_OTHERTWEAKS =			"Другие Настройки"
-L.SETTINGS_VENDORFILTER_TITLE =			"Отключить фильтр торговцев"
-L.SETTINGS_VENDORFILTER_TOOLTIP =		"Автоматически установить все фильтры торговцев на |cffFFFFFFВСЕ|R чтобы отображать предметы, которые обычно не отображаются в вашем классе."
-L.SETTINGS_CATALYSTBUTTON_TITLE =		"Показать кнопку Катализатор"
-L.SETTINGS_CATALYSTBUTTON_TOOLTIP =		"Показывать кнопку на катализаторе возрождения, которая позволяет мгновенно катализировать предмет, минуя 5-секундный таймер подтверждения."
 L.SETTINGS_QUEUESOUND_TITLE =			"Воспроизвести звук очереди"
 L.SETTINGS_QUEUESOUND_TOOLTIP =			"Воспроизводить звук очереди в стиле Deadly Boss Mods при появлении любой очереди, включая поля боя и битвы питомцев."
 L.SETTINGS_HANDYNOTESFIX_TITLE =		"Отключить HandyNotes Alt " .. app.IconRMB
@@ -269,7 +254,5 @@ L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	"Позвольте " .. app.NameShort ..
 										"- Исправление цен на рецепты.\n" ..
 										"- Исправление цен на окне профессии.\n" ..
 										"- Показывать цены на питомцев внутри существующей подсказки."
-L.SETTINGS_QA_TITLE =					"Гарантия качества"
-L.SETTINGS_QA_TOOLTIP =					"Поскольку в игре нет ГК, давайте добавим немного своего. Удалим спам в заголовках при входе и <ПКМ для настроек фрейма> в подсказках.\n\n" .. L.REQUIRES_RELOAD
 L.SETTINGS_TOKYODRIFT_TITLE = 			"Токийский Дрифт"
 L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Врум врум."

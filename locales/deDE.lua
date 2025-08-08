@@ -148,9 +148,6 @@ local L = app.locales
 -- L.CATCHUP_KNOWLEDGE =					"Available catch-up knowledge:"
 -- L.LOADING =								SEARCH_LOADING_TEXT
 
--- Tweaks
--- L.CATALYSTBUTTON_LABEL =				"Instantly Catalyze"
-
 -- Chat feedback
 -- L.INVALID_PARAMETERS =					"Invalid parameters."
 -- L.INVALID_RECIPEQUANTITY =				L.INVALID_PARAMETERS .. " Please enter a valid recipe quantity."
@@ -247,18 +244,6 @@ local L = app.locales
 -- L.SETTINGS_HEADER_TWEAKS =				"Tweaks"
 -- L.SETTINGS_SPLITBAG_TITLE =				"Split Reagent Bag Count"
 -- L.SETTINGS_SPLITBAG_TOOLTIP =			"Shows the free slots of your regular bags and your reagent bag separately on top of the backpack icon."
--- L.SETTINGS_BAG_EXPLAIN =				"- " .. CHAT_DEFAULT .. " means " .. app.NameShort .. " won't touch the game's default behavior.\n" ..
--- 										"- The other options let " .. app.NameShort .. " enforce that particular setting."
--- L.SETTINGS_CLEANBAG_TITLE =				BAG_CLEANUP_BAGS
--- L.SETTINGS_CLEANBAG_TOOLTIP =			"Let " .. app.NameShort .. " enforce cleanup sorting direction.\n" .. L.SETTINGS_BAG_EXPLAIN
--- L.SETTINGS_LOOTBAG_TITLE =				"Loot Order"
--- L.SETTINGS_LOOTBAG_TOOLTIP =			"Let " .. app.NameShort .. " enforce loot sorting direction.\n" .. L.SETTINGS_BAG_EXPLAIN
-
--- L.SETTINGS_HEADER_OTHERTWEAKS =			"Other Tweaks"
--- L.SETTINGS_VENDORFILTER_TITLE =			"Disable Vendor Filter"
--- L.SETTINGS_VENDORFILTER_TOOLTIP =		"Automatically set all vendor filters to |cffFFFFFFAll|R to display items normally not shown to your class."
--- L.SETTINGS_CATALYSTBUTTON_TITLE =		"Show Catalyst Button"
--- L.SETTINGS_CATALYSTBUTTON_TOOLTIP =		"Show a button on the Revival Catalyst that allows you to instantly catalyze an item, skipping the 5 second confirmation timer."
 -- L.SETTINGS_QUEUESOUND_TITLE =			"Play Queue Sound"
 -- L.SETTINGS_QUEUESOUND_TOOLTIP =			"Play the Deadly Boss Mods style queue sound when any queue pops, including battlegrounds and pet battles."
 -- L.SETTINGS_HANDYNOTESFIX_TITLE =		"Disable HandyNotes Alt " .. app.IconRMB
@@ -269,7 +254,5 @@ local L = app.locales
 -- 										"- Fix recipe prices.\n" ..
 -- 										"- Fix profession window prices.\n" ..
 -- 										"- Show battle pet prices inside the existing tooltip."
--- L.SETTINGS_QA_TITLE =					"Quality Assurance"
--- L.SETTINGS_QA_TOOLTIP =					"Since the game lacks QA, let's add some of our own. Remove title spam on login and the <Right click for Frame Settings> on tooltips.\n\n" .. L.REQUIRES_RELOAD
 -- L.SETTINGS_TOKYODRIFT_TITLE = 			"Tokyo Drift"
 -- L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Vroom vroom."
