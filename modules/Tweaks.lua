@@ -1,17 +1,16 @@
 ------------------------------------------
 -- Profession Shopping List: Tweaks.lua --
 ------------------------------------------
--- Tweaks module
 
 -- Initialisation
-local appName, app = ...	-- Returns the AddOn name and a unique table
+local appName, app = ...
 local L = app.locales
 
 ------------------
 -- INITIAL LOAD --
 ------------------
 
--- When the AddOn is fully loaded, actually run the components
+-- When the addon is fully loaded, actually run the components
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		app.UnderminePrices()

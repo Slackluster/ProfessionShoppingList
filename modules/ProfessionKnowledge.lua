@@ -1,10 +1,9 @@
 -------------------------------------------------------
 -- Profession Shopping List: ProfessionKnowledge.lua --
 -------------------------------------------------------
--- Profession Knowledge module
 
 -- Initialisation
-local appName, app = ...	-- Returns the AddOn name and a unique table
+local appName, app = ...
 local L = app.locales
 
 ------------------
@@ -17,7 +16,7 @@ function app.InitialiseProfessionKnowledge()
 	app.Flag["knowledgeAssets"] = false
 end
 
--- When the AddOn is fully loaded
+-- When the addon is fully loaded
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		app.InitialiseProfessionKnowledge()

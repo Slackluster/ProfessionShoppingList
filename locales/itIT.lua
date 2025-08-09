@@ -10,14 +10,14 @@ local appName, app = ...
 local L = app.locales
 
 -- Main window
--- L.WINDOW_BUTTON_CLOSE =					"Close the window."
--- L.WINDOW_BUTTON_LOCK =					"Lock the window."
--- L.WINDOW_BUTTON_UNLOCK =				"Unlock the window."
--- L.WINDOW_BUTTON_SETTINGS =				"Open the settings."
--- L.WINDOW_BUTTON_CLEAR =					"Clear all tracked recipes."
--- L.WINDOW_BUTTON_AUCTIONATOR =			"Update the Auctionator shopping list.\n" ..
--- 										"The shopping list is automatically generated when opening the Auction House."
--- L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF: Autosize to fit the window."
+-- L.WINDOW_BUTTON_CLOSE =					"Close the window"
+-- L.WINDOW_BUTTON_LOCK =					"Lock the window"
+-- L.WINDOW_BUTTON_UNLOCK =				"Unlock the window"
+-- L.WINDOW_BUTTON_SETTINGS =				"Open the settings"
+-- L.WINDOW_BUTTON_CLEAR =					"Clear all tracked recipes"
+-- L.WINDOW_BUTTON_AUCTIONATOR =			"Update the Auctionator shopping list\n" ..
+-- 										"The shopping list is automatically generated when opening the Auction House"
+-- L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF: Autosize to fit the window"
 
 -- L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB	-- "Recipes"
 -- L.WINDOW_HEADER_ITEMS =					ITEMS	-- "Items"
@@ -25,16 +25,16 @@ local L = app.locales
 -- L.WINDOW_HEADER_COSTS =					"Costs"
 -- L.WINDOW_HEADER_COOLDOWNS =				"Cooldowns"
 
--- L.WINDOW_TOOLTIP_RECIPES =				"Shift " .. app.IconLMB .. "|cffFFFFFF: Link the recipe.\n|r" ..
--- 										"Ctrl " .. app.IconLMB .. "|cffFFFFFF: Open the recipe (if known).\n|r" ..
--- 										"Alt " .. app.IconLMB .. "|cffFFFFFF: Attempt to craft this recipe (as many times as you have it tracked).\n\n|r" ..
--- 										app.IconRMB .. "|cffFFFFFF: Untrack 1 of the selected recipe.\n|r" ..
--- 										"Ctrl " .. app.IconRMB .. "|cffFFFFFF: Untrack all of the selected recipe."
--- L.WINDOW_TOOLTIP_REAGENTS =				"Shift " .. app.IconLMB .. "|cffFFFFFF: Link the reagent.\n|r" ..
--- 										"Ctrl " .. app.IconLMB .. "|cffFFFFFF: Add recipe for the selected subreagent, if it exists and is cached."
--- L.WINDOW_TOOLTIP_COOLDOWNS =			"Shift " .. app.IconRMB .. "|cffFFFFFF: Remove this specific cooldown reminder.\n|r" ..
--- 										"Ctrl " .. app.IconLMB .. "|cffFFFFFF: Open the recipe (if known).\n|r" ..
--- 										"Alt " .. app.IconLMB .. "|cffFFFFFF: Attempt to craft this recipe."
+-- L.WINDOW_TOOLTIP_RECIPES =				"Shift " .. app.IconLMB .. "|cffFFFFFF: Link the recipe\n|r" ..
+-- 										"Ctrl " .. app.IconLMB .. "|cffFFFFFF: Open the recipe (if known)\n|r" ..
+-- 										"Alt " .. app.IconLMB .. "|cffFFFFFF: Attempt to craft this recipe (as many times as you have it tracked)\n\n|r" ..
+-- 										app.IconRMB .. "|cffFFFFFF: Untrack 1 of the selected recipe\n|r" ..
+-- 										"Ctrl " .. app.IconRMB .. "|cffFFFFFF: Untrack all of the selected recipe"
+-- L.WINDOW_TOOLTIP_REAGENTS =				"Shift " .. app.IconLMB .. "|cffFFFFFF: Link the reagent\n|r" ..
+-- 										"Ctrl " .. app.IconLMB .. "|cffFFFFFF: Add recipe for the selected subreagent, if it exists and is cached"
+-- L.WINDOW_TOOLTIP_COOLDOWNS =			"Shift " .. app.IconRMB .. "|cffFFFFFF: Remove this specific cooldown reminder\n|r" ..
+-- 										"Ctrl " .. app.IconLMB .. "|cffFFFFFF: Open the recipe (if known)\n|r" ..
+-- 										"Alt " .. app.IconLMB .. "|cffFFFFFF: Attempt to craft this recipe"
 
 -- L.CLEAR_CONFIRMATION =					"This will clear all recipes."
 -- L.CONFIRMATION =						"Do you wish to proceed?"
@@ -63,7 +63,7 @@ local L = app.locales
 -- 										"Recipients are saved per recipe."
 -- L.LOCALREAGENTS_LABEL =					"Use local reagents"
 -- L.LOCALREAGENTS_TOOLTIP =				"Use (the lowest quality) available local reagents. Which reagents are used |cffFF0000cannot|r be customised."
--- L.QUICKORDER_REPEAT_TOOLTIP =			"Repeat the last " .. L.QUICKORDER .. " done on this character."
+-- L.QUICKORDER_REPEAT_TOOLTIP =			"Repeat the last " .. L.QUICKORDER .. " done on this character"
 -- L.RECIPIENT =							"Recipient"
 
 -- Profession window
@@ -163,7 +163,7 @@ local L = app.locales
 
 -- L.FALSE =								"false"
 -- L.TRUE =								"true"
--- L.NOLASTORDER =							"No last " .. L.QUICKORDER .. " found."
+-- L.NOLASTORDER =							"No last " .. L.QUICKORDER .. " found"
 -- L.ERROR =								"Error"
 -- L.ERROR_CRAFTSIM =						L.ERROR .. ": Could not read the information from CraftSim."
 -- L.ERROR_QUICKORDER =					L.ERROR .. ": " .. L.QUICKORDER .. " failed. Sorry. :("
@@ -171,7 +171,7 @@ local L = app.locales
 -- L.ERROR_WARBANK =						L.ERROR .. ": Can't create a " .. L.QUICKORDER .. " with items in the Warbank."
 -- L.ERROR_GUILD =							L.ERROR .. ": Can't create a " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. " while not in a guild."	-- "Guild Order"
 -- L.ERROR_RECIPIENT =						L.ERROR .. ": Target recipient cannot craft that item. Please enter a valid recipient name."
--- L.ERROR_MULTISIM =						L.ERROR .. ": No simulated reagents have been used. Please only enable one of the following supported AddOns:"
+-- L.ERROR_MULTISIM =						L.ERROR .. ": No simulated reagents have been used. Please only enable one of the following supported addons:"
 
 -- L.VERSION_CHECK =						"There is a newer version of " .. app.NameLong .. " available:"
 
@@ -180,7 +180,7 @@ local L = app.locales
 -- 										app.IconRMB .. ": " .. L.WINDOW_BUTTON_SETTINGS
 
 -- L.SETTINGS_MINIMAP_TITLE =				"Show Minimap Icon"
--- L.SETTINGS_MINIMAP_TOOLTIP =			"Show the minimap icon. If you disable this, " .. app.NameShort .. " is still available from the AddOn Compartment."
+-- L.SETTINGS_MINIMAP_TOOLTIP =			"Show the minimap icon. If you disable this, " .. app.NameShort .. " is still available from the Addon Compartment."
 -- L.SETTINGS_COOLDOWNS_TITLE =			"Track Recipe Cooldowns"
 -- L.SETTINGS_COOLDOWNS_TOOLTIP =			"Enable the tracking of recipe cooldowns. These will show in the tracking window, and in chat upon login if ready."
 -- L.SETTINGS_COOLDOWNSWINDOW_TITLE =		"Show Window When Ready"
@@ -249,7 +249,7 @@ local L = app.locales
 -- L.SETTINGS_HANDYNOTESFIX_TITLE =		"Disable HandyNotes Alt " .. app.IconRMB
 -- L.SETTINGS_HANDYNOTESFIX_TOOLTIP =		"Let " .. app.NameShort .. " disable HandyNotes' keybind on the map, re-enabling it for TomTom waypoints instead.\n\n" .. L.REQUIRES_RELOAD
 -- L.SETTINGS_ORIBOSEXCHANGEFIX_TITLE =	"Fix Oribos Exchange Tooltip"
--- L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	"Let " .. app.NameShort .. " simplify and fix the tooltip provided by the Oribos Exchange AddOn:\n" ..
+-- L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	"Let " .. app.NameShort .. " simplify and fix the tooltip provided by the Oribos Exchange addon:\n" ..
 -- 										"- Round to the nearest gold.\n" ..
 -- 										"- Fix recipe prices.\n" ..
 -- 										"- Fix profession window prices.\n" ..

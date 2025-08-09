@@ -1,10 +1,9 @@
 --------------------------------------------
 -- Profession Shopping List: Database.lua	--
 --------------------------------------------
--- Raw information to refer to
 
 -- Initialisation
-local appName, app = ...	-- Returns the AddOn name and a unique table
+local appName, app = ...
 
 -- Used strings
 app.Name = "Profession Shopping List"

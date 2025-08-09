@@ -1,10 +1,9 @@
 ----------------------------------------
 -- Profession Shopping List: Core.lua --
 ----------------------------------------
--- Main AddOn code
 
 -- Initialisation
-local appName, app = ...	-- Returns the AddOn name and a unique table
+local appName, app = ...	-- Returns the addon name and a unique table
 app.api = {}	-- Create a table to use for our API
 ProfessionShoppingList = app.api	-- Create a namespace for our API
 local api = app.api	-- Our API prefix
@@ -60,12 +59,12 @@ function app.Colour(string)
 	return "|cffC69B6D" .. string .. "|r"
 end
 
--- Print with AddOn prefix
+-- Print with addon prefix
 function app.Print(...)
 	print(app.NameShort .. ":", ...)
 end
 
--- Debug print with AddOn prefix
+-- Debug print with addon prefix
 function app.Debug(...)
 	if ProfessionShoppingList_Settings["debug"] then
 		print(app.NameShort .. app.Colour(" Debug") .. ":", ...)
@@ -214,7 +213,7 @@ function app.InitialiseCore()
 	app.Rows.ReagentWidth = 0
 	app.SimAddOns = {"CraftSim", "TestFlight"}
 
-	-- Register our AddOn communications channel
+	-- Register our addon communications channel
 	C_ChatInfo.RegisterAddonMessagePrefix("ProfShopList")
 
 	-- Legacy compatibility
@@ -226,7 +225,7 @@ function app.InitialiseCore()
 	if ProfessionShoppingList_Settings["ragnarosGUID"] then ProfessionShoppingList_Settings["ragnarosGUID"] = nil end
 end
 
--- When the AddOn is fully loaded, actually run the components
+-- When the addon is fully loaded, actually run the components
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		app.InitialiseCore()
@@ -627,7 +626,7 @@ function app.UpdateNumbers()
 		end
 
 		local itemAmount = ""
-		local itemIcon = "|T" .. ProfessionShoppingList_Cache.Reagents[reagentID].icon .. ":0|t"
+		local itemIcon = "|T"..ProfessionShoppingList_Cache.Reagents[reagentID].icon..":0|t"
 
 		if type(reagentID) == "number" then
 			-- Get needed/owned number of reagents
@@ -1253,7 +1252,7 @@ function app.UpdateRecipes()
 							local function getInfo()
 								-- Cache item
 								if not C_Item.IsItemDataCachedByID(reagentID) then
-									app.Debug("getInfo(" .. reagentID.. ")")
+									app.Debug("getInfo(" .. reagentID .. ")")
 
 									C_Item.RequestLoadItemDataByID(reagentID)
 									local item = Item:CreateFromItemID(reagentID)
@@ -1308,7 +1307,7 @@ function app.UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app.Debug("getInfo(" .. reagentID.. ")")
+										app.Debug("getInfo(" .. reagentID .. ")")
 
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
@@ -1364,7 +1363,7 @@ function app.UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app.Debug("getInfo(" .. reagentID.. ")")
+										app.Debug("getInfo(" .. reagentID .. ")")
 
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
@@ -1420,7 +1419,7 @@ function app.UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app.Debug("getInfo(" .. reagentID.. ")")
+										app.Debug("getInfo(" .. reagentID .. ")")
 
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
@@ -1473,7 +1472,7 @@ function app.UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app.Debug("getInfo(" .. reagentID.. ")")
+										app.Debug("getInfo(" .. reagentID .. ")")
 
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
@@ -1526,7 +1525,7 @@ function app.UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app.Debug("getInfo(" .. reagentID.. ")")
+										app.Debug("getInfo(" .. reagentID .. ")")
 
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
@@ -1571,7 +1570,7 @@ function app.UpdateRecipes()
 			local icon1 = row:CreateFontString("ARTWORK", nil, "GameFontNormal")
 			icon1:SetPoint("LEFT", row)
 			icon1:SetScale(1.2)
-			icon1:SetText("|T" .. reagentInfo.icon .. ":0|t")
+			icon1:SetText("|T"..reagentInfo.icon..":0|t")
 			row.icon = icon1
 
 			local text2 = row:CreateFontString("ARTWORK", nil, "GameFontNormal")
@@ -3473,7 +3472,7 @@ app.Event:Register("MERCHANT_SHOW", function()
 
 	-- Hook the script onto the merchant buttons (once)
 	if app.Flag["merchantAssets"] == false then
-		for i = 1, 99 do	-- Works for AddOns that expand the vendor frame up to 99 slots
+		for i = 1, 99 do	-- Works for addons that expand the vendor frame up to 99 slots
 			local itemButton = _G["MerchantItem" .. i .. "ItemButton"]
 			if itemButton then
 				itemButton:HookScript("OnClick", function() TrackMerchantItem() end)
@@ -3920,7 +3919,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							-- Costs
 							for _, entry in ipairs(calculations) do
 								if entry.type == "cost" then
-									GameTooltip:AddDoubleLine("|T" .. entry.icon .. ":0|t " .. entry.link .. " ×" .. entry.quantity , "|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(entry.amount))
+									GameTooltip:AddDoubleLine("|T"..entry.icon..":0|t " .. entry.link .. " ×" .. entry.quantity , "|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(entry.amount))
 								end
 							end
 							GameTooltip:AddLine(" ")
@@ -3928,9 +3927,9 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							-- Rewards
 							for _, entry in ipairs(calculations) do
 								if entry.type == "reward" and entry.amount then
-									GameTooltip:AddDoubleLine("|T" .. entry.icon .. ":0|t " .. entry.link, C_CurrencyInfo.GetCoinTextureString(entry.amount))
+									GameTooltip:AddDoubleLine("|T"..entry.icon..":0|t " .. entry.link, C_CurrencyInfo.GetCoinTextureString(entry.amount))
 								elseif entry.type == "reward" then
-									GameTooltip:AddDoubleLine("|T" .. entry.icon .. ":0|t " .. entry.link, "-")
+									GameTooltip:AddDoubleLine("|T"..entry.icon..":0|t " .. entry.link, "-")
 								end
 							end
 
@@ -4049,7 +4048,7 @@ end)
 -- SETTINGS --
 --------------
 
--- AddOn Compartment click
+-- Addon Compartment click
 function ProfessionShoppingList_Click(self, button)
 	if button == "LeftButton" then
 		app.Toggle()
@@ -4058,7 +4057,7 @@ function ProfessionShoppingList_Click(self, button)
 	end
 end
 
--- AddOn Compartment enter
+-- Addon Compartment enter
 function ProfessionShoppingList_Enter(self, button)
 	GameTooltip:ClearLines()
 	GameTooltip:SetOwner(type(self) ~= "string" and self or button, "ANCHOR_LEFT")
@@ -4066,7 +4065,7 @@ function ProfessionShoppingList_Enter(self, button)
 	GameTooltip:Show()
 end
 
--- AddOn Compartment leave
+-- Addon Compartment leave
 function ProfessionShoppingList_Leave()
 	GameTooltip:Hide()
 end
@@ -4235,7 +4234,7 @@ function app.Settings()
 		container:Add(1, "/psl", L.SETTINGS_SLASH_TOGGLE)
 		container:Add(2, "/psl reset pos", L.SETTINGS_SLASH_RESETPOS)
 		container:Add(3, "/psl reset " .. app.Colour("arg"), L.SETTINGS_SLASH_RESET)
-		container:Add(4, "/psl settings", L.WINDOW_BUTTON_SETTINGS)
+		container:Add(4, "/psl settings", L.WINDOW_BUTTON_SETTINGS .. ".")
 		container:Add(5, "/psl clear", L.WINDOW_BUTTON_CLEAR)
 		container:Add(6, "/psl track " .. app.Colour(L.SETTINGS_SLASH_RECIPEID .. " " .. L.SETTINGS_SLASH_QUANTITY), L.SETTINGS_SLASH_TRACK)
 		container:Add(7, "/psl untrack " .. app.Colour(L.SETTINGS_SLASH_RECIPEID .. " " .. L.SETTINGS_SLASH_QUANTITY), L.SETTINGS_SLASH_UNTRACK)
@@ -4308,7 +4307,7 @@ end
 
 -- When joining a group
 app.Event:Register("GROUP_ROSTER_UPDATE", function(category, partyGUID)
-	-- Share our AddOn version with other users
+	-- Share our addon version with other users
 	local message = "version:" .. C_AddOns.GetAddOnMetadata("ProfessionShoppingList", "Version")
 	app.SendAddonMessage(message)
 end)

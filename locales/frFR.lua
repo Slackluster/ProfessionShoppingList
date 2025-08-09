@@ -171,7 +171,7 @@ L.ERROR_REAGENTS =						L.ERROR .. " : Impossible de créer une " .. L.QUICKORDE
 L.ERROR_WARBANK =						L.ERROR .. " : Impossible de créer une " .. L.QUICKORDER .. " avec des objets provenants de la Banque de bataillon"
 L.ERROR_GUILD =							L.ERROR .. " : Impossible de créer une " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. " en dehors d’une guilde" -- "Guild Order"
 L.ERROR_RECIPIENT =						L.ERROR .. " : Le destinataire cible ne peut pas fabriquer cet objet. Veuillez saisir un nom de destinataire valide"
-L.ERROR_MULTISIM =						L.ERROR .. " : Aucun composant simulé n’a été utilisé. Veuillez n’activer que l’un des AddOns suivants"
+L.ERROR_MULTISIM =						L.ERROR .. " : Aucun composant simulé n’a été utilisé. Veuillez n’activer que l’un des addons suivants"
 
 L.VERSION_CHECK =						"Une nouvelle version de " .. app.NameLong .. " est disponible :"
 
@@ -180,7 +180,7 @@ L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF : Afficher / masquer la fen�
 										app.IconRMB .. " : " .. L.WINDOW_BUTTON_SETTINGS
 
 L.SETTINGS_MINIMAP_TITLE =				"Afficher le bouton de la mini-carte"
-L.SETTINGS_MINIMAP_TOOLTIP =			"Afficher le bouton de la mini-carte. Si vous désactivez cette fonction, " .. app.NameShort .. " sera toujours disponible dans la partie AddOn."
+L.SETTINGS_MINIMAP_TOOLTIP =			"Afficher le bouton de la mini-carte. Si vous désactivez cette fonction, " .. app.NameShort .. " sera toujours disponible dans la partie Addon."
 L.SETTINGS_COOLDOWNS_TITLE =			"Suivre le temps de recharge des recettes"
 L.SETTINGS_COOLDOWNS_TOOLTIP =			"Activer le suivi des temps de recharge des recettes. Ceux-ci s’afficheront dans la fenêtre de suivi, et dans le chat lors de la connexion s’ils sont prêts."
 L.SETTINGS_COOLDOWNSWINDOW_TITLE =		"Afficher la fenêtre lorsque « Prêt »"
@@ -249,7 +249,7 @@ L.SETTINGS_QUEUESOUND_TOOLTIP =			"Joue le son de la file d’attente comme celu
 L.SETTINGS_HANDYNOTESFIX_TITLE =		"Désactiver HandyNotes Alt " .. app.IconRMB
 L.SETTINGS_HANDYNOTESFIX_TOOLTIP =		"Permettre à " .. app.NameShort .. " de désactiver le raccourci clavier d’HandyNotes sur la carte, en le réactivant pour les points de passages TomTom à la place.\n\n" .. L.REQUIRES_RELOAD
 L.SETTINGS_ORIBOSEXCHANGEFIX_TITLE =	"Corriger l’info-bulle de l’échange d’Oribos"
-L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	app.NameShort .. " simplifie et corrige l’info-bulle fournie par l’AddOn Oribos Exchange :\n" ..
+L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	app.NameShort .. " simplifie et corrige l’info-bulle fournie par l’addon Oribos Exchange :\n" ..
 										"- Arrondit à l’or le plus proche\n" ..
 										"- Corrige les prix des recettes\n" ..
 										"- Corrige les prix dans la fenêtre des professions\n" ..

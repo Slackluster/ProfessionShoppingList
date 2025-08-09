@@ -1,10 +1,9 @@
 ------------------------------------------------
 -- Profession Shopping List: AuctionHouse.lua --
 ------------------------------------------------
--- Auction House module
 
 -- Initialisation
-local appName, app = ...	-- Returns the AddOn name and a unique table
+local appName, app = ...
 local L = app.locales
 
 ------------------
@@ -47,7 +46,7 @@ function app.MakeShoppingList()
 	-- Only run this if Auctionator is enabled and loaded
 	local loaded, finished = C_AddOns.IsAddOnLoaded("Auctionator")
 	if finished then
-		-- Add a delay because I have no idea how to optimise my AddOn
+		-- Add a delay because I have no idea how to optimise my addon
 		C_Timer.After(0.5, function()
 			local searchStrings = {}
 

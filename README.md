@@ -1,5 +1,5 @@
 # Profession Shopping List
-A World of Warcraft AddOn. Download locations: [CurseForge](https://www.curseforge.com/wow/addons/profession-shopping-list) | [Wago.io](https://addons.wago.io/addons/psl)
+A World of Warcraft addon. Download locations: [CurseForge](https://www.curseforge.com/wow/addons/profession-shopping-list) | [Wago.io](https://addons.wago.io/addons/psl)
 
 # Description
 **Profession Shopping List** allows you to track recipes, and it shows you the materials you need to craft them. It also tracks recipe cooldowns.
@@ -26,9 +26,9 @@ Also lets you track the cost of vendor items. Say goodbye to scribbling on a not
 
 ![](https://media.forgecdn.net/attachments/description/498475/description_98cccb19-e982-44c7-9b27-99ae5906c085.png)
 
-A full list of features and slash commands can be found in-game by reading the tooltips on the tracking window and viewing the AddOn's settings.
+A full list of features and slash commands can be found in-game by reading the tooltips on the tracking window and viewing the addon's settings.
 
-Currently supported AddOns:
+Currently supported addons:
 - CraftSim
 - TestFlight
 

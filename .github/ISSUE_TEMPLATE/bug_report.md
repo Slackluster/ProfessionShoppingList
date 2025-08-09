@@ -7,7 +7,7 @@ assignees: Slackluster
 
 ---
 
-**AddOn version**
+**Addon version**
 _For example v11.0.2-006_
 
 **Have you tried to /reload, used /psl clear if it is recipe-related, and checked the issue occurs with only PSL enabled?**
