@@ -19,9 +19,9 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	end
 end)
 
-------------
--- ASSETS --
-------------
+-----------------------
+-- PROFESSION WINDOW --
+-----------------------
 
 -- Create assets
 function app.CreateTradeskillAssets()
