@@ -10,6 +10,10 @@ When viewing your profession knowledge, see at a glance how many perks you have 
 
 ![](https://media.forgecdn.net/attachments/description/498475/description_6a09055d-0fba-4a28-9f6a-5101b38c8d9d.png)
 
+Easily shows you what a crafting orders's rewards are and how profitable they are.
+
+![](https://media.forgecdn.net/attachments/1282/619/psl-07-png.png)
+
 Quickly send work orders to your alts with the Quick Order preset, and repeat your last work order sent with the click of a button.
 
 ![](https://media.forgecdn.net/attachments/description/498475/description_63b8d23a-a163-4674-a515-57d060a53c71.png)
