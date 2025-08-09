@@ -176,7 +176,7 @@ L.ERROR_MULTISIM =						L.ERROR .. ": Никакие смоделированн�
 L.VERSION_CHECK =						"Доступна более новая версия " .. app.NameLong .. " аддона:"
 
 -- Settings
-L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF: Переключить окно.\n" ..
+L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF: Переключить окно\n" ..
 										app.IconRMB .. ": " .. L.WINDOW_BUTTON_SETTINGS
 
 L.SETTINGS_MINIMAP_TITLE =				"Показать значок на миникарте"

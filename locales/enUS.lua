@@ -176,7 +176,7 @@ L.ERROR_MULTISIM =						L.ERROR .. ": No simulated reagents have been used. Plea
 L.VERSION_CHECK =						"There is a newer version of " .. app.NameLong .. " available:"
 
 -- Settings
-L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF: Toggle the window.\n" ..
+L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF: Toggle the window\n" ..
 										app.IconRMB .. ": " .. L.WINDOW_BUTTON_SETTINGS
 
 L.SETTINGS_MINIMAP_TITLE =				"Show Minimap Icon"

@@ -176,7 +176,7 @@ L.ERROR_MULTISIM =						L.ERROR .. "：未使用模拟材料。请启用以下�
 L.VERSION_CHECK =						app.NameLong .. "有新版本可用："
 
 -- Settings
-L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF：切换窗口。|r\n" ..
+L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF：切换窗口|r\n" ..
 										app.IconRMB .. "：打开设置"
 
 L.SETTINGS_MINIMAP_TITLE =				"显示小地图图标"
