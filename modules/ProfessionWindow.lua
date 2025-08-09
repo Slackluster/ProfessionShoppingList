@@ -1,6 +1,6 @@
---------------------------------------------------
--- Profession Shopping List: TrackingWindow.lua --
---------------------------------------------------
+----------------------------------------------------
+-- Profession Shopping List: ProfessionWindow.lua --
+----------------------------------------------------
 
 -- Initialisation
 local appName, app = ...
