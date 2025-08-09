@@ -30,9 +30,14 @@ libs\ChatThrottleLib\ChatThrottleLib.xml
 libs\LibBattlePetTooltipLine\LibBattlePetTooltipLine.lua
 Core.lua
 Database.lua
+Settings.lua
 modules\AuctionHouse.lua
 modules\CraftingOrders.lua
 modules\ProfessionKnowledge.lua
+modules\ProfessionWindow.lua
+modules\Tooltip.lua
+modules\TrackingWindow.lua
+modules\TrackNewMogs.lua
 modules\Tweaks.lua
 locales\enUS.lua
 locales\deDE.lua

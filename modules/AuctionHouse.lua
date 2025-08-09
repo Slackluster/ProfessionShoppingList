@@ -6,13 +6,14 @@
 local appName, app = ...
 local L = app.locales
 
-------------------
--- INITIAL LOAD --
-------------------
+-------------
+-- ON LOAD --
+-------------
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		app.Flag["openAH"] = false
+
 		app.CreateAuctionatorButton()
 	end
 end)

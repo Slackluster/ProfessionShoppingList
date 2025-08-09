@@ -6,20 +6,13 @@
 local appName, app = ...
 local L = app.locales
 
-------------------
--- INITIAL LOAD --
-------------------
+-------------
+-- ON LOAD --
+-------------
 
--- Create default user settings and session variables
-function app.InitialiseProfessionKnowledge()
-	-- Initialise session variables
-	app.Flag["knowledgeAssets"] = false
-end
-
--- When the addon is fully loaded
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
-		app.InitialiseProfessionKnowledge()
+		app.Flag["knowledgeAssets"] = false
 	end
 end)
 

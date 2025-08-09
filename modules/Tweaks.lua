@@ -6,17 +6,15 @@
 local appName, app = ...
 local L = app.locales
 
-------------------
--- INITIAL LOAD --
-------------------
+-------------
+-- ON LOAD --
+-------------
 
--- When the addon is fully loaded, actually run the components
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		app.UnderminePrices()
 		app.HideOribos()
 		app.DisableHandyNotesAltRMB()
-		app.SettingsTweaks()
 	end
 end)
 
@@ -333,49 +331,3 @@ app.Event:Register("UNIT_POWER_UPDATE", function(unitTarget, powerType)
 		end
 	end
 end)
-
---------------
--- SETTINGS --
---------------
-
-function app.SettingsTweaks()
-	local category, layout = Settings.RegisterVerticalLayoutSubcategory(app.Category, L.SETTINGS_HEADER_TWEAKS)
-	Settings.RegisterAddOnCategory(category)
-
-	local variable, name, tooltip = "backpackCount", L.SETTINGS_SPLITBAG_TITLE, L.SETTINGS_SPLITBAG_TOOLTIP
-	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, true)
-	Settings.CreateCheckbox(category, setting, tooltip)
-	setting:SetValueChangedCallback(function()
-		-- Get number of free bag slots
-		local freeSlots1 = C_Container.GetContainerNumFreeSlots(0) + C_Container.GetContainerNumFreeSlots(1) + C_Container.GetContainerNumFreeSlots(2) + C_Container.GetContainerNumFreeSlots(3) + C_Container.GetContainerNumFreeSlots(4)
-		local freeSlots2 = C_Container.GetContainerNumFreeSlots(5)
-
-		-- If the setting for split reagent bag count is enabled and the player has a reagent bag
-		if ProfessionShoppingList_Settings["backpackCount"] and C_Container.GetContainerNumSlots(5) ~= 0 then
-			-- Replace the bag count text
-			MainMenuBarBackpackButtonCount:SetText("(" .. freeSlots1 .. "+" .. freeSlots2 .. ")")
-		else
-			-- Reset the bag count text
-			MainMenuBarBackpackButtonCount:SetText("(" .. freeSlots1 + freeSlots2 .. ")")
-		end
-	end)
-
-	local variable, name, tooltip = "queueSound", L.SETTINGS_QUEUESOUND_TITLE, L.SETTINGS_QUEUESOUND_TOOLTIP
-	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, false)
-	Settings.CreateCheckbox(category, setting, tooltip)
-
-	local variable, name, tooltip = "handyNotes", L.SETTINGS_HANDYNOTESFIX_TITLE, L.SETTINGS_HANDYNOTESFIX_TOOLTIP
-	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, true)
-	Settings.CreateCheckbox(category, setting, tooltip)
-
-	local variable, name, tooltip = "underminePrices", L.SETTINGS_ORIBOSEXCHANGEFIX_TITLE, L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP
-	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, true)
-	Settings.CreateCheckbox(category, setting, tooltip)
-	setting:SetValueChangedCallback(function()
-		app.HideOribos()
-	end)
-
-	local variable, name, tooltip = "tokyoDrift", L.SETTINGS_TOKYODRIFT_TITLE, L.SETTINGS_TOKYODRIFT_TOOLTIP
-	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, false)
-	Settings.CreateCheckbox(category, setting, tooltip)
-end

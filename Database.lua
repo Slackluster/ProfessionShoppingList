@@ -1,5 +1,5 @@
 --------------------------------------------
--- Profession Shopping List: Database.lua	--
+-- Profession Shopping List: Database.lua --
 --------------------------------------------
 
 -- Initialisation
