@@ -3,7 +3,7 @@ name: Bug report
 about: Did I do an oopsie again? Let me know!
 title: ''
 labels: bug
-assignees: Sluimerstand
+assignees: Slackluster
 
 ---
 

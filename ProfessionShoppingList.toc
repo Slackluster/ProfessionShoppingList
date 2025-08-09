@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Title: |cffC69B6DProfession Shopping List|r
-## Author: Sluimerstand
+## Author: Slackluster
 ## IconTexture: Interface\AddOns\ProfessionShoppingList\assets\psl_icon.blp
 ## AddonCompartmentFunc: ProfessionShoppingList_Click
 ## AddonCompartmentFuncOnEnter: ProfessionShoppingList_Enter

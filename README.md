@@ -34,7 +34,7 @@ Currently supported AddOns:
 
 ## If you are experiencing issues
 - Use `/psl clear`. Sometimes stuff gets stuck, or old data needs to be cleared;
-- If the issues persist or you have other feedback, feel free to join the [Discord](https://discord.gg/FwWZZ39kPX) and ask in the `#profession-shopping-list` channel, or create a [ticket on GitHub](https://github.com/Sluimerstand/ProfessionShoppingList/issues). :)
+- If the issues persist or you have other feedback, feel free to join the [Discord](https://discord.gg/FwWZZ39kPX) and ask in the `#profession-shopping-list` channel, or create a [ticket on GitHub](https://github.com/Slackluster/ProfessionShoppingList/issues). :)
 
 ## Support me, if you want 👉👈😳
 [![](https://i.imgur.com/qGoTtXm.png)](https://www.buymeacoffee.com/SlacklusterYT)
