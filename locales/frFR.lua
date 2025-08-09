@@ -15,9 +15,9 @@ L.WINDOW_BUTTON_LOCK =					"Verrouiller la fenêtre"
 L.WINDOW_BUTTON_UNLOCK =				"Déverrouiller la fenêtre"
 L.WINDOW_BUTTON_SETTINGS =				"Ouvrir les paramètres"
 L.WINDOW_BUTTON_CLEAR =					"Effacer la liste des recettes suivies"
-L.WINDOW_BUTTON_AUCTIONATOR =			"Mettre à jour la liste d’achats dans Auctionator.\n" ..
-										"La liste d’achats sera générée automatiquement lors de l’ouverture de l’Hôtel des ventes."
-L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF : dimensionner automatiquement pour s’adapter à la fenêtre."
+L.WINDOW_BUTTON_AUCTIONATOR =			"Mettre à jour la liste d’achats dans Auctionator\n" ..
+										"La liste d’achats sera générée automatiquement lors de l’ouverture de l’Hôtel des ventes"
+L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF : dimensionner automatiquement pour s’adapter à la fenêtre"
 
 L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB -- "Recettes"
 L.WINDOW_HEADER_ITEMS =					ITEMS -- "Objets"
@@ -63,7 +63,7 @@ L.QUICKORDER_TOOLTIP =					"|cffFF0000Créer instantanément|r une commande d’
 										"Les destinataires sont mémorisés par recette. "
 L.LOCALREAGENTS_LABEL =					"Utiliser des composants dans les sacs"
 L.LOCALREAGENTS_TOOLTIP =				"Utiliser les composants disponibles dans les sacs (de la plus basse qualité). Les composants utilisés |cffFF0000ne peuvent pas|r être personnalisés."
-L.QUICKORDER_REPEAT_TOOLTIP =			"Répéter la dernière " .. L.QUICKORDER .. " effectuée sur ce personnage."
+L.QUICKORDER_REPEAT_TOOLTIP =			"Répéter la dernière " .. L.QUICKORDER .. " effectuée sur ce personnage"
 L.RECIPIENT =							"Destinataire"
 
 -- Profession window
@@ -163,7 +163,7 @@ L.REQUIRES_RELOAD =						"|cffFF0000" .. REQUIRES_RELOAD .. ".|r Faites |cffFFFF
 
 L.FALSE =								"faux"
 L.TRUE =								"vrai"
-L.NOLASTORDER =							"Aucune dernière " .. L.QUICKORDER .. " trouvée."
+L.NOLASTORDER =							"Aucune dernière " .. L.QUICKORDER .. " trouvée"
 L.ERROR =								"Erreur"
 L.ERROR_CRAFTSIM =						L.ERROR .. " : Impossible de lire les informations provenant de CraftSim"
 L.ERROR_QUICKORDER =					L.ERROR .. " : La " .. L.QUICKORDER .. " a échouée. Désolé. :("

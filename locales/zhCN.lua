@@ -63,7 +63,7 @@ L.QUICKORDER_TOOLTIP =					"|cffFF0000立即|r为指定接收者创建制造订�
 										"接收者按配方保存。"
 L.LOCALREAGENTS_LABEL =					"使用本地材料"
 L.LOCALREAGENTS_TOOLTIP =				"使用（最低品质的）本地材料。|cffFF0000无法|r自定义使用的材料。"
-L.QUICKORDER_REPEAT_TOOLTIP =			"重复该角色上次的" .. L.QUICKORDER .. "。"
+L.QUICKORDER_REPEAT_TOOLTIP =			"重复该角色上次的" .. L.QUICKORDER
 L.RECIPIENT =							"接收者"
 
 -- Profession window
@@ -163,7 +163,7 @@ L.REQUIRES_RELOAD =						"|cffFF0000需要重新加载界面。|r使用|cffFFFFF
 
 L.FALSE =								"否"
 L.TRUE =								"是"
-L.NOLASTORDER =							"未找到最近的" .. L.QUICKORDER .. "。"
+L.NOLASTORDER =							"未找到最近的" .. L.QUICKORDER
 L.ERROR =								"错误"
 L.ERROR_CRAFTSIM =						"CraftSim数据读取失败。"
 L.ERROR_QUICKORDER =					"快速订单失败。"
