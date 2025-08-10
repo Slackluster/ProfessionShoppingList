@@ -4,7 +4,6 @@
 
 -- Initialisation
 local appName, app = ...
-local L = app.locales
 
 -------------
 -- ON LOAD --
@@ -13,8 +12,6 @@ local L = app.locales
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		app.Flag["openAH"] = false
-
-		app.CreateAuctionatorButton()
 	end
 end)
 
@@ -119,27 +116,4 @@ function app.MakeShoppingList()
 			Auctionator.API.v1.CreateShoppingList(app.Name, "PSL", searchStrings)
 		end)
 	end
-end
-
--- Button
-function app.CreateAuctionatorButton()
-	-- Auctionator button
-	app.AuctionatorButton = CreateFrame("Button", "pslOptionAuctionatorButton", app.Window, "UIPanelCloseButton")
-	app.AuctionatorButton:SetPoint("TOPRIGHT", app.ClearButton, "TOPLEFT", -2, 0)
-	app.AuctionatorButton:SetNormalTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
-	app.AuctionatorButton:GetNormalTexture():SetTexCoord(219/256, 255/256, 1/128, 39/128)
-	app.AuctionatorButton:SetDisabledTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
-	app.AuctionatorButton:GetDisabledTexture():SetTexCoord(219/256, 255/256, 41/128, 79/128)
-	app.AuctionatorButton:SetPushedTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
-	app.AuctionatorButton:GetPushedTexture():SetTexCoord(219/256, 255/256, 81/128, 119/128)
-	app.AuctionatorButton:SetScript("OnClick", function()
-		app.UpdateRecipes()
-		app.MakeShoppingList()
-	end)
-	app.AuctionatorButton:SetScript("OnEnter", function(self)
-		app.WindowTooltipShow(L.WINDOW_BUTTON_AUCTIONATOR)
-	end)
-	app.AuctionatorButton:SetScript("OnLeave", function()
-		GameTooltip:Hide()
-	end)
 end
