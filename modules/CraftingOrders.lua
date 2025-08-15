@@ -413,7 +413,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 					if not app.OrderAdjustments[v] then app.OrderAdjustments[v] = {} end
 
 					-- Order profit
-					if C_AddOns.IsAddOnLoaded("Auctionator") and not C_AddOns.IsAddOnLoaded("TestFlight") then	-- Requires Auctionator, and don't interfere with TestFlight
+					if C_AddOns.IsAddOnLoaded("Auctionator") then	-- Requires Auctionator
 						v.cells[3].TipMoneyDisplayFrame:Hide()
 
 						local calculations = {}
@@ -538,60 +538,58 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 					end
 
 					-- Order rewards
-					if not C_AddOns.IsAddOnLoaded("TestFlight") then	-- Don't interfere with TestFlight
-						v.cells[3].RewardIcon:Hide()
-						v.cells[3].RewardsContainer:Hide()
+					v.cells[3].RewardIcon:Hide()
+					v.cells[3].RewardsContainer:Hide()
 
-						local rewards = {}
-						table.insert(rewards, {icon = 133785, link = CRAFTING_ORDER_FINAL_TIP .. " " .. C_CurrencyInfo.GetCoinTextureString(math.floor((data.option.tipAmount - data.option.consortiumCut) / 100 + 0.5) * 100)})
-						for _, reward in pairs(data.option.npcOrderRewards) do
-							local _, itemLink, _, _, _, _, _, _, _, fileID = C_Item.GetItemInfo(reward.itemLink)
-							if not itemLink then
-								local itemID = C_Item.GetItemInfoInstant(reward.itemLink)
-								app.CacheItem(itemID)
-								C_Timer.After(1, doTheThing)
-								return
-							end
-							table.insert(rewards, {icon = fileID, link = itemLink, count = reward.count})
+					local rewards = {}
+					table.insert(rewards, {icon = 133785, link = CRAFTING_ORDER_FINAL_TIP .. " " .. C_CurrencyInfo.GetCoinTextureString(math.floor((data.option.tipAmount - data.option.consortiumCut) / 100 + 0.5) * 100)})
+					for _, reward in pairs(data.option.npcOrderRewards) do
+						local _, itemLink, _, _, _, _, _, _, _, fileID = C_Item.GetItemInfo(reward.itemLink)
+						if not itemLink then
+							local itemID = C_Item.GetItemInfoInstant(reward.itemLink)
+							app.CacheItem(itemID)
+							C_Timer.After(1, doTheThing)
+							return
 						end
+						table.insert(rewards, {icon = fileID, link = itemLink, count = reward.count})
+					end
 
-						if not app.OrderAdjustments[v].button then app.OrderAdjustments[v].button = {} end
+					if not app.OrderAdjustments[v].button then app.OrderAdjustments[v].button = {} end
 
-						for i, button in pairs(app.OrderAdjustments[v].button) do
-							button:Hide()
+					for i, button in pairs(app.OrderAdjustments[v].button) do
+						button:Hide()
+					end
+
+					for i, reward in ipairs(rewards) do
+						if not app.OrderAdjustments[v].button[i] then
+							app.OrderAdjustments[v].button[i] = CreateFrame("Button", "RewardButton", v, "UIPanelButtonTemplate")
+							app.OrderAdjustments[v].button[i]:SetWidth(20)
+							app.OrderAdjustments[v].button[i]:SetHeight(20)
+							app.OrderAdjustments[v].button[i]:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+							app.OrderAdjustments[v].button[i].Text = app.OrderAdjustments[v].button[i]:CreateFontString("ARTWORK", nil, "GameFontNormalOutline")
+							app.OrderAdjustments[v].button[i].Text:SetJustifyH("RIGHT")
+							app.OrderAdjustments[v].button[i].Text:SetTextScale(0.9)
 						end
-
-						for i, reward in ipairs(rewards) do
-							if not app.OrderAdjustments[v].button[i] then
-								app.OrderAdjustments[v].button[i] = CreateFrame("Button", "RewardButton", v, "UIPanelButtonTemplate")
-								app.OrderAdjustments[v].button[i]:SetWidth(20)
-								app.OrderAdjustments[v].button[i]:SetHeight(20)
-								app.OrderAdjustments[v].button[i]:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
-								app.OrderAdjustments[v].button[i].Text = app.OrderAdjustments[v].button[i]:CreateFontString("ARTWORK", nil, "GameFontNormalOutline")
-								app.OrderAdjustments[v].button[i].Text:SetJustifyH("RIGHT")
-								app.OrderAdjustments[v].button[i].Text:SetTextScale(0.9)
-							end
-							app.OrderAdjustments[v].button[i]:Show()
-							app.OrderAdjustments[v].button[i]:SetPoint("BOTTOMLEFT", v.cells[3], "BOTTOMLEFT", -44+i*22, 0)
-							app.OrderAdjustments[v].button[i]:SetScript("OnEnter", function(self)
-								GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
-								if i == 1 then
-									GameTooltip:SetText(reward.link)
-								else
-									GameTooltip:SetHyperlink(reward.link)
-								end
-								GameTooltip:Show()
-							end)
-							app.OrderAdjustments[v].button[i]:SetScript("OnLeave", function()
-								GameTooltip:Hide()
-							end)
-							app.OrderAdjustments[v].button[i]:SetNormalTexture(reward.icon)
-							app.OrderAdjustments[v].button[i].Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].button[i], "BOTTOMRIGHT", 0, 0)
-							if reward.count and reward.count > 1 then
-								app.OrderAdjustments[v].button[i].Text:SetText("|cffFFFFFF" .. reward.count)
+						app.OrderAdjustments[v].button[i]:Show()
+						app.OrderAdjustments[v].button[i]:SetPoint("BOTTOMLEFT", v.cells[3], "BOTTOMLEFT", -44+i*22, 0)
+						app.OrderAdjustments[v].button[i]:SetScript("OnEnter", function(self)
+							GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
+							if i == 1 then
+								GameTooltip:SetText(reward.link)
 							else
-								app.OrderAdjustments[v].button[i].Text:SetText("")
+								GameTooltip:SetHyperlink(reward.link)
 							end
+							GameTooltip:Show()
+						end)
+						app.OrderAdjustments[v].button[i]:SetScript("OnLeave", function()
+							GameTooltip:Hide()
+						end)
+						app.OrderAdjustments[v].button[i]:SetNormalTexture(reward.icon)
+						app.OrderAdjustments[v].button[i].Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].button[i], "BOTTOMRIGHT", 0, 0)
+						if reward.count and reward.count > 1 then
+							app.OrderAdjustments[v].button[i].Text:SetText("|cffFFFFFF" .. reward.count)
+						else
+							app.OrderAdjustments[v].button[i].Text:SetText("")
 						end
 					end
 
