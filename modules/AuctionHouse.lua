@@ -113,7 +113,12 @@ function app.MakeShoppingList()
 				end
 			end
 
-			Auctionator.API.v1.CreateShoppingList(app.Name, "PSL", searchStrings)
+			local next = next
+			if next(searchStrings) ~= nil then
+				Auctionator.API.v1.CreateShoppingList(app.Name, "PSL", searchStrings)
+			elseif Auctionator.Shopping.ListManager:GetIndexForName("PSL") then
+				Auctionator.Shopping.ListManager:Delete("PSL")
+			end
 		end)
 	end
 end
