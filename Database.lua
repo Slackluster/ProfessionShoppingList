@@ -561,6 +561,7 @@ app.ProfessionKnowledge = {
 		{ quest = 83058, type = "vendor", item = 224645, source = 2590, renown = 12 },
 		{ quest = 82633, type = "vendor", item = 224024, source = 2213, sourceType = "zone"},
 		{ quest = 85734, type = "vendor", item = 232499, source = 2653, renown = 16 },
+		{ quest = 87255, type = "vendor", item = 235865, source = 2658, renown = 12 },
 
 		-- Treasures
 		{ quest = 83840, type = "world", item = 226265, zone = 2339 },	-- Earthen Iron Powder
@@ -583,6 +584,7 @@ app.ProfessionKnowledge = {
 		{ quest = 83059, type = "vendor", item = 224647, source = 2590, renown = 12 },
 		{ quest = 82631, type = "vendor", item = 224038, source = 2213, sourceType = "zone"},
 		{ quest = 85735, type = "vendor", item = 232500, source = 2653, renown = 16 },
+		{ quest = 87266, type = "vendor", item = 235864, source = 2658, renown = 12 },
 
 		-- Treasures
 		{ quest = 83849, type = "world", item = 226277, zone = 2339 },	-- Hammer
@@ -605,6 +607,7 @@ app.ProfessionKnowledge = {
 		{ quest = 83060, type = "vendor", item = 224652, source = 2590, renown = 12 },
 		{ quest = 82635, type = "vendor", item = 224050, source = 2213, sourceType = "zone"},
 		{ quest = 85736, type = "vendor", item = 232501, source = 2653, renown = 16 },
+		{ quest = 87265, type = "vendor", item = 235863, source = 2658, renown = 12 },
 
 		-- Treasures
 		{ quest = 83859, type = "world", item = 226285, zone = 2339 },	-- Silver Rod
@@ -627,6 +630,7 @@ app.ProfessionKnowledge = {
 		{ quest = 83063, type = "vendor", item = 224653, source = 2594, renown = 12 },
 		{ quest = 82632, type = "vendor", item = 224052, source = 2213, sourceType = "zone"},
 		{ quest = 85737, type = "vendor", item = 232507, source = 2653, renown = 16 },
+		{ quest = 87264, type = "vendor", item = 235862, source = 2658, renown = 12 },
 
 		-- Treasures
 		{ quest = 83867, type = "world", item = 226293, zone = 2339 },	-- Spectacles
@@ -649,6 +653,7 @@ app.ProfessionKnowledge = {
 		{ quest = 83066, type = "vendor", item = 224656, source = 2570, renown = 14 },
 		{ quest = 82630, type = "vendor", item = 224023, source = 2213, sourceType = "zone"},
 		{ quest = 85738, type = "vendor", item = 232503, source = 2653, renown = 16 },
+		{ quest = 87263, type = "vendor", item = 235861, source = 2658, renown = 12 },
 
 		-- Treasures
 		{ quest = 83875, type = "world", item = 226301, zone = 2339 },	-- Gardening Scythe
@@ -671,6 +676,7 @@ app.ProfessionKnowledge = {
 		{ quest = 83064, type = "vendor", item = 224654, source = 2594, renown = 12 },
 		{ quest = 82636, type = "vendor", item = 224053, source = 2213, sourceType = "zone"},
 		{ quest = 85739, type = "vendor", item = 232508, source = 2653, renown = 16 },
+		{ quest = 87262, type = "vendor", item = 235860, source = 2658, renown = 12 },
 
 		-- Treasures
 		{ quest = 83882, type = "world", item = 226308, zone = 2339 },	-- Scribe's Quill
@@ -693,6 +699,7 @@ app.ProfessionKnowledge = {
 		{ quest = 83065, type = "vendor", item = 224655, source = 2570, renown = 14 },
 		{ quest = 82637, type = "vendor", item = 224054, source = 2213, sourceType = "zone"},
 		{ quest = 85740, type = "vendor", item = 232504, source = 2653, renown = 16 },
+		{ quest = 87261, type = "vendor", item = 235859, source = 2658, renown = 12 },
 
 		-- Treasures
 		{ quest = 83891, type = "world", item = 226317, zone = 2339 },	-- Earthen Gem Pliers
@@ -715,6 +722,7 @@ app.ProfessionKnowledge = {
 		{ quest = 83068, type = "vendor", item = 224658, source = 2570, renown = 14 },
 		{ quest = 82626, type = "vendor", item = 224056, source = 2213, sourceType = "zone"},
 		{ quest = 85741, type = "vendor", item = 232505, source = 2653, renown = 16 },
+		{ quest = 87260, type = "vendor", item = 235858, source = 2658, renown = 12 },
 
 		-- Treasures
 		{ quest = 83899, type = "world", item = 226325, zone = 2339 },	-- Stitching Clamp
@@ -737,6 +745,7 @@ app.ProfessionKnowledge = {
 		{ quest = 83062, type = "vendor", item = 224651, source = 2594, renown = 12 },
 		{ quest = 82614, type = "vendor", item = 224055, source = 2213, sourceType = "zone"},
 		{ quest = 85742, type = "vendor", item = 232509, source = 2653, renown = 16 },
+		{ quest = 87259, type = "vendor", item = 235857, source = 2658, renown = 12 },
 
 		-- Treasures
 		{ quest = 83907, type = "world", item = 226333, zone = 2339 },	-- Engraved Chisel
@@ -759,6 +768,7 @@ app.ProfessionKnowledge = {
 		{ quest = 83067, type = "vendor", item = 224657, source = 2570, renown = 14 },
 		{ quest = 82596, type = "vendor", item = 224007, source = 2213, sourceType = "zone"},
 		{ quest = 85744, type = "vendor", item = 232506, source = 2653, renown = 16 },
+		{ quest = 87258, type = "vendor", item = 235856, source = 2658, renown = 12 },
 
 		-- Treasures
 		{ quest = 83915, type = "world", item = 226341, zone = 2339 },	-- Preservation Kit
@@ -782,6 +792,7 @@ app.ProfessionKnowledge = {
 		{ quest = 83061, type = "vendor", item = 224648, source = 2590, renown = 12 },
 		{ quest = 82634, type = "vendor", item = 224036, source = 2213, sourceType = "zone"},
 		{ quest = 85745, type = "vendor", item = 232502, source = 2653, renown = 16 },
+		{ quest = 87257, type = "vendor", item = 235855, source = 2658, renown = 12 },
 
 		-- Treasures
 		{ quest = 83922, type = "world", item = 226348, zone = 2339 },	-- Seam Ripper
