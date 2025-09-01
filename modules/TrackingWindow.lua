@@ -388,6 +388,7 @@ function app.UpdateNumbers()
 			end
 		elseif reagentID == "gold" then
 			-- Set the colour of both strings and the icon
+			itemIcon = app.IconProfession[0]
 			local colour = ""
 			if math.max(0,amount-GetMoney()) == 0 then
 				itemIcon = app.IconReady
@@ -2119,7 +2120,10 @@ app.Event:Register("MERCHANT_SHOW", function()
 			-- Get the item index for this vendor
 			local vendorIndex = 0
 			for index = 1, GetMerchantNumItems() do
-				if GetMerchantItemID(index) == itemID then vendorIndex = index end
+				if GetMerchantItemID(index) == itemID then
+					vendorIndex = index
+					break
+				end
 			end
 
 			-- Stop the function if the vendor does not have the item that is being Alt+clicked
@@ -2128,7 +2132,7 @@ app.Event:Register("MERCHANT_SHOW", function()
 			end
 
 			local itemLink = GetMerchantItemLink(vendorIndex)
-			local _, _, itemPrice = C_MerchantFrame.GetItemInfo(vendorIndex)
+			local itemPrice = C_MerchantFrame.GetItemInfo(vendorIndex).price
 
 			-- Add this as a fake recipe
 			local key = "vendor:" .. merchant .. ":" .. itemID
