@@ -151,7 +151,7 @@ local L = app.locales
 -- Chat feedback
 -- L.INVALID_PARAMETERS =					"Invalid parameters."
 -- L.INVALID_RECIPEQUANTITY =				L.INVALID_PARAMETERS .. " Please enter a valid recipe quantity."
--- L.INVALID_RECIPE_CACHE =				L.INVALID_PARAMETERS .. " Please enter a cached recipeID."
+-- L.INVALID_RECIPEID =				L.INVALID_PARAMETERS .. " Please enter a cached recipeID."
 -- L.INVALID_RECIPE_TRACKED =				L.INVALID_PARAMETERS .. " Please enter a tracked recipeID."
 -- L.INVALID_ACHIEVEMENT =					L.INVALID_PARAMETERS .. " This is not a crafting achievement. No recipes were added."
 -- L.INVALID_RESET_ARG =					L.INVALID_PARAMETERS .. " You can use the following arguments:"

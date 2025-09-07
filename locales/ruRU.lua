@@ -151,7 +151,7 @@ L.LOADING =								SEARCH_LOADING_TEXT
 -- Chat feedback
 L.INVALID_PARAMETERS =					"Неверные параметры."
 L.INVALID_RECIPEQUANTITY =				L.INVALID_PARAMETERS .. " Пожалуйста, введите допустимое количество по рецепту."
-L.INVALID_RECIPE_CACHE =				L.INVALID_PARAMETERS .. " Пожалуйста, введите кэшированный recipeID."
+L.INVALID_RECIPEID =				L.INVALID_PARAMETERS .. " Пожалуйста, введите кэшированный recipeID."
 L.INVALID_RECIPE_TRACKED =				L.INVALID_PARAMETERS .. " Пожалуйста, введите recipeID отслеживаемого рецепта."
 L.INVALID_ACHIEVEMENT =					L.INVALID_PARAMETERS .. " Это не достижение изготовления. Рецепты не были добавлены."
 L.INVALID_RESET_ARG =					L.INVALID_PARAMETERS .. " Вы можете использовать следующие аргументы:"

@@ -151,7 +151,7 @@ L.CATCHUP_KNOWLEDGE =					"Connaissances de rattrapage disponibles :"
 -- Chat feedback
 L.INVALID_PARAMETERS =					"Paramètres non valides"
 L.INVALID_RECIPEQUANTITY =				L.INVALID_PARAMETERS .. " Veuillez saisir une quantité de recette valide"
-L.INVALID_RECIPE_CACHE =				L.INVALID_PARAMETERS .. " Veuillez saisir un numéro d’identification de recette (recipeID) mis en cache"
+L.INVALID_RECIPEID =				L.INVALID_PARAMETERS .. " Veuillez saisir un numéro d’identification de recette (recipeID) mis en cache"
 L.INVALID_RECIPE_TRACKED =				L.INVALID_PARAMETERS .. " Veuillez saisir un numéro de recette suivi (recipeID)"
 L.INVALID_ACHIEVEMENT =					L.INVALID_PARAMETERS .. " Il ne s’agit pas d’un haut fait de métier. Aucune recette n’a été ajoutée"
 L.INVALID_RESET_ARG =					L.INVALID_PARAMETERS .. " Vous pouvez utiliser les arguments suivants :"
