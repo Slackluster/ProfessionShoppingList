@@ -254,5 +254,7 @@ L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	"Let " .. app.NameShort .. " simplify and
 										"- Fix recipe prices.\n" ..
 										"- Fix profession window prices.\n" ..
 										"- Show battle pet prices inside the existing tooltip."
+L.SETTINGS_SHOWTOKENPRICE_TITLE =		"Show WoW Token Price"
+L.SETTINGS_SHOWTOKENPRICE_TOOLTIP =		"Show the current WoW Token price on the WoW Token item tooltip."
 L.SETTINGS_TOKYODRIFT_TITLE = 			"Tokyo Drift"
 L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Vroom vroom."

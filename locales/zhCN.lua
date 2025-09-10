@@ -254,5 +254,7 @@ L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	"简化并修复Oribos Exchange插件的�
 										"- 修正配方价格\n" ..
 										"- 修正专业窗口价格\n" ..
 										"- 在现有提示中显示战斗宠物价格"
+-- L.SETTINGS_SHOWTOKENPRICE_TITLE =		"Show WoW Token Price"
+-- L.SETTINGS_SHOWTOKENPRICE_TOOLTIP =		"Show the current WoW Token price on the WoW Token item tooltip."
 -- L.SETTINGS_TOKYODRIFT_TITLE = 			"Tokyo Drift"
 -- L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Vroom vroom."

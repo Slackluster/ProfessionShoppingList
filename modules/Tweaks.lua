@@ -15,6 +15,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		app.UnderminePrices()
 		app.HideOribos()
 		app.DisableHandyNotesAltRMB()
+		app.TokenPrice()
 	end
 end)
 
@@ -331,3 +332,21 @@ app.Event:Register("UNIT_POWER_UPDATE", function(unitTarget, powerType)
 		end
 	end
 end)
+
+-----------------
+-- Token price --
+-----------------
+
+function app.TokenPrice()
+	local function OnTooltipSetItem(tooltip)
+		local _, _, itemID = TooltipUtil.GetDisplayedItem(tooltip)
+
+		if ProfessionShoppingList_Settings["showTokenPrice"] then
+			if itemID and itemID == 122270 then
+				tooltip:AddLine(" ")
+				tooltip:AddDoubleLine(TOKEN_CURRENT_MARKET_PRICE, GetMoneyString(C_WowTokenPublic.GetCurrentMarketPrice()))
+			end
+		end
+	end
+	TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, OnTooltipSetItem)
+end

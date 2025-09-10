@@ -254,5 +254,7 @@ L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	app.NameShort .. " simplifie et corrige l
 										"- Corrige les prix des recettes\n" ..
 										"- Corrige les prix dans la fenêtre des professions\n" ..
 										"- Affiche les prix des mascottes de combat dans l’info-bulle existante"
+-- L.SETTINGS_SHOWTOKENPRICE_TITLE =		"Show WoW Token Price"
+-- L.SETTINGS_SHOWTOKENPRICE_TOOLTIP =		"Show the current WoW Token price on the WoW Token item tooltip."
 L.SETTINGS_TOKYODRIFT_TITLE = 			"Tokyo Drift"
 L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Vroom vroom."
