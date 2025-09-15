@@ -213,8 +213,8 @@ L.SETTINGS_DURATION_MEDIUM =			"Moyen (24 heures)"
 L.SETTINGS_DURATION_LONG =				"Long (48 heures)"
 
 L.SETTINGS_HEADER_TRACK =				"Fenêtre de suivi"
--- L.SETTINGS_HELP_TITLE =					"Show Help Tooltips"
--- L.SETTINGS_HELP_TOOLTIP =				"Display what mouse actions exist when hovering over entries in the tracking window."
+L.SETTINGS_HELP_TITLE =					"Afficher les infobulles d'aide"
+L.SETTINGS_HELP_TOOLTIP =				"Affiche les actions de la souris qui existent lors du survol des entrées dans la fenêtre de suivi."
 L.SETTINGS_PERSONALWINDOWS_TITLE =		"Position de la fenêtre par personnage"
 L.SETTINGS_PERSONALWINDOWS_TOOLTIP =	"Enregistrer la position de la fenêtre par personnage, au lieu de l’enregistrer sur l’ensemble du compte."
 L.SETTINGS_PERSONALRECIPES_TITLE =		"Suivre les recettes par personnage"
@@ -252,11 +252,11 @@ L.SETTINGS_HANDYNOTESFIX_TITLE =		"Désactiver HandyNotes Alt " .. app.IconRMB
 L.SETTINGS_HANDYNOTESFIX_TOOLTIP =		"Permettre à " .. app.NameShort .. " de désactiver le raccourci clavier d’HandyNotes sur la carte, en le réactivant pour les points de passages TomTom à la place.\n\n" .. L.REQUIRES_RELOAD
 L.SETTINGS_ORIBOSEXCHANGEFIX_TITLE =	"Corriger l’info-bulle de l’échange d’Oribos"
 L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	app.NameShort .. " simplifie et corrige l’info-bulle fournie par l’addon Oribos Exchange :\n" ..
-										"- Arrondit à l’or le plus proche\n" ..
+										"- Arrondir à l’or le plus proche\n" ..
 										"- Corrige les prix des recettes\n" ..
 										"- Corrige les prix dans la fenêtre des professions\n" ..
 										"- Affiche les prix des mascottes de combat dans l’info-bulle existante"
--- L.SETTINGS_SHOWTOKENPRICE_TITLE =		"Show WoW Token Price"
--- L.SETTINGS_SHOWTOKENPRICE_TOOLTIP =		"Show the current WoW Token price on the WoW Token item tooltip."
+L.SETTINGS_SHOWTOKENPRICE_TITLE =		"Afficher le prix du jeton WoW"
+L.SETTINGS_SHOWTOKENPRICE_TOOLTIP =		"Afficher le prix actuel du jeton WoW dans l'infobulle de l'objet « Jeton WoW »."
 L.SETTINGS_TOKYODRIFT_TITLE = 			"Tokyo Drift"
 L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Vroom vroom."
