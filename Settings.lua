@@ -223,6 +223,10 @@ function app.Settings()
 
 	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L.SETTINGS_HEADER_TRACK))
 
+	local variable, name, tooltip = "helpTooltips", L.SETTINGS_HELP_TITLE, L.SETTINGS_HELP_TOOLTIP
+	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, true)
+	Settings.CreateCheckbox(category, setting, tooltip)
+
 	local variable, name, tooltip = "pcWindows", L.SETTINGS_PERSONALWINDOWS_TITLE, L.SETTINGS_PERSONALWINDOWS_TOOLTIP
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, false)
 	Settings.CreateCheckbox(category, setting, tooltip)

@@ -213,6 +213,8 @@ L.SETTINGS_DURATION_MEDIUM =			"Средний (24 часа)"
 L.SETTINGS_DURATION_LONG =				"Длительный (48 часов)"
 
 L.SETTINGS_HEADER_TRACK =				"Окно отслеживания"
+-- L.SETTINGS_HELP_TITLE =					"Show Help Tooltips"
+-- L.SETTINGS_HELP_TOOLTIP =				"Display what mouse actions exist when hovering over entries in the tracking window."
 L.SETTINGS_PERSONALWINDOWS_TITLE =		"Положение окна на персонаже"
 L.SETTINGS_PERSONALWINDOWS_TOOLTIP =	"Сохранение положения окна для каждого персонажа, а не для всей учетной записи."
 L.SETTINGS_PERSONALRECIPES_TITLE =		"Отслеживание рецептов для каждого персонажа"

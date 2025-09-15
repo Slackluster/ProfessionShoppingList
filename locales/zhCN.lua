@@ -213,6 +213,8 @@ L.SETTINGS_DURATION_MEDIUM =			"中（24小时）"
 L.SETTINGS_DURATION_LONG =				"长（48小时）"
 
 L.SETTINGS_HEADER_TRACK =				"追踪窗口"
+-- L.SETTINGS_HELP_TITLE =					"Show Help Tooltips"
+-- L.SETTINGS_HELP_TOOLTIP =				"Display what mouse actions exist when hovering over entries in the tracking window."
 L.SETTINGS_PERSONALWINDOWS_TITLE =		"角色独立窗口位置"
 L.SETTINGS_PERSONALWINDOWS_TOOLTIP =	"按角色保存窗口位置，而非账号通用。"
 L.SETTINGS_PERSONALRECIPES_TITLE =		"角色独立配方追踪"

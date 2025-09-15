@@ -213,6 +213,8 @@ L.SETTINGS_DURATION_MEDIUM =			"Moyen (24 heures)"
 L.SETTINGS_DURATION_LONG =				"Long (48 heures)"
 
 L.SETTINGS_HEADER_TRACK =				"Fenêtre de suivi"
+-- L.SETTINGS_HELP_TITLE =					"Show Help Tooltips"
+-- L.SETTINGS_HELP_TOOLTIP =				"Display what mouse actions exist when hovering over entries in the tracking window."
 L.SETTINGS_PERSONALWINDOWS_TITLE =		"Position de la fenêtre par personnage"
 L.SETTINGS_PERSONALWINDOWS_TOOLTIP =	"Enregistrer la position de la fenêtre par personnage, au lieu de l’enregistrer sur l’ensemble du compte."
 L.SETTINGS_PERSONALRECIPES_TITLE =		"Suivre les recettes par personnage"

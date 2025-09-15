@@ -100,6 +100,7 @@ function app.CreateWindow()
 		app.Window:StartSizing("BOTTOMRIGHT")
 		GameTooltip:ClearLines()
 		GameTooltip:Hide()
+		ShoppingTooltip1:Hide()
 	end)
 	app.Window.Corner:SetScript("OnMouseUp", function()
 		app.SaveWindow()
@@ -277,6 +278,7 @@ function app.MoveWindow()
 		app.Window:StartMoving()
 		GameTooltip:ClearLines()
 		GameTooltip:Hide()
+		ShoppingTooltip1:Hide()
 	end
 end
 
@@ -299,7 +301,7 @@ function app.SaveWindow()
 end
 
 -- Window tooltip show
-function app.WindowTooltipShow(text, hyperlink)
+function app.WindowTooltipShow(text, hyperlink, secondary)
 	-- Set the tooltip to either the left or right, depending on where the window is placed
 	GameTooltip:SetOwner(app.Window, "ANCHOR_NONE")
 	if GetScreenWidth()/2-ProfessionShoppingList_Settings["windowPosition"].width/2-app.Window:GetLeft() >= 0 then
@@ -308,15 +310,23 @@ function app.WindowTooltipShow(text, hyperlink)
 		GameTooltip:SetPoint("RIGHT", app.Window, "LEFT", 0, 0)
 	end
 
-	-- Set the text
 	if hyperlink then
 		GameTooltip:SetHyperlink(text)
 	else
 		GameTooltip:SetText(text)
 	end
-
-	-- Show the tooltip
 	GameTooltip:Show()
+
+	if secondary and ProfessionShoppingList_Settings["helpTooltips"] then
+		ShoppingTooltip1:SetOwner(UIParent, "ANCHOR_NONE")
+		if GetScreenWidth()/2-ProfessionShoppingList_Settings["windowPosition"].width/2-app.Window:GetLeft() >= 0 then
+			ShoppingTooltip1:SetPoint("TOPLEFT", GameTooltip, "TOPRIGHT", 0, 0)
+		else
+			ShoppingTooltip1:SetPoint("TOPRIGHT", GameTooltip, "TOPLEFT", 0, 0)
+		end
+		ShoppingTooltip1:SetText(secondary)
+		ShoppingTooltip1:Show()
+	end
 end
 
 -- Update numbers tracked
@@ -641,12 +651,6 @@ function app.UpdateRecipes()
 			app.Window.Recipes:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
 			app.Window.Recipes:SetScript("OnDragStart", function() app.MoveWindow()	end)
 			app.Window.Recipes:SetScript("OnDragStop", function() app.SaveWindow() end)
-			app.Window.Recipes:SetScript("OnEnter", function()
-				app.WindowTooltipShow(L.WINDOW_TOOLTIP_RECIPES)
-			end)
-			app.Window.Recipes:SetScript("OnLeave", function()
-			GameTooltip:Hide()
-			end)
 
 			local recipes1 = app.Window.Recipes:CreateFontString("ARTWORK", nil, "GameFontNormal")
 			recipes1:SetPoint("LEFT", app.Window.Recipes)
@@ -733,11 +737,13 @@ function app.UpdateRecipes()
 			row:SetScript("OnDragStart", function() app.MoveWindow() end)
 			row:SetScript("OnDragStop", function() app.SaveWindow() end)
 			row:SetScript("OnEnter", function()
-				app.WindowTooltipShow(recipeInfo.link, true)
+				app.WindowTooltipShow(recipeInfo.link, true, L.WINDOW_TOOLTIP_RECIPES)
 			end)
 			row:SetScript("OnLeave", function()
 				GameTooltip:ClearLines()
 				GameTooltip:Hide()
+				ShoppingTooltip1:ClearLines()
+				ShoppingTooltip1:Hide()
 			end)
 			row:SetScript("OnClick", function(self, button)
 				-- Right-click on recipe amount
@@ -817,12 +823,6 @@ function app.UpdateRecipes()
 			app.Window.Reagents:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
 			app.Window.Reagents:SetScript("OnDragStart", function() app.MoveWindow() end)
 			app.Window.Reagents:SetScript("OnDragStop", function() app.SaveWindow() end)
-			app.Window.Reagents:SetScript("OnEnter", function()
-				app.WindowTooltipShow(L.WINDOW_TOOLTIP_REAGENTS)
-			end)
-			app.Window.Reagents:SetScript("OnLeave", function()
-				GameTooltip:Hide()
-			end)
 
 			local reagents1 = app.Window.Reagents:CreateFontString("ARTWORK", nil, "GameFontNormal")
 			reagents1:SetPoint("LEFT", app.Window.Reagents)
@@ -883,11 +883,13 @@ function app.UpdateRecipes()
 			row:SetScript("OnDragStart", function() app.MoveWindow() end)
 			row:SetScript("OnDragStop", function() app.SaveWindow() end)
 			row:SetScript("OnEnter", function()
-				app.WindowTooltipShow(reagentInfo.link, true)
+				app.WindowTooltipShow(reagentInfo.link, true, L.WINDOW_TOOLTIP_REAGENTS)
 			end)
 			row:SetScript("OnLeave", function()
 				GameTooltip:ClearLines()
 				GameTooltip:Hide()
+				ShoppingTooltip1:ClearLines()
+				ShoppingTooltip1:Hide()
 			end)
 			row:SetScript("OnClick", function(self, button)
 				local function trackSubreagent(recipeID, itemID)
@@ -1355,12 +1357,6 @@ function app.UpdateRecipes()
 			app.Window.Cooldowns:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
 			app.Window.Cooldowns:SetScript("OnDragStart", function() app.MoveWindow() end)
 			app.Window.Cooldowns:SetScript("OnDragStop", function() app.SaveWindow() end)
-			app.Window.Cooldowns:SetScript("OnEnter", function()
-				app.WindowTooltipShow(L.WINDOW_TOOLTIP_COOLDOWNS)
-			end)
-			app.Window.Cooldowns:SetScript("OnLeave", function()
-				GameTooltip:Hide()
-			end)
 
 			local cooldowns1 = app.Window.Cooldowns:CreateFontString("ARTWORK", nil, "GameFontNormal")
 			cooldowns1:SetPoint("LEFT", app.Window.Cooldowns)
@@ -1410,10 +1406,13 @@ function app.UpdateRecipes()
 			row:SetScript("OnDragStart", function() app.MoveWindow() end)
 			row:SetScript("OnDragStop", function() app.SaveWindow() end)
 			row:SetScript("OnEnter", function()
-				app.WindowTooltipShow("|cffFFFFFF" .. cooldownInfo.user)
+				app.WindowTooltipShow("|cffFFFFFF" .. cooldownInfo.user, false, L.WINDOW_TOOLTIP_COOLDOWNS)
 			end)
 			row:SetScript("OnLeave", function()
+				GameTooltip:ClearLines()
 				GameTooltip:Hide()
+				ShoppingTooltip1:ClearLines()
+				ShoppingTooltip1:Hide()
 			end)
 			row:SetScript("OnClick", function(self, button)
 				if button == "RightButton" and IsShiftKeyDown() then
