@@ -93,14 +93,24 @@ end)
 
 function app.UnderminePrices()
 	local function OnTooltipSetItem(tooltip)
-		-- Get item info from the last processed tooltip and the primary tooltip
-		local _, unreliableItemLink, itemID = TooltipUtil.GetDisplayedItem(tooltip)
+		local itemLink, itemID
+		local _, primaryItemLink, primaryItemID = TooltipUtil.GetDisplayedItem(GameTooltip)
+		if tooltip.GetItem then _, secondaryItemLink, secondaryItemID = tooltip:GetItem() end
 
-		-- Stop if error, it will try again on its own REAL soon
-		if itemID == nil then return end
+		-- Get our most accurate itemLink and itemID
+		itemID = primaryItemID or secondaryItemID
+		if itemID then
+			local _, _, _, _, _, _, _, _, _, _, _, classID, subclassID = C_Item.GetItemInfo(itemID)
+			if classID == 9 and subclassID ~= 0 then
+				_, itemLink = C_Item.GetItemInfo(itemID)
+			else
+				itemLink = primaryItemLink or secondaryItemLink
+				itemID = select(1,C_Item.GetItemInfoInstant(itemLink))
+			end
+		end
 
-		-- Also grab the itemLink from the itemID, rather than the itemLink provided above, because uhhhh shit is wack
-		local _, itemLink = C_Item.GetItemInfo(itemID)
+		-- Return if no link or BoP item
+		if not itemLink or select(14, C_Item.GetItemInfo(itemLink)) == 1 then return end
 
 		-- Only run this if the setting is enabled
 		if ProfessionShoppingList_Settings["underminePrices"] then
@@ -113,14 +123,6 @@ function app.UnderminePrices()
 				-- Check both links for pricing data
 				local oeData = {}
 				OEMarketInfo(itemLink,oeData)
-				if oeData["market"] == nil and oeData["region"] == nil then
-					-- Unless the item is BoP (BoP recipes for example)
-					local bindType = select(14, C_Item.GetItemInfo(itemID))
-					if bindType ~= 1 then
-						OEMarketInfo(unreliableItemLink,oeData)
-					end
-				end
-
 				if oeData["market"] ~= nil then
 					marketPrice = oeData["market"]
 				end

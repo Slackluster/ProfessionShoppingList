@@ -23,15 +23,25 @@ end)
 -- Tooltip information
 function app.TooltipInfo()
 	local function OnTooltipSetItem(tooltip)
-		-- Get item info from the last processed tooltip and the primary tooltip
-		local _, _, itemID = TooltipUtil.GetDisplayedItem(tooltip)
-		local _, _, primaryItemID = TooltipUtil.GetDisplayedItem(GameTooltip)
+		local itemLink, itemID
+		local _, primaryItemLink, primaryItemID = TooltipUtil.GetDisplayedItem(GameTooltip)
+		if tooltip.GetItem then _, secondaryItemLink, secondaryItemID = tooltip:GetItem() end
 
-		-- If the last processed tooltip is the same as the primary tooltip (aka, not a compare tooltip)
-		if itemID == primaryItemID then
-			-- Only then send it to the global variable (for usage in vendor tracking)
+		-- Get our most accurate itemLink and itemID
+		itemID = primaryItemID or secondaryItemID
+		if itemID then
+			local _, _, _, _, _, _, _, _, _, _, _, classID, subclassID = C_Item.GetItemInfo(itemID)
+			if classID == 9 and subclassID ~= 0 then
+				_, itemLink = C_Item.GetItemInfo(itemID)
+			else
+				itemLink = primaryItemLink or secondaryItemLink
+				itemID = select(1,C_Item.GetItemInfoInstant(itemLink))
+			end
 			app.TooltipItemID = itemID
 		end
+
+		-- Return if no link
+		if not itemLink then return end
 
 		-- Only run this if the setting is enabled
 		if ProfessionShoppingList_Settings["showTooltip"] then
