@@ -213,8 +213,8 @@ L.SETTINGS_DURATION_MEDIUM =			"Средний (24 часа)"
 L.SETTINGS_DURATION_LONG =				"Длительный (48 часов)"
 
 L.SETTINGS_HEADER_TRACK =				"Окно отслеживания"
--- L.SETTINGS_HELP_TITLE =					"Show Help Tooltips"
--- L.SETTINGS_HELP_TOOLTIP =				"Display what mouse actions exist when hovering over entries in the tracking window."
+L.SETTINGS_HELP_TITLE =					"Показать подсказки справки"
+L.SETTINGS_HELP_TOOLTIP =				"Отображение действий мыши при наведении курсора на записи в окне отслеживания."
 L.SETTINGS_PERSONALWINDOWS_TITLE =		"Положение окна на персонаже"
 L.SETTINGS_PERSONALWINDOWS_TOOLTIP =	"Сохранение положения окна для каждого персонажа, а не для всей учетной записи."
 L.SETTINGS_PERSONALRECIPES_TITLE =		"Отслеживание рецептов для каждого персонажа"
@@ -256,7 +256,7 @@ L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	"Позвольте " .. app.NameShort ..
 										"- Исправление цен на рецепты.\n" ..
 										"- Исправление цен на окне профессии.\n" ..
 										"- Показывать цены на питомцев внутри существующей подсказки."
--- L.SETTINGS_SHOWTOKENPRICE_TITLE =		"Show WoW Token Price"
--- L.SETTINGS_SHOWTOKENPRICE_TOOLTIP =		"Show the current WoW Token price on the WoW Token item tooltip."
+L.SETTINGS_SHOWTOKENPRICE_TITLE =		"Показать цену жетона WoW"
+L.SETTINGS_SHOWTOKENPRICE_TOOLTIP =		"Отображать текущую цену жетона WoW в подсказке к предмету Жетон WoW."
 L.SETTINGS_TOKYODRIFT_TITLE = 			"Токийский Дрифт"
 L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Врум врум."
