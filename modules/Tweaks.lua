@@ -105,7 +105,6 @@ function app.UnderminePrices()
 				_, itemLink = C_Item.GetItemInfo(itemID)
 			else
 				itemLink = primaryItemLink or secondaryItemLink
-				itemID = select(1,C_Item.GetItemInfoInstant(itemLink))
 			end
 		end
 
