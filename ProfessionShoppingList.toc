@@ -1,4 +1,4 @@
-## Interface: 110200
+## Interface: 110205
 ## Title: |cffC69B6DProfession Shopping List|r
 ## Author: Slackluster
 ## IconTexture: Interface\AddOns\ProfessionShoppingList\assets\psl_icon.blp
