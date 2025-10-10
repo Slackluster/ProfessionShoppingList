@@ -136,7 +136,6 @@ L.MORE_NEEDED =							"de plus sont nécessaires" -- Preceded by a number
 L.MADE_WITH =							"Fabriqué via" -- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
 L.RECIPE_LEARNED =						"recette apprise"
 L.RECIPE_UNLEARNED =					"recette non apprise"
-L.REGION =								"Région" -- Preceded by an abbreviated region name such as "EU" or "US"
 
 -- Profession knowledge
 L.PERKS_UNLOCKED =						"avantages débloqués"
@@ -242,21 +241,3 @@ L.SETTINGS_SLASH_QUANTITY =				"quantité"
 L.SETTINGS_DEFAULT =					CHAT_DEFAULT -- "Default"
 L.SETTINGS_LTOR =						"Gauche-vers-Droite"
 L.SETTINGS_RTOL =						"Droite-vers-Gauche"
-
-L.SETTINGS_HEADER_TWEAKS =				"Ajustements"
-L.SETTINGS_SPLITBAG_TITLE =				"Nombre de composants dans les sacs"
-L.SETTINGS_SPLITBAG_TOOLTIP =			"Affiche les emplacements libres de vos sacs et sac de composants séparément au-dessus de l’icône du sac à dos."
-L.SETTINGS_QUEUESOUND_TITLE =			"Jouer un son pour la file d’attente"
-L.SETTINGS_QUEUESOUND_TOOLTIP =			"Joue le son de la file d’attente comme celui de « Deadly Boss Mods » lorsque n’importe quelle file d’attente s’ouvre, y compris les champs de bataille et les combats de mascottes."
-L.SETTINGS_HANDYNOTESFIX_TITLE =		"Désactiver HandyNotes Alt " .. app.IconRMB
-L.SETTINGS_HANDYNOTESFIX_TOOLTIP =		"Permettre à " .. app.NameShort .. " de désactiver le raccourci clavier d’HandyNotes sur la carte, en le réactivant pour les points de passages TomTom à la place.\n\n" .. L.REQUIRES_RELOAD
-L.SETTINGS_ORIBOSEXCHANGEFIX_TITLE =	"Corriger l’info-bulle de l’échange d’Oribos"
-L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	app.NameShort .. " simplifie et corrige l’info-bulle fournie par l’addon Oribos Exchange :\n" ..
-										"- Arrondir à l’or le plus proche\n" ..
-										"- Corrige les prix des recettes\n" ..
-										"- Corrige les prix dans la fenêtre des professions\n" ..
-										"- Affiche les prix des mascottes de combat dans l’info-bulle existante"
-L.SETTINGS_SHOWTOKENPRICE_TITLE =		"Afficher le prix du jeton WoW"
-L.SETTINGS_SHOWTOKENPRICE_TOOLTIP =		"Afficher le prix actuel du jeton WoW dans l'infobulle de l'objet « Jeton WoW »."
-L.SETTINGS_TOKYODRIFT_TITLE = 			"Tokyo Drift"
-L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Vroom vroom."

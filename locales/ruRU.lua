@@ -136,7 +136,6 @@ L.MORE_NEEDED =							"нужно больше" -- Preceded by a number
 L.MADE_WITH =							"Сделано"	-- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
 L.RECIPE_LEARNED =						"рецепт изучен"
 L.RECIPE_UNLEARNED =					"рецепт не изучен"
-L.REGION =								"Регион"	-- Preceded by an abbreviated region name such as "EU" or "US"
 
 -- Profession knowledge
 L.PERKS_UNLOCKED =						"перки разблокированы"
@@ -242,21 +241,3 @@ L.SETTINGS_SLASH_QUANTITY =				"число"
 L.SETTINGS_DEFAULT =					CHAT_DEFAULT	-- "Default"
 L.SETTINGS_LTOR =						"Слева направо"
 L.SETTINGS_RTOL =						"Справа налево"
-
-L.SETTINGS_HEADER_TWEAKS =				"Настройки"
-L.SETTINGS_SPLITBAG_TITLE =				"Разделение количества мешков с реагентами"
-L.SETTINGS_SPLITBAG_TOOLTIP =			"Показывает свободные слоты ваших обычных сумок и сумки с реагентами отдельно над значком рюкзака."
-L.SETTINGS_QUEUESOUND_TITLE =			"Воспроизвести звук очереди"
-L.SETTINGS_QUEUESOUND_TOOLTIP =			"Воспроизводить звук очереди в стиле Deadly Boss Mods при появлении любой очереди, включая поля боя и битвы питомцев."
-L.SETTINGS_HANDYNOTESFIX_TITLE =		"Отключить HandyNotes Alt " .. app.IconRMB
-L.SETTINGS_HANDYNOTESFIX_TOOLTIP =		"Позвольте " .. app.NameShort .. " отключить привязку клавиш HandyNotes на карте, вместо этого включив ее для точек маршрута TomTom.\n\n" .. L.REQUIRES_RELOAD
-L.SETTINGS_ORIBOSEXCHANGEFIX_TITLE =	"Исправлена подсказка Oribos Exchange"
-L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	"Позвольте " .. app.NameShort .. " упростить и исправить подсказку, предоставляемую аддоном Oribos Exchange:\n" ..
-										"- Округлить до золотого.\n" ..
-										"- Исправление цен на рецепты.\n" ..
-										"- Исправление цен на окне профессии.\n" ..
-										"- Показывать цены на питомцев внутри существующей подсказки."
-L.SETTINGS_SHOWTOKENPRICE_TITLE =		"Показать цену жетона WoW"
-L.SETTINGS_SHOWTOKENPRICE_TOOLTIP =		"Отображать текущую цену жетона WoW в подсказке к предмету Жетон WoW."
-L.SETTINGS_TOKYODRIFT_TITLE = 			"Токийский Дрифт"
-L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Врум врум."

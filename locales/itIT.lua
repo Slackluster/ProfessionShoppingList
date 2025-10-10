@@ -136,7 +136,6 @@ local L = app.locales
 -- L.MADE_WITH =							"Made with"	-- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
 -- L.RECIPE_LEARNED =						"recipe learned"
 -- L.RECIPE_UNLEARNED =					"recipe not learned"
--- L.REGION =								"Region"	-- Preceded by an abbreviated region name such as "EU" or "US"
 
 -- Profession knowledge
 -- L.PERKS_UNLOCKED =						"perks unlocked"
@@ -242,21 +241,3 @@ local L = app.locales
 -- L.SETTINGS_DEFAULT =					CHAT_DEFAULT	-- "Default"
 -- L.SETTINGS_LTOR =						"Left-to-Right"
 -- L.SETTINGS_RTOL =						"Right-to-Left"
-
--- L.SETTINGS_HEADER_TWEAKS =				"Tweaks"
--- L.SETTINGS_SPLITBAG_TITLE =				"Split Reagent Bag Count"
--- L.SETTINGS_SPLITBAG_TOOLTIP =			"Shows the free slots of your regular bags and your reagent bag separately on top of the backpack icon."
--- L.SETTINGS_QUEUESOUND_TITLE =			"Play Queue Sound"
--- L.SETTINGS_QUEUESOUND_TOOLTIP =			"Play the Deadly Boss Mods style queue sound when any queue pops, including battlegrounds and pet battles."
--- L.SETTINGS_HANDYNOTESFIX_TITLE =		"Disable HandyNotes Alt " .. app.IconRMB
--- L.SETTINGS_HANDYNOTESFIX_TOOLTIP =		"Let " .. app.NameShort .. " disable HandyNotes' keybind on the map, re-enabling it for TomTom waypoints instead.\n\n" .. L.REQUIRES_RELOAD
--- L.SETTINGS_ORIBOSEXCHANGEFIX_TITLE =	"Fix Oribos Exchange Tooltip"
--- L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	"Let " .. app.NameShort .. " simplify and fix the tooltip provided by the Oribos Exchange addon:\n" ..
--- 										"- Round to the nearest gold.\n" ..
--- 										"- Fix recipe prices.\n" ..
--- 										"- Fix profession window prices.\n" ..
--- 										"- Show battle pet prices inside the existing tooltip."
--- L.SETTINGS_SHOWTOKENPRICE_TITLE =		"Show WoW Token Price"
--- L.SETTINGS_SHOWTOKENPRICE_TOOLTIP =		"Show the current WoW Token price on the WoW Token item tooltip."
--- L.SETTINGS_TOKYODRIFT_TITLE = 			"Tokyo Drift"
--- L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Vroom vroom."

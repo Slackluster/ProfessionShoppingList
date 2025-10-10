@@ -136,7 +136,6 @@ L.MORE_NEEDED =							"个仍需"	-- 前接数字
 L.MADE_WITH =							"制造专业："	-- 后接专业名称如"锻造"、"制皮"
 L.RECIPE_LEARNED =						"配方已学会"
 L.RECIPE_UNLEARNED =					"配方未学会"
-L.REGION =								"地区"	-- 前接地区缩写如"欧服"、"美服"
 
 -- Profession knowledge
 L.PERKS_UNLOCKED =						"特长已解锁"
@@ -242,21 +241,3 @@ L.SETTINGS_SLASH_QUANTITY =				"数量"
 L.SETTINGS_DEFAULT =					CHAT_DEFAULT -- "默认"
 L.SETTINGS_LTOR =						"从左到右"
 L.SETTINGS_RTOL =						"从右到左"
-
-L.SETTINGS_HEADER_TWEAKS =				"功能调整"
-L.SETTINGS_SPLITBAG_TITLE =				"拆分材料背包计数"
-L.SETTINGS_SPLITBAG_TOOLTIP =			"在背包图标上方分别显示普通背包和材料背包的空位。"
-L.SETTINGS_QUEUESOUND_TITLE =			"播放队列音效"
-L.SETTINGS_QUEUESOUND_TOOLTIP =			"当任何队列就绪时（包括战场和宠物对战）播放Deadly Boss Mods风格音效。"
-L.SETTINGS_HANDYNOTESFIX_TITLE =		"禁用HandyNotes右键"
-L.SETTINGS_HANDYNOTESFIX_TOOLTIP =		"禁用HandyNotes在地图上的快捷键绑定，恢复TomTom的右键设标记功能。\n\n" .. L.REQUIRES_RELOAD
-L.SETTINGS_ORIBOSEXCHANGEFIX_TITLE =	"修复Oribos Exchange提示"
-L.SETTINGS_ORIBOSEXCHANGEFIX_TOOLTIP =	"简化并修复Oribos Exchange插件的提示：\n" ..
-										"- 四舍五入到整数金币\n" ..
-										"- 修正配方价格\n" ..
-										"- 修正专业窗口价格\n" ..
-										"- 在现有提示中显示战斗宠物价格"
--- L.SETTINGS_SHOWTOKENPRICE_TITLE =		"Show WoW Token Price"
--- L.SETTINGS_SHOWTOKENPRICE_TOOLTIP =		"Show the current WoW Token price on the WoW Token item tooltip."
--- L.SETTINGS_TOKYODRIFT_TITLE = 			"Tokyo Drift"
--- L.SETTINGS_TOKYODRIFT_TOOLTIP = 		"Vroom vroom."
