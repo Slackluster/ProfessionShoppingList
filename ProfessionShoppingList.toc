@@ -27,7 +27,6 @@
 libs\LibDBIcon-1.0\embeds.xml
 libs\LibDBIcon-1.0\LibDBIcon-1.0\LibDBIcon-1.0.lua
 libs\ChatThrottleLib\ChatThrottleLib.xml
-libs\LibBattlePetTooltipLine\LibBattlePetTooltipLine.lua
 Core.lua
 Database.lua
 Settings.lua
@@ -38,7 +37,6 @@ modules\ProfessionWindow.lua
 modules\Tooltip.lua
 modules\TrackingWindow.lua
 modules\TrackNewMogs.lua
-modules\Tweaks.lua
 locales\enUS.lua
 locales\deDE.lua
 locales\esES.lua
