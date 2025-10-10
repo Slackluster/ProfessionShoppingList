@@ -1,5 +1,5 @@
 # Profession Shopping List
-A World of Warcraft addon. Download locations: [CurseForge](https://www.curseforge.com/wow/addons/profession-shopping-list) | [Wago.io](https://addons.wago.io/addons/psl)
+A World of Warcraft addon. Download locations: [CurseForge](https://www.curseforge.com/wow/addons/profession-shopping-list) | [Wago](https://addons.wago.io/addons/psl)
 
 # Description
 **Profession Shopping List** allows you to track recipes, and it shows you the materials you need to craft them. It also tracks recipe cooldowns.
