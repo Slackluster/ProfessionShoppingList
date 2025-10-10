@@ -72,7 +72,7 @@ function app.Debug(...)
 end
 
 -- Pop-up window
-function app.Popup(show, text)
+function app.Popup(show, text, ...)
 	-- Create popup frame
 	local frame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
 	frame:SetPoint("CENTER")
@@ -100,13 +100,44 @@ function app.Popup(show, text)
 	-- Text
 	local string = frame:CreateFontString("ARTWORK", nil, "GameFontNormal")
 	string:SetPoint("CENTER", frame, "CENTER", 0, 0)
-	string:SetPoint("TOP", frame, "TOP", 0, -25)
-	string:SetJustifyH("CENTER")
+	string:SetPoint("TOP", frame, "TOP", 0, -15)
+	string:SetJustifyH("LEFT")
 	string:SetText(text)
-	frame:SetHeight(string:GetStringHeight()+50)
-	frame:SetWidth(string:GetStringWidth()+50)
 
-	return frame
+	-- Editbox(es)
+	local editBoxInputs = { ... }
+	local editBoxes = {}
+	local last = string
+
+	for i, boxText in ipairs(editBoxInputs) do
+		local edit = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
+		edit:SetSize(300, 25)
+		edit:SetAutoFocus(false)
+		edit:SetText(boxText)
+		edit:HighlightText()
+		edit:SetCursorPosition(0)
+		edit:SetPoint("TOPLEFT", last, "BOTTOMLEFT", 0, -10)
+
+		-- Optional: select all text on focus
+		edit:SetScript("OnEditFocusGained", function(self)
+			self:HighlightText()
+		end)
+
+		table.insert(editBoxes, edit)
+		last = edit
+	end
+
+	-- Resize frame to fit content
+	local totalHeight = 30 + string:GetStringHeight() + (#editBoxes * 35)
+	local width = math.max(string:GetStringWidth() + 40, 240)
+	frame:SetSize(width, totalHeight)
+
+	return frame, editBoxes
+
+	-- frame:SetHeight(string:GetStringHeight()+30)
+	-- frame:SetWidth(string:GetStringWidth()+30)
+
+	-- return frame
 end
 
 -- Border
