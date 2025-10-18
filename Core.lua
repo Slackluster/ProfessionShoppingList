@@ -177,7 +177,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		if not ProfessionShoppingList_Library then ProfessionShoppingList_Library = {} end
 
 		app.Flag = {}
-		app.Flag["versionCheck"] = 0
+		app.Flag.VersionCheck = 0
 
 		C_ChatInfo.RegisterAddonMessagePrefix("ProfShopList")
 
@@ -284,10 +284,10 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 					elseif achievementID == 18906 then
 						for i=1,numCriteria,1 do
 							-- Set the update handler to active, to prevent multiple list updates from freezing the game
-							app.Flag["changingRecipes"] = true
+							app.Flag.ChangingRecipes = true
 							-- Until the last one in the series
 							if i == numCriteria then
-								app.Flag["changingRecipes"] = false
+								app.Flag.ChangingRecipes = false
 							end
 
 							local _, criteriaType, completed, _, _, _, _, assetID = GetAchievementCriteriaInfo(achievementID, i)
@@ -363,9 +363,9 @@ app.Event:Register("CHAT_MSG_ADDON", function(prefix, text, channel, sender, tar
 					local localAddonVersion = tonumber(iteration)
 
 					if otherGameVersion > localGameVersion or (otherGameVersion == localGameVersion and otherAddonVersion > localAddonVersion) then
-						if GetServerTime() - app.Flag["versionCheck"] > 600 then
+						if GetServerTime() - app.Flag.VersionCheck > 600 then
 							app.Print(L.VERSION_CHECK .. " " .. version)
-							app.Flag["versionCheck"] = GetServerTime()
+							app.Flag.VersionCheck = GetServerTime()
 						end
 					end
 				end

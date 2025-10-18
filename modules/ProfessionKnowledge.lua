@@ -12,7 +12,7 @@ local L = app.locales
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
-		app.Flag["knowledgeAssets"] = false
+		app.Flag.KnowledgeAssets = false
 	end
 end)
 
@@ -45,7 +45,7 @@ function app.CreateProfessionKnowledgeAssets()
 		app.KnowledgePointTracker.Text:SetTextColor(1, 1, 1, 1)
 	end
 
-	app.Flag["knowledgeAssets"] = true
+	app.Flag.KnowledgeAssets = true
 end
 
 -- Populate knowledge tracker
@@ -280,12 +280,12 @@ function app.KnowledgeTracker()
 		kpTooltip()
 
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
-		if not app.Flag[skillLineID] then
+		if not app.Flag.SkillLineID then
 			GameTooltip:SetText(L.LOADING)
 			C_Timer.After(1, function()
 				GameTooltip:SetText(app.KnowledgePointTooltip)
 			end)
-			app.Flag[skillLineID] = true
+			app.Flag.SkillLineID = true
 		else
 			GameTooltip:SetText(app.KnowledgePointTooltip)
 		end
@@ -307,14 +307,14 @@ end)
 
 -- When a recipe is selected (also used to determine professionID, which TRADE_SKILL_SHOW() is too quick for)
 app.Event:Register("SPELL_DATA_LOAD_RESULT", function(spellID, success)
-	if C_AddOns.IsAddOnLoaded("Blizzard_Professions") and app.Flag["knowledgeAssets"] then
+	if C_AddOns.IsAddOnLoaded("Blizzard_Professions") and app.Flag.KnowledgeAssets then
 		app.KnowledgeTracker()
 	end
 end)
 
 -- When profession knowledge is spent
 app.Event:Register("TRAIT_CONFIG_UPDATED", function(spellID, success)
-	if C_AddOns.IsAddOnLoaded("Blizzard_Professions") and app.Flag["knowledgeAssets"] then
+	if C_AddOns.IsAddOnLoaded("Blizzard_Professions") and app.Flag.KnowledgeAssets then
 		app.KnowledgeTracker()
 	end
 end)

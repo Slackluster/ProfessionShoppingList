@@ -28,7 +28,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		end
 
 		app.Hidden = CreateFrame("Frame")
-		app.Flag["merchantAssets"] = false
+		app.Flag.MerchantAssets = false
 		app.ReagentQuantities = {}
 		app.SelectedRecipe = {}
 		app.SelectedRecipe.Profession = { recipeID = 0, recraft = false, recipeType = 0 }
@@ -577,7 +577,7 @@ function app.UpdateRecipes()
 	ProfessionShoppingList_CharacterData.Recipes = ProfessionShoppingList_Data.Recipes
 
 	-- Recalculate reagents tracked
-	if app.Flag["changingRecipes"] == false then
+	if app.Flag.ChangingRecipes == false then
 		app.ReagentQuantities = {}
 
 		for recipeID, recipeInfo in pairs(ProfessionShoppingList_Data.Recipes) do
@@ -2082,7 +2082,7 @@ end
 
 -- Replace the in-game tracking of shift+clicking a recipe with PSL's
 app.Event:Register("TRACKED_RECIPE_UPDATE", function(recipeID, tracked)
-	if not app.Flag["trackingRecipes"] and tracked then
+	if tracked then
 		app.TrackRecipe(recipeID, 1)
 		C_TradeSkillUI.SetRecipeTracked(recipeID, false, false)
 		C_TradeSkillUI.SetRecipeTracked(recipeID, false, true)
@@ -2186,7 +2186,7 @@ app.Event:Register("MERCHANT_SHOW", function()
 	end
 
 	-- Hook the script onto the merchant buttons (once)
-	if app.Flag["merchantAssets"] == false then
+	if app.Flag.MerchantAssets == false then
 		for i = 1, 99 do	-- Works for addons that expand the vendor frame up to 99 slots
 			local itemButton = _G["MerchantItem" .. i .. "ItemButton"]
 			if itemButton then
@@ -2195,7 +2195,7 @@ app.Event:Register("MERCHANT_SHOW", function()
 		end
 
 		-- Set the flag to true so it doesn't trigger again
-		app.Flag["merchantAssets"] = true
+		app.Flag.MerchantAssets = true
 	end
 end)
 

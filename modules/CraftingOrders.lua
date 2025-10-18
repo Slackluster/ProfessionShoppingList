@@ -13,8 +13,8 @@ local L = app.locales
 -- When the addon is fully loaded, actually run the components
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
-		app.Flag["craftingOrderAssets"] = false
-		app.Flag["quickOrder"] = 0
+		app.Flag.CraftingOrderAssets = false
+		app.Flag.QuickOrder = 0
 		app.RepeatQuickOrderTooltip = {}
 		app.QuickOrderRecipeID = 0
 		app.QuickOrderAttempts = 0
@@ -102,7 +102,7 @@ function app.CreateCraftingOrdersAssets()
 		local craftingReagentInfo = {}
 
 		-- Signal that PSL is currently working on a quick order
-		app.Flag["quickOrder"] = 1
+		app.Flag.QuickOrder = 1
 
 		local function localReagentsOrder()
 			-- Cache reagent tier info
@@ -153,7 +153,7 @@ function app.CreateCraftingOrdersAssets()
 		-- Signal that PSL is currently working on a quick order with tiered local reagents, if applicable
 		local next = next
 		if next(craftingReagentInfo) ~= nil and ProfessionShoppingList_Settings["useLocalReagents"] then
-			app.Flag["quickOrder"] = 2
+			app.Flag.QuickOrder = 2
 		end
 
 		-- Place a guild order if the recipient is "GUILD"
@@ -278,7 +278,7 @@ function app.CreateCraftingOrdersAssets()
 	end
 
 	-- Set the flag for assets created to true
-	app.Flag["craftingOrderAssets"] = true
+	app.Flag.CraftingOrderAssets = true
 end
 
 ---------------------
@@ -341,7 +341,7 @@ end)
 
 -- If placing a crafting order through PSL
 app.Event:Register("CRAFTINGORDERS_ORDER_PLACEMENT_RESPONSE", function(result)
-	if app.Flag["quickOrder"] >= 1 then
+	if app.Flag.QuickOrder >= 1 then
 		-- Count a(nother) quick order attempt
 		app.QuickOrderAttempts = app.QuickOrderAttempts + 1
 
@@ -389,8 +389,8 @@ app.Event:Register("CRAFTINGORDERS_ORDER_PLACEMENT_RESPONSE", function(result)
 		app.RepeatQuickOrderButton:SetWidth(app.RepeatQuickOrderButton:GetTextWidth()+20)
 
 		-- Reset all the numbers if we're done
-		if (app.Flag["quickOrder"] == 1 and app.QuickOrderAttempts >= 1) or (app.Flag["quickOrder"] == 2 and app.QuickOrderAttempts >= 4) then
-			app.Flag["quickOrder"] = 0
+		if (app.Flag.QuickOrder == 1 and app.QuickOrderAttempts >= 1) or (app.Flag.QuickOrder == 2 and app.QuickOrderAttempts >= 4) then
+			app.Flag.QuickOrder = 0
 			app.QuickOrderAttempts = 0
 			app.QuickOrderErrors = 0
 		end

@@ -11,7 +11,7 @@ local appName, app = ...
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
-		app.Flag["openAH"] = false
+		app.Flag.AuctionHouseIsOpen = false
 	end
 end)
 
@@ -20,16 +20,16 @@ end)
 -----------------
 
 app.Event:Register("AUCTION_HOUSE_SHOW", function(addOnName, containsBindings)
-	app.Flag["openAH"] = true
+	app.Flag.AuctionHouseIsOpen = true
 	app.MakeShoppingList()	-- Also update our shopping list whenever we open the AH
 end)
 
 app.Event:Register("AUCTION_HOUSE_CLOSED", function(addOnName, containsBindings)
-	app.Flag["openAH"] = false
+	app.Flag.AuctionHouseIsOpen = false
 end)
 
 function app.SearchAH(itemLink)
-	if app.Flag["openAH"] then
+	if app.Flag.AuctionHouseIsOpen then
 		local query = { sorts = { sortOrder = Enum.AuctionHouseSortOrder.Price, reverseSort = false }, filters = {}, searchString = C_Item.GetItemInfo(itemLink) }
 		C_AuctionHouse.SendBrowseQuery(query)
 	end

@@ -13,7 +13,7 @@ local api = app.api
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
-		app.Flag["changingRecipes"] = false
+		app.Flag.ChangingRecipes = false
 	end
 end)
 
@@ -127,7 +127,7 @@ end
 
 function app.TrackUnlearnedMog()
 	-- Set the update handler to active, to prevent multiple list updates from freezing the game
-	app.Flag["changingRecipes"] = true
+	app.Flag.ChangingRecipes = true
 
 	local recipes = app.GetVisibleRecipes()
 
@@ -155,7 +155,7 @@ function app.TrackUnlearnedMog()
 
 				-- If this is our last iteration, set update handler to false and force an update, and let the user know what we did
 				if i == #recipes then
-					app.Flag["changingRecipes"] = false
+					app.Flag.ChangingRecipes = false
 					app.UpdateRecipes()
 					app.Print(L.ADDED_RECIPES1 .. " " .. added .. " " .. L.ADDED_RECIPES2 .. ".")
 				end

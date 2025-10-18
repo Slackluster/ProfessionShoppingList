@@ -15,7 +15,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		if not ProfessionShoppingList_Data.Pets then ProfessionShoppingList_Data.Pets = {} end
 
-		app.Flag["tradeskillAssets"] = false
+		app.Flag.TradeskillAssets = false
 	end
 end)
 
@@ -557,13 +557,13 @@ function app.CreateTradeskillAssets()
 	end
 
 	-- Set the flag for assets created to true
-	app.Flag["tradeskillAssets"] = true
+	app.Flag.TradeskillAssets = true
 end
 
 -- Update assets
 function app.UpdateAssets()
 	-- Profession window
-	if app.Flag["tradeskillAssets"] then
+	if app.Flag.TradeskillAssets then
 		-- Enable Profession tracking for 1 = Item, 3 = Enchant
 		if app.SelectedRecipe.Profession.recipeType == 1 or app.SelectedRecipe.Profession.recipeType == 3 then
 			app.TrackProfessionButton:Enable()
@@ -661,7 +661,7 @@ function app.UpdateAssets()
 	end
 
 	-- Crafting orders window
-	if app.Flag["craftingOrderAssets"] then
+	if app.Flag.CraftingOrderAssets then
 		-- Disable tracking for recrafts without a cached recipe
 		if app.SelectedRecipe.PlaceOrder.recraft and app.SelectedRecipe.PlaceOrder.recipeID == 0 then
 			app.TrackPlaceOrderButton:Disable()
@@ -742,7 +742,7 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 		getGUID(1204, "pierre")
 		getGUID(3274, "alvin")
 
-		if app.Flag["tradeskillAssets"] then
+		if app.Flag.TradeskillAssets then
 			-- Alvin button
 			if ProfessionShoppingList_Data.Pets["alvin"] then
 				app.AlvinButton:SetAttribute("type1", "macro")
@@ -928,7 +928,7 @@ app.Event:Register("SPELL_DATA_LOAD_RESULT", function(spellID, success)
 			end
 		end
 
-		if app.Flag["tradeskillAssets"] then
+		if app.Flag.TradeskillAssets then
 			recipeAssets()
 			professionButtons()
 		end
