@@ -2105,6 +2105,12 @@ EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelecte
 	app.UpdateAssets()
 end)
 
+-- When selecting a recraft recipe
+app.Event:Register("OPEN_RECIPE_RESPONSE", function(recipeID, skillLineID, expansionSkillLineID)
+	app.SelectedRecipe.Profession = { recipeID = recipeID, recraft = true, recipeType = C_TradeSkillUI.GetRecipeSchematic(recipeID, true).recipeType }
+	app.UpdateAssets()
+end)
+
 -- Vendor item tracking
 app.Event:Register("MERCHANT_SHOW", function()
 	-- When the user Alt+clicks a vendor item
