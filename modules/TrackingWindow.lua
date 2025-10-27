@@ -1639,7 +1639,6 @@ end)
 -- Save an item to our cache
 function app.CacheItem(itemID)
 	-- Cache the item by asking the server to give us the info
-	C_Item.RequestLoadItemDataByID(itemID)
 	local item = Item:CreateFromItemID(itemID)
 	app.Debug("app.CacheItem(" .. itemID .. ")")
 
