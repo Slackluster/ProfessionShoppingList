@@ -202,7 +202,7 @@ function app.CreateWindow()
 	app.ClearButton:SetPushedTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.ClearButton:GetPushedTexture():SetTexCoord(1/256, 37/256, 81/128, 119/128)
 	app.ClearButton:SetScript("OnClick", function()
-		StaticPopupDialogs["CLEAR_RECIPES"] = {
+		StaticPopupDialogs["PSL_CLEAR_RECIPES"] = {
 			text = app.NameLong .. "\n\n" .. L.CLEAR_CONFIRMATION .. "\n" .. L.CONFIRMATION,
 			button1 = YES,
 			button2 = NO,
@@ -214,7 +214,7 @@ function app.CreateWindow()
 			hideOnEscape = true,
 			showAlert = true,
 		}
-		StaticPopup_Show("CLEAR_RECIPES")
+		StaticPopup_Show("PSL_CLEAR_RECIPES")
 	end)
 	app.ClearButton:SetScript("OnEnter", function()
 		app.WindowTooltipShow(L.WINDOW_BUTTON_CLEAR)
@@ -999,7 +999,7 @@ function app.UpdateRecipes()
 						end
 
 						-- Button #1
-						pslOptionButton1 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[1], false).name)
+						local pslOptionButton1 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[1], false).name)
 						pslOptionButton1:SetPoint("BOTTOM", pslOption1, "TOP", 0, 5)
 						pslOptionButton1:SetPoint("CENTER", pslOption1, "CENTER", 0, 0)
 						pslOptionButton1:SetScript("OnClick", function()
@@ -1054,7 +1054,7 @@ function app.UpdateRecipes()
 							end
 
 							-- Button #2
-							pslOptionButton2 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[2], false).name)
+							local pslOptionButton2 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[2], false).name)
 							pslOptionButton2:SetPoint("BOTTOM", pslOption2, "TOP", 0, 5)
 							pslOptionButton2:SetPoint("CENTER", pslOption2, "CENTER", 0, 0)
 							pslOptionButton2:SetScript("OnClick", function()
@@ -1110,7 +1110,7 @@ function app.UpdateRecipes()
 							end
 
 							-- Button #3
-							pslOptionButton3 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[3], false).name)
+							local pslOptionButton3 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[3], false).name)
 							pslOptionButton3:SetPoint("BOTTOM", pslOption3, "TOP", 0, 5)
 							pslOptionButton3:SetPoint("CENTER", pslOption3, "CENTER", 0, 0)
 							pslOptionButton3:SetScript("OnClick", function()
@@ -1166,7 +1166,7 @@ function app.UpdateRecipes()
 							end
 
 							-- Button #4
-							pslOptionButton4 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[4], false).name)
+							local pslOptionButton4 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[4], false).name)
 							pslOptionButton4:SetPoint("BOTTOM", pslOption4, "TOP", 0, 5)
 							pslOptionButton4:SetPoint("CENTER", pslOption4, "CENTER", 0, 0)
 							pslOptionButton4:SetScript("OnClick", function()
@@ -1219,7 +1219,7 @@ function app.UpdateRecipes()
 							end
 
 							-- Button #5
-							pslOptionButton5 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[5], false).name)
+							local pslOptionButton5 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[5], false).name)
 							pslOptionButton5:SetPoint("BOTTOM", pslOption5, "TOP", 0, 5)
 							pslOptionButton5:SetPoint("CENTER", pslOption5, "CENTER", 0, 0)
 							pslOptionButton5:SetScript("OnClick", function()
@@ -1272,7 +1272,7 @@ function app.UpdateRecipes()
 							end
 
 							-- Button #6
-							pslOptionButton6 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[6], false).name)
+							local pslOptionButton6 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[6], false).name)
 							pslOptionButton6:SetPoint("BOTTOM", pslOption6, "TOP", 0, 5)
 							pslOptionButton6:SetPoint("CENTER", pslOption6, "CENTER", 0, 0)
 							pslOptionButton6:SetScript("OnClick", function()

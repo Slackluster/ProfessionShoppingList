@@ -129,7 +129,7 @@ function app.CreateTradeskillAssets()
 		app.TrackNewMogsButton:SetScript("OnClick", function()
 			local recipes = app.GetVisibleRecipes()
 
-			StaticPopupDialogs["TRACK_NEW_MOGS"] = {
+			StaticPopupDialogs["PSL_TRACK_NEW_MOGS"] = {
 				text = app.NameLong .. "\n\n" .. L.TRACK_NEW1 .. " " .. #recipes .. " " .. L.TRACK_NEW2 .. "\n" .. modeText .. ".\n\n" .. L.TRACK_NEW3 .. "\n" .. L.CONFIRMATION,
 				button1 = YES,
 				button2 = NO,
@@ -141,7 +141,7 @@ function app.CreateTradeskillAssets()
 				hideOnEscape = true,
 				showAlert = true,
 			}
-			StaticPopup_Show("TRACK_NEW_MOGS")
+			StaticPopup_Show("PSL_TRACK_NEW_MOGS")
 		end)
 		app.TrackNewMogsButton:SetScript("OnEnter", function(self)
 			GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")

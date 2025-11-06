@@ -23,7 +23,7 @@ end)
 -- Tooltip information
 function app.TooltipInfo()
 	local function OnTooltipSetItem(tooltip)
-		local itemLink, itemID
+		local itemLink, itemID, secondaryItemLink, secondaryItemID
 		local _, primaryItemLink, primaryItemID = TooltipUtil.GetDisplayedItem(GameTooltip)
 		if tooltip.GetItem then _, secondaryItemLink, secondaryItemID = tooltip:GetItem() end
 
