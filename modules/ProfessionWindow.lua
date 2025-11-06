@@ -107,7 +107,7 @@ function app.CreateTradeskillAssets()
 		app.Border(app.ShadowlandsRankBox, -6, 1, 2, -2)
 	end
 	if not app.ShadowlandsRankText then
-		app.ShadowlandsRankText = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.ShadowlandsRankText = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.ShadowlandsRankText:SetPoint("RIGHT", app.ShadowlandsRankBox, "LEFT", -10, 0)
 		app.ShadowlandsRankText:SetJustifyH("LEFT")
 		app.ShadowlandsRankText:SetText(L.RANK .. ":")
@@ -248,7 +248,7 @@ function app.CreateTradeskillAssets()
 		app.ThermalAnvilCooldown:SetAllPoints(app.ThermalAnvilButton)
 		app.ThermalAnvilCooldown:SetSwipeColor(1, 1, 1)
 
-		app.ThermalAnvilCharges = app.ThermalAnvilButton:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.ThermalAnvilCharges = app.ThermalAnvilButton:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.ThermalAnvilCharges:SetPoint("BOTTOMRIGHT", app.ThermalAnvilButton, "BOTTOMRIGHT", 0, 0)
 		app.ThermalAnvilCharges:SetJustifyH("RIGHT")
 		if not C_Item.IsItemDataCachedByID(87216) then local item = Item:CreateFromItemID(87216) end
@@ -364,7 +364,7 @@ function app.CreateTradeskillAssets()
 
 	-- Create Classic Milling info
 	if not app.MillingClassic then
-		app.MillingClassic = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.MillingClassic = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingClassic:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingClassic:SetJustifyH("LEFT")
 		app.MillingClassic:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_CLASSIC)
@@ -372,7 +372,7 @@ function app.CreateTradeskillAssets()
 
 	-- Create The Burning Crusade Milling info
 	if not app.MillingTheBurningCrusade then
-		app.MillingTheBurningCrusade = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.MillingTheBurningCrusade = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingTheBurningCrusade:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingTheBurningCrusade:SetJustifyH("LEFT")
 		app.MillingTheBurningCrusade:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_TBC)
@@ -380,7 +380,7 @@ function app.CreateTradeskillAssets()
 
 	-- Create Wrath of the Lich King Milling info
 	if not app.MillingWrathOfTheLichKing then
-		app.MillingWrathOfTheLichKing = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.MillingWrathOfTheLichKing = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingWrathOfTheLichKing:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingWrathOfTheLichKing:SetJustifyH("LEFT")
 		app.MillingWrathOfTheLichKing:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_WOTLK)
@@ -388,7 +388,7 @@ function app.CreateTradeskillAssets()
 
 	-- Create Cataclysm Milling info
 	if not app.MillingCataclysm then
-		app.MillingCataclysm = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.MillingCataclysm = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingCataclysm:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingCataclysm:SetJustifyH("LEFT")
 		app.MillingCataclysm:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_CATA)
@@ -396,7 +396,7 @@ function app.CreateTradeskillAssets()
 
 	-- Create Mists of Pandaria Milling info
 	if not app.MillingMistsOfPandaria then
-		app.MillingMistsOfPandaria = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.MillingMistsOfPandaria = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingMistsOfPandaria:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingMistsOfPandaria:SetJustifyH("LEFT")
 		app.MillingMistsOfPandaria:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_MOP)
@@ -404,7 +404,7 @@ function app.CreateTradeskillAssets()
 
 	-- Create Warlords of Draenor Milling info
 	if not app.MillingWarlordsOfDraenor then
-		app.MillingWarlordsOfDraenor = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.MillingWarlordsOfDraenor = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingWarlordsOfDraenor:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingWarlordsOfDraenor:SetJustifyH("LEFT")
 		app.MillingWarlordsOfDraenor:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_WOD)
@@ -412,7 +412,7 @@ function app.CreateTradeskillAssets()
 
 	-- Create Legion Milling info
 	if not app.MillingLegion then
-		app.MillingLegion = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.MillingLegion = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingLegion:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingLegion:SetJustifyH("LEFT")
 		app.MillingLegion:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_LEGION)
@@ -420,7 +420,7 @@ function app.CreateTradeskillAssets()
 
 	-- Create Battle for Azeroth Milling info
 	if not app.MillingBattleForAzeroth then
-		app.MillingBattleForAzeroth = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.MillingBattleForAzeroth = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingBattleForAzeroth:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingBattleForAzeroth:SetJustifyH("LEFT")
 		app.MillingBattleForAzeroth:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_BFA)
@@ -428,7 +428,7 @@ function app.CreateTradeskillAssets()
 
 	-- Create Shadowlands Milling info
 	if not app.MillingShadowlands then
-		app.MillingShadowlands = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.MillingShadowlands = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingShadowlands:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingShadowlands:SetJustifyH("LEFT")
 		app.MillingShadowlands:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_SL)
@@ -436,7 +436,7 @@ function app.CreateTradeskillAssets()
 
 	-- Create Dragonflight Milling info
 	if not app.MillingDragonflight then
-		app.MillingDragonflight = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.MillingDragonflight = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingDragonflight:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingDragonflight:SetJustifyH("LEFT")
 		app.MillingDragonflight:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_DF)
@@ -444,7 +444,7 @@ function app.CreateTradeskillAssets()
 
 	-- Create The War Within Milling info
 	if not app.MillingTheWarWithin then
-		app.MillingTheWarWithin = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.MillingTheWarWithin = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingTheWarWithin:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingTheWarWithin:SetJustifyH("LEFT")
 		app.MillingTheWarWithin:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_TWW)
@@ -452,7 +452,7 @@ function app.CreateTradeskillAssets()
 
 	-- Create The War Within Thaumaturgy info
 	if not app.ThaumaturgyTheWarWithin then
-		app.ThaumaturgyTheWarWithin = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.ThaumaturgyTheWarWithin = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.ThaumaturgyTheWarWithin:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.ThaumaturgyTheWarWithin:SetJustifyH("LEFT")
 		app.ThaumaturgyTheWarWithin:SetText(app.Colour(L.THAUMATURGY_INFO) .. "\n|cffFFFFFF" .. L.THAUMATURGY_TWW)
@@ -543,7 +543,7 @@ function app.CreateTradeskillAssets()
 	if not app.Concentration1 then
 		ProfessionsFrame.CraftingPage.ConcentrationDisplay.Amount:SetPoint("TOPLEFT", ProfessionsFrame.CraftingPage.ConcentrationDisplay.Icon, "TOPRIGHT", 6, 0)
 
-		app.Concentration1 = ProfessionsFrame.CraftingPage.ConcentrationDisplay:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.Concentration1 = ProfessionsFrame.CraftingPage.ConcentrationDisplay:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.Concentration1:SetPoint("TOPLEFT", ProfessionsFrame.CraftingPage.ConcentrationDisplay.Amount, "BOTTOMLEFT", 0, 0)
 		app.Concentration1:SetJustifyH("LEFT")
 	end
@@ -551,7 +551,7 @@ function app.CreateTradeskillAssets()
 	if not app.Concentration2 then
 		ProfessionsFrame.OrdersPage.OrderView.ConcentrationDisplay.Amount:SetPoint("TOPLEFT", ProfessionsFrame.OrdersPage.OrderView.ConcentrationDisplay.Icon, "TOPRIGHT", 6, 0)
 
-		app.Concentration2 = ProfessionsFrame.OrdersPage.OrderView.ConcentrationDisplay:CreateFontString("ARTWORK", nil, "GameFontNormal")
+		app.Concentration2 = ProfessionsFrame.OrdersPage.OrderView.ConcentrationDisplay:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.Concentration2:SetPoint("TOPLEFT", ProfessionsFrame.OrdersPage.OrderView.ConcentrationDisplay.Amount, "BOTTOMLEFT", 0, 0)
 		app.Concentration2:SetJustifyH("LEFT")
 	end

@@ -490,7 +490,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 
 						-- Replace the commission price text with an actual profit calculation
 						if not app.OrderAdjustments[v].rewardText then
-							app.OrderAdjustments[v].rewardText = v:CreateFontString("ARTWORK", nil, "GameFontNormal")
+							app.OrderAdjustments[v].rewardText = v:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 							app.OrderAdjustments[v].rewardText:SetJustifyH("RIGHT")
 						end
 						app.OrderAdjustments[v].rewardText:SetPoint("TOPLEFT", v.cells[3])
@@ -568,7 +568,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							app.OrderAdjustments[v].button[i]:SetWidth(20)
 							app.OrderAdjustments[v].button[i]:SetHeight(20)
 							app.OrderAdjustments[v].button[i]:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
-							app.OrderAdjustments[v].button[i].Text = app.OrderAdjustments[v].button[i]:CreateFontString("ARTWORK", nil, "GameFontNormalOutline")
+							app.OrderAdjustments[v].button[i].Text = app.OrderAdjustments[v].button[i]:CreateFontString(nil, "ARTWORK", "GameFontNormalOutline")
 							app.OrderAdjustments[v].button[i].Text:SetJustifyH("RIGHT")
 							app.OrderAdjustments[v].button[i].Text:SetTextScale(0.9)
 						end
@@ -597,11 +597,11 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 
 					-- Recipe icons
 					if not app.OrderAdjustments[v].tracked then
-						app.OrderAdjustments[v].tracked = v:CreateFontString("ARTWORK", nil, "GameFontNormalHuge")
+						app.OrderAdjustments[v].tracked = v:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
 						app.OrderAdjustments[v].tracked:SetJustifyH("RIGHT")
 						app.OrderAdjustments[v].tracked:SetText(app.IconReady)
 
-						app.OrderAdjustments[v].unlearned = v:CreateFontString("ARTWORK", nil, "GameFontNormalHuge")
+						app.OrderAdjustments[v].unlearned = v:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
 						app.OrderAdjustments[v].unlearned:SetJustifyH("RIGHT")
 						app.OrderAdjustments[v].unlearned:SetText(app.IconNotReady)
 

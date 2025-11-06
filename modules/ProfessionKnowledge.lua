@@ -40,7 +40,7 @@ function app.CreateProfessionKnowledgeAssets()
 		Mixin(app.KnowledgePointTracker.Bar, SmoothStatusBarMixin)
 
 		-- Text
-		app.KnowledgePointTracker.Text = app.KnowledgePointTracker.Bar:CreateFontString("OVERLAY", nil, "GameFontNormalOutline")
+		app.KnowledgePointTracker.Text = app.KnowledgePointTracker.Bar:CreateFontString(nil, "OVERLAY", "GameFontNormalOutline")
 		app.KnowledgePointTracker.Text:SetPoint("CENTER", app.KnowledgePointTracker, "CENTER", 0, 0)
 		app.KnowledgePointTracker.Text:SetTextColor(1, 1, 1, 1)
 	end

@@ -652,7 +652,7 @@ function app.UpdateRecipes()
 			app.Window.Recipes:SetScript("OnDragStart", function() app.MoveWindow()	end)
 			app.Window.Recipes:SetScript("OnDragStop", function() app.SaveWindow() end)
 
-			local recipes1 = app.Window.Recipes:CreateFontString("ARTWORK", nil, "GameFontNormal")
+			local recipes1 = app.Window.Recipes:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			recipes1:SetPoint("LEFT", app.Window.Recipes)
 			recipes1:SetScale(1.1)
 			app.RecipeHeader = recipes1
@@ -789,19 +789,19 @@ function app.UpdateRecipes()
 				tradeskill = ProfessionShoppingList_Library[recipeInfo.recipeID].tradeskillID or 999
 			end
 
-			local icon1 = row:CreateFontString("ARTWORK", nil, "GameFontNormal")
+			local icon1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			icon1:SetPoint("LEFT", row)
 			icon1:SetScale(1.2)
 			icon1:SetText(app.IconProfession[tradeskill])
 
-			local text2 = row:CreateFontString("ARTWORK", nil, "GameFontNormal")
+			local text2 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			text2:SetPoint("CENTER", icon1)
 			text2:SetPoint("RIGHT", app.Window.Child)
 			text2:SetJustifyH("RIGHT")
 			text2:SetTextColor(1, 1, 1)
 			text2:SetText(recipeInfo.quantity)
 
-			local text1 = row:CreateFontString("ARTWORK", nil, "GameFontNormal")
+			local text1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			text1:SetPoint("LEFT", icon1, "RIGHT", 3, 0)
 			text1:SetPoint("RIGHT", text2, "LEFT")
 			text1:SetTextColor(1, 1, 1)
@@ -824,7 +824,7 @@ function app.UpdateRecipes()
 			app.Window.Reagents:SetScript("OnDragStart", function() app.MoveWindow() end)
 			app.Window.Reagents:SetScript("OnDragStop", function() app.SaveWindow() end)
 
-			local reagents1 = app.Window.Reagents:CreateFontString("ARTWORK", nil, "GameFontNormal")
+			local reagents1 = app.Window.Reagents:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			reagents1:SetPoint("LEFT", app.Window.Reagents)
 			reagents1:SetText(L.WINDOW_HEADER_REAGENTS)
 			reagents1:SetScale(1.1)
@@ -953,14 +953,14 @@ function app.UpdateRecipes()
 						end)
 
 						-- Text
-						local pslOptionText = f:CreateFontString("ARTWORK", nil, "GameFontNormal")
+						local pslOptionText = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 						pslOptionText:SetPoint("CENTER", f, "CENTER", 0, 0)
 						pslOptionText:SetPoint("TOP", f, "TOP", 0, -10)
 						pslOptionText:SetJustifyH("CENTER")
 						pslOptionText:SetText("|cffFFFFFF" .. L.SUBREAGENTS1 .. ":\n" .. reagentInfo.link .. "\n\n" .. L.SUBREAGENTS2 .. ":")
 
 						-- Text
-						local pslOption1 = f:CreateFontString("ARTWORK", nil, "GameFontNormal")
+						local pslOption1 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 						pslOption1:SetPoint("LEFT", f, "LEFT", 10, 0)
 						pslOption1:SetPoint("TOP", pslOptionText, "BOTTOM", 0, -40)
 						pslOption1:SetWidth(200)
@@ -1015,7 +1015,7 @@ function app.UpdateRecipes()
 							f:SetSize(430, 205)
 
 							-- Text
-							local pslOption2 = f:CreateFontString("ARTWORK", nil, "GameFontNormal")
+							local pslOption2 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 							pslOption2:SetPoint("LEFT", pslOption1, "RIGHT", 10, 0)
 							pslOption2:SetPoint("TOP", pslOption1, "TOP", 0, 0)
 							pslOption2:SetWidth(200)
@@ -1071,7 +1071,7 @@ function app.UpdateRecipes()
 							f:SetSize(640, 200)
 
 							-- Text
-							local pslOption3 = f:CreateFontString("ARTWORK", nil, "GameFontNormal")
+							local pslOption3 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 							pslOption3:SetPoint("LEFT", pslOption1, "RIGHT", 220, 0)
 							pslOption3:SetPoint("TOP", pslOption1, "TOP", 0, 0)
 							pslOption3:SetWidth(200)
@@ -1127,7 +1127,7 @@ function app.UpdateRecipes()
 							f:SetSize(640, 335)
 
 							-- Text
-							local pslOption4 = f:CreateFontString("ARTWORK", nil, "GameFontNormal")
+							local pslOption4 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 							pslOption4:SetPoint("LEFT", pslOption1, "LEFT", 0, 0)
 							pslOption4:SetPoint("TOP", pslOption1, "TOP", 0, -130)
 							pslOption4:SetWidth(200)
@@ -1180,7 +1180,7 @@ function app.UpdateRecipes()
 						-- If five options
 						if no >= 5 then
 							-- Text
-							local pslOption5 = f:CreateFontString("ARTWORK", nil, "GameFontNormal")
+							local pslOption5 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 							pslOption5:SetPoint("LEFT", pslOption1, "RIGHT", 10, 0)
 							pslOption5:SetPoint("TOP", pslOption1, "TOP", 0, -130)
 							pslOption5:SetWidth(200)
@@ -1233,7 +1233,7 @@ function app.UpdateRecipes()
 						-- If six options
 						if no >= 6 then
 							-- Text
-							local pslOption6 = f:CreateFontString("ARTWORK", nil, "GameFontNormal")
+							local pslOption6 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 							pslOption6:SetPoint("LEFT", pslOption1, "RIGHT", 220, 0)
 							pslOption6:SetPoint("TOP", pslOption1, "TOP", 0, -130)
 							pslOption6:SetWidth(200)
@@ -1292,13 +1292,13 @@ function app.UpdateRecipes()
 
 			app.Rows.Reagent[rowNo2] = row
 
-			local icon1 = row:CreateFontString("ARTWORK", nil, "GameFontNormal")
+			local icon1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			icon1:SetPoint("LEFT", row)
 			icon1:SetScale(1.2)
 			icon1:SetText("|T"..reagentInfo.icon..":0|t")
 			row.icon = icon1
 
-			local text2 = row:CreateFontString("ARTWORK", nil, "GameFontNormal")
+			local text2 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			text2:SetPoint("CENTER", icon1)
 			text2:SetPoint("RIGHT", app.Window.Child)
 			text2:SetJustifyH("RIGHT")
@@ -1306,7 +1306,7 @@ function app.UpdateRecipes()
 			text2:SetText(reagentInfo.quantity)
 			row.text2 = text2
 
-			local text1 = row:CreateFontString("ARTWORK", nil, "GameFontNormal")
+			local text1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			text1:SetPoint("LEFT", icon1, "RIGHT", 3, 0)
 			text1:SetPoint("RIGHT", text2, "LEFT")
 			text1:SetTextColor(1, 1, 1)
@@ -1358,7 +1358,7 @@ function app.UpdateRecipes()
 			app.Window.Cooldowns:SetScript("OnDragStart", function() app.MoveWindow() end)
 			app.Window.Cooldowns:SetScript("OnDragStop", function() app.SaveWindow() end)
 
-			local cooldowns1 = app.Window.Cooldowns:CreateFontString("ARTWORK", nil, "GameFontNormal")
+			local cooldowns1 = app.Window.Cooldowns:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			cooldowns1:SetPoint("LEFT", app.Window.Cooldowns)
 			cooldowns1:SetText(L.WINDOW_HEADER_COOLDOWNS)
 			cooldowns1:SetScale(1.1)
@@ -1446,7 +1446,7 @@ function app.UpdateRecipes()
 
 			local tradeskill = ProfessionShoppingList_Library[cooldownInfo.recipeID].tradeskillID or 999
 
-			local icon1 = row:CreateFontString("ARTWORK", nil, "GameFontNormal")
+			local icon1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			icon1:SetPoint("LEFT", row)
 			icon1:SetScale(1.2)
 			icon1:SetText(app.IconProfession[tradeskill])
@@ -1459,7 +1459,7 @@ function app.UpdateRecipes()
 			hours = math.floor((cooldownRemaining - (days*60*60*24))/(60*60))
 			minutes = math.floor((cooldownRemaining - ((days*60*60*24) + (hours*60*60)))/60)
 
-			local text2 = row:CreateFontString("ARTWORK", nil, "GameFontNormal")
+			local text2 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			text2:SetPoint("CENTER", icon1)
 			text2:SetPoint("RIGHT", app.Window.Child)
 			text2:SetJustifyH("RIGHT")
@@ -1475,7 +1475,7 @@ function app.UpdateRecipes()
 			end
 			row.text2 = text2
 
-			local text1 = row:CreateFontString("ARTWORK", nil, "GameFontNormal")
+			local text1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			text1:SetPoint("LEFT", icon1, "RIGHT", 3, 0)
 			text1:SetPoint("RIGHT", text2, "LEFT")
 			text1:SetTextColor(1, 1, 1)
