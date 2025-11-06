@@ -1348,7 +1348,6 @@ function app.UpdateRecipes()
 		local rowNo3 = 0
 		local showCooldowns = true
 
-		-- TODO: Use offset like with reagents
 		if not app.Window.Cooldowns then
 			app.Window.Cooldowns = CreateFrame("Button", nil, app.Window.Child)
 			app.Window.Cooldowns:SetSize(0,16)
@@ -2292,7 +2291,6 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 				local recipeStart = GetServerTime()
 
 				-- Remove shared cooldowns and only leave the last one done
-				-- TODO: Make this a database thing and create the sets of shared cooldowns
 				local function sharedCooldowns(spells)
 					for k, v in pairs(spells) do
 						if v ~= spellID then
