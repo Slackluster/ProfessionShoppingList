@@ -409,6 +409,8 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 		local function OnFrameInitialized(_, v, data)
 			local function doTheThing()
 				if data and v and v.cells and not C_AddOns.IsAddOnLoaded("PublicOrdersReagentsColumn") then	-- Don't interfere with No Mats, No Make
+					if not data.option or not data.option.orderID then return end
+
 					local key = "order:" .. data.option.orderID .. ":" .. data.option.spellID
 					if not app.OrderAdjustments[v] then app.OrderAdjustments[v] = {} end
 
