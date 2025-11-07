@@ -20,6 +20,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		if ProfessionShoppingList_Settings["debug"] == nil then ProfessionShoppingList_Settings["debug"] = false end
 		if ProfessionShoppingList_Settings["useLocalReagents"] == nil then ProfessionShoppingList_Settings["useLocalReagents"] = false end
 
+		app.CreateLinkCopiedFrame()
 		app.Settings()
 
 		-- LEGACY
@@ -150,6 +151,57 @@ function app.Settings()
 	local category, layout = Settings.RegisterVerticalLayoutCategory(app.Name)
 	Settings.RegisterAddOnCategory(category)
 	app.Category = category
+
+	ProfessionShoppingList_SettingsTextMixin = {}
+	function ProfessionShoppingList_SettingsTextMixin:Init(initializer)
+		local data = initializer:GetData()
+		self.Text:SetTextToFit(data.text)
+	end
+
+	local data = {text = L.SETTINGS_SUPPORT_TEXTLONG}
+	local text = layout:AddInitializer(Settings.CreateElementInitializer("ProfessionShoppingList_SettingsText", data))
+	function text:GetExtent()
+		return 28 + select(2, string.gsub(data.text, "\n", "")) * 12
+	end
+
+	local function onSupportButtonClick()
+		StaticPopupDialogs["PROFESSIONSHOPPINGLIST_SUPPORT"] = {
+			text = L.SETTINGS_SUPPORT_COPY,
+			button1 = CLOSE,
+			whileDead = true,
+			hasEditBox = true,
+			editBoxWidth = 240,
+			OnShow = function(dialog, data)
+				dialog:ClearAllPoints()
+				dialog:SetPoint("CENTER", UIParent)
+
+				local editBox = dialog.GetEditBox and dialog:GetEditBox() or dialog.editBox
+				editBox:SetText(data)
+				editBox:SetAutoFocus(true)
+				editBox:HighlightText()
+				editBox:SetScript("OnEditFocusLost", function()
+					editBox:SetFocus()
+				end)
+				editBox:SetScript("OnEscapePressed", function()
+					dialog:Hide()
+				end)
+				editBox:SetScript("OnTextChanged", function()
+					editBox:SetText(data)
+					editBox:HighlightText()
+				end)
+				editBox:SetScript("OnKeyUp", function(self, key)
+					if (IsControlKeyDown() and (key == "C" or key == "X")) then
+						dialog:Hide()
+						app.LinkCopiedFrame:Show()
+						app.LinkCopiedFrame:SetAlpha(1)
+						app.LinkCopiedFrame.animation:Play()
+					end
+				end)
+			end,
+		}
+		StaticPopup_Show("PROFESSIONSHOPPINGLIST_SUPPORT", nil, nil, "https://buymeacoffee.com/slackluster")
+	end
+	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_SUPPORT_TEXT, L.SETTINGS_SUPPORT_BUTTON, onSupportButtonClick, L.SETTINGS_SUPPORT_DESC, true))
 
 	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(C_AddOns.GetAddOnMetadata(appName, "Version")))
 
@@ -291,4 +343,31 @@ function app.Settings()
 	end
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Number, name, 1)
 	Settings.CreateDropdown(category, setting, GetOptions, tooltip)
+end
+
+function app.CreateLinkCopiedFrame()
+	app.LinkCopiedFrame= CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
+	app.LinkCopiedFrame:SetPoint("CENTER")
+	app.LinkCopiedFrame:SetFrameStrata("TOOLTIP")
+	app.LinkCopiedFrame:SetHeight(1)
+	app.LinkCopiedFrame:SetWidth(1)
+	app.LinkCopiedFrame:Hide()
+
+	local string = app.LinkCopiedFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string:SetPoint("CENTER", app.LinkCopiedFrame, "CENTER", 0, 0)
+	string:SetPoint("TOP", app.LinkCopiedFrame, "TOP", 0, 0)
+	string:SetJustifyH("CENTER")
+	string:SetText(L.SETTINGS_SUPPORT_COPIED)
+
+	app.LinkCopiedFrame.animation = app.LinkCopiedFrame:CreateAnimationGroup()
+	local fadeOut = app.LinkCopiedFrame.animation:CreateAnimation("Alpha")
+	fadeOut:SetFromAlpha(1)
+	fadeOut:SetToAlpha(0)
+	fadeOut:SetDuration(1)
+	fadeOut:SetStartDelay(1)
+	fadeOut:SetSmoothing("IN_OUT")
+	app.LinkCopiedFrame.animation:SetToFinalAlpha(true)
+	app.LinkCopiedFrame.animation:SetScript("OnFinished", function()
+		app.LinkCopiedFrame:Hide()
+	end)
 end

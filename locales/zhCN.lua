@@ -175,6 +175,13 @@ L.ERROR_MULTISIM =						L.ERROR .. "：未使用模拟材料。请启用以下�
 L.VERSION_CHECK =						app.NameLong .. "有新版本可用："
 
 -- Settings
+-- L.SETTINGS_SUPPORT_TEXTLONG =			"Developing this addon takes a significant amount of time and effort.\nPlease consider financially supporting the developer."
+-- L.SETTINGS_SUPPORT_TEXT =				"Support"
+-- L.SETTINGS_SUPPORT_BUTTON =				"Link"
+-- L.SETTINGS_SUPPORT_DESC =				"Thank you!"
+-- L.SETTINGS_SUPPORT_COPY =				"Ctrl+C to copy:"
+-- L.SETTINGS_SUPPORT_COPIED =				"Link copied to clipboard"
+
 L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF：切换窗口|r\n" ..
 										app.IconRMB .. "：打开设置"
 

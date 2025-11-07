@@ -30,6 +30,7 @@ libs\ChatThrottleLib\ChatThrottleLib.xml
 Core.lua
 Database.lua
 Settings.lua
+SettingsTemplates.xml
 modules\AuctionHouse.lua
 modules\CraftingOrders.lua
 modules\ProfessionKnowledge.lua

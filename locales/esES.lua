@@ -175,6 +175,13 @@ local L = app.locales
 -- L.VERSION_CHECK =						"There is a newer version of " .. app.NameLong .. " available:"
 
 -- Settings
+-- L.SETTINGS_SUPPORT_TEXTLONG =			"Developing this addon takes a significant amount of time and effort.\nPlease consider financially supporting the developer."
+-- L.SETTINGS_SUPPORT_TEXT =				"Support"
+-- L.SETTINGS_SUPPORT_BUTTON =				"Link"
+-- L.SETTINGS_SUPPORT_DESC =				"Thank you!"
+-- L.SETTINGS_SUPPORT_COPY =				"Ctrl+C to copy:"
+-- L.SETTINGS_SUPPORT_COPIED =				"Link copied to clipboard"
+
 -- L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF: Toggle the window\n" ..
 -- 										app.IconRMB .. ": " .. L.WINDOW_BUTTON_SETTINGS
 
