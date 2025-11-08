@@ -2,7 +2,7 @@
 -- Profession Shopping List: frFR.lua --
 ----------------------------------------
 -- French (France) localisation
--- Translator(s): Machou
+-- Translator(s): Klep-Ysondre
 
 -- Initialisation
 if GetLocale() ~= "frFR" then return end
@@ -175,12 +175,12 @@ L.ERROR_MULTISIM =						L.ERROR .. " : Aucun composant simulé n’a été utili
 L.VERSION_CHECK =						"Une nouvelle version de " .. app.NameLong .. " est disponible :"
 
 -- Settings
--- L.SETTINGS_SUPPORT_TEXTLONG =			"Developing this addon takes a significant amount of time and effort.\nPlease consider financially supporting the developer."
--- L.SETTINGS_SUPPORT_TEXT =				"Support"
--- L.SETTINGS_SUPPORT_BUTTON =				"Link"
--- L.SETTINGS_SUPPORT_DESC =				"Thank you!"
--- L.SETTINGS_SUPPORT_COPY =				"Ctrl+C to copy:"
--- L.SETTINGS_SUPPORT_COPIED =				"Link copied to clipboard"
+L.SETTINGS_SUPPORT_TEXTLONG =			"Le développement de cette extension demande beaucoup de temps et d’efforts.\nVeuillez envisager de soutenir financièrement le développeur."
+L.SETTINGS_SUPPORT_TEXT =				"Soutien"
+L.SETTINGS_SUPPORT_BUTTON =				"Lien"
+L.SETTINGS_SUPPORT_DESC =				"Merci !"
+L.SETTINGS_SUPPORT_COPY =				"Ctrl+C pour copier :"
+L.SETTINGS_SUPPORT_COPIED =				"Lien copié dans le presse-papiers"
 
 L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF : Afficher / masquer la fenêtre\n" ..
 										app.IconRMB .. " : " .. L.WINDOW_BUTTON_SETTINGS
@@ -219,7 +219,7 @@ L.SETTINGS_DURATION_MEDIUM =			"Moyen (24 heures)"
 L.SETTINGS_DURATION_LONG =				"Long (48 heures)"
 
 L.SETTINGS_HEADER_TRACK =				"Fenêtre de suivi"
-L.SETTINGS_HELP_TITLE =					"Afficher les infobulles d'aide"
+L.SETTINGS_HELP_TITLE =					"Afficher les info-bulles d’aide"
 L.SETTINGS_HELP_TOOLTIP =				"Affiche les actions de la souris qui existent lors du survol des entrées dans la fenêtre de suivi."
 L.SETTINGS_PERSONALWINDOWS_TITLE =		"Position de la fenêtre par personnage"
 L.SETTINGS_PERSONALWINDOWS_TOOLTIP =	"Enregistrer la position de la fenêtre par personnage, au lieu de l’enregistrer sur l’ensemble du compte."
