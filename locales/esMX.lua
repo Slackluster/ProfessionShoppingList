@@ -177,10 +177,16 @@ local L = app.locales
 -- Settings
 -- L.SETTINGS_SUPPORT_TEXTLONG =			"Developing this addon takes a significant amount of time and effort.\nPlease consider financially supporting the developer."
 -- L.SETTINGS_SUPPORT_TEXT =				"Support"
--- L.SETTINGS_SUPPORT_BUTTON =				"Link"
+-- L.SETTINGS_SUPPORT_BUTTON =				"Buy Me a Coffee"	-- Brand name, if there isn't a localised version, keep it the way it is
 -- L.SETTINGS_SUPPORT_DESC =				"Thank you!"
--- L.SETTINGS_SUPPORT_COPY =				"Ctrl+C to copy:"
--- L.SETTINGS_SUPPORT_COPIED =				"Link copied to clipboard"
+-- L.SETTINGS_HELP_TEXT =					"Feedback & Help"
+-- L.SETTINGS_HELP_BUTTON =				"Discord"	-- Brand name, if there isn't a localised version, keep it the way it is
+-- L.SETTINGS_HELP_DESC =					"Join the Discord server."
+-- L.SETTINGS_ISSUES_TEXT =				"Issue Tracker"
+-- L.SETTINGS_ISSUES_BUTTON =				"GitHub"	-- Brand name, if there isn't a localised version, keep it the way it is
+-- L.SETTINGS_ISSUES_DESC =				"View the issue tracker on GitHub."
+-- L.SETTINGS_URL_COPY =					"Ctrl+C to copy:"
+-- L.SETTINGS_URL_COPIED =					"Link copied to clipboard"
 
 -- L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF: Toggle the window\n" ..
 -- 										app.IconRMB .. ": " .. L.WINDOW_BUTTON_SETTINGS
@@ -245,6 +251,3 @@ local L = app.locales
 -- L.SETTINGS_SLASH_CRAFTINGACHIE =		"crafting achievement"
 -- L.SETTINGS_SLASH_RECIPEID =				"recipeID"
 -- L.SETTINGS_SLASH_QUANTITY =				"quantity"
--- L.SETTINGS_DEFAULT =					CHAT_DEFAULT	-- "Default"
--- L.SETTINGS_LTOR =						"Left-to-Right"
--- L.SETTINGS_RTOL =						"Right-to-Left"

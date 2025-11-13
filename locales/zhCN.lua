@@ -177,10 +177,16 @@ L.VERSION_CHECK =						app.NameLong .. "有新版本可用："
 -- Settings
 -- L.SETTINGS_SUPPORT_TEXTLONG =			"Developing this addon takes a significant amount of time and effort.\nPlease consider financially supporting the developer."
 -- L.SETTINGS_SUPPORT_TEXT =				"Support"
--- L.SETTINGS_SUPPORT_BUTTON =				"Link"
+-- L.SETTINGS_SUPPORT_BUTTON =				"Buy Me a Coffee"	-- Brand name, if there isn't a localised version, keep it the way it is
 -- L.SETTINGS_SUPPORT_DESC =				"Thank you!"
--- L.SETTINGS_SUPPORT_COPY =				"Ctrl+C to copy:"
--- L.SETTINGS_SUPPORT_COPIED =				"Link copied to clipboard"
+-- L.SETTINGS_HELP_TEXT =					"Feedback & Help"
+-- L.SETTINGS_HELP_BUTTON =				"Discord"	-- Brand name, if there isn't a localised version, keep it the way it is
+-- L.SETTINGS_HELP_DESC =					"Join the Discord server."
+-- L.SETTINGS_ISSUES_TEXT =				"Issue Tracker"
+-- L.SETTINGS_ISSUES_BUTTON =				"GitHub"	-- Brand name, if there isn't a localised version, keep it the way it is
+-- L.SETTINGS_ISSUES_DESC =				"View the issue tracker on GitHub."
+-- L.SETTINGS_URL_COPY =					"Ctrl+C to copy:"
+-- L.SETTINGS_URL_COPIED =					"Link copied to clipboard"
 
 L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF：切换窗口|r\n" ..
 										app.IconRMB .. "：打开设置"
@@ -245,6 +251,3 @@ L.SETTINGS_SLASH_TRACKACHIE =			"追踪链接成就所需配方。"
 L.SETTINGS_SLASH_CRAFTINGACHIE =		"制造成就"
 L.SETTINGS_SLASH_RECIPEID =				"配方ID"
 L.SETTINGS_SLASH_QUANTITY =				"数量"
-L.SETTINGS_DEFAULT =					CHAT_DEFAULT -- "默认"
-L.SETTINGS_LTOR =						"从左到右"
-L.SETTINGS_RTOL =						"从右到左"

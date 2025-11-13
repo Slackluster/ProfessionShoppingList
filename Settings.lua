@@ -164,44 +164,54 @@ function app.Settings()
 		return 28 + select(2, string.gsub(data.text, "\n", "")) * 12
 	end
 
-	local function onSupportButtonClick()
-		StaticPopupDialogs["PROFESSIONSHOPPINGLIST_SUPPORT"] = {
-			text = L.SETTINGS_SUPPORT_COPY,
-			button1 = CLOSE,
-			whileDead = true,
-			hasEditBox = true,
-			editBoxWidth = 240,
-			OnShow = function(dialog, data)
-				dialog:ClearAllPoints()
-				dialog:SetPoint("CENTER", UIParent)
+	StaticPopupDialogs["PROFESSIONSHOPPINGLIST_URL"] = {
+		text = L.SETTINGS_URL_COPY,
+		button1 = CLOSE,
+		whileDead = true,
+		hasEditBox = true,
+		editBoxWidth = 240,
+		OnShow = function(dialog, data)
+			dialog:ClearAllPoints()
+			dialog:SetPoint("CENTER", UIParent)
 
-				local editBox = dialog.GetEditBox and dialog:GetEditBox() or dialog.editBox
+			local editBox = dialog.GetEditBox and dialog:GetEditBox() or dialog.editBox
+			editBox:SetText(data)
+			editBox:SetAutoFocus(true)
+			editBox:HighlightText()
+			editBox:SetScript("OnEditFocusLost", function()
+				editBox:SetFocus()
+			end)
+			editBox:SetScript("OnEscapePressed", function()
+				dialog:Hide()
+			end)
+			editBox:SetScript("OnTextChanged", function()
 				editBox:SetText(data)
-				editBox:SetAutoFocus(true)
 				editBox:HighlightText()
-				editBox:SetScript("OnEditFocusLost", function()
-					editBox:SetFocus()
-				end)
-				editBox:SetScript("OnEscapePressed", function()
+			end)
+			editBox:SetScript("OnKeyUp", function(self, key)
+				if (IsControlKeyDown() and (key == "C" or key == "X")) then
 					dialog:Hide()
-				end)
-				editBox:SetScript("OnTextChanged", function()
-					editBox:SetText(data)
-					editBox:HighlightText()
-				end)
-				editBox:SetScript("OnKeyUp", function(self, key)
-					if (IsControlKeyDown() and (key == "C" or key == "X")) then
-						dialog:Hide()
-						app.LinkCopiedFrame:Show()
-						app.LinkCopiedFrame:SetAlpha(1)
-						app.LinkCopiedFrame.animation:Play()
-					end
-				end)
-			end,
-		}
-		StaticPopup_Show("PROFESSIONSHOPPINGLIST_SUPPORT", nil, nil, "https://buymeacoffee.com/slackluster")
+					app.LinkCopiedFrame:Show()
+					app.LinkCopiedFrame:SetAlpha(1)
+					app.LinkCopiedFrame.animation:Play()
+				end
+			end)
+		end,
+	}
+	local function onSupportButtonClick()
+		StaticPopup_Show("PROFESSIONSHOPPINGLIST_URL", nil, nil, "https://buymeacoffee.com/slackluster")
 	end
 	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_SUPPORT_TEXT, L.SETTINGS_SUPPORT_BUTTON, onSupportButtonClick, L.SETTINGS_SUPPORT_DESC, true))
+
+	local function onHelpButtonClick()
+		StaticPopup_Show("PROFESSIONSHOPPINGLIST_URL", nil, nil, "https://discord.gg/hGvF59hstx")
+	end
+	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_HELP_TEXT, L.SETTINGS_HELP_BUTTON, onHelpButtonClick, L.SETTINGS_HELP_DESC, true))
+
+	local function onIssuesButtonClick()
+		StaticPopup_Show("PROFESSIONSHOPPINGLIST_URL", nil, nil, "https://github.com/slackluster/ProfessionShoppingList/issues")
+	end
+	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_ISSUES_TEXT, L.SETTINGS_ISSUES_BUTTON, onIssuesButtonClick, L.SETTINGS_ISSUES_DESC, true))
 
 	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(C_AddOns.GetAddOnMetadata(appName, "Version")))
 

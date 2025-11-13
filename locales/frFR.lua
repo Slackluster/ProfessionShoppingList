@@ -177,10 +177,16 @@ L.VERSION_CHECK =						"Une nouvelle version de " .. app.NameLong .. " est dispo
 -- Settings
 L.SETTINGS_SUPPORT_TEXTLONG =			"Le développement de cette extension demande beaucoup de temps et d’efforts.\nVeuillez envisager de soutenir financièrement le développeur."
 L.SETTINGS_SUPPORT_TEXT =				"Soutien"
-L.SETTINGS_SUPPORT_BUTTON =				"Lien"
+-- L.SETTINGS_SUPPORT_BUTTON =				"Buy Me a Coffee"	-- Brand name, if there isn't a localised version, keep it the way it is
 L.SETTINGS_SUPPORT_DESC =				"Merci !"
-L.SETTINGS_SUPPORT_COPY =				"Ctrl+C pour copier :"
-L.SETTINGS_SUPPORT_COPIED =				"Lien copié dans le presse-papiers"
+-- L.SETTINGS_HELP_TEXT =					"Feedback & Help"
+-- L.SETTINGS_HELP_BUTTON =				"Discord"	-- Brand name, if there isn't a localised version, keep it the way it is
+-- L.SETTINGS_HELP_DESC =					"Join the Discord server."
+-- L.SETTINGS_ISSUES_TEXT =				"Issue Tracker"
+-- L.SETTINGS_ISSUES_BUTTON =				"GitHub"	-- Brand name, if there isn't a localised version, keep it the way it is
+-- L.SETTINGS_ISSUES_DESC =				"View the issue tracker on GitHub."
+L.SETTINGS_URL_COPY =					"Ctrl+C pour copier :"
+L.SETTINGS_URL_COPIED =					"Lien copié dans le presse-papiers"
 
 L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF : Afficher / masquer la fenêtre\n" ..
 										app.IconRMB .. " : " .. L.WINDOW_BUTTON_SETTINGS
@@ -245,6 +251,3 @@ L.SETTINGS_SLASH_TRACKACHIE =			"Suivre les recettes nécessaires à l’obtenti
 L.SETTINGS_SLASH_CRAFTINGACHIE =		"haut fait de métier"
 L.SETTINGS_SLASH_RECIPEID =				"recipeID"
 L.SETTINGS_SLASH_QUANTITY =				"quantité"
-L.SETTINGS_DEFAULT =					CHAT_DEFAULT -- "Default"
-L.SETTINGS_LTOR =						"Gauche-vers-Droite"
-L.SETTINGS_RTOL =						"Droite-vers-Gauche"
