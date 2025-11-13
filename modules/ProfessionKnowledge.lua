@@ -24,22 +24,19 @@ end)
 function app.CreateProfessionKnowledgeAssets()
 	-- Create Knowledge Point tracker
 	if not app.KnowledgePointTracker then
-		-- Bar wrapper
 		app.KnowledgePointTracker = CreateFrame("Frame", "KnowledgePointTracker", ProfessionsFrame.SpecPage, "TooltipBackdropTemplate")
 		app.KnowledgePointTracker:SetBackdropBorderColor(0.5, 0.5, 0.5)
 		app.KnowledgePointTracker:SetSize(470,25)
 		app.KnowledgePointTracker:SetPoint("TOPRIGHT", ProfessionsFrame.SpecPage, "TOPRIGHT", -5, -24)
 		app.KnowledgePointTracker:SetFrameStrata("HIGH")
 
-		-- Bar
 		app.KnowledgePointTracker.Bar = CreateFrame("StatusBar", nil, app.KnowledgePointTracker)
-		app.KnowledgePointTracker.Bar:SetStatusBarTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\profbars\\generic.blp")
-
 		app.KnowledgePointTracker.Bar:SetPoint("TOPLEFT", 5, -5)
 		app.KnowledgePointTracker.Bar:SetPoint("BOTTOMRIGHT", -5, 5)
-		Mixin(app.KnowledgePointTracker.Bar, SmoothStatusBarMixin)
 
-		-- Text
+		app.KnowledgePointTracker.Bar.Fill = app.KnowledgePointTracker.Bar:CreateTexture(nil, "ARTWORK")
+		app.KnowledgePointTracker.Bar.Fill:SetAllPoints(app.KnowledgePointTracker.Bar)
+
 		app.KnowledgePointTracker.Text = app.KnowledgePointTracker.Bar:CreateFontString(nil, "OVERLAY", "GameFontNormalOutline")
 		app.KnowledgePointTracker.Text:SetPoint("CENTER", app.KnowledgePointTracker, "CENTER", 0, 0)
 		app.KnowledgePointTracker.Text:SetTextColor(1, 1, 1, 1)
@@ -120,9 +117,18 @@ function app.KnowledgeTracker()
 
 		-- Set text, background, and progress, then show bar
 		app.KnowledgePointTracker.Text:SetText(perksEarned .. "/" .. perkCount .. " " .. L.PERKS_UNLOCKED .. " (" .. knowledgeSpent .. "/" .. knowledgeMax .. " " .. L.PROFESSION_KNOWLEDGE .. ")")
-		app.KnowledgePointTracker.Bar:SetMinMaxSmoothedValue(0, knowledgeMax)
-		app.KnowledgePointTracker.Bar:SetSmoothedValue(knowledgeSpent)
-		app.KnowledgePointTracker.Bar:SetStatusBarTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\profbars\\" .. professionID .. ".blp")
+		local atlasInfo = C_Texture.GetAtlasInfo("Skillbar_Fill_Flipbook_" .. Professions.GetAtlasKitSpecifier(C_TradeSkillUI.GetChildProfessionInfo()) or "DefaultBlue")
+		local progress = knowledgeSpent / knowledgeMax
+
+		app.KnowledgePointTracker.Bar.Fill:SetTexture(atlasInfo.file)
+		app.KnowledgePointTracker.Bar.Fill:SetTexCoord(0.00157, 0.41693 * progress, 0.00159, 0.01578)
+
+		app.KnowledgePointTracker.Bar.Fill:ClearAllPoints()
+		app.KnowledgePointTracker.Bar.Fill:SetPoint("LEFT", app.KnowledgePointTracker.Bar, "LEFT")
+		app.KnowledgePointTracker.Bar.Fill:SetPoint("TOP", app.KnowledgePointTracker.Bar, "TOP")
+		app.KnowledgePointTracker.Bar.Fill:SetPoint("BOTTOM", app.KnowledgePointTracker.Bar, "BOTTOM")
+		app.KnowledgePointTracker.Bar.Fill:SetWidth(app.KnowledgePointTracker.Bar:GetWidth() * progress)
+
 		app.KnowledgePointTracker:Show()
 	end
 
