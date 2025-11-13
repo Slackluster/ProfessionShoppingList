@@ -48,6 +48,21 @@ function app.CreateProfessionKnowledgeAssets()
 	app.Flag.KnowledgeAssets = true
 end
 
+function app.SpendAllProfessionKnowledge()
+	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
+
+	if not app.Flag.SpendHook then app.Flag.SpendHook = {} end
+	if not app.Flag.SpendHook[skillLineID] then
+		hooksecurefunc(ProfessionsSpecPathMixin, "PurchaseRank", function(self)
+			local pathID = self:GetNodeID()
+			local configID = C_ProfSpecs.GetConfigIDForSkillLine(C_TradeSkillUI.GetProfessionChildSkillLineID())
+
+			C_Traits.TryPurchaseAllRanks(configID, pathID)
+		end)
+		app.Flag.SpendHook[skillLineID] = true
+	end
+end
+
 -- Populate knowledge tracker
 function app.KnowledgeTracker()
 	-- Show stuff depending on which profession+expansion is opened
@@ -302,6 +317,7 @@ end
 app.Event:Register("TRADE_SKILL_SHOW", function()
 	if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
 		app.CreateProfessionKnowledgeAssets()
+		app.SpendAllProfessionKnowledge()
 	end
 end)
 
