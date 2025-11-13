@@ -367,7 +367,7 @@ function app.CreateLinkCopiedFrame()
 	string:SetPoint("CENTER", app.LinkCopiedFrame, "CENTER", 0, 0)
 	string:SetPoint("TOP", app.LinkCopiedFrame, "TOP", 0, 0)
 	string:SetJustifyH("CENTER")
-	string:SetText(L.SETTINGS_SUPPORT_COPIED)
+	string:SetText(L.SETTINGS_URL_COPIED)
 
 	app.LinkCopiedFrame.animation = app.LinkCopiedFrame:CreateAnimationGroup()
 	local fadeOut = app.LinkCopiedFrame.animation:CreateAnimation("Alpha")
