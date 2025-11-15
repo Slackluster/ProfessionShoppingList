@@ -119,6 +119,11 @@ function app.KnowledgeTracker()
 		app.KnowledgePointTracker.Text:SetText(perksEarned .. "/" .. perkCount .. " " .. L.PERKS_UNLOCKED .. " (" .. knowledgeSpent .. "/" .. knowledgeMax .. " " .. L.PROFESSION_KNOWLEDGE .. ")")
 		local atlasInfo = C_Texture.GetAtlasInfo("Skillbar_Fill_Flipbook_" .. Professions.GetAtlasKitSpecifier(C_TradeSkillUI.GetChildProfessionInfo()) or "DefaultBlue")
 		local progress = knowledgeSpent / knowledgeMax
+		if progress < 0 then
+			progress = 0
+		elseif progress > 1 then
+			progress = 1
+		end
 
 		app.KnowledgePointTracker.Bar.Fill:SetTexture(atlasInfo.file)
 		app.KnowledgePointTracker.Bar.Fill:SetTexCoord(0.00157, 0.41693 * progress, 0.00159, 0.01578)
@@ -201,11 +206,17 @@ function app.KnowledgeTracker()
 
 					-- Add text
 					if v.renown then
-						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffffffff (" .. factionName .. " - " .. status .. L.RENOWN .. " " .. v.renown .. "|r)|r"
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip ..
+							"\n" ..
+							icon ..
+							itemLink ..
+							"|cffffffff (" .. factionName .. " - " .. status .. L.RENOWN .. " " .. v.renown .. "|r)|r"
 					elseif v.sourceType == "zone" then
-						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffffffff (" .. zoneName .. ")|r"
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip ..
+							"\n" .. icon .. itemLink .. "|cffffffff (" .. zoneName .. ")|r"
 					elseif v.sourceType == "static" then
-						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffffffff (" .. v.source .. ")|r"
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip ..
+							"\n" .. icon .. itemLink .. "|cffffffff (" .. v.source .. ")|r"
 					end
 				end
 
@@ -238,7 +249,16 @@ function app.KnowledgeTracker()
 						end
 
 						-- Add text
-						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. "|cffffff00|Hquest:" .. v.quest .. "62|h[" .. questTitle .. "]|h|r" .. "|cffffffff (" .. factionTitle .. " - " .. status .. L.RENOWN .. " " .. v.renown .. "|r)|r"
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip ..
+							"\n" ..
+							icon ..
+							" " ..
+							"|cffffff00|Hquest:" ..
+							v.quest ..
+							"62|h[" ..
+							questTitle ..
+							"]|h|r" ..
+							"|cffffffff (" .. factionTitle .. " - " .. status .. L.RENOWN .. " " .. v.renown .. "|r)|r"
 					end
 				end
 			end
@@ -281,16 +301,19 @@ function app.KnowledgeTracker()
 					end
 
 					-- Add text
-					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " |cffffffff" .. itemLink .. " (" .. zone .. ")|r"
+					app.KnowledgePointTooltip = app.KnowledgePointTooltip ..
+						"\n" .. icon .. " |cffffffff" .. itemLink .. " (" .. zone .. ")|r"
 				end
 			end
 
 			-- Catchup knowledge
 			for k, v in ipairs(app.ProfessionKnowledge[skillLineID]) do
 				if v.type == "catchup" then
-					local catchupKnowledge = C_CurrencyInfo.GetCurrencyInfo(v.currency).maxQuantity-C_CurrencyInfo.GetCurrencyInfo(v.currency).quantity
+					local catchupKnowledge = C_CurrencyInfo.GetCurrencyInfo(v.currency).maxQuantity -
+						C_CurrencyInfo.GetCurrencyInfo(v.currency).quantity
 					-- Add text
-					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n\n|r" .. L.CATCHUP_KNOWLEDGE .. "|cffffffff " .. catchupKnowledge
+					app.KnowledgePointTooltip = app.KnowledgePointTooltip ..
+						"\n\n|r" .. L.CATCHUP_KNOWLEDGE .. "|cffffffff " .. catchupKnowledge
 				end
 			end
 		end
@@ -300,7 +323,7 @@ function app.KnowledgeTracker()
 	app.KnowledgePointTracker:SetScript("OnEnter", function(self)
 		kpTooltip()
 
-	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+		GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
 		if not app.Flag.SkillLineID then
 			GameTooltip:SetText(L.LOADING)
 			C_Timer.After(1, function()
