@@ -25,16 +25,16 @@ L.WINDOW_HEADER_REAGENTS =				PROFESSIONS_COLUMN_HEADER_REAGENTS -- "Composants"
 L.WINDOW_HEADER_COSTS =					"Coûts"
 L.WINDOW_HEADER_COOLDOWNS =				"Temps de recharge"
 
-L.WINDOW_TOOLTIP_RECIPES =				"Maj " .. app.IconLMB .. "|cffFFFFFF : poste la recette\n|r" ..
-										"Ctrl " .. app.IconLMB .. "|cffFFFFFF : ouvre la recette (si connue)\n|r" ..
-										"Alt " .. app.IconLMB .. "|cffFFFFFF : essaie de créer cette recette (autant de fois que vous l’avez suivie)\n\n|r" ..
-										app.IconRMB .. "|cffFFFFFF : annule le suivi d’1 unité de la recette\n|r" ..
+L.WINDOW_TOOLTIP_RECIPES =				"Maj " .. app.IconLMB .. "|cffFFFFFF : poster la recette\n|r" ..
+										"Ctrl " .. app.IconLMB .. "|cffFFFFFF : ouvrir la recette (si connue)\n|r" ..
+										"Alt " .. app.IconLMB .. "|cffFFFFFF : essayer de créer cette recette (autant de fois que vous l’avez suivie)\n\n|r" ..
+										app.IconRMB .. "|cffFFFFFF : annuler le suivi d’1 unité de la recette\n|r" ..
 										"Ctrl " .. app.IconRMB .. "|cffFFFFFF : annuler le suivi de toutes les unités de la recette sélectionnée"
-L.WINDOW_TOOLTIP_REAGENTS =				"Maj " .. app.IconLMB .. "|cffFFFFFF : poste le composant\n|r" ..
-										"Ctrl " .. app.IconLMB .. "|cffFFFFFF : ajoute une recette pour le sous-composant sélectionné, s’il existe et est mis en cache"
-L.WINDOW_TOOLTIP_COOLDOWNS =			"Maj " .. app.IconRMB .. "|cffFFFFFF : supprime le rappel de temps de recharge\n|r" ..
-										"Ctrl " .. app.IconLMB .. "|cffFFFFFF : ouvre la recette (si connue)\n|r" ..
-										"Alt " .. app.IconLMB .. "|cffFFFFFF : essaie de créer cette recette"
+L.WINDOW_TOOLTIP_REAGENTS =				"Maj " .. app.IconLMB .. "|cffFFFFFF : poster le composant\n|r" ..
+										"Ctrl " .. app.IconLMB .. "|cffFFFFFF : ajouter une recette pour le sous-composant sélectionné, s’il existe et est mis en cache"
+L.WINDOW_TOOLTIP_COOLDOWNS =			"Maj " .. app.IconRMB .. "|cffFFFFFF : supprimer le rappel de temps de recharge\n|r" ..
+										"Ctrl " .. app.IconLMB .. "|cffFFFFFF : ouvrir la recette (si connue)\n|r" ..
+										"Alt " .. app.IconLMB .. "|cffFFFFFF : essayer de créer cette recette"
 
 L.CLEAR_CONFIRMATION =					"Cela effacera toutes les recettes."
 L.CONFIRMATION =						"Souhaitez-vous poursuivre ?"
@@ -43,12 +43,12 @@ L.SUBREAGENTS2 =						"Veuillez sélectionner l’un des éléments suivants"
 L.GOLD =								BONUS_ROLL_REWARD_MONEY -- "Or"
 
 -- Cooldowns
-L.RECHARGED =							"Entièrement rechargée"
+L.RECHARGED =							"Entièrement rechargé"
 L.READY =								"Prêt"
 L.DAYS =								"j"
 L.HOURS =								"h"
 L.MINUTES =								"m"
-L.READY_TO_CRAFT =						"est de nouveau prête sur" -- Preceded by a recipe name, followed by a character name
+L.READY_TO_CRAFT =						"est de nouveau prête pour" -- Preceded by a recipe name, followed by a character name
 
 -- Recipe tracking
 L.TRACK =								"Suivre"
@@ -132,7 +132,7 @@ L.ADDED_RECIPES1 =						"Ajout de" -- Followed by a number
 L.ADDED_RECIPES2 =						"recettes éligibles" -- Preceded by a number
 
 -- Tooltip info
-L.MORE_NEEDED =							"de plus sont nécessaires" -- Preceded by a number
+L.MORE_NEEDED =							"de plus est nécessaires" -- Preceded by a number
 L.MADE_WITH =							"Fabriqué par" -- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
 L.RECIPE_LEARNED =						"recette apprise"
 L.RECIPE_UNLEARNED =					"recette non apprise"
@@ -241,9 +241,8 @@ L.SETTINGS_CLOSEWHENDONE_TOOLTIP =		"Fermer la fenêtre de suivi après avoir fa
 L.SETTINGS_HEADER_INFO =				"Informations"
 L.SETTINGS_SLASHCOMMANDS_TITLE =		"Commandes « Slash »"
 L.SETTINGS_SLASHCOMMANDS_TOOLTIP =		"Saisissez ces mots-clés dans le chat pour les utiliser !"
--- L.SETTINGS_SLASHCOMMANDS_TOOLTIP =		"Tapez-les dans le chat pour les utiliser !"
 L.SETTINGS_SLASH_TOGGLE =				"Afficher / masquer la fenêtre de suivi"
-L.SETTINGS_SLASH_RESETPOS =				"Réinitialise la position de la fenêtre de suivi"
+L.SETTINGS_SLASH_RESETPOS =				"Réinitialiser la position de la fenêtre de suivi"
 L.SETTINGS_SLASH_RESET =				"Réinitialiser les données enregistrées"
 L.SETTINGS_SLASH_TRACK =				"Suivre une recette"
 L.SETTINGS_SLASH_UNTRACK =				"Annuler le suivi d’une recette"
