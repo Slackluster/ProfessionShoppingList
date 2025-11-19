@@ -87,7 +87,7 @@ L.MILLING_TBC =							"Pigment ébène : 25%\n" ..
 L.MILLING_WOTLK =						"Pigment glacé : 25%\n" ..
 										"Pigment azur : 100%"
 L.MILLING_CATA =						"Braises ardentes : 25%, 50% depuis Jasmin crépusculaire, Fouettine\n" ..
-										"Pigment cendreux: 100%"
+										"Pigment cendreux : 100%"
 L.MILLING_MOP =							"Pigment brumeux : 25%, 50% depuis Berluette\n" ..
 										"Pigment ombreux : 100%"
 L.MILLING_WOD =							"Pigment céruléen : 100%"
@@ -132,7 +132,7 @@ L.ADDED_RECIPES1 =						"Ajout de" -- Followed by a number
 L.ADDED_RECIPES2 =						"recettes éligibles" -- Preceded by a number
 
 -- Tooltip info
-L.MORE_NEEDED =							"de plus est nécessaires" -- Preceded by a number
+L.MORE_NEEDED =							"de plus sont nécessaires" -- Preceded by a number
 L.MADE_WITH =							"Fabriqué par" -- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
 L.RECIPE_LEARNED =						"recette apprise"
 L.RECIPE_UNLEARNED =					"recette non apprise"
@@ -194,7 +194,7 @@ L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF : afficher / masquer la fen�
 L.SETTINGS_MINIMAP_TITLE =				"Afficher le bouton de la mini-carte"
 L.SETTINGS_MINIMAP_TOOLTIP =			"Afficher le bouton de la mini-carte. Si vous désactivez cette fonction, " .. app.NameShort .. " sera toujours disponible dans le panneau des addons."
 L.SETTINGS_COOLDOWNS_TITLE =			"Suivre le temps de recharge des recettes"
-L.SETTINGS_COOLDOWNS_TOOLTIP =			"Activer le suivi des temps de recharge des recettes. Ceux-ci s’afficheront dans la fenêtre de suivi, et dans le chat lors de la connexion s’ils sont prêts."
+L.SETTINGS_COOLDOWNS_TOOLTIP =			"Activer le suivi des temps de recharge des recettes. Ceux-ci s’afficheront dans la fenêtre de suivi, et dans le chat à la connexion s’ils sont prêts."
 L.SETTINGS_COOLDOWNSWINDOW_TITLE =		"Afficher la fenêtre lorsque « Prêt »"
 L.SETTINGS_COOLDOWNSWINDOW_TOOLTIP =	"Ouvrir la fenêtre de suivi lors de la connexion lorsqu’un temps de recharge est prêt, en plus du rappel par message de chat."
 L.SETTINGS_TOOLTIP_TITLE =				"Afficher les informations de l’info-bulle"
