@@ -41,6 +41,7 @@ local L = app.locales
 -- L.SUBREAGENTS1 =						"There are multiple recipes that can create"	-- Followed by an item link
 -- L.SUBREAGENTS2 =						"Please select one of the following"
 -- L.GOLD =								BONUS_ROLL_REWARD_MONEY	-- "Gold"
+-- L.MERCHANT_BUY = 						"Let " .. app.NameShort .. " buy the tracked " .. L.WINDOW_HEADER_REAGENTS .. " and " .. L.WINDOW_HEADER_COSTS .. "\nyou need from this merchant, if available."
 
 -- Cooldowns
 -- L.RECHARGED =							"Fully recharged"

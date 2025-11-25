@@ -41,6 +41,7 @@ L.CONFIRMATION =						"确定要继续吗？"
 L.SUBREAGENTS1 =						"存在多个可制作"	-- 后接物品链接
 L.SUBREAGENTS2 =						"请选择以下配方之一"
 L.GOLD =								BONUS_ROLL_REWARD_MONEY	-- "金币"
+-- L.MERCHANT_BUY = 						"Let " .. app.NameShort .. " buy the tracked " .. L.WINDOW_HEADER_REAGENTS .. " and " .. L.WINDOW_HEADER_COSTS .. "\nyou need from this merchant, if available."
 
 -- Cooldowns
 L.RECHARGED =							"已完全恢复"

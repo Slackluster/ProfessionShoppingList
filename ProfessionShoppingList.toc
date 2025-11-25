@@ -33,6 +33,7 @@ Settings.lua
 SettingsTemplates.xml
 modules\AuctionHouse.lua
 modules\CraftingOrders.lua
+modules\Merchant.lua
 modules\ProfessionKnowledge.lua
 modules\ProfessionWindow.lua
 modules\Tooltip.lua
