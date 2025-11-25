@@ -2081,7 +2081,7 @@ end
 -- Replace the in-game tracking of shift+clicking a recipe with PSL's
 app.Event:Register("TRACKED_RECIPE_UPDATE", function(recipeID, tracked)
 	if tracked then
-		app.TrackRecipe(recipeID, 1)
+		app.TrackRecipe(recipeID, 1, false)
 		C_TradeSkillUI.SetRecipeTracked(recipeID, false, false)
 		C_TradeSkillUI.SetRecipeTracked(recipeID, false, true)
 	end
@@ -2099,13 +2099,14 @@ EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelecte
 		end
 	end
 
-	app.SelectedRecipe.Profession = { recipeID = recipeID, recraft = C_TradeSkillUI.GetRecipeInfo(recipeID).isRecraft, recipeType = C_TradeSkillUI.GetRecipeSchematic(recipeID, false).recipeType }
+	app.SelectedRecipe.Profession = { recipeID = recipeID, recraft = recipeInfo.isRecraft, recipeType = C_TradeSkillUI.GetRecipeSchematic(recipeID, recipeInfo.isRecraft).recipeType }
 	app.UpdateAssets()
 end)
 
 -- When selecting a recraft recipe
 app.Event:Register("OPEN_RECIPE_RESPONSE", function(recipeID, skillLineID, expansionSkillLineID)
-	app.SelectedRecipe.Profession = { recipeID = recipeID, recraft = true, recipeType = C_TradeSkillUI.GetRecipeSchematic(recipeID, true).recipeType }
+	local recraft = app.SelectedRecipe.Profession.recraft
+	app.SelectedRecipe.Profession = { recipeID = recipeID, recraft = recraft, recipeType = C_TradeSkillUI.GetRecipeSchematic(recipeID, recraft).recipeType }
 	app.UpdateAssets()
 end)
 
