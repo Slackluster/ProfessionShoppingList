@@ -41,7 +41,7 @@ L.CONFIRMATION =						"Хотите продолжить?"
 L.SUBREAGENTS1 =						"Существует множество рецептов, которые можно изготовить"	-- Followed by an item link
 L.SUBREAGENTS2 =						"Пожалуйста, выберите один из следующих вариантов"
 L.GOLD =								BONUS_ROLL_REWARD_MONEY	-- "Gold"
--- L.MERCHANT_BUY = 						"Let " .. app.NameShort .. " buy the tracked " .. L.WINDOW_HEADER_REAGENTS .. " and " .. L.WINDOW_HEADER_COSTS .. "\nyou need from this merchant, if available."
+L.MERCHANT_BUY = 						"Позвольте купить " .. app.NameShort .. " отслеживаемые " .. L.WINDOW_HEADER_REAGENTS .. " и " .. L.WINDOW_HEADER_COSTS .. "\nкоторые вам нужны, у этого продавца, если таковые имеются."
 
 -- Cooldowns
 L.RECHARGED =							"Полностью заряжен"
