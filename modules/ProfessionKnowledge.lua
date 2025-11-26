@@ -51,10 +51,15 @@ function app.SpendAllProfessionKnowledge()
 	if not app.Flag.SpendHook then app.Flag.SpendHook = {} end
 	if not app.Flag.SpendHook[skillLineID] then
 		hooksecurefunc(ProfessionsSpecPathMixin, "PurchaseRank", function(self)
-			local pathID = self:GetNodeID()
+			local nodeID = self:GetNodeID()
 			local configID = C_ProfSpecs.GetConfigIDForSkillLine(C_TradeSkillUI.GetProfessionChildSkillLineID())
+			local pathInfo = C_Traits.GetNodeInfo(configID, nodeID)
 
-			C_Traits.TryPurchaseAllRanks(configID, pathID)
+			local spend = 5 - ((pathInfo.ranksPurchased - 1) % 5)
+			while spend > 0 do
+				C_Traits.PurchaseRank(configID, nodeID)
+				spend = spend - 1
+			end
 		end)
 		app.Flag.SpendHook[skillLineID] = true
 	end
