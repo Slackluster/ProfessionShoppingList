@@ -65,6 +65,7 @@ function app.CreateWindow()
 	-- Create popup frame
 	app.Window = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
 	app.Window:SetPoint("CENTER")
+	app.Window:SetFrameStrata("HIGH")
 	app.Window:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
