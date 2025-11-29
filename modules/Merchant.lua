@@ -153,6 +153,23 @@ app.Event:Register("MERCHANT_SHOW", function()
 			GameTooltip:Hide()
 		end)
 
+		if C_AddOns.IsAddOnLoaded("TradeSkillMaster") then
+			MerchantFrame:HookScript("OnShow", function()
+				RunNextFrame(function()
+					for _, child in ipairs({ MerchantFrame:GetChildren() }) do
+						local name = child:GetName()
+						if name and name:find("TSM_BUTTON") then
+							child:ClearAllPoints()
+							child:SetPoint("TOPRIGHT", app.MerchantButton, "TOPLEFT", -2, -4)
+							child.ClearAllPoints = nop
+							child.SetPoint = nop
+							break
+						end
+					end
+				end)
+			end)
+		end
+
 		-- Set the flag to true so it doesn't trigger again
 		app.Flag.MerchantAssets = true
 	end
