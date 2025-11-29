@@ -22,16 +22,11 @@ end)
 -----------------------
 
 app.Event:Register("MERCHANT_SHOW", function()
-	-- When the user Alt+clicks a vendor item
 	local function TrackMerchantItem()
 		if IsAltKeyDown() then
-			-- Get merchant info
 			local merchant = MerchantFrameTitleText:GetText()
-
-			-- Get item info from tooltip
 			local itemID = app.TooltipItemID
 
-			-- Get the item index for this vendor
 			local vendorIndex = 0
 			for index = 1, GetMerchantNumItems() do
 				if GetMerchantItemID(index) == itemID then
@@ -62,7 +57,6 @@ app.Event:Register("MERCHANT_SHOW", function()
 				}
 			end
 
-			-- Get the different currencies needed to purchase the item
 			for i=1, GetMerchantItemCostInfo(vendorIndex), 1 do
 				local itemTexture, itemValue, itemLink, currencyName = GetMerchantItemCostItem(vendorIndex, i)
 				if currencyName and itemLink then
@@ -91,12 +85,10 @@ app.Event:Register("MERCHANT_SHOW", function()
 			if not ProfessionShoppingList_Data.Recipes[key] then ProfessionShoppingList_Data.Recipes[key] = { quantity = 0, link = itemLink} end
 			ProfessionShoppingList_Data.Recipes[key].quantity = ProfessionShoppingList_Data.Recipes[key].quantity + 1
 
-			-- Show the window
 			app.Show()
 		end
 	end
 
-	-- Hook the script onto the merchant buttons (once)
 	if app.Flag.MerchantAssets == false then
 		for i = 1, 99 do	-- Works for addons that expand the vendor frame up to 99 slots
 			local itemButton = _G["MerchantItem" .. i .. "ItemButton"]
@@ -170,7 +162,6 @@ app.Event:Register("MERCHANT_SHOW", function()
 			end)
 		end
 
-		-- Set the flag to true so it doesn't trigger again
 		app.Flag.MerchantAssets = true
 	end
 end)
