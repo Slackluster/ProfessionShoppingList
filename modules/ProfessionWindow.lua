@@ -65,11 +65,15 @@ function app.CreateTradeskillAssets()
 			app.UntrackProfessionButton:Disable()
 		end)
 		app.RecipeQuantityBox:SetScript("OnEditFocusLost", function(self, newValue)
-			ebRecipeQuantityUpdate(self, newValue)
-			app.TrackProfessionButton:Enable()
-			if type(newValue) == "number" and newValue >= 1 then
-				app.UntrackProfessionButton:Enable()
-			end
+			ebRecipeQuantityUpdate(self, newValue)	-- This triggers update which enables the buttons too soon
+			app.TrackProfessionButton:Disable()
+			app.UntrackProfessionButton:Disable()
+			C_Timer.After(1, function()	-- Delay so clicking (un)track after using the editbox doesn't work as intended
+				app.TrackProfessionButton:Enable()
+				if type(newValue) == "number" and newValue >= 1 then
+					app.UntrackProfessionButton:Enable()
+				end
+			end)
 		end)
 		app.RecipeQuantityBox:SetScript("OnEnterPressed", function(self, newValue)
 			ebRecipeQuantityUpdate(self, newValue)
@@ -77,6 +81,7 @@ function app.CreateTradeskillAssets()
 		end)
 		app.RecipeQuantityBox:SetScript("OnEscapePressed", function(self, newValue)
 			self:SetText(ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID].quantity)
+			self:ClearFocus()
 		end)
 		app.Border(app.RecipeQuantityBox, -6, 1, 2, -2)
 	end
