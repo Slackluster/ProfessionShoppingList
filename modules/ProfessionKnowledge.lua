@@ -56,7 +56,7 @@ function app.SpendAllProfessionKnowledge()
 			local pathInfo = C_Traits.GetNodeInfo(configID, nodeID)
 
 			local spend = 5 - ((pathInfo.ranksPurchased - 1) % 5)
-			while spend > 0 do
+			while spend > 0 and spend < 5 do
 				C_Traits.PurchaseRank(configID, nodeID)
 				spend = spend - 1
 			end
