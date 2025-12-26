@@ -1,7 +1,8 @@
 # Profession Shopping List
 A World of Warcraft addon. Download locations: [CurseForge](https://www.curseforge.com/wow/addons/profession-shopping-list) | [Wago](https://addons.wago.io/addons/psl)
 
-# Description
+[![](https://media.forgecdn.net/attachments/1439/398/buymeacoffee-png.png)](https://www.buymeacoffee.com/Slackluster)
+
 **Profession Shopping List** allows you to track recipes, and it shows you the materials you need to craft them. It also tracks recipe cooldowns.
 
 ![](https://media.forgecdn.net/attachments/description/498475/description_2221bf7d-a25f-455c-be98-a583840ca8eb.png)
@@ -37,8 +38,6 @@ Currently supported addons:
 - TestFlight
 
 ## If you are experiencing issues
-- Use `/psl clear`. Sometimes stuff gets stuck, or old data needs to be cleared;
+- Use `/psl clear`. Sometimes stuff gets stuck, or old data needs to be cleared.
+- Check if the issue occurs with only this addon enabled, or if the issue is a feature you can disable from the addon's settings menu.
 - If the issues persist or you have other feedback, feel free to join the [Discord](https://discord.gg/FwWZZ39kPX) and ask in the `#profession-shopping-list` channel, or create a [ticket on GitHub](https://github.com/Slackluster/ProfessionShoppingList/issues). :)
-
-## Support me, if you want 👉👈😳
-[![](https://i.imgur.com/qGoTtXm.png)](https://www.buymeacoffee.com/SlacklusterYT)
