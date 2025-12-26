@@ -23,24 +23,13 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		app.CreateLinkCopiedFrame()
 		app.Settings()
 
-		-- LEGACY
-		if ProfessionShoppingList_Settings["backpackCount"] or ProfessionShoppingList_Settings["queueSound"] or ProfessionShoppingList_Settings["handyNotes"] or ProfessionShoppingList_Settings["underminePrices"] or ProfessionShoppingList_Settings["showTokenPrice"] or ProfessionShoppingList_Settings["tokyoDrift"] then
-			ProfessionShoppingList_Settings["backpackCount"] = nil
-			ProfessionShoppingList_Settings["queueSound"] = nil
-			ProfessionShoppingList_Settings["handyNotes"] = nil
-			ProfessionShoppingList_Settings["underminePrices"] = nil
-			ProfessionShoppingList_Settings["showTokenPrice"] = nil
-			ProfessionShoppingList_Settings["tokyoDrift"] = nil
-
-			local link = "|cff00ccff|Hurl:https://wowhead.com|h[Click to Copy Link]|h|r"
-			app.Popup(true, "Hello dear user!\n\nI see you were using one of these tweaks that " .. app.NameLong .. " offered:\n- Split Backpack Count\n- Queue Sound\n- HandyNotes Fix\n- Oribos Exchange Fix\n- Show WoW Token price\n- Tokyo Drift\n\nThese tweaks have moved to a new, separate addon: " .. app.Colour("Tag's Trivial Tweaks") .. "!\nPlease seek it out on CurseForge, Wago, or GitHub.\n\nThank you for using my addon!", "https://www.curseforge.com/wow/addons/tags-trivial-tweaks", "https://addons.wago.io/addons/ttt", "https://github.com/Sluimerstand/TagsTrivialTweaks")
-		elseif ProfessionShoppingList_Settings["vendorAll"] or ProfessionShoppingList_Settings["catalystButton"] then
-			ProfessionShoppingList_Settings["vendorAll"] = nil
-			ProfessionShoppingList_Settings["catalystButton"] = nil
-
-			local link = "|cff00ccff|Hurl:https://wowhead.com|h[Click to Copy Link]|h|r"
-			app.Popup(true, "Hello dear user!\n\nI see you were using one of these tweaks that " .. app.NameLong .. " offered:\n- Set Vendor filter to 'All'\n- Instant Catalyst Button\n\nThese features have moved to another addon of mine: " .. app.Colour("Transmog Loot Helper") .. "!\nPlease seek it out on CurseForge, Wago, or GitHub.\n\nThank you for using my addon!", "https://www.curseforge.com/wow/addons/transmog-loot-helper", "https://addons.wago.io/addons/tlh", "https://github.com/Sluimerstand/TransmogLootHelper")
-		end
+		-- Midnight cleanup
+		if ProfessionShoppingList_Settings["backpackCount"] ~= nil then ProfessionShoppingList_Settings["backpackCount"] = nil end
+		if ProfessionShoppingList_Settings["queueSound"] ~= nil then ProfessionShoppingList_Settings["queueSound"] = nil end
+		if ProfessionShoppingList_Settings["handyNotes"] ~= nil then ProfessionShoppingList_Settings["handyNotes"] = nil end
+		if ProfessionShoppingList_Settings["underminePrices"] ~= nil then ProfessionShoppingList_Settings["underminePrices"] = nil end
+		if ProfessionShoppingList_Settings["showTokenPrice"] ~= nil then ProfessionShoppingList_Settings["showTokenPrice"] = nil end
+		if ProfessionShoppingList_Settings["tokyoDrift"] ~= nil then ProfessionShoppingList_Settings["tokyoDrift"] = nil end
 	end
 end)
 
