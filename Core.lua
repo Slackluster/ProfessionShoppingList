@@ -346,7 +346,7 @@ app.Event:Register("CHAT_MSG_ADDON", function(prefix, text, channel, sender, tar
 		local version = text:match("version:(.+)")
 		if version then
 			if version ~= "@project-version@" then
-				local expansion, major, minor, iteration = version:match("v(%d+)%.(%d+)%.(%d+)%-(%d%d%d)")
+				local expansion, major, minor, iteration = version:match("v(%d+)%.(%d+)%.(%d+)%-(%d+)")
 				expansion = string.format("%02d", expansion)
 				major = string.format("%02d", major)
 				minor = string.format("%02d", minor)
@@ -355,7 +355,7 @@ app.Event:Register("CHAT_MSG_ADDON", function(prefix, text, channel, sender, tar
 
 				local localVersion = C_AddOns.GetAddOnMetadata("ProfessionShoppingList", "Version")
 				if localVersion ~= "@project-version@" then
-					expansion, major, minor, iteration = localVersion:match("v(%d+)%.(%d+)%.(%d+)%-(%d%d%d)")
+					expansion, major, minor, iteration = localVersion:match("v(%d+)%.(%d+)%.(%d+)%-(%d+)")
 					expansion = string.format("%02d", expansion)
 					major = string.format("%02d", major)
 					minor = string.format("%02d", minor)
