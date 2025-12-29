@@ -73,7 +73,7 @@ function app.CreateWindow()
 		insets = { left = 4, right = 4, top = 4, bottom = 4 },
 	})
 	app.Window:SetBackdropColor(0, 0, 0, 1)
-	app.Window:SetBackdropBorderColor(0.776, 0.608, 0.427)
+	app.Window:SetBackdropBorderColor(0.25, 0.78, 0.92)
 	app.Window:EnableMouse(true)
 	app.Window:SetMovable(true)
 	app.Window:SetClampedToScreen(true)

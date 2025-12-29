@@ -1,5 +1,5 @@
 ## Interface: 120000
-## Title: |cffC69B6DProfession Shopping List|r
+## Title: |cff3FC7EBProfession Shopping List|r
 ## Author: Slackluster
 ## IconTexture: Interface\AddOns\ProfessionShoppingList\assets\psl_icon.blp
 ## AddonCompartmentFunc: ProfessionShoppingList_Click
