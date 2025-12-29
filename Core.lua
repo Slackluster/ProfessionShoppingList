@@ -182,6 +182,9 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		C_ChatInfo.RegisterAddonMessagePrefix("ProfShopList")
 
 		-- Slash commands
+		SLASH_RELOADUI1 = "/rl"
+		SlashCmdList.RELOADUI = ReloadUI
+
 		SLASH_ProfessionShoppingList1 = "/psl";
 		function SlashCmdList.ProfessionShoppingList(msg, editBox)
 			-- Split message into command and rest
