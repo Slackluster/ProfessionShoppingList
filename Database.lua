@@ -11,7 +11,7 @@ app.NameLong = app.Colour("Profession Shopping List")
 app.NameShort = app.Colour("PSL")
 
 -- Used textures
-app.IconPSL = "|TInterface\\AddOns\\ProfessionShoppingList\\assets\\psl_icon.blp:0|t"
+app.IconPSL = "|TInterface\\AddOns\\ProfessionShoppingList\\assets\\icon.png:0|t"
 app.IconWaiting = "|TInterface\\RaidFrame\\ReadyCheck-Waiting:0|t"
 app.IconReady = "|TInterface\\RaidFrame\\ReadyCheck-Ready:0|t"
 app.IconNotReady = "|TInterface\\RaidFrame\\ReadyCheck-NotReady:0|t"
