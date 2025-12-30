@@ -109,7 +109,7 @@ function app.Settings()
 	local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject("ProfessionShoppingList", {
 		type = "data source",
 		text = app.NameLong,
-		icon = 134327,
+		icon = "Interface\\AddOns\\ProfessionShoppingList\\assets\\icon.png",
 
 		OnClick = function(self, button)
 			if button == "LeftButton" then
