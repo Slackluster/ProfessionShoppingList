@@ -1696,6 +1696,7 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 	hooksecurefunc(ProfessionsFrame.CraftingPage.CraftingOutputLog, "FinalizeResultData", function(self)
 		if app.Tab and app.Tab.WindowIsShown then
 			ProfessionsFrame.CraftingPage.CraftingOutputLog:Cleanup()
+			ProfessionsFrame.OrdersPage.OrderView.CraftingOutputLog:Cleanup()
 		end
 	end)
 end)
