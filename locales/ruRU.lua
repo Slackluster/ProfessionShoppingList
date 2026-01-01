@@ -27,7 +27,7 @@ L.WINDOW_HEADER_COOLDOWNS =				"Перезарядки"
 
 L.WINDOW_TOOLTIP_RECIPES =				"Shift " .. app.IconLMB .. "|cffFFFFFF: Ссылка на рецепт\n|r" ..
 										"Ctrl " .. app.IconLMB .. "|cffFFFFFF: Открыть рецепт (если известен)\n|r" ..
-										"Alt " .. app.IconLMB .. "|cffFFFFFF: Попробуйте изготовить этот рецепт (столько раз, сколько раз вы его отслеживали)\n\n|r" ..
+										"Alt " .. app.IconLMB .. "|cffFFFFFF: Попробуйте изготовить этот рецепт\n\n|r" ..
 										app.IconRMB .. "|cffFFFFFF: Отменить отслеживание 1 из выбранных рецептов\n|r" ..
 										"Ctrl " .. app.IconRMB .. "|cffFFFFFF: Отменить отслеживание всех выбранных рецептов"
 L.WINDOW_TOOLTIP_REAGENTS =				"Shift " .. app.IconLMB .. "|cffFFFFFF: Ссылка на реагент\n|r" ..

@@ -27,7 +27,7 @@ L.WINDOW_HEADER_COOLDOWNS =				"冷却时间"
 
 L.WINDOW_TOOLTIP_RECIPES =				"Shift + " .. app.IconLMB .. "|cffFFFFFF：链接配方。|r\n" ..
 										"Ctrl + " .. app.IconLMB .. "|cffFFFFFF：打开配方（如果已学会）。|r\n" ..
-										"Alt + " .. app.IconLMB .. "|cffFFFFFF：尝试制作该配方（按追踪数量）。|r\n\n" ..
+										"Alt + " .. app.IconLMB .. "|cffFFFFFF：尝试制作该配方。|r\n\n" ..
 										app.IconRMB .. "|cffFFFFFF：取消追踪1个该配方。|r\n" ..
 										"Ctrl + " .. app.IconRMB .. "|cffFFFFFF：取消追踪全部该配方。|r"
 L.WINDOW_TOOLTIP_REAGENTS =				"Shift + " .. app.IconLMB .. "|cffFFFFFF：链接材料。|r\n" ..

@@ -27,7 +27,7 @@ L.WINDOW_HEADER_COOLDOWNS =				"Temps de recharge"
 
 L.WINDOW_TOOLTIP_RECIPES =				"Maj " .. app.IconLMB .. "|cffFFFFFF : poster la recette\n|r" ..
 										"Ctrl " .. app.IconLMB .. "|cffFFFFFF : ouvrir la recette (si connue)\n|r" ..
-										"Alt " .. app.IconLMB .. "|cffFFFFFF : essayer de créer cette recette (autant de fois que vous l’avez suivie)\n\n|r" ..
+										"Alt " .. app.IconLMB .. "|cffFFFFFF : essayer de créer cette recette\n\n|r" ..
 										app.IconRMB .. "|cffFFFFFF : annuler le suivi d’1 unité de la recette\n|r" ..
 										"Ctrl " .. app.IconRMB .. "|cffFFFFFF : annuler le suivi de toutes les unités de la recette sélectionnée"
 L.WINDOW_TOOLTIP_REAGENTS =				"Maj " .. app.IconLMB .. "|cffFFFFFF : poster le composant\n|r" ..

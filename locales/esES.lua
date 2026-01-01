@@ -27,7 +27,7 @@ local L = app.locales
 
 -- L.WINDOW_TOOLTIP_RECIPES =				"Shift " .. app.IconLMB .. "|cffFFFFFF: Link the recipe\n|r" ..
 -- 										"Ctrl " .. app.IconLMB .. "|cffFFFFFF: Open the recipe (if known)\n|r" ..
--- 										"Alt " .. app.IconLMB .. "|cffFFFFFF: Attempt to craft this recipe (as many times as you have it tracked)\n\n|r" ..
+-- 										"Alt " .. app.IconLMB .. "|cffFFFFFF: Attempt to craft this recipe\n\n|r" ..
 -- 										app.IconRMB .. "|cffFFFFFF: Untrack 1 of the selected recipe\n|r" ..
 -- 										"Ctrl " .. app.IconRMB .. "|cffFFFFFF: Untrack all of the selected recipe"
 -- L.WINDOW_TOOLTIP_REAGENTS =				"Shift " .. app.IconLMB .. "|cffFFFFFF: Link the reagent\n|r" ..
