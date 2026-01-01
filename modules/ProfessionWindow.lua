@@ -475,15 +475,10 @@ function app.CreateTradeskillAssets()
 
 			if ProfessionShoppingList_Data.Recipes[key] then
 				rootDescription:CreateButton(app.IconPSL .. " " .. app.Colour(L.UNTRACK), function()
-					-- Untrack the recipe
 					app.UntrackRecipe(key, 1)
-
-					-- Show window
-					app.Show()
 				end)
 			else
 				rootDescription:CreateButton(app.IconPSL .. " " .. app.Colour(L.TRACK), function()
-					-- Track the recipe
 					app.TrackRecipe(ownerRegion.rowData.option.spellID, 1, ownerRegion.rowData.option.isRecraft, ownerRegion.rowData.option.orderID)
 				end)
 			end

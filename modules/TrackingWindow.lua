@@ -2156,8 +2156,11 @@ function app.TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 	end
 	ProfessionShoppingList_Data.Recipes[recipeID].quantity = ProfessionShoppingList_Data.Recipes[recipeID].quantity + recipeQuantity
 
-	-- Show window
-	app.Show()	-- This also triggers the recipe update
+	if not app.Window:IsShown() then
+		app.Show()
+	else
+		app.UpdateRecipes()
+	end
 end
 
 -- Untrack recipe
