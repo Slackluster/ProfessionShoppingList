@@ -67,6 +67,7 @@ function app.CreateWindow()
 	app.Window = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
 	app.Window:SetPoint("CENTER")
 	app.Window:SetFrameStrata("MEDIUM")
+	app.Window:SetFrameLevel(200)
 	app.Window:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -287,6 +288,7 @@ function app.MoveWindow()
 		GameTooltip:Hide()
 		ShoppingTooltip1:Hide()
 	end
+	print(app.Window:GetFrameStrata(), app.Window:GetFrameLevel())
 end
 
 -- Save the main window position and size
