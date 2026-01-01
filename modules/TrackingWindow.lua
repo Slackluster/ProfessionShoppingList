@@ -66,7 +66,7 @@ function app.CreateWindow()
 	-- Create popup frame
 	app.Window = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
 	app.Window:SetPoint("CENTER")
-	app.Window:SetFrameStrata("HIGH")
+	app.Window:SetFrameStrata("MEDIUM")
 	app.Window:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -291,6 +291,8 @@ end
 
 -- Save the main window position and size
 function app.SaveWindow()
+	if app.Tab and app.Tab.WindowIsShown then return end
+
 	-- Stop highlighting the unlock button
 	app.UnlockButton:UnlockHighlight()
 
@@ -1616,6 +1618,7 @@ function app.CreateTab(frame)
 	local function showWindow()
 		app.Show()
 		app.ResizeWindow()
+		app.Window:ClearAllPoints()
 		app.Window:SetPoint("TOPLEFT", frame, "TOPRIGHT", 0, -1)
 		app.Window:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 0, 0)
 		tab:SetPoint("TOPLEFT", app.Window, "TOPRIGHT", -1, -50)
@@ -1623,7 +1626,6 @@ function app.CreateTab(frame)
 
 		app.CloseButton:Disable()
 		app.UnlockButton:Disable()
-		app.Window:RegisterForDrag()
 		app.LockWindow()
 	end
 
@@ -1636,7 +1638,6 @@ function app.CreateTab(frame)
 
 		app.CloseButton:Enable()
 		app.UnlockButton:Enable()
-		app.Window:RegisterForDrag("LeftButton")
 		if not locked then app.UnlockWindow() end
 	end
 
