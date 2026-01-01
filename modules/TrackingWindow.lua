@@ -1693,13 +1693,11 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 	app.Tab = app.Tab or {}
 	app.Tab[ProfessionsFrame] = app.Tab[ProfessionsFrame] or app.CreateTab(ProfessionsFrame)
 
-	if ProfessionsFrame.CraftingPage.CraftingOutputLog then
-		ProfessionsFrame.CraftingPage.CraftingOutputLog:HookScript("OnShow", function()
-			if app.Tab and app.Tab.WindowIsShown then
-				ProfessionsFrame.CraftingPage.CraftingOutputLog:Hide()
-			end
-		end)
-	end
+	hooksecurefunc(ProfessionsFrame.CraftingPage.CraftingOutputLog, "FinalizeResultData", function(self)
+		if app.Tab and app.Tab.WindowIsShown then
+			ProfessionsFrame.CraftingPage.CraftingOutputLog:Cleanup()
+		end
+	end)
 end)
 
 app.Event:Register("AUCTION_HOUSE_SHOW", function()
