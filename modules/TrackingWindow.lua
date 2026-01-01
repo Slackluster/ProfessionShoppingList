@@ -323,7 +323,7 @@ function app.WindowTooltipShow(text, hyperlink, secondary, position)
 		GameTooltip:SetPoint("BOTTOM", app.Window, "TOP", 0, 0)
 	elseif position and position == "bottom" then
 		GameTooltip:SetPoint("TOP", app.Window, "BOTTOM", 0, 0)
-	elseif GetScreenWidth()/2-ProfessionShoppingList_Settings["windowPosition"].width/2-app.Window:GetLeft() >= 0 then
+	elseif (app.Tab and app.Tab.WindowIsShown) or GetScreenWidth()/2-ProfessionShoppingList_Settings["windowPosition"].width/2-app.Window:GetLeft() >= 0 then
 		GameTooltip:SetPoint("LEFT", app.Window, "RIGHT", 0, 0)
 	else
 		GameTooltip:SetPoint("RIGHT", app.Window, "LEFT", 0, 0)
@@ -332,12 +332,13 @@ function app.WindowTooltipShow(text, hyperlink, secondary, position)
 
 	if secondary and ProfessionShoppingList_Settings["helpTooltips"] then
 		ShoppingTooltip1:SetOwner(UIParent, "ANCHOR_NONE")
-		if GetScreenWidth()/2-ProfessionShoppingList_Settings["windowPosition"].width/2-app.Window:GetLeft() >= 0 then
-			ShoppingTooltip1:SetPoint("TOPLEFT", GameTooltip, "TOPRIGHT", 0, 0)
+		if (app.Tab and app.Tab.WindowIsShown) or GetScreenWidth()/2-ProfessionShoppingList_Settings["windowPosition"].width/2-app.Window:GetLeft() >= 0 then
+			ShoppingTooltip1:SetPoint("TOPLEFT", GameTooltip, "BOTTOMLEFT", 0, 0)
 		else
-			ShoppingTooltip1:SetPoint("TOPRIGHT", GameTooltip, "TOPLEFT", 0, 0)
+			ShoppingTooltip1:SetPoint("TOPRIGHT", GameTooltip, "BOTTOMRIGHT", 0, 0)
 		end
 		ShoppingTooltip1:SetText(secondary)
+		ShoppingTooltip1:SetScale(0.9)
 		ShoppingTooltip1:Show()
 	end
 end
