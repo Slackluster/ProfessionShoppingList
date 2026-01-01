@@ -23,6 +23,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		if not ProfessionShoppingList_CharacterData.Recipes then ProfessionShoppingList_CharacterData.Recipes = {} end
 		if not ProfessionShoppingList_CharacterData.Orders then ProfessionShoppingList_CharacterData.Orders = {} end
 
+		ProfessionShoppingList_Settings["tabOpened"] = ProfessionShoppingList_Settings["tabOpened"] or {}
 		if ProfessionShoppingList_Settings["pcRecipes"] then
 			ProfessionShoppingList_Data.Recipes = ProfessionShoppingList_CharacterData.Recipes
 		end
@@ -105,72 +106,78 @@ function app.CreateWindow()
 	app.Window.Corner:SetScript("OnMouseUp", function()
 		app.SaveWindow()
 	end)
+	app.Window.Corner:SetScript("OnEnter", function()
+		app.WindowTooltipShow(L.WINDOW_BUTTON_CORNER, nil, nil, "bottom")
+	end)
+	app.Window.Corner:SetScript("OnLeave", function()
+		GameTooltip:Hide()
+	end)
 
 	-- Close button
-	local close = CreateFrame("Button", "", app.Window, "UIPanelCloseButton")
-	close:SetPoint("TOPRIGHT", app.Window, "TOPRIGHT", 2, 2)
-	close:SetScript("OnClick", function()
+	app.CloseButton = CreateFrame("Button", "", app.Window, "UIPanelCloseButton")
+	app.CloseButton:SetPoint("TOPRIGHT", app.Window, "TOPRIGHT", 2, 2)
+	app.CloseButton:SetScript("OnClick", function()
 		app.Window:Hide()
 	end)
-	close:SetScript("OnEnter", function()
-		app.WindowTooltipShow(L.WINDOW_BUTTON_CLOSE)
+	app.CloseButton:SetScript("OnEnter", function()
+		app.WindowTooltipShow(L.WINDOW_BUTTON_CLOSE, nil, nil, "top")
 	end)
-	close:SetScript("OnLeave", function()
+	app.CloseButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
 	end)
 
 	-- Lock button
+	function app.LockWindow()
+		app.Window.Corner:Hide()
+		app.LockButton:Hide()
+		app.UnlockButton:Show()
+		ProfessionShoppingList_Settings["windowLocked"] = true
+	end
+
 	app.LockButton = CreateFrame("Button", "", app.Window, "UIPanelCloseButton")
-	app.LockButton:SetPoint("TOPRIGHT", close, "TOPLEFT", -2, 0)
+	app.LockButton:SetPoint("TOPRIGHT", app.CloseButton, "TOPLEFT", -2, 0)
 	app.LockButton:SetNormalTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.LockButton:GetNormalTexture():SetTexCoord(183/256, 219/256, 1/128, 39/128)
 	app.LockButton:SetDisabledTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.LockButton:GetDisabledTexture():SetTexCoord(183/256, 219/256, 41/128, 79/128)
 	app.LockButton:SetPushedTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.LockButton:GetPushedTexture():SetTexCoord(183/256, 219/256, 81/128, 119/128)
-	app.LockButton:SetScript("OnClick", function()
-		ProfessionShoppingList_Settings["windowLocked"] = true
-		app.Window.Corner:Hide()
-		app.LockButton:Hide()
-		app.UnlockButton:Show()
-	end)
+	app.LockButton:SetScript("OnClick", function() app.LockWindow() end)
 	app.LockButton:SetScript("OnEnter", function()
-		app.WindowTooltipShow(L.WINDOW_BUTTON_LOCK)
+		app.WindowTooltipShow(L.WINDOW_BUTTON_LOCK, nil, nil, "top")
 	end)
 	app.LockButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
 	end)
 
 	-- Unlock button
+	function app.UnlockWindow()
+		app.Window.Corner:Show()
+		app.LockButton:Show()
+		app.UnlockButton:Hide()
+		ProfessionShoppingList_Settings["windowLocked"] = false
+	end
+
 	app.UnlockButton = CreateFrame("Button", "", app.Window, "UIPanelCloseButton")
-	app.UnlockButton:SetPoint("TOPRIGHT", close, "TOPLEFT", -2, 0)
+	app.UnlockButton:SetPoint("TOPRIGHT", app.CloseButton, "TOPLEFT", -2, 0)
 	app.UnlockButton:SetNormalTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.UnlockButton:GetNormalTexture():SetTexCoord(148/256, 184/256, 1/128, 39/128)
 	app.UnlockButton:SetDisabledTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.UnlockButton:GetDisabledTexture():SetTexCoord(148/256, 184/256, 41/128, 79/128)
 	app.UnlockButton:SetPushedTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.UnlockButton:GetPushedTexture():SetTexCoord(148/256, 184/256, 81/128, 119/128)
-	app.UnlockButton:SetScript("OnClick", function()
-		ProfessionShoppingList_Settings["windowLocked"] = false
-		app.Window.Corner:Show()
-		app.LockButton:Show()
-		app.UnlockButton:Hide()
-	end)
+	app.UnlockButton:SetScript("OnClick", function() app.UnlockWindow() end)
 	app.UnlockButton:SetScript("OnEnter", function()
-		app.WindowTooltipShow(L.WINDOW_BUTTON_UNLOCK)
+		app.WindowTooltipShow(L.WINDOW_BUTTON_UNLOCK, nil, nil, "top")
 	end)
 	app.UnlockButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
 	end)
 
 	if ProfessionShoppingList_Settings["windowLocked"] then
-		app.Window.Corner:Hide()
-		app.LockButton:Hide()
-		app.UnlockButton:Show()
+		app.LockWindow()
 	else
-		app.Window.Corner:Show()
-		app.LockButton:Show()
-		app.UnlockButton:Hide()
+		app.UnlockWindow()
 	end
 
 	-- Settings button
@@ -186,7 +193,7 @@ function app.CreateWindow()
 		app.OpenSettings()
 	end)
 	app.SettingsButton:SetScript("OnEnter", function()
-		app.WindowTooltipShow(L.WINDOW_BUTTON_SETTINGS)
+		app.WindowTooltipShow(L.WINDOW_BUTTON_SETTINGS, nil, nil, "top")
 	end)
 	app.SettingsButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -217,7 +224,7 @@ function app.CreateWindow()
 		StaticPopup_Show("PSL_CLEAR_RECIPES")
 	end)
 	app.ClearButton:SetScript("OnEnter", function()
-		app.WindowTooltipShow(L.WINDOW_BUTTON_CLEAR)
+		app.WindowTooltipShow(L.WINDOW_BUTTON_CLEAR, nil, nil, "top")
 	end)
 	app.ClearButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -237,7 +244,7 @@ function app.CreateWindow()
 		app.MakeShoppingList()
 	end)
 	app.AuctionatorButton:SetScript("OnEnter", function(self)
-		app.WindowTooltipShow(L.WINDOW_BUTTON_AUCTIONATOR)
+		app.WindowTooltipShow(L.WINDOW_BUTTON_AUCTIONATOR, nil, nil, "top")
 	end)
 	app.AuctionatorButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -301,19 +308,23 @@ function app.SaveWindow()
 end
 
 -- Window tooltip show
-function app.WindowTooltipShow(text, hyperlink, secondary)
-	-- Set the tooltip to either the left or right, depending on where the window is placed
+function app.WindowTooltipShow(text, hyperlink, secondary, position)
 	GameTooltip:SetOwner(app.Window, "ANCHOR_NONE")
-	if GetScreenWidth()/2-ProfessionShoppingList_Settings["windowPosition"].width/2-app.Window:GetLeft() >= 0 then
-		GameTooltip:SetPoint("LEFT", app.Window, "RIGHT", 0, 0)
-	else
-		GameTooltip:SetPoint("RIGHT", app.Window, "LEFT", 0, 0)
-	end
 
 	if hyperlink then
 		GameTooltip:SetHyperlink(text)
 	else
 		GameTooltip:SetText(text)
+	end
+
+	if position and position == "top" then
+		GameTooltip:SetPoint("BOTTOM", app.Window, "TOP", 0, 0)
+	elseif position and position == "bottom" then
+		GameTooltip:SetPoint("TOP", app.Window, "BOTTOM", 0, 0)
+	elseif GetScreenWidth()/2-ProfessionShoppingList_Settings["windowPosition"].width/2-app.Window:GetLeft() >= 0 then
+		GameTooltip:SetPoint("LEFT", app.Window, "RIGHT", 0, 0)
+	else
+		GameTooltip:SetPoint("RIGHT", app.Window, "LEFT", 0, 0)
 	end
 	GameTooltip:Show()
 
@@ -1490,7 +1501,7 @@ function app.UpdateRecipes()
 			maxLength3 = math.max(icon1:GetStringWidth()+text1:GetStringWidth()+text2:GetStringWidth(), maxLength3)
 		end
 
-		app.Window.Corner:SetScript("OnDoubleClick", function (self, button)
+		function app.ResizeWindow(save)
 			local windowHeight = 62
 			local windowWidth = 0
 			if next(ProfessionShoppingList_Data.Cooldowns) == nil or ProfessionShoppingList_Settings["showRecipeCooldowns"] == false then
@@ -1512,16 +1523,16 @@ function app.UpdateRecipes()
 			end
 			if windowHeight > math.floor(GetScreenHeight()*0.8) then windowHeight = math.floor(GetScreenHeight()*0.8) end
 			if windowWidth > math.floor(GetScreenWidth()*0.8) then windowWidth = math.floor(GetScreenWidth()*0.8) end
+
 			app.Window:SetHeight(math.max(140,windowHeight))
 			app.Window:SetWidth(math.max(140,windowWidth+40))
 			app.Window.ScrollFrame:SetVerticalScroll(0)
-			app.SaveWindow()
-		end)
-		app.Window.Corner:SetScript("OnEnter", function()
-			app.WindowTooltipShow(L.WINDOW_BUTTON_CORNER)
-		end)
-		app.Window.Corner:SetScript("OnLeave", function()
-			GameTooltip:Hide()
+
+			if save then app.SaveWindow() end
+		end
+
+		app.Window.Corner:SetScript("OnDoubleClick", function()
+			app.ResizeWindow(true)
 		end)
 
 		-- Update numbers tracked and assets like buttons
@@ -1551,7 +1562,7 @@ end
 
 -- Toggle window
 function app.Toggle()
-	-- Toggle tracking window
+	if app.Tab and app.Tab.IsShown and app.Tab.WindowIsShown then return end
 	if app.Window:IsShown() then
 		app.Window:Hide()
 	else
@@ -1592,6 +1603,101 @@ app.Event:Register("BAG_UPDATE_DELAYED", function()
 			end
 		end
 	end
+end)
+
+-------------------------
+-- TRACKING WINDOW TAB --
+-------------------------
+
+function app.CreateTab(frame)
+	local tab
+	local locked = ProfessionShoppingList_Settings["windowLocked"]
+
+	local function showWindow()
+		app.Show()
+		app.ResizeWindow()
+		app.Window:SetPoint("TOPLEFT", frame, "TOPRIGHT", 0, -1)
+		app.Window:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 0, 0)
+		tab:SetPoint("TOPLEFT", app.Window, "TOPRIGHT", -1, -50)
+		app.Tab.WindowIsShown = true
+
+		app.CloseButton:Disable()
+		app.UnlockButton:Disable()
+		app.Window:RegisterForDrag()
+		app.LockWindow()
+	end
+
+	local function hideWindow()
+		for f, t in pairs(app.Tab) do
+			if f ~= "IsShown" and f ~= "WindowIsShown" then t:SetPoint("TOPLEFT", f, "TOPRIGHT", 0, -52) end
+		end
+		app.Tab.WindowIsShown = false
+		app.Toggle()
+
+		app.CloseButton:Enable()
+		app.UnlockButton:Enable()
+		app.Window:RegisterForDrag("LeftButton")
+		if not locked then app.UnlockWindow() end
+	end
+
+	local function toggleWindow()
+		if ProfessionShoppingList_Settings["tabOpened"] then
+			ProfessionShoppingList_Settings["tabOpened"] = false
+			hideWindow()
+		else
+			ProfessionShoppingList_Settings["tabOpened"] = true
+			showWindow()
+		end
+	end
+
+	local function onWindowShow()
+		app.Tab.IsShown = app.Tab.IsShown or 0
+		app.Tab.IsShown = app.Tab.IsShown + 1
+		if not app.Tab.WindowIsShown and ProfessionShoppingList_Settings["tabOpened"] then
+			showWindow()
+		end
+	end
+
+	tab = CreateFrame("Frame", nil, frame, "ProfessionShoppingList_Tab")
+	tab:SetChecked(false)
+	tab:SetCustomOnMouseUpHandler(toggleWindow)
+
+	frame:HookScript("OnShow", function()
+		onWindowShow()
+	end)
+	onWindowShow()
+
+	frame:HookScript("OnHide", function()
+		app.Tab.IsShown = app.Tab.IsShown - 1
+		if app.Tab.IsShown >= 1 then
+			for f, t in pairs(app.Tab) do
+				if f ~= "IsShown" and f ~= "WindowIsShown" and f:IsShown() then
+					app.Window:SetPoint("TOPLEFT", f, "TOPRIGHT", 0, -1)
+					app.Window:SetPoint("BOTTOMLEFT", f, "BOTTOMRIGHT", 0, 0)
+					t:SetPoint("TOPLEFT", app.Window, "TOPRIGHT", -1, -50)
+				end
+			end
+		elseif app.Tab.WindowIsShown then
+			hideWindow()
+		end
+	end)
+
+	return tab
+end
+
+app.Event:Register("TRADE_SKILL_SHOW", function()
+	app.Tab = app.Tab or {}
+	app.Tab[ProfessionsFrame] = app.Tab[ProfessionsFrame] or app.CreateTab(ProfessionsFrame)
+end)
+
+app.Event:Register("AUCTION_HOUSE_SHOW", function()
+	app.Tab = app.Tab or {}
+	app.Tab[AuctionHouseFrame] = app.Tab[AuctionHouseFrame] or app.CreateTab(AuctionHouseFrame)
+end)
+
+app.Event:Register("CRAFTINGORDERS_SHOW_CUSTOMER", function()
+	app.Tab = app.Tab or {}
+	app.Tab[ProfessionsCustomerOrdersFrame] = app.Tab[ProfessionsCustomerOrdersFrame] or app.CreateTab(ProfessionsCustomerOrdersFrame)
 end)
 
 ------------------------
