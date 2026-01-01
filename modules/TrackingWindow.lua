@@ -2238,7 +2238,7 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 
 			-- Close window if no recipes are left and the option is enabled
 			local next = next
-			if next(ProfessionShoppingList_Data.Recipes) == nil and ProfessionShoppingList_Settings["closeWhenDone"] then
+			if next(ProfessionShoppingList_Data.Recipes) == nil and ProfessionShoppingList_Settings["closeWhenDone"] and not (app.Tab and app.Tab.WindowIsShown) then
 				app.Window:Hide()
 			end
 		end
