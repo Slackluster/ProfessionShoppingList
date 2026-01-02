@@ -185,7 +185,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		SLASH_RELOADUI1 = "/rl"
 		SlashCmdList.RELOADUI = ReloadUI
 
-		SLASH_ProfessionShoppingList1 = "/psl";
+		SLASH_ProfessionShoppingList1 = "/psl"
 		function SlashCmdList.ProfessionShoppingList(msg, editBox)
 			-- Split message into command and rest
 			local command, rest = msg:match("^(%S*)%s*(.-)$")
@@ -251,7 +251,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 				end
 			-- No command
 			elseif command == "" then
-				app.Toggle()
+				api.Toggle()
 			-- Unlisted command
 			else
 				-- If achievement string

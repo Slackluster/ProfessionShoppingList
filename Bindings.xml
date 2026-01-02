@@ -1,0 +1,5 @@
+<Bindings>
+  <Binding name="PSL_TOGGLEWINDOW" category="Profession Shopping List">
+    ProfessionShoppingList.Toggle()
+  </Binding>
+</Bindings>

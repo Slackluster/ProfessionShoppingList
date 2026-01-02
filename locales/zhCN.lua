@@ -10,14 +10,14 @@ local appName, app = ...
 local L = app.locales
 
 -- Main window
-L.WINDOW_BUTTON_CLOSE =					"关闭窗口。"
-L.WINDOW_BUTTON_LOCK =					"锁定窗口位置。"
-L.WINDOW_BUTTON_UNLOCK =				"解锁窗口位置。"
-L.WINDOW_BUTTON_SETTINGS =				"打开设置。"
-L.WINDOW_BUTTON_CLEAR =					"清除所有追踪的配方。"
+L.WINDOW_BUTTON_CLOSE =					"关闭窗口"
+L.WINDOW_BUTTON_LOCK =					"锁定窗口位置"
+L.WINDOW_BUTTON_UNLOCK =				"解锁窗口位置"
+L.WINDOW_BUTTON_SETTINGS =				"打开设置"
+L.WINDOW_BUTTON_CLEAR =					"清除所有追踪的配方"
 -- L.WINDOW_BUTTON_AUCTIONATOR =			"Update the Auctionator shopping list\n" ..
 -- 										"The shopping list is automatically generated when opening the Auction House"
-L.WINDOW_BUTTON_CORNER =				"双击" .. app.IconLMB .. "|cffFFFFFF：自动调整窗口尺寸。|r"
+L.WINDOW_BUTTON_CORNER =				"双击" .. app.IconLMB .. "|cffFFFFFF：自动调整窗口尺寸|R"
 
 L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB	-- "配方"
 L.WINDOW_HEADER_ITEMS =					ITEMS	-- "物品"
@@ -176,6 +176,9 @@ L.ERROR_MULTISIM =						L.ERROR .. "：未使用模拟材料。请启用以下�
 L.VERSION_CHECK =						app.NameLong .. "有新版本可用："
 
 -- Settings
+L.SETTINGS_TOOLTIP =					app.NameLong .. "\n|cffFFFFFF" .. app.IconLMB .. ": 切换窗口\n" .. app.IconRMB .. ": " .. L.WINDOW_BUTTON_SETTINGS
+
+-- L.SETTINGS_VERSION =					GAME_VERSION_LABEL .. ":"	-- "Version"
 -- L.SETTINGS_SUPPORT_TEXTLONG =			"Developing this addon takes a significant amount of time and effort.\nPlease consider financially supporting the developer."
 -- L.SETTINGS_SUPPORT_TEXT =				"Support"
 -- L.SETTINGS_SUPPORT_BUTTON =				"Buy Me a Coffee"	-- Brand name, if there isn't a localised version, keep it the way it is
@@ -189,9 +192,20 @@ L.VERSION_CHECK =						app.NameLong .. "有新版本可用："
 -- L.SETTINGS_URL_COPY =					"Ctrl+C to copy:"
 -- L.SETTINGS_URL_COPIED =					"Link copied to clipboard"
 
-L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF：切换窗口|r\n" ..
-										app.IconRMB .. "：打开设置"
+L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & 斜杠命令"	-- "Keybindings"
+-- _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =	"Toggle Window"
+L.SETTINGS_SLASH_TOGGLE =				"切换追踪窗口"
+L.SETTINGS_SLASH_RESETPOS =				"重置窗口位置"
+L.SETTINGS_SLASH_RESET =				"重置保存的数据"
+L.SETTINGS_SLASH_TRACK =				"追踪配方"
+L.SETTINGS_SLASH_UNTRACK =				"取消追踪配方"
+L.SETTINGS_SLASH_UNTRACKALL =			"取消追踪全部该配方"
+L.SETTINGS_SLASH_TRACKACHIE =			"追踪链接成就所需配方"
+L.SETTINGS_SLASH_CRAFTINGACHIE =		"制造成就"
+L.SETTINGS_SLASH_RECIPEID =				"配方ID"
+L.SETTINGS_SLASH_QUANTITY =				"数量"
 
+-- L.GENERAL =								GENERAL	-- "General"
 L.SETTINGS_MINIMAP_TITLE =				"显示小地图图标"
 L.SETTINGS_MINIMAP_TOOLTIP =			"显示小地图图标。禁用后仍可通过插件菜单访问。"
 L.SETTINGS_COOLDOWNS_TITLE =			"追踪配方冷却"
@@ -238,17 +252,3 @@ L.SETTINGS_REMOVECRAFT_TITLE =			"制作后取消追踪"
 L.SETTINGS_REMOVECRAFT_TOOLTIP =		"成功制作后减少1个追踪数量。"
 L.SETTINGS_CLOSEWHENDONE_TITLE =		"完成后关闭窗口"
 L.SETTINGS_CLOSEWHENDONE_TOOLTIP =		"制作完最后一个追踪配方后关闭窗口。"
-
-L.SETTINGS_HEADER_INFO =				"信息"
-L.SETTINGS_SLASHCOMMANDS_TITLE =		"斜杠命令"
-L.SETTINGS_SLASHCOMMANDS_TOOLTIP =		"在聊天中输入以下命令："
-L.SETTINGS_SLASH_TOGGLE =				"切换追踪窗口。"
-L.SETTINGS_SLASH_RESETPOS =				"重置窗口位置。"
-L.SETTINGS_SLASH_RESET =				"重置保存的数据。"
-L.SETTINGS_SLASH_TRACK =				"追踪配方。"
-L.SETTINGS_SLASH_UNTRACK =				"取消追踪配方。"
-L.SETTINGS_SLASH_UNTRACKALL =			"取消追踪全部该配方。"
-L.SETTINGS_SLASH_TRACKACHIE =			"追踪链接成就所需配方。"
-L.SETTINGS_SLASH_CRAFTINGACHIE =		"制造成就"
-L.SETTINGS_SLASH_RECIPEID =				"配方ID"
-L.SETTINGS_SLASH_QUANTITY =				"数量"

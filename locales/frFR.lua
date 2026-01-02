@@ -17,7 +17,7 @@ L.WINDOW_BUTTON_SETTINGS =				"Ouvrir les paramètres"
 L.WINDOW_BUTTON_CLEAR =					"Effacer toutes les recettes suivies"
 L.WINDOW_BUTTON_AUCTIONATOR =			"Mettre à jour la liste d’achats dans Auctionator\n" ..
 										"La liste d’achats sera générée automatiquement lors de l’ouverture de l’Hôtel des ventes"
-L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF : dimensionner automatiquement pour s’adapter à la fenêtre"
+L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF : dimensionner automatiquement pour s’adapter à la fenêtre|R"
 
 L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB -- "Recettes"
 L.WINDOW_HEADER_ITEMS =					ITEMS -- "Objets"
@@ -176,6 +176,9 @@ L.ERROR_MULTISIM =						L.ERROR .. " : aucun composant simulé n’a été utili
 L.VERSION_CHECK =						"Une nouvelle version de " .. app.NameLong .. " est disponible :"
 
 -- Settings
+L.SETTINGS_TOOLTIP =					app.NameLong .. "\n|cffFFFFFF" .. app.IconLMB .. " : afficher / masquer la fenêtre\n" .. app.IconRMB .. " : " .. L.WINDOW_BUTTON_SETTINGS
+
+-- L.SETTINGS_VERSION =					GAME_VERSION_LABEL .. ":"	-- "Version"
 L.SETTINGS_SUPPORT_TEXTLONG =			"Le développement de cette extension demande beaucoup de temps et d’efforts.\nVeuillez envisager de soutenir financièrement le développeur."
 L.SETTINGS_SUPPORT_TEXT =				"Soutien"
 L.SETTINGS_SUPPORT_BUTTON =				"Buy Me a Coffee"	-- Brand name, if there isn't a localised version, keep it the way it is
@@ -189,9 +192,20 @@ L.SETTINGS_ISSUES_DESC =				"Consultez le système de suivi des problèmes (« I
 L.SETTINGS_URL_COPY =					"Ctrl + C pour copier :"
 L.SETTINGS_URL_COPIED =					"Lien copié dans le presse-papiers"
 
-L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF : afficher / masquer la fenêtre\n" ..
-										app.IconRMB .. " : " .. L.WINDOW_BUTTON_SETTINGS
+L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & Commandes « Slash »"	-- "Keybindings"
+-- _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =	"Toggle Window"
+L.SETTINGS_SLASH_TOGGLE =				"Afficher / masquer la fenêtre de suivi"
+L.SETTINGS_SLASH_RESETPOS =				"Réinitialiser la position de la fenêtre de suivi"
+L.SETTINGS_SLASH_RESET =				"Réinitialiser les données enregistrées"
+L.SETTINGS_SLASH_TRACK =				"Suivre une recette"
+L.SETTINGS_SLASH_UNTRACK =				"Annuler le suivi d’une recette"
+L.SETTINGS_SLASH_UNTRACKALL =			"Annuler le suivi de toutes les unités d’une recette"
+L.SETTINGS_SLASH_TRACKACHIE =			"Suivre les recettes nécessaires pour le haut fait lié"
+L.SETTINGS_SLASH_CRAFTINGACHIE =		"haut fait de métier"
+L.SETTINGS_SLASH_RECIPEID =				"recipeID"
+L.SETTINGS_SLASH_QUANTITY =				"quantité"
 
+-- L.GENERAL =								GENERAL	-- "General"
 L.SETTINGS_MINIMAP_TITLE =				"Afficher le bouton de la mini-carte"
 L.SETTINGS_MINIMAP_TOOLTIP =			"Afficher le bouton de la mini-carte. Si vous désactivez cette fonction, " .. app.NameShort .. " sera toujours disponible dans le panneau des addons."
 L.SETTINGS_COOLDOWNS_TITLE =			"Suivre le temps de recharge des recettes"
@@ -238,17 +252,3 @@ L.SETTINGS_REMOVECRAFT_TITLE =			"Annuler le suivi après une fabrication"
 L.SETTINGS_REMOVECRAFT_TOOLTIP =		"Annuler le suivi d’une unité de la recette lorsque vous la fabriquez avec succès."
 L.SETTINGS_CLOSEWHENDONE_TITLE =		"Fermer la fenêtre lorsque vous avez terminé"
 L.SETTINGS_CLOSEWHENDONE_TOOLTIP =		"Fermer la fenêtre de suivi après avoir fabriqué la dernière recette suivie."
-
-L.SETTINGS_HEADER_INFO =				"Informations"
-L.SETTINGS_SLASHCOMMANDS_TITLE =		"Commandes « Slash »"
-L.SETTINGS_SLASHCOMMANDS_TOOLTIP =		"Saisissez ces mots-clés dans le chat pour les utiliser !"
-L.SETTINGS_SLASH_TOGGLE =				"Afficher / masquer la fenêtre de suivi"
-L.SETTINGS_SLASH_RESETPOS =				"Réinitialiser la position de la fenêtre de suivi"
-L.SETTINGS_SLASH_RESET =				"Réinitialiser les données enregistrées"
-L.SETTINGS_SLASH_TRACK =				"Suivre une recette"
-L.SETTINGS_SLASH_UNTRACK =				"Annuler le suivi d’une recette"
-L.SETTINGS_SLASH_UNTRACKALL =			"Annuler le suivi de toutes les unités d’une recette"
-L.SETTINGS_SLASH_TRACKACHIE =			"Suivre les recettes nécessaires pour le haut fait lié"
-L.SETTINGS_SLASH_CRAFTINGACHIE =		"haut fait de métier"
-L.SETTINGS_SLASH_RECIPEID =				"recipeID"
-L.SETTINGS_SLASH_QUANTITY =				"quantité"

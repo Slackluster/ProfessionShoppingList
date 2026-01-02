@@ -4,9 +4,19 @@
 		<Size y="28" />
 		<Layers>
 			<Layer level="OVERLAY">
-				<FontString parentKey="Text" inherits="GameFontNormal" justifyH="LEFT" justifyV="TOP">
+				<FontString parentKey="LeftText" inherits="GameFontNormal" justifyH="LEFT" justifyV="TOP">
 					<Anchors>
 						<Anchor point="TOPLEFT" x="37" y="-8" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="MiddleText" inherits="GameFontNormal" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="240" y="-8" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="RightText" inherits="GameFontNormal" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="280" y="-8" />
 					</Anchors>
 				</FontString>
 			</Layer>
@@ -15,13 +25,17 @@
 
 	<Frame name="ProfessionShoppingList_Tab" virtual="true" inherits="QuestLogTabButtonTemplate">
 		<KeyValues>
-			<KeyValue key="displayMode" value="QuestLogDisplayMode.Quests" type="global"/>
-			<KeyValue key="activeAtlas" value="poi-workorders" type="string"/>
-			<KeyValue key="inactiveAtlas" value="poi-workorders" type="string"/>
-			<KeyValue key="tooltipText" value="|cff3FC7EBProfession Shopping List" type="string"/>
+			<KeyValue key="displayMode" value="QuestLogDisplayMode.Quests" type="global" />
+			<KeyValue key="activeAtlas" value="poi-workorders" type="string" />
+			<KeyValue key="inactiveAtlas" value="poi-workorders" type="string" />
+			<KeyValue key="tooltipText" value="|cff3FC7EBProfession Shopping List" type="string" />
 		</KeyValues>
 		<Anchors>
-			<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="0" y="-52"/>
+			<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="0" y="-52" />
 		</Anchors>
+	</Frame>
+
+	<Frame name="ProfessionShoppingList_SettingsExpandTemplate" inherits="SettingsExpandableSectionTemplate" mixin="ProfessionShoppingList_SettingsExpandMixin" virtual="true">
+		<Size y="24" />
 	</Frame>
 </Ui>

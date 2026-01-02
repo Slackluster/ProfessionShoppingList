@@ -5,6 +5,7 @@
 -- Initialisation
 local appName, app = ...
 local L = app.locales
+local api = app.api
 
 -------------
 -- ON LOAD --
@@ -1566,7 +1567,7 @@ function app.Show()
 end
 
 -- Toggle window
-function app.Toggle()
+function api.Toggle()
 	if app.Tab and app.Tab.IsShown and app.Tab.WindowIsShown then return end
 	if app.Window:IsShown() then
 		app.Window:Hide()
@@ -1637,7 +1638,7 @@ function app.CreateTab(frame)
 			if f ~= "IsShown" and f ~= "WindowIsShown" then t:SetPoint("TOPLEFT", f, "TOPRIGHT", 0, -52) end
 		end
 		app.Tab.WindowIsShown = false
-		app.Toggle()
+		api.Toggle()
 
 		app.CloseButton:Enable()
 		app.UnlockButton:Enable()

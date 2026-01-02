@@ -17,7 +17,7 @@ L.WINDOW_BUTTON_SETTINGS =				"Open the settings"
 L.WINDOW_BUTTON_CLEAR =					"Clear all tracked recipes"
 L.WINDOW_BUTTON_AUCTIONATOR =			"Update the Auctionator shopping list\n" ..
 										"The shopping list is automatically generated when opening the Auction House"
-L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF: Autosize to fit the window"
+L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF: Autosize to fit the window|R"
 
 L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB	-- "Recipes"
 L.WINDOW_HEADER_ITEMS =					ITEMS	-- "Items"
@@ -176,6 +176,9 @@ L.ERROR_MULTISIM =						L.ERROR .. ": No simulated reagents have been used. Plea
 L.VERSION_CHECK =						"There is a newer version of " .. app.NameLong .. " available:"
 
 -- Settings
+L.SETTINGS_TOOLTIP =					app.NameLong .. "\n|cffFFFFFF" .. app.IconLMB .. ": Toggle the window\n" .. app.IconRMB .. ": " .. L.WINDOW_BUTTON_SETTINGS
+
+L.SETTINGS_VERSION =					GAME_VERSION_LABEL .. ":"	-- "Version"
 L.SETTINGS_SUPPORT_TEXTLONG =			"Developing this addon takes a significant amount of time and effort.\nPlease consider financially supporting the developer."
 L.SETTINGS_SUPPORT_TEXT =				"Support"
 L.SETTINGS_SUPPORT_BUTTON =				"Buy Me a Coffee"	-- Brand name, if there isn't a localised version, keep it the way it is
@@ -189,9 +192,20 @@ L.SETTINGS_ISSUES_DESC =				"View the issue tracker on GitHub."
 L.SETTINGS_URL_COPY =					"Ctrl+C to copy:"
 L.SETTINGS_URL_COPIED =					"Link copied to clipboard"
 
-L.SETTINGS_TOOLTIP =					app.IconLMB .. "|cffFFFFFF: Toggle the window\n" ..
-										app.IconRMB .. ": " .. L.WINDOW_BUTTON_SETTINGS
+L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & Slash Commands"	-- "Keybindings"
+_G["BINDING_NAME_PSL_TOGGLEWINDOW"] =	"Toggle Window"
+L.SETTINGS_SLASH_TOGGLE =				"Toggle the tracking window"
+L.SETTINGS_SLASH_RESETPOS =				"Reset the tracking window position"
+L.SETTINGS_SLASH_RESET =				"Reset saved data"
+L.SETTINGS_SLASH_TRACK =				"Track a recipe"
+L.SETTINGS_SLASH_UNTRACK =				"Untrack a recipe"
+L.SETTINGS_SLASH_UNTRACKALL =			"Untrack all of a recipe"
+L.SETTINGS_SLASH_TRACKACHIE =			"Track the recipes needed for the linked achievement"
+L.SETTINGS_SLASH_CRAFTINGACHIE =		"crafting achievement"
+L.SETTINGS_SLASH_RECIPEID =				"recipeID"
+L.SETTINGS_SLASH_QUANTITY =				"quantity"
 
+L.GENERAL =								GENERAL	-- "General"
 L.SETTINGS_MINIMAP_TITLE =				"Show Minimap Icon"
 L.SETTINGS_MINIMAP_TOOLTIP =			"Show the minimap icon. If you disable this, " .. app.NameShort .. " is still available from the Addon Compartment."
 L.SETTINGS_COOLDOWNS_TITLE =			"Track Recipe Cooldowns"
@@ -238,17 +252,3 @@ L.SETTINGS_REMOVECRAFT_TITLE =			"Untrack on Craft"
 L.SETTINGS_REMOVECRAFT_TOOLTIP =		"Remove one of a tracked recipe when you successfully craft it."
 L.SETTINGS_CLOSEWHENDONE_TITLE =		"Close Window When Done"
 L.SETTINGS_CLOSEWHENDONE_TOOLTIP =		"Close the tracking window after crafting the last tracked recipe."
-
-L.SETTINGS_HEADER_INFO =				"Information"
-L.SETTINGS_SLASHCOMMANDS_TITLE =		"Slash Commands"
-L.SETTINGS_SLASHCOMMANDS_TOOLTIP =		"Type these in chat to use them!"
-L.SETTINGS_SLASH_TOGGLE =				"Toggle the tracking window."
-L.SETTINGS_SLASH_RESETPOS =				"Reset the tracking window position."
-L.SETTINGS_SLASH_RESET =				"Reset saved data."
-L.SETTINGS_SLASH_TRACK =				"Track a recipe."
-L.SETTINGS_SLASH_UNTRACK =				"Untrack a recipe."
-L.SETTINGS_SLASH_UNTRACKALL =			"Untrack all of a recipe."
-L.SETTINGS_SLASH_TRACKACHIE =			"Track the recipes needed for the linked achievement."
-L.SETTINGS_SLASH_CRAFTINGACHIE =		"crafting achievement"
-L.SETTINGS_SLASH_RECIPEID =				"recipeID"
-L.SETTINGS_SLASH_QUANTITY =				"quantity"

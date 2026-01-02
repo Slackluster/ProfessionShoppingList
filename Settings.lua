@@ -5,6 +5,7 @@
 -- Initialisation
 local appName, app = ...
 local L = app.locales
+local api = app.api
 
 -------------
 -- ON LOAD --
@@ -84,7 +85,7 @@ end
 -- Addon Compartment click
 function ProfessionShoppingList_Click(self, button)
 	if button == "LeftButton" then
-		app.Toggle()
+		api.Toggle()
 	elseif button == "RightButton" then
 		app.OpenSettings()
 	end
@@ -94,7 +95,7 @@ end
 function ProfessionShoppingList_Enter(self, button)
 	GameTooltip:ClearLines()
 	GameTooltip:SetOwner(type(self) ~= "string" and self or button, "ANCHOR_LEFT")
-	GameTooltip:AddLine(app.NameLong .. "\n" .. L.SETTINGS_TOOLTIP)
+	GameTooltip:AddLine(L.SETTINGS_TOOLTIP)
 	GameTooltip:Show()
 end
 
@@ -113,7 +114,7 @@ function app.Settings()
 
 		OnClick = function(self, button)
 			if button == "LeftButton" then
-				app.Toggle()
+				api.Toggle()
 			elseif button == "RightButton" then
 				app.OpenSettings()
 			end
@@ -121,7 +122,7 @@ function app.Settings()
 
 		OnTooltipShow = function(tooltip)
 			if not tooltip or not tooltip.AddLine then return end
-			tooltip:AddLine(app.NameLong .. "\n" .. L.SETTINGS_TOOLTIP)
+			tooltip:AddLine(L.SETTINGS_TOOLTIP)
 		end,
 	})
 
@@ -144,13 +145,21 @@ function app.Settings()
 	ProfessionShoppingList_SettingsTextMixin = {}
 	function ProfessionShoppingList_SettingsTextMixin:Init(initializer)
 		local data = initializer:GetData()
-		self.Text:SetTextToFit(data.text)
+		self.LeftText:SetTextToFit(data.leftText)
+		self.MiddleText:SetTextToFit(data.middleText)
+		self.RightText:SetTextToFit(data.rightText)
 	end
 
-	local data = {text = L.SETTINGS_SUPPORT_TEXTLONG}
+	local data = { leftText = L.SETTINGS_VERSION .. " |cffFFFFFF" .. C_AddOns.GetAddOnMetadata(appName, "Version") }
 	local text = layout:AddInitializer(Settings.CreateElementInitializer("ProfessionShoppingList_SettingsText", data))
 	function text:GetExtent()
-		return 28 + select(2, string.gsub(data.text, "\n", "")) * 12
+		return 14
+	end
+
+	local data = { leftText = L.SETTINGS_SUPPORT_TEXTLONG }
+	local text = layout:AddInitializer(Settings.CreateElementInitializer("ProfessionShoppingList_SettingsText", data))
+	function text:GetExtent()
+		return 28 + select(2, string.gsub(data.leftText, "\n", "")) * 12
 	end
 
 	StaticPopupDialogs["PROFESSIONSHOPPINGLIST_URL"] = {
@@ -202,7 +211,84 @@ function app.Settings()
 	end
 	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_ISSUES_TEXT, L.SETTINGS_ISSUES_BUTTON, onIssuesButtonClick, L.SETTINGS_ISSUES_DESC, true))
 
-	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(C_AddOns.GetAddOnMetadata(appName, "Version")))
+	ProfessionShoppingList_SettingsExpandMixin = CreateFromMixins(SettingsExpandableSectionMixin)
+
+	function ProfessionShoppingList_SettingsExpandMixin:Init(initializer)
+		SettingsExpandableSectionMixin.Init(self, initializer)
+		self.data = initializer.data
+	end
+
+	function ProfessionShoppingList_SettingsExpandMixin:OnExpandedChanged(expanded)
+		SettingsInbound.RepairDisplay()
+	end
+
+	function ProfessionShoppingList_SettingsExpandMixin:CalculateHeight()
+		return 24
+	end
+
+	function ProfessionShoppingList_SettingsExpandMixin:OnExpandedChanged(expanded)
+		self:EvaluateVisibility(expanded)
+        SettingsInbound.RepairDisplay()
+	end
+
+	function ProfessionShoppingList_SettingsExpandMixin:EvaluateVisibility(expanded)
+		if expanded then
+			self.Button.Right:SetAtlas("Options_ListExpand_Right_Expanded", TextureKitConstants.UseAtlasSize)
+		else
+			self.Button.Right:SetAtlas("Options_ListExpand_Right", TextureKitConstants.UseAtlasSize)
+		end
+	end
+
+	local function createExpandableSection(layout, name)
+		local initializer = CreateFromMixins(SettingsExpandableSectionInitializer)
+		local data = { name = name, expanded = false }
+
+		initializer:Init("ProfessionShoppingList_SettingsExpandTemplate", data)
+		initializer.GetExtent = ScrollBoxFactoryInitializerMixin.GetExtent
+
+		layout:AddInitializer(initializer)
+
+		return initializer, function()
+			return initializer.data.expanded
+		end
+	end
+
+	local expandInitializer, isExpanded = createExpandableSection(layout, L.SETTINGS_KEYSLASH_TITLE)
+
+		local action = "PSL_TOGGLEWINDOW"
+		local bindingIndex = C_KeyBindings.GetBindingIndex(action)
+		local initializer = CreateKeybindingEntryInitializer(bindingIndex, true)
+		local keybind = layout:AddInitializer(initializer)
+		keybind:AddShownPredicate(isExpanded)
+
+		local data = { leftText = "|cffFFFFFF"
+			.. "/psl" .. "\n\n"
+			.. "/psl reset pos" .. "\n\n"
+			.. "/psl reset " .. app.Colour("arg") .. "\n\n"
+			.. "/psl settings" .. "\n\n"
+			.. "/psl clear" .. "\n\n"
+			.. "/psl track " .. app.Colour(L.SETTINGS_SLASH_RECIPEID .. " " .. L.SETTINGS_SLASH_QUANTITY) .. "\n\n"
+			.. "/psl untrack " .. app.Colour(L.SETTINGS_SLASH_RECIPEID .. " " .. L.SETTINGS_SLASH_QUANTITY) .. "\n\n"
+			.. "/psl untrack " .. app.Colour(L.SETTINGS_SLASH_RECIPEID) .. "\n\n"
+			.. "/psl " .. app.Colour("[" .. L.SETTINGS_SLASH_CRAFTINGACHIE .. "]"),
+		middleText =
+			L.SETTINGS_SLASH_TOGGLE .. "\n\n" ..
+			L.SETTINGS_SLASH_RESETPOS .. "\n\n" ..
+			L.SETTINGS_SLASH_RESET .. "\n\n" ..
+			L.WINDOW_BUTTON_SETTINGS .. "\n\n" ..
+			L.WINDOW_BUTTON_CLEAR .. "\n\n" ..
+			L.SETTINGS_SLASH_TRACK .. "\n\n" ..
+			L.SETTINGS_SLASH_UNTRACK .. "\n\n" ..
+			L.SETTINGS_SLASH_UNTRACKALL .. "\n\n" ..
+			L.SETTINGS_SLASH_TRACKACHIE
+		}
+		local text = layout:AddInitializer(Settings.CreateElementInitializer("ProfessionShoppingList_SettingsText", data))
+		function text:GetExtent()
+			return 28 + select(2, string.gsub(data.leftText, "\n", "")) * 12
+		end
+		text:AddShownPredicate(isExpanded)
+
+	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L.GENERAL))
 
 	local variable, name, tooltip = "minimapIcon", L.SETTINGS_MINIMAP_TITLE, L.SETTINGS_MINIMAP_TOOLTIP
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, true)
@@ -323,25 +409,6 @@ function app.Settings()
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, false)
 	local subSetting = Settings.CreateCheckbox(category, setting, tooltip)
 	subSetting:SetParentInitializer(parentSetting, function() return ProfessionShoppingList_Settings["removeCraft"] end)
-
-	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L.SETTINGS_HEADER_INFO))
-
-	local variable, name, tooltip = "", L.SETTINGS_SLASHCOMMANDS_TITLE, L.SETTINGS_SLASHCOMMANDS_TOOLTIP
-	local function GetOptions()
-		local container = Settings.CreateControlTextContainer()
-		container:Add(1, "/psl", L.SETTINGS_SLASH_TOGGLE)
-		container:Add(2, "/psl reset pos", L.SETTINGS_SLASH_RESETPOS)
-		container:Add(3, "/psl reset " .. app.Colour("arg"), L.SETTINGS_SLASH_RESET)
-		container:Add(4, "/psl settings", L.WINDOW_BUTTON_SETTINGS .. ".")
-		container:Add(5, "/psl clear", L.WINDOW_BUTTON_CLEAR)
-		container:Add(6, "/psl track " .. app.Colour(L.SETTINGS_SLASH_RECIPEID .. " " .. L.SETTINGS_SLASH_QUANTITY), L.SETTINGS_SLASH_TRACK)
-		container:Add(7, "/psl untrack " .. app.Colour(L.SETTINGS_SLASH_RECIPEID .. " " .. L.SETTINGS_SLASH_QUANTITY), L.SETTINGS_SLASH_UNTRACK)
-		container:Add(8, "/psl untrack " .. app.Colour(L.SETTINGS_SLASH_RECIPEID) .. " all", L.SETTINGS_SLASH_UNTRACKALL)
-		container:Add(9, "/psl " .. app.Colour("[" .. L.SETTINGS_SLASH_CRAFTINGACHIE .. "]"), L.SETTINGS_SLASH_TRACKACHIE)
-		return container:GetData()
-	end
-	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Number, name, 1)
-	Settings.CreateDropdown(category, setting, GetOptions, tooltip)
 end
 
 function app.CreateLinkCopiedFrame()
