@@ -21,31 +21,20 @@ end)
 -- TRACK NEW MOGS --
 --------------------
 
--- Scan the tooltip for any text
-function app:GetTooltipText(itemLinkie, searchString)
-	-- Grab the original value for this setting
+function app:GetTransmogText(itemLinkie, searchString)
 	local cvar = C_CVar.GetCVarInfo("missingTransmogSourceInItemTooltips")
+	if cvar ~= "1" then C_CVar.SetCVar("missingTransmogSourceInItemTooltips", 1) end
+	local tooltip = app.Tooltip[itemLinkie] or C_TooltipInfo.GetHyperlink(itemLinkie)
+	app.Tooltip[itemLinkie] = tooltip
+	if cvar ~= "1" then C_CVar.SetCVar("missingTransmogSourceInItemTooltips", cvar) end
 
-	-- Enable this CVar, because we need it if checking for the Blizz text, which we do as a fallback
-	C_CVar.SetCVar("missingTransmogSourceInItemTooltips", 1)
-
-	-- Get our tooltip information
-	local tooltip = C_TooltipInfo.GetHyperlink(itemLinkie)
-
-	-- Return the CVar to its original setting
-	C_CVar.SetCVar("missingTransmogSourceInItemTooltips", cvar)
-
-	-- Read all the lines as plain text
 	if tooltip and tooltip["lines"] then
 		for k, v in ipairs(tooltip["lines"]) do
-			-- And if the search string was found
 			if v["leftText"] and v["leftText"]:find(searchString) then
 				return true
 			end
 		end
 	end
-
-	-- Otherwise
 	return false
 end
 
@@ -66,7 +55,7 @@ function api:IsAppearanceCollected(itemLink)
 
 	local sourceID = app:GetSourceID(itemLink)
 	if not sourceID then
-		if app:GetTooltipText(itemLink, TRANSMOGRIFY_TOOLTIP_APPEARANCE_UNKNOWN) or app:GetTooltipText(itemLink, TRANSMOGRIFY_TOOLTIP_ITEM_UNKNOWN_APPEARANCE_KNOWN) then
+		if app:GetTransmogText(itemLink, TRANSMOGRIFY_TOOLTIP_APPEARANCE_UNKNOWN) then
 			return false
 		else
 			return true	-- Should be nil if the item does not have an appearance, but for our purposes this is fine
@@ -98,7 +87,7 @@ function api:IsSourceCollected(itemLink)
 
 	local sourceID = app:GetSourceID(itemLink)
 	if not sourceID then
-		if app:GetTooltipText(itemLink, TRANSMOGRIFY_TOOLTIP_APPEARANCE_UNKNOWN) or app:GetTooltipText(itemLink, TRANSMOGRIFY_TOOLTIP_ITEM_UNKNOWN_APPEARANCE_KNOWN) then
+		if app:GetTransmogText(itemLink, TRANSMOGRIFY_TOOLTIP_APPEARANCE_UNKNOWN) or app:GetTransmogText(itemLink, TRANSMOGRIFY_TOOLTIP_ITEM_UNKNOWN_APPEARANCE_KNOWN) then
 			return false
 		else
 			return true	-- Should be nil if the item does not have an appearance, but for our purposes this is fine
