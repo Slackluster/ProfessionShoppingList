@@ -7,8 +7,8 @@ local appName, app = ...
 
 -- Used strings
 app.Name = "Profession Shopping List"
-app.NameLong = app.Colour("Profession Shopping List")
-app.NameShort = app.Colour("PSL")
+app.NameLong = app:Colour("Profession Shopping List")
+app.NameShort = app:Colour("PSL")
 
 -- Used textures
 app.IconPSL = "|TInterface\\AddOns\\ProfessionShoppingList\\assets\\icon.png:0|t"

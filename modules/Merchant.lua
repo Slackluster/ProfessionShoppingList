@@ -85,7 +85,7 @@ app.Event:Register("MERCHANT_SHOW", function()
 			if not ProfessionShoppingList_Data.Recipes[key] then ProfessionShoppingList_Data.Recipes[key] = { quantity = 0, link = itemLink} end
 			ProfessionShoppingList_Data.Recipes[key].quantity = ProfessionShoppingList_Data.Recipes[key].quantity + 1
 
-			app.Show()
+			app:ShowWindow()
 		end
 	end
 
@@ -106,7 +106,7 @@ app.Event:Register("MERCHANT_SHOW", function()
 		app.MerchantButton:SetPushedTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 		app.MerchantButton:GetPushedTexture():SetTexCoord(219/256, 255/256, 81/128, 119/128)
 		app.MerchantButton:SetScript("OnClick", function()
-			app.Show()	-- Populate app.ReagentQuantities
+			app:ShowWindow()	-- Populate app.ReagentQuantities
 
 			for itemID, quantity in pairs(app.ReagentQuantities) do
 				if type(itemID) == "number" then
@@ -119,7 +119,7 @@ app.Event:Register("MERCHANT_SHOW", function()
 					end
 
 					if vendorIndex ~= 0 then
-						local need = quantity - app.GetReagentCount(itemID)
+						local need = quantity - app:GetReagentCount(itemID)
 						local itemInfo = C_MerchantFrame.GetItemInfo(vendorIndex)
 						if need >= 1 and itemInfo.isPurchasable then
 							local maxStack = GetMerchantItemMaxStack(vendorIndex)

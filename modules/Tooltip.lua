@@ -12,7 +12,7 @@ local L = app.locales
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
-		app.TooltipInfo()
+		app:AddTooltipInfo()
 	end
 end)
 
@@ -21,7 +21,7 @@ end)
 --------------
 
 -- Tooltip information
-function app.TooltipInfo()
+function app:AddTooltipInfo()
 	local function OnTooltipSetItem(tooltip)
 		local itemLink, itemID, secondaryItemLink, secondaryItemID
 		local _, primaryItemLink, primaryItemID = TooltipUtil.GetDisplayedItem(GameTooltip)
@@ -85,7 +85,7 @@ function app.TooltipInfo()
 			-- Add the tooltip info
 			local emptyLine = false
 			if reagentAmountNeed > 0 then
-				local reagentAmountHave = app.GetReagentCount(itemID)
+				local reagentAmountHave = app:GetReagentCount(itemID)
 				tooltip:AddLine(" ")
 				emptyLine = true
 				tooltip:AddLine(app.IconPSL .. " " .. reagentAmountHave .. "/" .. reagentAmountNeed .. " (" .. math.max(0,reagentAmountNeed-reagentAmountHave) .. " " .. L.MORE_NEEDED .. ")")

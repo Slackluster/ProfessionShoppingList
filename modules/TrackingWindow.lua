@@ -41,11 +41,11 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		app.Rows.Cooldown = {}
 		app.Rows.CooldownWidth = 0
 		app.Rows.ReagentWidth = 0
-		app.SimAddOns = {"CraftSim", "TestFlight"}
+		app.SimAddons = {"CraftSim", "TestFlight"}
 
-		app.CreateWindow()
+		app:CreateWindow()
 		local function refreshCooldowns()
-			app.UpdateCooldowns()
+			app:UpdateCooldowns()
 			C_Timer.After(60, refreshCooldowns)
 		end
 		refreshCooldowns()
@@ -63,7 +63,7 @@ end)
 ---------------------
 
 -- Create the main window
-function app.CreateWindow()
+function app:CreateWindow()
 	-- Create popup frame
 	app.Window = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
 	app.Window:SetPoint("CENTER")
@@ -84,10 +84,10 @@ function app.CreateWindow()
 	app.Window:SetResizeBounds(140, 140)
 	app.Window:RegisterForDrag("LeftButton")
 	app.Window:SetScript("OnDragStart", function()
-		app.MoveWindow()
+		app:MoveWindow()
 	end)
 	app.Window:SetScript("OnDragStop", function()
-		app.SaveWindow()
+		app:SaveWindow()
 	end)
 	app.Window:Hide()
 
@@ -106,10 +106,10 @@ function app.CreateWindow()
 		ShoppingTooltip1:Hide()
 	end)
 	app.Window.Corner:SetScript("OnMouseUp", function()
-		app.SaveWindow()
+		app:SaveWindow()
 	end)
 	app.Window.Corner:SetScript("OnEnter", function()
-		app.WindowTooltipShow(L.WINDOW_BUTTON_CORNER, nil, nil, "bottom")
+		app:ShowWindowTooltip(L.WINDOW_BUTTON_CORNER, nil, nil, "bottom")
 	end)
 	app.Window.Corner:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -122,14 +122,14 @@ function app.CreateWindow()
 		app.Window:Hide()
 	end)
 	app.CloseButton:SetScript("OnEnter", function()
-		app.WindowTooltipShow(L.WINDOW_BUTTON_CLOSE, nil, nil, "top")
+		app:ShowWindowTooltip(L.WINDOW_BUTTON_CLOSE, nil, nil, "top")
 	end)
 	app.CloseButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
 	end)
 
 	-- Lock button
-	function app.LockWindow()
+	function app:LockWindow()
 		app.Window.Corner:Hide()
 		app.LockButton:Hide()
 		app.UnlockButton:Show()
@@ -144,16 +144,16 @@ function app.CreateWindow()
 	app.LockButton:GetDisabledTexture():SetTexCoord(183/256, 219/256, 41/128, 79/128)
 	app.LockButton:SetPushedTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.LockButton:GetPushedTexture():SetTexCoord(183/256, 219/256, 81/128, 119/128)
-	app.LockButton:SetScript("OnClick", function() app.LockWindow() end)
+	app.LockButton:SetScript("OnClick", function() app:LockWindow() end)
 	app.LockButton:SetScript("OnEnter", function()
-		app.WindowTooltipShow(L.WINDOW_BUTTON_LOCK, nil, nil, "top")
+		app:ShowWindowTooltip(L.WINDOW_BUTTON_LOCK, nil, nil, "top")
 	end)
 	app.LockButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
 	end)
 
 	-- Unlock button
-	function app.UnlockWindow()
+	function app:UnlockWindow()
 		app.Window.Corner:Show()
 		app.LockButton:Show()
 		app.UnlockButton:Hide()
@@ -168,18 +168,18 @@ function app.CreateWindow()
 	app.UnlockButton:GetDisabledTexture():SetTexCoord(148/256, 184/256, 41/128, 79/128)
 	app.UnlockButton:SetPushedTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.UnlockButton:GetPushedTexture():SetTexCoord(148/256, 184/256, 81/128, 119/128)
-	app.UnlockButton:SetScript("OnClick", function() app.UnlockWindow() end)
+	app.UnlockButton:SetScript("OnClick", function() app:UnlockWindow() end)
 	app.UnlockButton:SetScript("OnEnter", function()
-		app.WindowTooltipShow(L.WINDOW_BUTTON_UNLOCK, nil, nil, "top")
+		app:ShowWindowTooltip(L.WINDOW_BUTTON_UNLOCK, nil, nil, "top")
 	end)
 	app.UnlockButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
 	end)
 
 	if ProfessionShoppingList_Settings["windowLocked"] then
-		app.LockWindow()
+		app:LockWindow()
 	else
-		app.UnlockWindow()
+		app:UnlockWindow()
 	end
 
 	-- Settings button
@@ -192,10 +192,10 @@ function app.CreateWindow()
 	app.SettingsButton:SetPushedTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.SettingsButton:GetPushedTexture():SetTexCoord(112/256, 148/256, 81/128, 119/128)
 	app.SettingsButton:SetScript("OnClick", function()
-		app.OpenSettings()
+		app:OpenSettings()
 	end)
 	app.SettingsButton:SetScript("OnEnter", function()
-		app.WindowTooltipShow(L.WINDOW_BUTTON_SETTINGS, nil, nil, "top")
+		app:ShowWindowTooltip(L.WINDOW_BUTTON_SETTINGS, nil, nil, "top")
 	end)
 	app.SettingsButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -216,7 +216,7 @@ function app.CreateWindow()
 			button1 = YES,
 			button2 = NO,
 			OnAccept = function()
-				app.Clear()
+				app:Clear()
 			end,
 			timeout = 0,
 			whileDead = true,
@@ -226,7 +226,7 @@ function app.CreateWindow()
 		StaticPopup_Show("PSL_CLEAR_RECIPES")
 	end)
 	app.ClearButton:SetScript("OnEnter", function()
-		app.WindowTooltipShow(L.WINDOW_BUTTON_CLEAR, nil, nil, "top")
+		app:ShowWindowTooltip(L.WINDOW_BUTTON_CLEAR, nil, nil, "top")
 	end)
 	app.ClearButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -242,11 +242,11 @@ function app.CreateWindow()
 	app.AuctionatorButton:SetPushedTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.AuctionatorButton:GetPushedTexture():SetTexCoord(219/256, 255/256, 81/128, 119/128)
 	app.AuctionatorButton:SetScript("OnClick", function()
-		app.UpdateRecipes()
-		app.MakeShoppingList()
+		app:UpdateRecipes()
+		app:CreateShoppingList()
 	end)
 	app.AuctionatorButton:SetScript("OnEnter", function(self)
-		app.WindowTooltipShow(L.WINDOW_BUTTON_AUCTIONATOR, nil, nil, "top")
+		app:ShowWindowTooltip(L.WINDOW_BUTTON_AUCTIONATOR, nil, nil, "top")
 	end)
 	app.AuctionatorButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -278,7 +278,7 @@ function app.CreateWindow()
 end
 
 -- Move the main window
-function app.MoveWindow()
+function app:MoveWindow()
 	if ProfessionShoppingList_Settings["windowLocked"] then
 		-- Highlight the Unlock button
 		app.UnlockButton:LockHighlight()
@@ -293,7 +293,7 @@ function app.MoveWindow()
 end
 
 -- Save the main window position and size
-function app.SaveWindow()
+function app:SaveWindow()
 	if app.Tab and app.Tab.WindowIsShown then return end
 
 	-- Stop highlighting the unlock button
@@ -313,7 +313,7 @@ function app.SaveWindow()
 end
 
 -- Window tooltip show
-function app.WindowTooltipShow(text, hyperlink, secondary, position)
+function app:ShowWindowTooltip(text, hyperlink, secondary, position)
 	GameTooltip:SetOwner(app.Window, "ANCHOR_NONE")
 
 	if hyperlink then
@@ -347,23 +347,23 @@ function app.WindowTooltipShow(text, hyperlink, secondary, position)
 end
 
 -- Update numbers tracked
-function app.UpdateNumbers()
+function app:UpdateNumbers()
 	-- Update reagents tracked
 	for reagentID, amount in pairs(app.ReagentQuantities) do
 		local itemLink, fileID, icon
 
 		if not ProfessionShoppingList_Cache.Reagents[reagentID] then
 			-- Cache item
-			app.CacheItem(reagentID)
+			app:CacheItem(reagentID)
 
 			if not C_Item.IsItemDataCachedByID(reagentID) then
-				app.Debug("app.UpdateNumbers(" .. reagentID .. ")")
+				app:Debug("app.UpdateNumbers(" .. reagentID .. ")")
 
 				C_Item.RequestLoadItemDataByID(reagentID)
 				local item = Item:CreateFromItemID(reagentID)
 
 				item:ContinueOnItemLoad(function()
-					app.UpdateNumbers()
+					app:UpdateNumbers()
 				end)
 
 				return
@@ -379,7 +379,7 @@ function app.UpdateNumbers()
 
 		if type(reagentID) == "number" then
 			-- Get needed/owned number of reagents
-			local reagentAmountHave = app.GetReagentCount(reagentID)
+			local reagentAmountHave = app:GetReagentCount(reagentID)
 
 			-- Make stuff grey and add a checkmark if 0 are needed
 			if math.max(0,amount-reagentAmountHave) == 0 then
@@ -557,7 +557,7 @@ function app.UpdateNumbers()
 end
 
 -- Update cooldown numbers
-function app.UpdateCooldowns()
+function app:UpdateCooldowns()
 	app.Rows.CooldownWidth = 0
 	if app.Rows.Cooldown then
 		if #app.Rows.Cooldown >= 1 then
@@ -589,7 +589,7 @@ function app.UpdateCooldowns()
 end
 
 -- Update recipes and reagents tracked
-function app.UpdateRecipes()
+function app:UpdateRecipes()
 	-- Set personal recipes to be the same as global recipes
 	ProfessionShoppingList_CharacterData.Recipes = ProfessionShoppingList_Data.Recipes
 
@@ -600,13 +600,13 @@ function app.UpdateRecipes()
 		for recipeID, recipeInfo in pairs(ProfessionShoppingList_Data.Recipes) do
 			-- Normal recipes
 			if type(recipeID) == "number" then
-				app.GetReagents(app.ReagentQuantities, recipeID, recipeInfo.quantity, recipeInfo.recraft)
+				app:GetReagents(app.ReagentQuantities, recipeID, recipeInfo.quantity, recipeInfo.recraft)
 			-- Patron orders
 			elseif ProfessionShoppingList_Cache.FakeRecipes[recipeID] and string.sub(recipeID, 1, 6) == "order:" then
-				app.GetReagents(app.ReagentQuantities, recipeID, recipeInfo.quantity, recipeInfo.recraft)
+				app:GetReagents(app.ReagentQuantities, recipeID, recipeInfo.quantity, recipeInfo.recraft)
 			-- Guild/Personal orders
 			elseif string.sub(recipeID, 1, 6) == "order:" then
-				app.GetReagents(app.ReagentQuantities, recipeID, recipeInfo.quantity, recipeInfo.recraft)
+				app:GetReagents(app.ReagentQuantities, recipeID, recipeInfo.quantity, recipeInfo.recraft)
 			-- Vendor items
 			elseif ProfessionShoppingList_Cache.FakeRecipes[recipeID] and string.sub(recipeID, 1, 7) == "vendor:" then
 				-- Add gold costs
@@ -666,8 +666,8 @@ function app.UpdateRecipes()
 			app.Window.Recipes:SetPoint("RIGHT", app.Window.Child)
 			app.Window.Recipes:RegisterForDrag("LeftButton")
 			app.Window.Recipes:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
-			app.Window.Recipes:SetScript("OnDragStart", function() app.MoveWindow()	end)
-			app.Window.Recipes:SetScript("OnDragStop", function() app.SaveWindow() end)
+			app.Window.Recipes:SetScript("OnDragStart", function() app:MoveWindow()	end)
+			app.Window.Recipes:SetScript("OnDragStop", function() app:SaveWindow() end)
 
 			local recipes1 = app.Window.Recipes:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			recipes1:SetPoint("LEFT", app.Window.Recipes)
@@ -751,10 +751,10 @@ function app.UpdateRecipes()
 			row:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
 			row:RegisterForDrag("LeftButton")
 			row:RegisterForClicks("AnyUp")
-			row:SetScript("OnDragStart", function() app.MoveWindow() end)
-			row:SetScript("OnDragStop", function() app.SaveWindow() end)
+			row:SetScript("OnDragStart", function() app:MoveWindow() end)
+			row:SetScript("OnDragStop", function() app:SaveWindow() end)
 			row:SetScript("OnEnter", function()
-				app.WindowTooltipShow(recipeInfo.link, true, L.WINDOW_TOOLTIP_RECIPES)
+				app:ShowWindowTooltip(recipeInfo.link, true, L.WINDOW_TOOLTIP_RECIPES)
 			end)
 			row:SetScript("OnLeave", function()
 				GameTooltip:ClearLines()
@@ -767,20 +767,20 @@ function app.UpdateRecipes()
 				if button == "RightButton" then
 					-- Untrack the recipe
 					if IsControlKeyDown() then
-						app.UntrackRecipe(recipeInfo.recipeID, 0)
+						app:UntrackRecipe(recipeInfo.recipeID, 0)
 					else
-						app.UntrackRecipe(recipeInfo.recipeID, 1)
+						app:UntrackRecipe(recipeInfo.recipeID, 1)
 					end
 
 					-- Show window
-					app.Show()
+					app:ShowWindow()
 				-- Left-click on recipe
 				elseif button == "LeftButton" then
 					-- If Shift is held also
 					if IsShiftKeyDown() then
 						-- Try write link to chat
 						ChatEdit_InsertLink(recipeInfo.link)
-						app.SearchAH(recipeInfo.link)
+						app:SearchAH(recipeInfo.link)
 					-- If Control is held also
 					elseif IsControlKeyDown() and type(recipeInfo.recipeID) == "number" then
 							C_TradeSkillUI.SetRecipeItemNameFilter("")	-- Clear search filter, which can interfere
@@ -838,8 +838,8 @@ function app.UpdateRecipes()
 			app.Window.Reagents:SetPoint("RIGHT", app.Window.Child)
 			app.Window.Reagents:RegisterForDrag("LeftButton")
 			app.Window.Reagents:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
-			app.Window.Reagents:SetScript("OnDragStart", function() app.MoveWindow() end)
-			app.Window.Reagents:SetScript("OnDragStop", function() app.SaveWindow() end)
+			app.Window.Reagents:SetScript("OnDragStart", function() app:MoveWindow() end)
+			app.Window.Reagents:SetScript("OnDragStop", function() app:SaveWindow() end)
 
 			local reagents1 = app.Window.Reagents:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			reagents1:SetPoint("LEFT", app.Window.Reagents)
@@ -872,16 +872,16 @@ function app.UpdateRecipes()
 		for k, v in pairs(app.ReagentQuantities) do
 			if not ProfessionShoppingList_Cache.Reagents[k] then
 				-- Cache item
-				app.CacheItem(k)
+				app:CacheItem(k)
 
 				if not C_Item.IsItemDataCachedByID(k) then
-					app.Debug("app.UpdateRecipes(" .. k .. ")")
+					app:Debug("app.UpdateRecipes(" .. k .. ")")
 
 					C_Item.RequestLoadItemDataByID(k)
 					local item = Item:CreateFromItemID(k)
 
 					item:ContinueOnItemLoad(function()
-						app.UpdateRecipes()
+						app:UpdateRecipes()
 					end)
 
 					return
@@ -897,10 +897,10 @@ function app.UpdateRecipes()
 			row:SetSize(0,16)
 			row:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
 			row:RegisterForDrag("LeftButton")
-			row:SetScript("OnDragStart", function() app.MoveWindow() end)
-			row:SetScript("OnDragStop", function() app.SaveWindow() end)
+			row:SetScript("OnDragStart", function() app:MoveWindow() end)
+			row:SetScript("OnDragStop", function() app:SaveWindow() end)
 			row:SetScript("OnEnter", function()
-				app.WindowTooltipShow(reagentInfo.link, true, L.WINDOW_TOOLTIP_REAGENTS)
+				app:ShowWindowTooltip(reagentInfo.link, true, L.WINDOW_TOOLTIP_REAGENTS)
 			end)
 			row:SetScript("OnLeave", function()
 				GameTooltip:ClearLines()
@@ -912,11 +912,11 @@ function app.UpdateRecipes()
 				local function trackSubreagent(recipeID, itemID)
 					-- Define the amount of recipes to be tracked
 					local quantityMade = C_TradeSkillUI.GetRecipeSchematic(recipeID, false).quantityMin
-					local amount = math.max(0, math.ceil((app.ReagentQuantities[itemID] - app.GetReagentCount(itemID)) / quantityMade))
+					local amount = math.max(0, math.ceil((app.ReagentQuantities[itemID] - app:GetReagentCount(itemID)) / quantityMade))
 					if ProfessionShoppingList_Data.Recipes[recipeID] then amount = math.max(0, (amount - ProfessionShoppingList_Data.Recipes[recipeID].quantity)) end
 
 					-- Track the recipe (don't track if 0)
-					if amount > 0 then app.TrackRecipe(recipeID, amount) end
+					if amount > 0 then app:TrackRecipe(recipeID, amount) end
 				end
 
 				-- Control+click on reagent
@@ -986,7 +986,7 @@ function app.UpdateRecipes()
 
 						-- Get reagents #1
 						local reagentsTable = {}
-						app.GetReagents(reagentsTable, recipeIDs[1], 1, false)
+						app:GetReagents(reagentsTable, recipeIDs[1], 1, false)
 
 						-- Create text #1
 						for reagentID, reagentAmount in pairs(reagentsTable) do
@@ -994,7 +994,7 @@ function app.UpdateRecipes()
 							local function getInfo()
 								-- Cache item
 								if not C_Item.IsItemDataCachedByID(reagentID) then
-									app.Debug("getInfo(" .. reagentID .. ")")
+									app:Debug("getInfo(" .. reagentID .. ")")
 
 									C_Item.RequestLoadItemDataByID(reagentID)
 									local item = Item:CreateFromItemID(reagentID)
@@ -1016,7 +1016,7 @@ function app.UpdateRecipes()
 						end
 
 						-- Button #1
-						local pslOptionButton1 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[1], false).name)
+						local pslOptionButton1 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[1], false).name)
 						pslOptionButton1:SetPoint("BOTTOM", pslOption1, "TOP", 0, 5)
 						pslOptionButton1:SetPoint("CENTER", pslOption1, "CENTER", 0, 0)
 						pslOptionButton1:SetScript("OnClick", function()
@@ -1041,7 +1041,7 @@ function app.UpdateRecipes()
 
 							-- Get reagents #2
 							local reagentsTable = {}
-							app.GetReagents(reagentsTable, recipeIDs[2], 1, false)
+							app:GetReagents(reagentsTable, recipeIDs[2], 1, false)
 
 							-- Create text #2
 							for reagentID, reagentAmount in pairs(reagentsTable) do
@@ -1049,7 +1049,7 @@ function app.UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app.Debug("getInfo(" .. reagentID .. ")")
+										app:Debug("getInfo(" .. reagentID .. ")")
 
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
@@ -1071,7 +1071,7 @@ function app.UpdateRecipes()
 							end
 
 							-- Button #2
-							local pslOptionButton2 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[2], false).name)
+							local pslOptionButton2 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[2], false).name)
 							pslOptionButton2:SetPoint("BOTTOM", pslOption2, "TOP", 0, 5)
 							pslOptionButton2:SetPoint("CENTER", pslOption2, "CENTER", 0, 0)
 							pslOptionButton2:SetScript("OnClick", function()
@@ -1097,7 +1097,7 @@ function app.UpdateRecipes()
 
 							-- Get reagents #3
 							local reagentsTable = {}
-							app.GetReagents(reagentsTable, recipeIDs[3], 1, false)
+							app:GetReagents(reagentsTable, recipeIDs[3], 1, false)
 
 							-- Create text #3
 							for reagentID, reagentAmount in pairs(reagentsTable) do
@@ -1105,7 +1105,7 @@ function app.UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app.Debug("getInfo(" .. reagentID .. ")")
+										app:Debug("getInfo(" .. reagentID .. ")")
 
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
@@ -1127,7 +1127,7 @@ function app.UpdateRecipes()
 							end
 
 							-- Button #3
-							local pslOptionButton3 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[3], false).name)
+							local pslOptionButton3 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[3], false).name)
 							pslOptionButton3:SetPoint("BOTTOM", pslOption3, "TOP", 0, 5)
 							pslOptionButton3:SetPoint("CENTER", pslOption3, "CENTER", 0, 0)
 							pslOptionButton3:SetScript("OnClick", function()
@@ -1153,7 +1153,7 @@ function app.UpdateRecipes()
 
 							-- Get reagents #4
 							local reagentsTable = {}
-							app.GetReagents(reagentsTable, recipeIDs[4], 1, false)
+							app:GetReagents(reagentsTable, recipeIDs[4], 1, false)
 
 							-- Create text #4
 							for reagentID, reagentAmount in pairs(reagentsTable) do
@@ -1161,7 +1161,7 @@ function app.UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app.Debug("getInfo(" .. reagentID .. ")")
+										app:Debug("getInfo(" .. reagentID .. ")")
 
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
@@ -1183,7 +1183,7 @@ function app.UpdateRecipes()
 							end
 
 							-- Button #4
-							local pslOptionButton4 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[4], false).name)
+							local pslOptionButton4 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[4], false).name)
 							pslOptionButton4:SetPoint("BOTTOM", pslOption4, "TOP", 0, 5)
 							pslOptionButton4:SetPoint("CENTER", pslOption4, "CENTER", 0, 0)
 							pslOptionButton4:SetScript("OnClick", function()
@@ -1206,7 +1206,7 @@ function app.UpdateRecipes()
 
 							-- Get reagents #5
 							local reagentsTable = {}
-							app.GetReagents(reagentsTable, recipeIDs[5], 1, false)
+							app:GetReagents(reagentsTable, recipeIDs[5], 1, false)
 
 							-- Create text #5
 							for reagentID, reagentAmount in pairs(reagentsTable) do
@@ -1214,7 +1214,7 @@ function app.UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app.Debug("getInfo(" .. reagentID .. ")")
+										app:Debug("getInfo(" .. reagentID .. ")")
 
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
@@ -1236,7 +1236,7 @@ function app.UpdateRecipes()
 							end
 
 							-- Button #5
-							local pslOptionButton5 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[5], false).name)
+							local pslOptionButton5 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[5], false).name)
 							pslOptionButton5:SetPoint("BOTTOM", pslOption5, "TOP", 0, 5)
 							pslOptionButton5:SetPoint("CENTER", pslOption5, "CENTER", 0, 0)
 							pslOptionButton5:SetScript("OnClick", function()
@@ -1259,7 +1259,7 @@ function app.UpdateRecipes()
 
 							-- Get reagents #6
 							local reagentsTable = {}
-							app.GetReagents(reagentsTable, recipeIDs[6], 1, false)
+							app:GetReagents(reagentsTable, recipeIDs[6], 1, false)
 
 							-- Create text #6
 							for reagentID, reagentAmount in pairs(reagentsTable) do
@@ -1267,7 +1267,7 @@ function app.UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app.Debug("getInfo(" .. reagentID .. ")")
+										app:Debug("getInfo(" .. reagentID .. ")")
 
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
@@ -1289,7 +1289,7 @@ function app.UpdateRecipes()
 							end
 
 							-- Button #6
-							local pslOptionButton6 = app.Button(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[6], false).name)
+							local pslOptionButton6 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[6], false).name)
 							pslOptionButton6:SetPoint("BOTTOM", pslOption6, "TOP", 0, 5)
 							pslOptionButton6:SetPoint("CENTER", pslOption6, "CENTER", 0, 0)
 							pslOptionButton6:SetScript("OnClick", function()
@@ -1303,7 +1303,7 @@ function app.UpdateRecipes()
 				-- Activate if Shift+clicking on the reagent
 				elseif button == "LeftButton" and IsShiftKeyDown() then
 					ChatEdit_InsertLink(reagentInfo.link)
-					app.SearchAH(reagentInfo.link)
+					app:SearchAH(reagentInfo.link)
 				end
 			end)
 
@@ -1371,8 +1371,8 @@ function app.UpdateRecipes()
 			app.Window.Cooldowns:SetPoint("RIGHT", app.Window.Child)
 			app.Window.Cooldowns:RegisterForDrag("LeftButton")
 			app.Window.Cooldowns:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
-			app.Window.Cooldowns:SetScript("OnDragStart", function() app.MoveWindow() end)
-			app.Window.Cooldowns:SetScript("OnDragStop", function() app.SaveWindow() end)
+			app.Window.Cooldowns:SetScript("OnDragStart", function() app:MoveWindow() end)
+			app.Window.Cooldowns:SetScript("OnDragStop", function() app:SaveWindow() end)
 
 			local cooldowns1 = app.Window.Cooldowns:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			cooldowns1:SetPoint("LEFT", app.Window.Cooldowns)
@@ -1419,10 +1419,10 @@ function app.UpdateRecipes()
 			row:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
 			row:RegisterForDrag("LeftButton")
 			row:RegisterForClicks("AnyUp")
-			row:SetScript("OnDragStart", function() app.MoveWindow() end)
-			row:SetScript("OnDragStop", function() app.SaveWindow() end)
+			row:SetScript("OnDragStart", function() app:MoveWindow() end)
+			row:SetScript("OnDragStop", function() app:SaveWindow() end)
 			row:SetScript("OnEnter", function()
-				app.WindowTooltipShow("|cffFFFFFF" .. cooldownInfo.user, false, L.WINDOW_TOOLTIP_COOLDOWNS)
+				app:ShowWindowTooltip("|cffFFFFFF" .. cooldownInfo.user, false, L.WINDOW_TOOLTIP_COOLDOWNS)
 			end)
 			row:SetScript("OnLeave", function()
 				GameTooltip:ClearLines()
@@ -1433,7 +1433,7 @@ function app.UpdateRecipes()
 			row:SetScript("OnClick", function(self, button)
 				if button == "RightButton" and IsShiftKeyDown() then
 					table.remove(ProfessionShoppingList_Data.Cooldowns, cooldownInfo.id)
-					app.UpdateRecipes()
+					app:UpdateRecipes()
 				elseif button == "LeftButton" then
 					-- If Control is held also
 					if IsControlKeyDown() then
@@ -1507,7 +1507,7 @@ function app.UpdateRecipes()
 			maxLength3 = math.max(icon1:GetStringWidth()+text1:GetStringWidth()+text2:GetStringWidth(), maxLength3)
 		end
 
-		function app.ResizeWindow(save)
+		function app:ResizeWindow(save)
 			local windowHeight = 62
 			local windowWidth = 0
 			if next(ProfessionShoppingList_Data.Cooldowns) == nil or ProfessionShoppingList_Settings["showRecipeCooldowns"] == false then
@@ -1534,21 +1534,21 @@ function app.UpdateRecipes()
 			app.Window:SetWidth(math.max(140,windowWidth+40))
 			app.Window.ScrollFrame:SetVerticalScroll(0)
 
-			if save then app.SaveWindow() end
+			if save then app:SaveWindow() end
 		end
 
 		app.Window.Corner:SetScript("OnDoubleClick", function()
-			app.ResizeWindow(true)
+			app:ResizeWindow(true)
 		end)
 
 		-- Update numbers tracked and assets like buttons
-		app.UpdateNumbers()
-		app.UpdateAssets()
+		app:UpdateNumbers()
+		app:UpdateAssets()
 	end
 end
 
 -- Show window and update numbers
-function app.Show()
+function app:ShowWindow()
 	-- Set window to its proper position and size
 	app.Window:ClearAllPoints()
 	if ProfessionShoppingList_Settings["pcWindows"] then
@@ -1563,16 +1563,18 @@ function app.Show()
 	app.Window:Show()
 
 	-- Update numbers
-	app.UpdateRecipes()
+	app:UpdateRecipes()
 end
 
 -- Toggle window
-function api.Toggle()
+function api:ToggleWindow()
+	assert(self == api, "Call ProfessionShoppingList:ToggleWindow(), not ProfessionShoppingList.ToggleWindow()")
+
 	if app.Tab and app.Tab.IsShown and app.Tab.WindowIsShown then return end
 	if app.Window:IsShown() then
 		app.Window:Hide()
 	else
-		app.Show()
+		app:ShowWindow()
 	end
 end
 
@@ -1582,7 +1584,7 @@ app.Event:Register("CHAT_MSG_CURRENCY", function()
 		-- If any recipes are tracked
 		local next = next
 		if next(ProfessionShoppingList_Data.Recipes) ~= nil then
-			app.UpdateNumbers()
+			app:UpdateNumbers()
 		end
 	end
 end)
@@ -1593,7 +1595,7 @@ app.Event:Register("BAG_UPDATE_DELAYED", function()
 		-- If any recipes are tracked
 		local next = next
 		if next(ProfessionShoppingList_Data.Recipes) ~= nil then
-			app.UpdateNumbers()
+			app:UpdateNumbers()
 		end
 
 		-- If the setting for split reagent bag count is enabled
@@ -1615,13 +1617,13 @@ end)
 -- TRACKING WINDOW TAB --
 -------------------------
 
-function app.CreateTab(frame)
+function app:CreateTab(frame)
 	local tab
 	local locked = ProfessionShoppingList_Settings["windowLocked"]
 
 	local function showWindow()
-		app.Show()
-		app.ResizeWindow()
+		app:ShowWindow()
+		app:ResizeWindow()
 		app.Window:ClearAllPoints()
 		app.Window:SetPoint("TOPLEFT", frame, "TOPRIGHT", 0, -1)
 		app.Window:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 0, 0)
@@ -1630,7 +1632,7 @@ function app.CreateTab(frame)
 
 		app.CloseButton:Disable()
 		app.UnlockButton:Disable()
-		app.LockWindow()
+		app:LockWindow()
 	end
 
 	local function hideWindow()
@@ -1638,11 +1640,11 @@ function app.CreateTab(frame)
 			if f ~= "IsShown" and f ~= "WindowIsShown" then t:SetPoint("TOPLEFT", f, "TOPRIGHT", 0, -52) end
 		end
 		app.Tab.WindowIsShown = false
-		api.Toggle()
+		api:ToggleWindow()
 
 		app.CloseButton:Enable()
 		app.UnlockButton:Enable()
-		if not locked then app.UnlockWindow() end
+		if not locked then app:UnlockWindow() end
 	end
 
 	local function toggleWindow()
@@ -1692,7 +1694,7 @@ end
 
 app.Event:Register("TRADE_SKILL_SHOW", function()
 	app.Tab = app.Tab or {}
-	app.Tab[ProfessionsFrame] = app.Tab[ProfessionsFrame] or app.CreateTab(ProfessionsFrame)
+	app.Tab[ProfessionsFrame] = app.Tab[ProfessionsFrame] or app:CreateTab(ProfessionsFrame)
 
 	hooksecurefunc(ProfessionsFrame.CraftingPage.CraftingOutputLog, "FinalizeResultData", function(self)
 		if app.Tab and app.Tab.WindowIsShown then
@@ -1704,12 +1706,12 @@ end)
 
 app.Event:Register("AUCTION_HOUSE_SHOW", function()
 	app.Tab = app.Tab or {}
-	app.Tab[AuctionHouseFrame] = app.Tab[AuctionHouseFrame] or app.CreateTab(AuctionHouseFrame)
+	app.Tab[AuctionHouseFrame] = app.Tab[AuctionHouseFrame] or app:CreateTab(AuctionHouseFrame)
 end)
 
 app.Event:Register("CRAFTINGORDERS_SHOW_CUSTOMER", function()
 	app.Tab = app.Tab or {}
-	app.Tab[ProfessionsCustomerOrdersFrame] = app.Tab[ProfessionsCustomerOrdersFrame] or app.CreateTab(ProfessionsCustomerOrdersFrame)
+	app.Tab[ProfessionsCustomerOrdersFrame] = app.Tab[ProfessionsCustomerOrdersFrame] or app:CreateTab(ProfessionsCustomerOrdersFrame)
 end)
 
 ------------------------
@@ -1717,7 +1719,7 @@ end)
 ------------------------
 
 -- Register a recipe's information
-function app.RegisterRecipe(recipeID)
+function app:RegisterRecipe(recipeID)
 	local item = C_TradeSkillUI.GetRecipeOutputItemData(recipeID).itemID or 0
 	local _, _, tradeskill = C_TradeSkillUI.GetTradeSkillLineForRecipe(recipeID)
 	local ability = C_TradeSkillUI.GetRecipeInfo(recipeID).skillLineAbilityID
@@ -1747,17 +1749,17 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 		-- Register all recipes for this profession, on a delay so we give all this info time to load.
 		C_Timer.After(2, function()
 			for _, recipeID in pairs(C_TradeSkillUI.GetAllRecipeIDs()) do
-				app.RegisterRecipe(recipeID)
+				app:RegisterRecipe(recipeID)
 			end
 		end)
 	end
 end)
 
 -- Save an item to our cache
-function app.CacheItem(itemID)
+function app:CacheItem(itemID)
 	-- Cache the item by asking the server to give us the info
 	local item = Item:CreateFromItemID(itemID)
-	app.Debug("app.CacheItem(" .. itemID .. ")")
+	app:Debug("app:CacheItem(" .. itemID .. ")")
 
 	-- And when the item is cached
 	item:ContinueOnItemLoad(function()
@@ -1782,7 +1784,7 @@ function app.CacheItem(itemID)
 end
 
 -- Get reagents for recipe
-function app.GetReagents(reagentVariable, recipeID, recipeQuantity, recraft)
+function app:GetReagents(reagentVariable, recipeID, recipeQuantity, recraft)
 	-- Grab all the reagent info from the API
 	local reagentsTable
 
@@ -1852,16 +1854,16 @@ function app.GetReagents(reagentVariable, recipeID, recipeQuantity, recraft)
 			-- Add the reagentID to the reagent cache
 			if not ProfessionShoppingList_Cache.Reagents[reagentID] then
 				-- Cache item
-				app.CacheItem(reagentID)
+				app:CacheItem(reagentID)
 
 				if not C_Item.IsItemDataCachedByID(reagentID) then
-					app.Debug("app.GetReagents(" .. reagentID .. ")")
+					app:Debug("app:GetReagents(" .. reagentID .. ")")
 
 					C_Item.RequestLoadItemDataByID(reagentID)
 					local item = Item:CreateFromItemID(reagentID)
 
 					item:ContinueOnItemLoad(function()
-						app.GetReagents(reagentVariable, craftingRecipeID, recipeQuantity, recraft or false)
+						app:GetReagents(reagentVariable, craftingRecipeID, recipeQuantity, recraft or false)
 					end)
 
 					return
@@ -1902,7 +1904,7 @@ function app.GetReagents(reagentVariable, recipeID, recipeQuantity, recraft)
 end
 
 -- Get owned reagent quantity, accounting for reagent quality
-function app.GetReagentCount(reagentID)
+function app:GetReagentCount(reagentID)
 	local reagentCount = 0
 
 	-- Index simulated reagents, whose quality is not subject to our quality setting
@@ -1974,7 +1976,7 @@ end
 --------------------------------
 
 -- Track recipe
-function app.TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
+function app:TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 	local originalRecipeID = recipeID
 
 	-- 2 = Salvage, recipes without reagents | Disable these, cause they shouldn't be tracked
@@ -2010,13 +2012,13 @@ function app.TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 		if itemID ~= nil then
 			-- Cache item
 			if not C_Item.IsItemDataCachedByID(itemID) then
-				app.Debug("app.TrackRecipe(" .. itemID .. ")")
+				app:Debug("app:TrackRecipe(" .. itemID .. ")")
 
 				C_Item.RequestLoadItemDataByID(itemID)
 				local item = Item:CreateFromItemID(itemID)
 
 				item:ContinueOnItemLoad(function()
-					app.TrackRecipe(recipeID, recipeQuantity, recraft or false, orderID)
+					app:TrackRecipe(recipeID, recipeQuantity, recraft or false, orderID)
 				end)
 
 				return
@@ -2086,18 +2088,18 @@ function app.TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 
 	local simRecipe = false
 	-- Don't track simulated reagents if CraftSim and Testflight both have their simulation mode active
-	-- This would give errors if either addon isn't enabled, but for now app.SimCount() only includes these two anyway
-	if app.SimCount() > 1 and CraftSimAPI.GetCraftSim().SIMULATION_MODE.isActive and TestFlight.enabled then
+	-- This would give errors if either addon isn't enabled, but for now app:SimAddonCount() only includes these two anyway
+	if app:SimAddonCount() > 1 and CraftSimAPI.GetCraftSim().SIMULATION_MODE.isActive and TestFlight.enabled then
 		local addons = ""
-		for k, v in pairs(app.SimAddOns) do
+		for k, v in pairs(app.SimAddons) do
 			if k > 1 then
 				addons = addons .. ", "
 			end
 			addons = addons .. v
 		end
-		app.Print(L.ERROR_MULTISIM, addons)
+		app:Print(L.ERROR_MULTISIM, addons)
 	-- List custom reagents for simulated recipes
-	elseif app.SimCount() >= 1 then
+	elseif app:SimAddonCount() >= 1 then
 		if C_AddOns.IsAddOnLoaded("CraftSim") and CraftSimAPI.GetCraftSim().SIMULATION_MODE.isActive then
 			-- Grab the reagents it provides
 			local simulatedSimulationMode = CraftSimAPI.GetCraftSim().SIMULATION_MODE
@@ -2123,7 +2125,7 @@ function app.TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 				simRecipe = true
 				ProfessionShoppingList_Cache.SimulatedRecipes[recipeID] = reagents
 			else
-				app.Print(L.ERROR_CRAFTSIM)
+				app:Print(L.ERROR_CRAFTSIM)
 			end
 		elseif C_AddOns.IsAddOnLoaded("TestFlight") and TestFlight.enabled then
 			local allocationTable
@@ -2159,14 +2161,14 @@ function app.TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 	ProfessionShoppingList_Data.Recipes[recipeID].quantity = ProfessionShoppingList_Data.Recipes[recipeID].quantity + recipeQuantity
 
 	if not app.Window:IsShown() then
-		app.Show()
+		app:ShowWindow()
 	else
-		app.UpdateRecipes()
+		app:UpdateRecipes()
 	end
 end
 
 -- Untrack recipe
-function app.UntrackRecipe(recipeID, recipeQuantity)
+function app:UntrackRecipe(recipeID, recipeQuantity)
 	if ProfessionShoppingList_Data.Recipes[recipeID] ~= nil then
 		-- Clear all recipes if quantity was set to 0
 		if recipeQuantity == 0 then ProfessionShoppingList_Data.Recipes[recipeID].quantity = 0 end
@@ -2183,26 +2185,26 @@ function app.UntrackRecipe(recipeID, recipeQuantity)
 
 	-- Clear the cache if no recipes are tracked anymore
 	local next = next
-	if next(ProfessionShoppingList_Data.Recipes) == nil then app.Clear() end
+	if next(ProfessionShoppingList_Data.Recipes) == nil then app:Clear() end
 
 	-- Update numbers
-	app.UpdateRecipes()
+	app:UpdateRecipes()
 end
 
 -- Clear everything except the recipe cache
-function app.Clear()
+function app:Clear()
 	ProfessionShoppingList_Data.Recipes = {}
 	ProfessionShoppingList_Cache.Reagents = {}	-- Wasn't needed before, but it is with the new link formatting
 	ProfessionShoppingList_Cache.FakeRecipes = {}
 	ProfessionShoppingList_Cache.SimulatedRecipes = {}
-	app.UpdateRecipes()
+	app:UpdateRecipes()
 	app.Window.ScrollFrame:SetVerticalScroll(0)
 end
 
 -- Replace the in-game tracking of shift+clicking a recipe with PSL's
 app.Event:Register("TRACKED_RECIPE_UPDATE", function(recipeID, tracked)
 	if tracked then
-		app.TrackRecipe(recipeID, 1, false)
+		app:TrackRecipe(recipeID, 1, false)
 		C_TradeSkillUI.SetRecipeTracked(recipeID, false, false)
 		C_TradeSkillUI.SetRecipeTracked(recipeID, false, true)
 	end
@@ -2221,14 +2223,14 @@ EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelecte
 	end
 
 	app.SelectedRecipe.Profession = { recipeID = recipeID, recraft = recipeInfo.isRecraft, recipeType = C_TradeSkillUI.GetRecipeSchematic(recipeID, recipeInfo.isRecraft).recipeType }
-	app.UpdateAssets()
+	app:UpdateAssets()
 end)
 
 -- When selecting a recraft recipe
 app.Event:Register("OPEN_RECIPE_RESPONSE", function(recipeID, skillLineID, expansionSkillLineID)
 	local recraft = app.SelectedRecipe.Profession.recraft
 	app.SelectedRecipe.Profession = { recipeID = recipeID, recraft = recraft, recipeType = C_TradeSkillUI.GetRecipeSchematic(recipeID, recraft).recipeType }
-	app.UpdateAssets()
+	app:UpdateAssets()
 end)
 
 -- When a spell is succesfully cast by the player (for removing crafted recipes)
@@ -2237,7 +2239,7 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 		-- Run only when crafting a tracked recipe, and if the remove craft option is enabled
 		if ProfessionShoppingList_Data.Recipes[spellID] and ProfessionShoppingList_Settings["removeCraft"] then
 			-- Remove 1 tracked recipe when it has been crafted (if the option is enabled)
-			app.UntrackRecipe(spellID, 1)
+			app:UntrackRecipe(spellID, 1)
 
 			-- Close window if no recipes are left and the option is enabled
 			local next = next
@@ -2249,10 +2251,10 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 end)
 
 -- Count how many supported sim addons are enabled
-function app.SimCount()
+function app:SimAddonCount()
 	local addonCount = 0
 
-	for k, v in pairs(app.SimAddOns) do
+	for k, v in pairs(app.SimAddons) do
 		if C_AddOns.IsAddOnLoaded(v) then
 			addonCount = addonCount + 1
 		end
@@ -2290,11 +2292,11 @@ app.Event:Register("PLAYER_ENTERING_WORLD", function(isInitialLogin, isReloading
 				-- If the option to show recipe cooldowns is enabled and all charges are full (or 0 = 0 for recipes without charges)
 				if ProfessionShoppingList_Settings["showRecipeCooldowns"] and ProfessionShoppingList_Data.Cooldowns[k].charges == ProfessionShoppingList_Data.Cooldowns[k].maxCharges then
 					-- Show the reminder
-					app.Print(recipeInfo.name .. " " .. L.READY_TO_CRAFT .. " " .. recipeInfo.user .. ".")
+					app:Print(recipeInfo.name .. " " .. L.READY_TO_CRAFT .. " " .. recipeInfo.user .. ".")
 
 					-- And open the window if that setting is enabled
 					if ProfessionShoppingList_Settings["showWindowCooldown"] then
-						app.Show()	-- This can run multiple times, but that doesn't do much harm
+						app:ShowWindow()	-- This can run multiple times, but that doesn't do much harm
 					end
 				end
 			end
@@ -2351,7 +2353,7 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 				-- If the spell cooldown exists
 				if cooldown then
 					-- Fix the cooldown table if necessary
-					ProfessionShoppingList_Data.Cooldowns = app.FixTable(ProfessionShoppingList_Data.Cooldowns)
+					ProfessionShoppingList_Data.Cooldowns = app:FixTable(ProfessionShoppingList_Data.Cooldowns)
 
 					-- Replace the existing entry if it exists
 					local cdExists = false
@@ -2366,7 +2368,7 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 						ProfessionShoppingList_Data.Cooldowns[#ProfessionShoppingList_Data.Cooldowns+1] = {name = recipeName, recipeID = spellID, cooldown = cooldown, start = recipeStart, user = character .. "-" .. realm, charges = charges, maxCharges = maxCharges}
 					end
 					-- And then update our window
-					app.UpdateRecipes()
+					app:UpdateRecipes()
 				end
 
 				-- Recharge timer

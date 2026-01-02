@@ -22,7 +22,7 @@ end)
 --------------------
 
 -- Scan the tooltip for any text
-function app.GetTooltipText(itemLinkie, searchString)
+function app:GetTooltipText(itemLinkie, searchString)
 	-- Grab the original value for this setting
 	local cvar = C_CVar.GetCVarInfo("missingTransmogSourceInItemTooltips")
 
@@ -50,7 +50,7 @@ function app.GetTooltipText(itemLinkie, searchString)
 end
 
 -- Get an item's SourceID (thank you Plusmouse!)
-function app.GetSourceID(itemLink)
+function app:GetSourceID(itemLink)
 	local _, sourceID = C_TransmogCollection.GetItemInfo(itemLink)
 	if sourceID then
 		return sourceID
@@ -61,10 +61,12 @@ function app.GetSourceID(itemLink)
 end
 
 -- Check if an item's appearance is collected (thank you Plusmouse!)
-function api.IsAppearanceCollected(itemLink)
-	local sourceID = app.GetSourceID(itemLink)
+function api:IsAppearanceCollected(itemLink)
+	assert(self == api, "Call ProfessionShoppingList:IsAppearanceCollected(), not ProfessionShoppingList.IsAppearanceCollected()")
+
+	local sourceID = app:GetSourceID(itemLink)
 	if not sourceID then
-		if app.GetTooltipText(itemLink, TRANSMOGRIFY_TOOLTIP_APPEARANCE_UNKNOWN) or app.GetTooltipText(itemLink, TRANSMOGRIFY_TOOLTIP_ITEM_UNKNOWN_APPEARANCE_KNOWN) then
+		if app:GetTooltipText(itemLink, TRANSMOGRIFY_TOOLTIP_APPEARANCE_UNKNOWN) or app:GetTooltipText(itemLink, TRANSMOGRIFY_TOOLTIP_ITEM_UNKNOWN_APPEARANCE_KNOWN) then
 			return false
 		else
 			return true	-- Should be nil if the item does not have an appearance, but for our purposes this is fine
@@ -91,10 +93,12 @@ function api.IsAppearanceCollected(itemLink)
 end
 
 -- Check if an item's source is collected (thank you Plusmouse!)
-function api.IsSourceCollected(itemLink)
-	local sourceID = app.GetSourceID(itemLink)
+function api:IsSourceCollected(itemLink)
+	assert(self == api, "Call ProfessionShoppingList:IsSourceCollected(), not ProfessionShoppingList.IsSourceCollected()")
+
+	local sourceID = app:GetSourceID(itemLink)
 	if not sourceID then
-		if app.GetTooltipText(itemLink, TRANSMOGRIFY_TOOLTIP_APPEARANCE_UNKNOWN) or app.GetTooltipText(itemLink, TRANSMOGRIFY_TOOLTIP_ITEM_UNKNOWN_APPEARANCE_KNOWN) then
+		if app:GetTooltipText(itemLink, TRANSMOGRIFY_TOOLTIP_APPEARANCE_UNKNOWN) or app:GetTooltipText(itemLink, TRANSMOGRIFY_TOOLTIP_ITEM_UNKNOWN_APPEARANCE_KNOWN) then
 			return false
 		else
 			return true	-- Should be nil if the item does not have an appearance, but for our purposes this is fine
@@ -105,7 +109,7 @@ function api.IsSourceCollected(itemLink)
 end
 
 -- Get all visible recipes
-function app.GetVisibleRecipes(targetTable)
+function app:GetVisibleRecipes(targetTable)
 	-- If no table is provided, create a new one
 	targetTable = targetTable or {}
 
@@ -125,11 +129,11 @@ function app.GetVisibleRecipes(targetTable)
 	return targetTable
 end
 
-function app.TrackUnlearnedMog()
+function app:TrackUnlearnedMogs()
 	-- Set the update handler to active, to prevent multiple list updates from freezing the game
 	app.Flag.ChangingRecipes = true
 
-	local recipes = app.GetVisibleRecipes()
+	local recipes = app:GetVisibleRecipes()
 
 	-- Start a count
 	local added = 0
@@ -148,16 +152,16 @@ function app.TrackUnlearnedMog()
 				local _, itemLink = C_Item.GetItemInfo(itemID)
 
 				-- If the appearance is unlearned, track the recipe (taking our collection mode into account)
-				if not api.IsAppearanceCollected(itemLink) or (ProfessionShoppingList_Settings["collectMode"] == 2 and not api.IsSourceCollected(itemLink)) then
-					app.TrackRecipe(recipeID, 1)
+				if not api:IsAppearanceCollected(itemLink) or (ProfessionShoppingList_Settings["collectMode"] == 2 and not api:IsSourceCollected(itemLink)) then
+					app:TrackRecipe(recipeID, 1)
 					added = added + 1
 				end
 
 				-- If this is our last iteration, set update handler to false and force an update, and let the user know what we did
 				if i == #recipes then
 					app.Flag.ChangingRecipes = false
-					app.UpdateRecipes()
-					app.Print(L.ADDED_RECIPES1 .. " " .. added .. " " .. L.ADDED_RECIPES2 .. ".")
+					app:UpdateRecipes()
+					app:Print(L.ADDED_RECIPES1 .. " " .. added .. " " .. L.ADDED_RECIPES2 .. ".")
 				end
 			end)
 		end

@@ -21,14 +21,14 @@ end)
 
 app.Event:Register("AUCTION_HOUSE_SHOW", function(addOnName, containsBindings)
 	app.Flag.AuctionHouseIsOpen = true
-	app.MakeShoppingList()	-- Also update our shopping list whenever we open the AH
+	app:CreateShoppingList()	-- Also update our shopping list whenever we open the AH
 end)
 
 app.Event:Register("AUCTION_HOUSE_CLOSED", function(addOnName, containsBindings)
 	app.Flag.AuctionHouseIsOpen = false
 end)
 
-function app.SearchAH(itemLink)
+function app:SearchAH(itemLink)
 	if app.Flag.AuctionHouseIsOpen then
 		local query = { sorts = { sortOrder = Enum.AuctionHouseSortOrder.Price, reverseSort = false }, filters = {}, searchString = C_Item.GetItemInfo(itemLink) }
 		C_AuctionHouse.SendBrowseQuery(query)
@@ -40,7 +40,7 @@ end
 ------------------------
 
 -- Create shopping list
-function app.MakeShoppingList()
+function app:CreateShoppingList()
 	-- Only run this if Auctionator is enabled and loaded
 	local loaded, finished = C_AddOns.IsAddOnLoaded("Auctionator")
 	if finished then
@@ -53,17 +53,17 @@ function app.MakeShoppingList()
 				if type(reagentID) == "number" then
 					-- Cache item
 					if not ProfessionShoppingList_Cache.ReagentTiers[reagentID] then
-						app.CacheItem(reagentID)
+						app:CacheItem(reagentID)
 					end
 
 					if not C_Item.IsItemDataCachedByID(reagentID) then
-						app.Debug("makeShoppingList(" .. reagentID .. ")")
+						app:Debug("makeShoppingList(" .. reagentID .. ")")
 
 						C_Item.RequestLoadItemDataByID(reagentID)
 						local item = Item:CreateFromItemID(reagentID)
 
 						item:ContinueOnItemLoad(function()
-							app.MakeShoppingList()
+							app:CreateShoppingList()
 						end)
 
 						return
@@ -96,7 +96,7 @@ function app.MakeShoppingList()
 					end
 
 					-- Calculate how many we still need
-					local reagentCount = app.GetReagentCount(reagentID)
+					local reagentCount = app:GetReagentCount(reagentID)
 					reagentCount = math.max(0, reagentAmount - reagentCount)
 
 					-- But make it zero if it's a subreagent

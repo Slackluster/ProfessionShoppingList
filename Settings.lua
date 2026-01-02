@@ -21,8 +21,8 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		if ProfessionShoppingList_Settings["debug"] == nil then ProfessionShoppingList_Settings["debug"] = false end
 		if ProfessionShoppingList_Settings["useLocalReagents"] == nil then ProfessionShoppingList_Settings["useLocalReagents"] = false end
 
-		app.CreateLinkCopiedFrame()
-		app.Settings()
+		app:CreateLinkCopiedFrame()
+		app:CreateSettings()
 
 		-- Midnight cleanup
 		if ProfessionShoppingList_Settings["backpackCount"] ~= nil then ProfessionShoppingList_Settings["backpackCount"] = nil end
@@ -39,37 +39,37 @@ end)
 -----------
 
 -- Reset SavedVariables
-function app.Reset(arg)
+function app:Reset(arg)
 	if arg == "settings" then
 		ProfessionShoppingList_Settings = {}
-		app.Print(L.RESET_DONE, L.REQUIRES_RELOAD)
+		app:Print(L.RESET_DONE, L.REQUIRES_RELOAD)
 	elseif arg == "library" then
 		ProfessionShoppingList_Library = {}
-		app.Print(L.RESET_DONE)
+		app:Print(L.RESET_DONE)
 	elseif arg == "cache" then
-		app.Clear()
+		app:Clear()
 		ProfessionShoppingList_Cache = nil
-		app.Print(L.RESET_DONE, L.REQUIRES_RELOAD)
+		app:Print(L.RESET_DONE, L.REQUIRES_RELOAD)
 	elseif arg == "character" then
 		ProfessionShoppingList_CharacterData = nil
-		app.Print(L.RESET_DONE, L.REQUIRES_RELOAD)
+		app:Print(L.RESET_DONE, L.REQUIRES_RELOAD)
 	elseif arg == "all" then
-		app.Clear()
+		app:Clear()
 		ProfessionShoppingList_Settings = nil
 		ProfessionShoppingList_Data = nil
 		ProfessionShoppingList_Library = nil
 		ProfessionShoppingList_Cache = nil
 		ProfessionShoppingList_CharacterData = nil
-		app.Print(L.RESET_DONE, L.REQUIRES_RELOAD)
+		app:Print(L.RESET_DONE, L.REQUIRES_RELOAD)
 	elseif arg == "pos" then
 		-- Set the window size and position back to default
 		ProfessionShoppingList_Settings["windowPosition"] = { ["left"] = GetScreenWidth()/2-100, ["bottom"] = GetScreenHeight()/2-100, ["width"] = 200, ["height"] = 200, }
 		ProfessionShoppingList_Settings["pcWindowPosition"] = ProfessionShoppingList_Settings["windowPosition"]
 
 		-- Show the window, which will also set its size and position
-		app.Show()
+		app:ShowWindow()
 	else
-		app.Print(L.INVALID_RESET_ARG .. "\n " .. app.Colour("settings") .. ", " .. app.Colour("library") .. ", " .. app.Colour("cache") .. ", " .. app.Colour("character") .. ", " .. app.Colour("all") .. ", " .. app.Colour("pos"))
+		app:Print(L.INVALID_RESET_ARG .. "\n " .. app:Colour("settings") .. ", " .. app:Colour("library") .. ", " .. app:Colour("cache") .. ", " .. app:Colour("character") .. ", " .. app:Colour("all") .. ", " .. app:Colour("pos"))
 	end
 end
 
@@ -78,16 +78,16 @@ end
 --------------
 
 -- Open settings
-function app.OpenSettings()
-	Settings.OpenToCategory(app.Category:GetID())
+function app:OpenSettings()
+	Settings.OpenToCategory(app.Settings:GetID())
 end
 
 -- Addon Compartment click
 function ProfessionShoppingList_Click(self, button)
 	if button == "LeftButton" then
-		api.Toggle()
+		api:ToggleWindow()
 	elseif button == "RightButton" then
-		app.OpenSettings()
+		app:OpenSettings()
 	end
 end
 
@@ -105,7 +105,7 @@ function ProfessionShoppingList_Leave()
 end
 
 -- Settings and minimap icon
-function app.Settings()
+function app:CreateSettings()
 	-- Minimap button
 	local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject("ProfessionShoppingList", {
 		type = "data source",
@@ -114,9 +114,9 @@ function app.Settings()
 
 		OnClick = function(self, button)
 			if button == "LeftButton" then
-				api.Toggle()
+				api:ToggleWindow()
 			elseif button == "RightButton" then
-				app.OpenSettings()
+				app:OpenSettings()
 			end
 		end,
 
@@ -140,7 +140,7 @@ function app.Settings()
 	-- Settings page
 	local category, layout = Settings.RegisterVerticalLayoutCategory(app.Name)
 	Settings.RegisterAddOnCategory(category)
-	app.Category = category
+	app.Settings = category
 
 	ProfessionShoppingList_SettingsTextMixin = {}
 	function ProfessionShoppingList_SettingsTextMixin:Init(initializer)
@@ -264,13 +264,13 @@ function app.Settings()
 		local data = { leftText = "|cffFFFFFF"
 			.. "/psl" .. "\n\n"
 			.. "/psl reset pos" .. "\n\n"
-			.. "/psl reset " .. app.Colour("arg") .. "\n\n"
+			.. "/psl reset " .. app:Colour("arg") .. "\n\n"
 			.. "/psl settings" .. "\n\n"
 			.. "/psl clear" .. "\n\n"
-			.. "/psl track " .. app.Colour(L.SETTINGS_SLASH_RECIPEID .. " " .. L.SETTINGS_SLASH_QUANTITY) .. "\n\n"
-			.. "/psl untrack " .. app.Colour(L.SETTINGS_SLASH_RECIPEID .. " " .. L.SETTINGS_SLASH_QUANTITY) .. "\n\n"
-			.. "/psl untrack " .. app.Colour(L.SETTINGS_SLASH_RECIPEID) .. "\n\n"
-			.. "/psl " .. app.Colour("[" .. L.SETTINGS_SLASH_CRAFTINGACHIE .. "]"),
+			.. "/psl track " .. app:Colour(L.SETTINGS_SLASH_RECIPEID .. " " .. L.SETTINGS_SLASH_QUANTITY) .. "\n\n"
+			.. "/psl untrack " .. app:Colour(L.SETTINGS_SLASH_RECIPEID .. " " .. L.SETTINGS_SLASH_QUANTITY) .. "\n\n"
+			.. "/psl untrack " .. app:Colour(L.SETTINGS_SLASH_RECIPEID) .. "\n\n"
+			.. "/psl " .. app:Colour("[" .. L.SETTINGS_SLASH_CRAFTINGACHIE .. "]"),
 		middleText =
 			L.SETTINGS_SLASH_TOGGLE .. "\n\n" ..
 			L.SETTINGS_SLASH_RESETPOS .. "\n\n" ..
@@ -307,7 +307,7 @@ function app.Settings()
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, true)
 	local parentSetting = Settings.CreateCheckbox(category, setting, tooltip)
 	setting:SetValueChangedCallback(function()
-		app.UpdateRecipes()
+		app:UpdateRecipes()
 	end)
 
 	local variable, name, tooltip = "showWindowCooldown", L.SETTINGS_COOLDOWNSWINDOW_TITLE, L.SETTINGS_COOLDOWNSWINDOW_TOOLTIP
@@ -335,7 +335,7 @@ function app.Settings()
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Number, name, 1)
 	Settings.CreateDropdown(category, setting, GetOptions, tooltip)
 	setting:SetValueChangedCallback(function()
-		C_Timer.After(0.5, function() app.UpdateRecipes() end) -- Toggling this setting seems buggy? This fixes it. :)
+		C_Timer.After(0.5, function() app:UpdateRecipes() end) -- Toggling this setting seems buggy? This fixes it. :)
 	end)
 
 	local variable, name, tooltip = "includeHigher", L.SETTINGS_INCLUDEHIGHER_TITLE, L.SETTINGS_INCLUDEHIGHER_TOOLTIP
@@ -349,7 +349,7 @@ function app.Settings()
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Number, name, 1)
 	Settings.CreateDropdown(category, setting, GetOptions, tooltip)
 	setting:SetValueChangedCallback(function()
-		C_Timer.After(0.5, function() app.UpdateRecipes() end) -- Toggling this setting seems buggy? This fixes it. :)
+		C_Timer.After(0.5, function() app:UpdateRecipes() end) -- Toggling this setting seems buggy? This fixes it. :)
 	end)
 
 	local variable, name, tooltip = "collectMode", L.SETTINGS_COLLECTMODE_TITLE, L.SETTINGS_COLLECTMODE_TOOLTIP
@@ -391,14 +391,14 @@ function app.Settings()
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, false)
 	Settings.CreateCheckbox(category, setting, tooltip)
 	setting:SetValueChangedCallback(function()
-		app.UpdateRecipes()
+		app:UpdateRecipes()
 	end)
 
 	local variable, name, tooltip = "showRemaining", L.SETTINGS_SHOWREMAINING_TITLE, L.SETTINGS_SHOWREMAINING_TOOLTIP
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, false)
 	Settings.CreateCheckbox(category, setting, tooltip)
 	setting:SetValueChangedCallback(function()
-		C_Timer.After(0.5, function() app.UpdateRecipes() end) -- Toggling this setting seems buggy? This fixes it. :)
+		C_Timer.After(0.5, function() app:UpdateRecipes() end) -- Toggling this setting seems buggy? This fixes it. :)
 	end)
 
 	local variable, name, tooltip = "removeCraft", L.SETTINGS_REMOVECRAFT_TITLE, L.SETTINGS_REMOVECRAFT_TOOLTIP
@@ -411,7 +411,7 @@ function app.Settings()
 	subSetting:SetParentInitializer(parentSetting, function() return ProfessionShoppingList_Settings["removeCraft"] end)
 end
 
-function app.CreateLinkCopiedFrame()
+function app:CreateLinkCopiedFrame()
 	app.LinkCopiedFrame= CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
 	app.LinkCopiedFrame:SetPoint("CENTER")
 	app.LinkCopiedFrame:SetFrameStrata("TOOLTIP")

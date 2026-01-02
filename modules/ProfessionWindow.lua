@@ -24,7 +24,7 @@ end)
 -----------------------
 
 -- Create assets
-function app.CreateTradeskillAssets()
+function app:CreateTradeskillAssets()
 	-- Hide and disable existing tracking buttons
 	ProfessionsFrame.CraftingPage.SchematicForm.TrackRecipeCheckbox:SetAlpha(0)
 	ProfessionsFrame.CraftingPage.SchematicForm.TrackRecipeCheckbox:EnableMouse(false)
@@ -33,10 +33,10 @@ function app.CreateTradeskillAssets()
 
 	-- Create the profession UI track button
 	if not app.TrackProfessionButton then
-		app.TrackProfessionButton = app.Button(ProfessionsFrame.CraftingPage, L.TRACK)
+		app.TrackProfessionButton = app:MakeButton(ProfessionsFrame.CraftingPage, L.TRACK)
 		app.TrackProfessionButton:SetPoint("TOPRIGHT", ProfessionsFrame.CraftingPage.SchematicForm, "TOPRIGHT", -5, -6)
 		app.TrackProfessionButton:SetScript("OnClick", function()
-			app.TrackRecipe(app.SelectedRecipe.Profession.recipeID, 1, app.SelectedRecipe.Profession.recraft)
+			app:TrackRecipe(app.SelectedRecipe.Profession.recipeID, 1, app.SelectedRecipe.Profession.recraft)
 		end)
 	end
 
@@ -46,9 +46,9 @@ function app.CreateTradeskillAssets()
 		newValue = math.floor(self:GetNumber())
 		-- If the value is positive, change the number of recipes tracked
 		if newValue >= 0 then
-			app.UntrackRecipe(app.SelectedRecipe.Profession.recipeID, 0)
+			app:UntrackRecipe(app.SelectedRecipe.Profession.recipeID, 0)
 			if newValue > 0 then
-				app.TrackRecipe(app.SelectedRecipe.Profession.recipeID, newValue, app.SelectedRecipe.Profession.recraft)
+				app:TrackRecipe(app.SelectedRecipe.Profession.recipeID, newValue, app.SelectedRecipe.Profession.recraft)
 			end
 		end
 	end
@@ -83,20 +83,20 @@ function app.CreateTradeskillAssets()
 			self:SetText(ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID].quantity)
 			self:ClearFocus()
 		end)
-		app.Border(app.RecipeQuantityBox, -6, 1, 2, -2)
+		app:SetBorder(app.RecipeQuantityBox, -6, 1, 2, -2)
 	end
 
 	-- Create the profession UI untrack button
 	if not app.UntrackProfessionButton then
-		app.UntrackProfessionButton = app.Button(ProfessionsFrame.CraftingPage, L.UNTRACK)
+		app.UntrackProfessionButton = app:MakeButton(ProfessionsFrame.CraftingPage, L.UNTRACK)
 		app.UntrackProfessionButton:SetPoint("TOP", app.TrackProfessionButton, "TOP", 0, 0)
 		app.UntrackProfessionButton:SetPoint("RIGHT", app.RecipeQuantityBox, "LEFT", -8, 0)
 		app.UntrackProfessionButton:SetFrameStrata("HIGH")
 		app.UntrackProfessionButton:SetScript("OnClick", function()
-			app.UntrackRecipe(app.SelectedRecipe.Profession.recipeID, 1)
+			app:UntrackRecipe(app.SelectedRecipe.Profession.recipeID, 1)
 
 			-- Show window
-			app.Show()
+			app:ShowWindow()
 		end)
 	end
 
@@ -109,7 +109,7 @@ function app.CreateTradeskillAssets()
 		app.ShadowlandsRankBox:SetAutoFocus(false)
 		app.ShadowlandsRankBox:SetCursorPosition(0)
 		app.ShadowlandsRankBox:Hide()
-		app.Border(app.ShadowlandsRankBox, -6, 1, 2, -2)
+		app:SetBorder(app.ShadowlandsRankBox, -6, 1, 2, -2)
 	end
 	if not app.ShadowlandsRankText then
 		app.ShadowlandsRankText = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -128,18 +128,18 @@ function app.CreateTradeskillAssets()
 			modeText = L.MODE_SOURCES
 		end
 
-		app.TrackNewMogsButton = app.Button(ProfessionsFrame.CraftingPage, L.BUTTON_TRACKNEW)
+		app.TrackNewMogsButton = app:MakeButton(ProfessionsFrame.CraftingPage, L.BUTTON_TRACKNEW)
 		app.TrackNewMogsButton:SetPoint("TOPLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 0, -4)
 		app.TrackNewMogsButton:SetFrameStrata("HIGH")
 		app.TrackNewMogsButton:SetScript("OnClick", function()
-			local recipes = app.GetVisibleRecipes()
+			local recipes = app:GetVisibleRecipes()
 
 			StaticPopupDialogs["PSL_TRACK_NEW_MOGS"] = {
 				text = app.NameLong .. "\n\n" .. L.TRACK_NEW1 .. " " .. #recipes .. " " .. L.TRACK_NEW2 .. "\n" .. modeText .. ".\n\n" .. L.TRACK_NEW3 .. "\n" .. L.CONFIRMATION,
 				button1 = YES,
 				button2 = NO,
 				OnAccept = function()
-					app.TrackUnlearnedMog()
+					app:TrackUnlearnedMogs()
 				end,
 				timeout = 0,
 				whileDead = true,
@@ -190,7 +190,7 @@ function app.CreateTradeskillAssets()
 		app.CookingFireButton:SetScript("OnLeave", function()
 			GameTooltip:Hide()
 		end)
-		app.Border(app.CookingFireButton, -1, 2, 2, -1)
+		app:SetBorder(app.CookingFireButton, -1, 2, 2, -1)
 
 		app.CookingFireCooldown = CreateFrame("Cooldown", "CookingFireCooldown", app.CookingFireButton, "CooldownFrameTemplate")
 		app.CookingFireCooldown:SetAllPoints(app.CookingFireButton)
@@ -219,7 +219,7 @@ function app.CreateTradeskillAssets()
 		app.ChefsHatButton:SetScript("OnLeave", function()
 			GameTooltip:Hide()
 		end)
-		app.Border(app.ChefsHatButton, -1, 2, 2, -1)
+		app:SetBorder(app.ChefsHatButton, -1, 2, 2, -1)
 
 		app.ChefsHatCooldown = CreateFrame("Cooldown", "ChefsHatCooldown", app.ChefsHatButton, "CooldownFrameTemplate")
 		app.ChefsHatCooldown:SetAllPoints(app.ChefsHatButton)
@@ -247,7 +247,7 @@ function app.CreateTradeskillAssets()
 		app.ThermalAnvilButton:SetScript("OnLeave", function()
 			GameTooltip:Hide()
 		end)
-		app.Border(app.ThermalAnvilButton, -1, 2, 2, -1)
+		app:SetBorder(app.ThermalAnvilButton, -1, 2, 2, -1)
 
 		app.ThermalAnvilCooldown = CreateFrame("Cooldown", "ThermalAnvilCooldown", app.ThermalAnvilButton, "CooldownFrameTemplate")
 		app.ThermalAnvilCooldown:SetAllPoints(app.ThermalAnvilButton)
@@ -280,7 +280,7 @@ function app.CreateTradeskillAssets()
 		app.AlvinButton:SetScript("OnLeave", function()
 			GameTooltip:Hide()
 		end)
-		app.Border(app.AlvinButton, -1, 2, 2, -1)
+		app:SetBorder(app.AlvinButton, -1, 2, 2, -1)
 
 		app.AlvinCooldown = CreateFrame("Cooldown", "AlvinCooldown", app.AlvinButton, "CooldownFrameTemplate")
 		app.AlvinCooldown:SetAllPoints(app.AlvinButton)
@@ -306,7 +306,7 @@ function app.CreateTradeskillAssets()
 		app.RagnarosButton:SetScript("OnLeave", function()
 			GameTooltip:Hide()
 		end)
-		app.Border(app.RagnarosButton, -1, 2, 2, -1)
+		app:SetBorder(app.RagnarosButton, -1, 2, 2, -1)
 
 		app.RagnarosCooldown = CreateFrame("Cooldown", "RagnarosCooldown", app.RagnarosButton, "CooldownFrameTemplate")
 		app.RagnarosCooldown:SetAllPoints(app.RagnarosButton)
@@ -332,7 +332,7 @@ function app.CreateTradeskillAssets()
 		app.PierreButton:SetScript("OnLeave", function()
 			GameTooltip:Hide()
 		end)
-		app.Border(app.PierreButton, -1, 2, 2, -1)
+		app:SetBorder(app.PierreButton, -1, 2, 2, -1)
 
 		app.PierreCooldown = CreateFrame("Cooldown", "PierreCooldown", app.PierreButton, "CooldownFrameTemplate")
 		app.PierreCooldown:SetAllPoints(app.PierreButton)
@@ -360,7 +360,7 @@ function app.CreateTradeskillAssets()
 		app.LightforgeButton:SetScript("OnLeave", function()
 			GameTooltip:Hide()
 		end)
-		app.Border(app.LightforgeButton, -1, 2, 2, -1)
+		app:SetBorder(app.LightforgeButton, -1, 2, 2, -1)
 
 		app.LightforgeCooldown = CreateFrame("Cooldown", "LightforgeCooldown", app.LightforgeButton, "CooldownFrameTemplate")
 		app.LightforgeCooldown:SetAllPoints(app.LightforgeButton)
@@ -372,7 +372,7 @@ function app.CreateTradeskillAssets()
 		app.MillingClassic = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingClassic:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingClassic:SetJustifyH("LEFT")
-		app.MillingClassic:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_CLASSIC)
+		app.MillingClassic:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_CLASSIC)
 	end
 
 	-- Create The Burning Crusade Milling info
@@ -380,7 +380,7 @@ function app.CreateTradeskillAssets()
 		app.MillingTheBurningCrusade = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingTheBurningCrusade:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingTheBurningCrusade:SetJustifyH("LEFT")
-		app.MillingTheBurningCrusade:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_TBC)
+		app.MillingTheBurningCrusade:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_TBC)
 	end
 
 	-- Create Wrath of the Lich King Milling info
@@ -388,7 +388,7 @@ function app.CreateTradeskillAssets()
 		app.MillingWrathOfTheLichKing = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingWrathOfTheLichKing:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingWrathOfTheLichKing:SetJustifyH("LEFT")
-		app.MillingWrathOfTheLichKing:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_WOTLK)
+		app.MillingWrathOfTheLichKing:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_WOTLK)
 	end
 
 	-- Create Cataclysm Milling info
@@ -396,7 +396,7 @@ function app.CreateTradeskillAssets()
 		app.MillingCataclysm = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingCataclysm:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingCataclysm:SetJustifyH("LEFT")
-		app.MillingCataclysm:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_CATA)
+		app.MillingCataclysm:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_CATA)
 	end
 
 	-- Create Mists of Pandaria Milling info
@@ -404,7 +404,7 @@ function app.CreateTradeskillAssets()
 		app.MillingMistsOfPandaria = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingMistsOfPandaria:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingMistsOfPandaria:SetJustifyH("LEFT")
-		app.MillingMistsOfPandaria:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_MOP)
+		app.MillingMistsOfPandaria:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_MOP)
 	end
 
 	-- Create Warlords of Draenor Milling info
@@ -412,7 +412,7 @@ function app.CreateTradeskillAssets()
 		app.MillingWarlordsOfDraenor = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingWarlordsOfDraenor:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingWarlordsOfDraenor:SetJustifyH("LEFT")
-		app.MillingWarlordsOfDraenor:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_WOD)
+		app.MillingWarlordsOfDraenor:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_WOD)
 	end
 
 	-- Create Legion Milling info
@@ -420,7 +420,7 @@ function app.CreateTradeskillAssets()
 		app.MillingLegion = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingLegion:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingLegion:SetJustifyH("LEFT")
-		app.MillingLegion:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_LEGION)
+		app.MillingLegion:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_LEGION)
 	end
 
 	-- Create Battle for Azeroth Milling info
@@ -428,7 +428,7 @@ function app.CreateTradeskillAssets()
 		app.MillingBattleForAzeroth = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingBattleForAzeroth:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingBattleForAzeroth:SetJustifyH("LEFT")
-		app.MillingBattleForAzeroth:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_BFA)
+		app.MillingBattleForAzeroth:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_BFA)
 	end
 
 	-- Create Shadowlands Milling info
@@ -436,7 +436,7 @@ function app.CreateTradeskillAssets()
 		app.MillingShadowlands = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingShadowlands:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingShadowlands:SetJustifyH("LEFT")
-		app.MillingShadowlands:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_SL)
+		app.MillingShadowlands:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_SL)
 	end
 
 	-- Create Dragonflight Milling info
@@ -444,7 +444,7 @@ function app.CreateTradeskillAssets()
 		app.MillingDragonflight = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingDragonflight:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingDragonflight:SetJustifyH("LEFT")
-		app.MillingDragonflight:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_DF)
+		app.MillingDragonflight:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_DF)
 	end
 
 	-- Create The War Within Milling info
@@ -452,7 +452,7 @@ function app.CreateTradeskillAssets()
 		app.MillingTheWarWithin = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.MillingTheWarWithin:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.MillingTheWarWithin:SetJustifyH("LEFT")
-		app.MillingTheWarWithin:SetText(app.Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_TWW)
+		app.MillingTheWarWithin:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_TWW)
 	end
 
 	-- Create The War Within Thaumaturgy info
@@ -460,7 +460,7 @@ function app.CreateTradeskillAssets()
 		app.ThaumaturgyTheWarWithin = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.ThaumaturgyTheWarWithin:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 		app.ThaumaturgyTheWarWithin:SetJustifyH("LEFT")
-		app.ThaumaturgyTheWarWithin:SetText(app.Colour(L.THAUMATURGY_INFO) .. "\n|cffFFFFFF" .. L.THAUMATURGY_TWW)
+		app.ThaumaturgyTheWarWithin:SetText(app:Colour(L.THAUMATURGY_INFO) .. "\n|cffFFFFFF" .. L.THAUMATURGY_TWW)
 	end
 
 	-- Append an (un)track button to the RMB-menu
@@ -474,12 +474,12 @@ function app.CreateTradeskillAssets()
 			local key = "order:" .. ownerRegion.rowData.option.orderID .. ":" .. ownerRegion.rowData.option.spellID
 
 			if ProfessionShoppingList_Data.Recipes[key] then
-				rootDescription:CreateButton(app.IconPSL .. " " .. app.Colour(L.UNTRACK), function()
-					app.UntrackRecipe(key, 1)
+				rootDescription:CreateButton(app.IconPSL .. " " .. app:Colour(L.UNTRACK), function()
+					app:UntrackRecipe(key, 1)
 				end)
 			else
-				rootDescription:CreateButton(app.IconPSL .. " " .. app.Colour(L.TRACK), function()
-					app.TrackRecipe(ownerRegion.rowData.option.spellID, 1, ownerRegion.rowData.option.isRecraft, ownerRegion.rowData.option.orderID)
+				rootDescription:CreateButton(app.IconPSL .. " " .. app:Colour(L.TRACK), function()
+					app:TrackRecipe(ownerRegion.rowData.option.spellID, 1, ownerRegion.rowData.option.isRecraft, ownerRegion.rowData.option.orderID)
 				end)
 			end
 		end)
@@ -490,29 +490,29 @@ function app.CreateTradeskillAssets()
 	-- Grab the order information when opening a crafting order (THANK YOU PLUSMOUSE <3)
 	hooksecurefunc(ProfessionsFrame.OrdersPage, "ViewOrder", function(_, orderDetails)
 		app.SelectedRecipe.MakeOrder = orderDetails
-		app.UpdateAssets()
+		app:UpdateAssets()
 	end)
 
 	-- Create the fulfil crafting orders UI (Un)track button
 	if not app.TrackMakeOrderButton then
-		app.TrackMakeOrderButton = app.Button(ProfessionsFrame.OrdersPage.OrderView.OrderDetails, L.TRACK)
+		app.TrackMakeOrderButton = app:MakeButton(ProfessionsFrame.OrdersPage.OrderView.OrderDetails, L.TRACK)
 		app.TrackMakeOrderButton:SetPoint("TOPRIGHT", ProfessionsFrame.OrdersPage.OrderView.OrderDetails, "TOPRIGHT", -9, -10)
 		app.TrackMakeOrderButton:SetScript("OnClick", function()
 			local key = "order:" .. app.SelectedRecipe.MakeOrder.orderID .. ":" .. app.SelectedRecipe.MakeOrder.spellID
 
 			if ProfessionShoppingList_Data.Recipes[key] then
 				-- Untrack the recipe
-				app.UntrackRecipe(key, 1)
+				app:UntrackRecipe(key, 1)
 
 				-- Change button text
 				app.TrackMakeOrderButton:SetText(L.TRACK)
 				app.TrackMakeOrderButton:SetWidth(app.TrackMakeOrderButton:GetTextWidth()+20)
 
 				-- Show window
-				app.Show()
+				app:ShowWindow()
 			else
 				-- Track the recipe
-				app.TrackRecipe(app.SelectedRecipe.MakeOrder.spellID, 1, app.SelectedRecipe.MakeOrder.isRecraft, app.SelectedRecipe.MakeOrder.orderID)
+				app:TrackRecipe(app.SelectedRecipe.MakeOrder.spellID, 1, app.SelectedRecipe.MakeOrder.isRecraft, app.SelectedRecipe.MakeOrder.orderID)
 
 				-- Change button text
 				app.TrackMakeOrderButton:SetText(L.UNTRACK)
@@ -528,13 +528,13 @@ function app.CreateTradeskillAssets()
 
 			if not checked and ProfessionShoppingList_Data.Recipes[key] then
 				-- Untrack the recipe
-				app.UntrackRecipe(key, 1)
+				app:UntrackRecipe(key, 1)
 
 				-- Show window
-				app.Show()
+				app:ShowWindow()
 			elseif checked and ProfessionShoppingList_Data.Recipes[key] == nil then
 				-- Track the recipe
-				app.TrackRecipe(orderDetails.spellID, 1, orderDetails.isRecraft, orderDetails.orderID)
+				app:TrackRecipe(orderDetails.spellID, 1, orderDetails.isRecraft, orderDetails.orderID)
 			end
 		end
 	end
@@ -561,7 +561,7 @@ function app.CreateTradeskillAssets()
 end
 
 -- Update assets
-function app.UpdateAssets()
+function app:UpdateAssets()
 	-- Profession window
 	if app.Flag.TradeskillAssets then
 		-- Enable Profession tracking for 1 = Item, 3 = Enchant
@@ -720,7 +720,7 @@ end
 app.Event:Register("TRADE_SKILL_SHOW", function()
 	if not InCombatLockdown() then
 		if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
-			app.CreateTradeskillAssets()
+			app:CreateTradeskillAssets()
 		end
 
 		local function getGUID(id, name)
@@ -754,7 +754,7 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 				app.RagnarosButton:SetAttribute("type1", "macro")
 				app.RagnarosButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. ProfessionShoppingList_Data.Pets["ragnaros"].guid .. "\")")
 				app.RagnarosButton:SetAttribute("type2", "macro")
-				app.RagnarosButton:SetAttribute("macrotext2", "/run ProfessionShoppingList.SwapCookingPet()")
+				app.RagnarosButton:SetAttribute("macrotext2", "/run ProfessionShoppingList:SwapCookingPet()")
 			end
 
 			-- Pierre button
@@ -762,7 +762,7 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 				app.PierreButton:SetAttribute("type1", "macro")
 				app.PierreButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. ProfessionShoppingList_Data.Pets["pierre"].guid .. "\")")
 				app.PierreButton:SetAttribute("type2", "macro")
-				app.PierreButton:SetAttribute("macrotext2", "/run ProfessionShoppingList.SwapCookingPet()")
+				app.PierreButton:SetAttribute("macrotext2", "/run ProfessionShoppingList:SwapCookingPet()")
 			end
 
 			-- Recharge timer
@@ -786,8 +786,9 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 	end
 end)
 
-function api.SwapCookingPet()
-	-- Only do things if there's something to swap
+function api:SwapCookingPet()
+	assert(self == api, "Call ProfessionShoppingList:SwapCookingPet(), not ProfessionShoppingList.SwapCookingPet()")
+
 	if ProfessionShoppingList_Data.Pets["ragnaros"] and ProfessionShoppingList_Data.Pets["pierre"] then
 		if ProfessionShoppingList_Data.Pets["ragnaros"].enabled then
 			ProfessionShoppingList_Data.Pets["ragnaros"].enabled = false
@@ -941,7 +942,7 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 		-- Profession button stuff
 		if spellID == 818 or spellID == 67556 or spellID == 126462 or spellID == 279205 or spellID == 259930 then
 			C_Timer.After(0.1, function()
-				app.UpdateAssets()
+				app:UpdateAssets()
 			end)
 		end
 	end

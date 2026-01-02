@@ -40,7 +40,7 @@ end)
 ----------------------
 
 -- Fix sequential tables with missing indexes (yes I expect to have to re-use this xD)
-function app.FixTable(table)
+function app:FixTable(table)
 	local fixedTable = {}
 	local index = 1
 
@@ -55,93 +55,24 @@ function app.FixTable(table)
 end
 
 -- App colour
-function app.Colour(string)
+function app:Colour(string)
 	return "|cff3FC7EB" .. string .. "|r"
 end
 
 -- Print with addon prefix
-function app.Print(...)
+function app:Print(...)
 	print(app.NameShort .. ":", ...)
 end
 
 -- Debug print with addon prefix
-function app.Debug(...)
+function app:Debug(...)
 	if ProfessionShoppingList_Settings["debug"] then
-		print(app.NameShort .. app.Colour(" Debug") .. ":", ...)
+		print(app.NameShort .. app:Colour(" Debug") .. ":", ...)
 	end
-end
-
--- Pop-up window
-function app.Popup(show, text, ...)
-	-- Create popup frame
-	local frame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
-	frame:SetPoint("CENTER")
-	frame:SetBackdrop({
-		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
-		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-		edgeSize = 16,
-		insets = { left = 4, right = 4, top = 4, bottom = 4 },
-	})
-	frame:SetBackdropColor(0, 0, 0, 1)
-	frame:EnableMouse(true)
-	if show then
-		frame:Show()
-	else
-		frame:Hide()
-	end
-
-	-- Close button
-	local close = CreateFrame("Button", "", frame, "UIPanelCloseButton")
-	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 2, 2)
-	close:SetScript("OnClick", function()
-		frame:Hide()
-	end)
-
-	-- Text
-	local string = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	string:SetPoint("CENTER", frame, "CENTER", 0, 0)
-	string:SetPoint("TOP", frame, "TOP", 0, -15)
-	string:SetJustifyH("LEFT")
-	string:SetText(text)
-
-	-- Editbox(es)
-	local editBoxInputs = { ... }
-	local editBoxes = {}
-	local last = string
-
-	for i, boxText in ipairs(editBoxInputs) do
-		local edit = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
-		edit:SetSize(300, 25)
-		edit:SetAutoFocus(false)
-		edit:SetText(boxText)
-		edit:HighlightText()
-		edit:SetCursorPosition(0)
-		edit:SetPoint("TOPLEFT", last, "BOTTOMLEFT", 0, -10)
-
-		-- Optional: select all text on focus
-		edit:SetScript("OnEditFocusGained", function(self)
-			self:HighlightText()
-		end)
-
-		table.insert(editBoxes, edit)
-		last = edit
-	end
-
-	-- Resize frame to fit content
-	local totalHeight = 30 + string:GetStringHeight() + (#editBoxes * 35)
-	local width = math.max(string:GetStringWidth() + 40, 240)
-	frame:SetSize(width, totalHeight)
-
-	return frame, editBoxes
-
-	-- frame:SetHeight(string:GetStringHeight()+30)
-	-- frame:SetWidth(string:GetStringWidth()+30)
-
-	-- return frame
 end
 
 -- Border
-function app.Border(parent, a, b, c, d)
+function app:SetBorder(parent, a, b, c, d)
 	local border = CreateFrame("Frame", nil, parent, "BackdropTemplate")
 	border:SetPoint("TOPLEFT", parent, a or 0, b or 0)
 	border:SetPoint("BOTTOMRIGHT", parent, c or 0, d or 0)
@@ -156,12 +87,12 @@ function app.Border(parent, a, b, c, d)
 end
 
 -- Button
-function app.Button(parent, text)
+function app:MakeButton(parent, text)
 	local frame = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
 	frame:SetText(text)
 	frame:SetWidth(frame:GetTextWidth()+20)
 
-	app.Border(frame, 0, 0, 0, -1)
+	app:SetBorder(frame, 0, 0, 0, -1)
 	return frame
 end
 
@@ -192,13 +123,13 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 
 			-- Open settings
 			if command == "settings" then
-				app.OpenSettings()
+				app:OpenSettings()
 			-- Clear list
 			elseif command == "clear" then
-				app.Clear()
+				app:Clear()
 			-- Reset stuff
 			elseif command == "reset" then
-				app.Reset(rest:match("^(%S*)%s*(.-)$"))
+				app:Reset(rest:match("^(%S*)%s*(.-)$"))
 			-- Track recipe
 			elseif command == "track" then
 				-- Split entered recipeID and recipeQuantity and turn them into real numbers
@@ -209,12 +140,12 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 				-- Only run if the recipeID is cached and the quantity is an actual number
 				if ProfessionShoppingList_Library[recipeID] then
 					if type(recipeQuantity) == "number" and recipeQuantity ~= 0 then
-						app.TrackRecipe(recipeID, recipeQuantity)
+						app:TrackRecipe(recipeID, recipeQuantity)
 					else
-						app.Print(L.INVALID_RECIPEQUANTITY)
+						app:Print(L.INVALID_RECIPEQUANTITY)
 					end
 				else
-					app.Print(L.INVALID_RECIPEID)
+					app:Print(L.INVALID_RECIPEID)
 				end
 			elseif command == "untrack" then
 				-- Split entered recipeID and recipeQuantity and turn them into real numbers
@@ -225,33 +156,33 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 				-- Only run if the recipeID is tracked and the quantity is an actual number (with a maximum of the amount of recipes tracked)
 				if ProfessionShoppingList_Data.Recipes[recipeID] then
 					if part2 == "all" then
-						app.UntrackRecipe(recipeID, 0)
+						app:UntrackRecipe(recipeID, 0)
 
 						-- Show window
-						app.Show()
+						app:ShowWindow()
 					elseif type(recipeQuantity) == "number" and recipeQuantity ~= 0 and recipeQuantity <= ProfessionShoppingList_Data.Recipes[recipeID].quantity then
-						app.UntrackRecipe(recipeID, recipeQuantity)
+						app:UntrackRecipe(recipeID, recipeQuantity)
 
 						-- Show window
-						app.Show()
+						app:ShowWindow()
 					else
-						app.Print(L.INVALID_RECIPEQUANTITY)
+						app:Print(L.INVALID_RECIPEQUANTITY)
 					end
 				else
-					app.Print(L.INVALID_RECIPE_TRACKED)
+					app:Print(L.INVALID_RECIPE_TRACKED)
 				end
 			-- Toggle debug mode
 			elseif command == "debug" then
 				if ProfessionShoppingList_Settings["debug"] then
 					ProfessionShoppingList_Settings["debug"] = false
-					app.Print(L.DEBUG_DISABLED)
+					app:Print(L.DEBUG_DISABLED)
 				else
 					ProfessionShoppingList_Settings["debug"] = true
-					app.Print(L.DEBUG_ENABLED)
+					app:Print(L.DEBUG_ENABLED)
 				end
 			-- No command
 			elseif command == "" then
-				api.Toggle()
+				api:ToggleWindow()
 			-- Unlisted command
 			else
 				-- If achievement string
@@ -279,7 +210,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 								end
 								-- Add the recipe
 								if numTrack >= 1 then
-									app.TrackRecipe(assetID, numTrack)
+									app:TrackRecipe(assetID, numTrack)
 								end
 							end
 						end
@@ -307,14 +238,14 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 
 							-- If the criteria has not yet been completed, add the recipe
 							if completed == false then
-								app.TrackRecipe(assetID, 1)
+								app:TrackRecipe(assetID, 1)
 							end
 						end
 					else
-						app.Print(L.INVALID_ACHIEVEMENT)
+						app:Print(L.INVALID_ACHIEVEMENT)
 					end
 				else
-					app.Print(L.INVALID_COMMAND)
+					app:Print(L.INVALID_COMMAND)
 				end
 			end
 		end
@@ -326,7 +257,7 @@ end)
 -------------------
 
 -- Send information to other PSL users
-function app.SendAddonMessage(message)
+function app:SendAddonMessage(message)
 	if IsInRaid(2) or IsInGroup(2) then
 		ChatThrottleLib:SendAddonMessage("NORMAL", "ProfShopList", message, "INSTANCE_CHAT")
 	elseif IsInRaid() then
@@ -339,7 +270,7 @@ end
 -- When joining a group
 app.Event:Register("GROUP_ROSTER_UPDATE", function(category, partyGUID)
 	local message = "version:" .. C_AddOns.GetAddOnMetadata("ProfessionShoppingList", "Version")
-	app.SendAddonMessage(message)
+	app:SendAddonMessage(message)
 end)
 
 -- When we receive information over the addon comms
@@ -367,7 +298,7 @@ app.Event:Register("CHAT_MSG_ADDON", function(prefix, text, channel, sender, tar
 
 					if otherGameVersion > localGameVersion or (otherGameVersion == localGameVersion and otherAddonVersion > localAddonVersion) then
 						if GetServerTime() - app.Flag.VersionCheck > 600 then
-							app.Print(L.VERSION_CHECK .. " " .. version)
+							app:Print(L.VERSION_CHECK .. " " .. version)
 							app.Flag.VersionCheck = GetServerTime()
 						end
 					end

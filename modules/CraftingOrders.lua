@@ -27,29 +27,29 @@ end)
 ------------
 
 -- Create buttons for the Crafting Orders window
-function app.CreateCraftingOrdersAssets()
+function app:CreateCraftingOrdersAssets()
 	-- Hide and disable existing tracking buttons
 	ProfessionsCustomerOrdersFrame.Form.TrackRecipeCheckbox:SetAlpha(0)
 	ProfessionsCustomerOrdersFrame.Form.TrackRecipeCheckbox.Checkbox:EnableMouse(false)
 
 	-- Create the place crafting orders UI Track button
 	if not app.TrackPlaceOrderButton then
-		app.TrackPlaceOrderButton = app.Button(ProfessionsCustomerOrdersFrame.Form, L.TRACK)
+		app.TrackPlaceOrderButton = app:MakeButton(ProfessionsCustomerOrdersFrame.Form, L.TRACK)
 		app.TrackPlaceOrderButton:SetPoint("TOPLEFT", ProfessionsCustomerOrdersFrame.Form, "TOPLEFT", 12, -73)
 		app.TrackPlaceOrderButton:SetScript("OnClick", function()
-			app.TrackRecipe(app.SelectedRecipe.PlaceOrder.recipeID, 1, app.SelectedRecipe.PlaceOrder.recraft)
+			app:TrackRecipe(app.SelectedRecipe.PlaceOrder.recipeID, 1, app.SelectedRecipe.PlaceOrder.recraft)
 		end)
 	end
 
 	-- Create the place crafting orders UI untrack button
 	if not app.UntrackPlaceOrderButton then
-		app.UntrackPlaceOrderButton = app.Button(ProfessionsCustomerOrdersFrame.Form, L.UNTRACK)
+		app.UntrackPlaceOrderButton = app:MakeButton(ProfessionsCustomerOrdersFrame.Form, L.UNTRACK)
 		app.UntrackPlaceOrderButton:SetPoint("TOPLEFT", app.TrackPlaceOrderButton, "TOPRIGHT", 2, 0)
 		app.UntrackPlaceOrderButton:SetScript("OnClick", function()
-			app.UntrackRecipe(app.SelectedRecipe.PlaceOrder.recipeID, 1)
+			app:UntrackRecipe(app.SelectedRecipe.PlaceOrder.recipeID, 1)
 
 			-- Show windows
-			app.Show()
+			app:ShowWindow()
 		end)
 	end
 
@@ -82,17 +82,17 @@ function app.CreateCraftingOrdersAssets()
 		app.QuickOrderTargetBox:SetCursorPosition(0)
 		app.QuickOrderTargetBox:SetScript("OnEditFocusLost", function(self)
 			ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] = tostring(app.QuickOrderTargetBox:GetText())
-			app.UpdateAssets()
+			app:UpdateAssets()
 		end)
 		app.QuickOrderTargetBox:SetScript("OnEnterPressed", function(self)
 			ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] = tostring(app.QuickOrderTargetBox:GetText())
 			self:ClearFocus()
-			app.UpdateAssets()
+			app:UpdateAssets()
 		end)
 		app.QuickOrderTargetBox:SetScript("OnEscapePressed", function(self)
-			app.UpdateAssets()
+			app:UpdateAssets()
 		end)
-		app.Border(app.QuickOrderTargetBox, -6, 1, 2, -2)
+		app:SetBorder(app.QuickOrderTargetBox, -6, 1, 2, -2)
 	end
 
 	local function quickOrder(recipeID)
@@ -107,7 +107,7 @@ function app.CreateCraftingOrdersAssets()
 		local function localReagentsOrder()
 			-- Cache reagent tier info
 			local _ = {}
-			app.GetReagents(_, recipeID, 1, false)
+			app:GetReagents(_, recipeID, 1, false)
 
 			-- Get recipe info
 			local recipeInfo = C_TradeSkillUI.GetRecipeSchematic(recipeID, false).reagentSlotSchematics
@@ -193,7 +193,7 @@ function app.CreateCraftingOrdersAssets()
 
 	-- Create the place crafting orders personal order button
 	if not app.QuickOrderButton then
-		app.QuickOrderButton = app.Button(ProfessionsCustomerOrdersFrame.Form, L.QUICKORDER)
+		app.QuickOrderButton = app:MakeButton(ProfessionsCustomerOrdersFrame.Form, L.QUICKORDER)
 		app.QuickOrderButton:SetPoint("CENTER", app.QuickOrderTargetBox, "CENTER", 0, 0)
 		app.QuickOrderButton:SetPoint("RIGHT", app.QuickOrderTargetBox, "LEFT", -8, 0)
 		app.QuickOrderButton:SetScript("OnClick", function()
@@ -237,14 +237,14 @@ function app.CreateCraftingOrdersAssets()
 
 	-- Create the repeat last crafting order button
 	if not app.RepeatQuickOrderButton then
-		app.RepeatQuickOrderButton = app.Button(ProfessionsCustomerOrdersFrame, "")
+		app.RepeatQuickOrderButton = app:MakeButton(ProfessionsCustomerOrdersFrame, "")
 		app.RepeatQuickOrderButton:SetPoint("BOTTOMLEFT", ProfessionsCustomerOrdersFrame, 170, 5)
 		app.RepeatQuickOrderButton:SetScript("OnClick", function()
 			if ProfessionShoppingList_CharacterData.Orders["last"] ~= nil and ProfessionShoppingList_CharacterData.Orders["last"] ~= 0 then
 				quickOrder(ProfessionShoppingList_CharacterData.Orders["last"])
 				ProfessionsCustomerOrdersFrame.MyOrdersPage:RefreshOrders()
 			else
-				app.Print("No last Quick Order found.")
+				app:Print("No last Quick Order found.")
 			end
 		end)
 		app.RepeatQuickOrderButton:SetScript("OnEnter", function(self)
@@ -287,27 +287,27 @@ end
 
 -- When opening the crafting orders window
 app.Event:Register("CRAFTINGORDERS_SHOW_CUSTOMER", function()
-	app.CreateCraftingOrdersAssets()
+	app:CreateCraftingOrdersAssets()
 end)
 
 -- When opening a recipe in the crafting orders window
 EventRegistry:RegisterCallback("ProfessionsCustomerOrders.RecipeSelected", function(_, itemID, recipeID, abilityID)
-	app.RegisterRecipe(recipeID)
+	app:RegisterRecipe(recipeID)
 	app.SelectedRecipe.PlaceOrder = { recipeID = recipeID, recraft = false, recipeType = C_TradeSkillUI.GetRecipeSchematic(recipeID,false).recipeType }
-	app.UpdateAssets()
+	app:UpdateAssets()
 end)
 
 -- When opening the recrafting category in the crafting orders window
 EventRegistry:RegisterCallback("ProfessionsCustomerOrders.RecraftCategorySelected", function()
 	app.SelectedRecipe.PlaceOrder = { recipeID = 0, recraft = true, recipeType = 0 }
-	app.UpdateAssets()
+	app:UpdateAssets()
 end)
 
 -- When a recipe is selected (or rather, when any spell is loaded, but this is the only way to grab the recipeID for placing a recrafting order)
 app.Event:Register("SPELL_DATA_LOAD_RESULT", function(spellID, success)
 	if not InCombatLockdown() and app.SelectedRecipe.PlaceOrder.recraft and ProfessionShoppingList_Library[spellID] then
 		app.SelectedRecipe.PlaceOrder.recipeID = spellID
-		app.UpdateAssets()
+		app:UpdateAssets()
 	end
 end)
 
@@ -322,7 +322,7 @@ app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, ord
 		for k, v in pairs(ProfessionShoppingList_Data.Recipes) do
 			if tonumber(string.match(k, ":(%d+):")) == orderID then
 				-- Remove 1 tracked recipe when it has been crafted (if the option is enabled)
-				app.UntrackRecipe(k, 1)
+				app:UntrackRecipe(k, 1)
 				break
 			end
 		end
@@ -358,18 +358,18 @@ app.Event:Register("CRAFTINGORDERS_ORDER_PLACEMENT_RESPONSE", function(result)
 
 			-- If all 4 attempts fail, tell the user this
 			if app.QuickOrderErrors >= 4 then
-				app.Print(L.ERROR_QUICKORDER)
+				app:Print(L.ERROR_QUICKORDER)
 			end
 		end
 		-- Separate error messages
 		if result == 29 then
-			app.Print(L.ERROR_REAGENTS)
+			app:Print(L.ERROR_REAGENTS)
 		elseif result == 34 then
-			app.Print(L.ERROR_WARBANK)
+			app:Print(L.ERROR_WARBANK)
 		elseif result == 37 then
-			app.Print(L.ERROR_GUILD)
+			app:Print(L.ERROR_GUILD)
 		elseif result == 40 then
-			app.Print(L.ERROR_RECIPIENT)
+			app:Print(L.ERROR_RECIPIENT)
 		end
 
 		-- Save this info as the last order done, unless it was a failed order
@@ -426,7 +426,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							["tradeskillID"] = 1,	-- Crafting order
 							["reagents"] = data.option.reagents
 						}
-						app.GetReagents(reagents, key, 1, false)
+						app:GetReagents(reagents, key, 1, false)
 
 						-- Grab the costs for crafting this order
 						for reagentID, quantity in pairs(reagents) do
@@ -452,7 +452,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 
 								local _, itemLink, _, _, _, _, _, _, _, fileID = C_Item.GetItemInfo(reagentID)
 								if not itemLink then
-									app.CacheItem(reagentID)
+									app:CacheItem(reagentID)
 									C_Timer.After(1, doTheThing)
 									return
 								end
@@ -467,7 +467,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							local _, itemLink, _, _, _, _, _, _, _, fileID = C_Item.GetItemInfo(reward.itemLink)
 							if not itemLink then
 								local itemID = C_Item.GetItemInfoInstant(reward.itemLink)
-								app.CacheItem(itemID)
+								app:CacheItem(itemID)
 								C_Timer.After(1, doTheThing)
 								return
 							end
@@ -549,7 +549,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						local _, itemLink, _, _, _, _, _, _, _, fileID = C_Item.GetItemInfo(reward.itemLink)
 						if not itemLink then
 							local itemID = C_Item.GetItemInfoInstant(reward.itemLink)
-							app.CacheItem(itemID)
+							app:CacheItem(itemID)
 							C_Timer.After(1, doTheThing)
 							return
 						end

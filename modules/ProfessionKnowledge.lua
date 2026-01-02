@@ -21,7 +21,7 @@ end)
 -----------------------
 
 -- Create knowledge tracker
-function app.CreateProfessionKnowledgeAssets()
+function app:CreateProfessionKnowledgeAssets()
 	-- Create Knowledge Point tracker
 	if not app.KnowledgePointTracker then
 		app.KnowledgePointTracker = CreateFrame("Frame", "KnowledgePointTracker", ProfessionsFrame.SpecPage, "TooltipBackdropTemplate")
@@ -45,7 +45,7 @@ function app.CreateProfessionKnowledgeAssets()
 	app.Flag.KnowledgeAssets = true
 end
 
-function app.SpendAllProfessionKnowledge()
+function app:SpendAllProfessionKnowledge()
 	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 
 	if not app.Flag.SpendHook then app.Flag.SpendHook = {} end
@@ -66,7 +66,7 @@ function app.SpendAllProfessionKnowledge()
 end
 
 -- Populate knowledge tracker
-function app.KnowledgeTracker()
+function app:UpdateKnowledgeTracker()
 	-- Show stuff depending on which profession+expansion is opened
 	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
@@ -181,7 +181,7 @@ function app.KnowledgeTracker()
 				if v.type == "vendor" then
 					-- Cache item
 					if not C_Item.IsItemDataCachedByID(v.item) then
-						app.Debug("kpTooltip1(" .. v.item .. ")")
+						app:Debug("kpTooltip1(" .. v.item .. ")")
 
 						C_Item.RequestLoadItemDataByID(v.item)
 						local item = Item:CreateFromItemID(v.item)
@@ -272,7 +272,7 @@ function app.KnowledgeTracker()
 					if v.item then
 						-- Cache item
 						if not C_Item.IsItemDataCachedByID(v.item) then
-							app.Debug("kpTooltip2(" .. v.item .. ")")
+							app:Debug("kpTooltip2(" .. v.item .. ")")
 
 							C_Item.RequestLoadItemDataByID(v.item)
 							local item = Item:CreateFromItemID(v.item)
@@ -332,21 +332,21 @@ end
 -- When a tradeskill window is opened
 app.Event:Register("TRADE_SKILL_SHOW", function()
 	if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
-		app.CreateProfessionKnowledgeAssets()
-		app.SpendAllProfessionKnowledge()
+		app:CreateProfessionKnowledgeAssets()
+		app:SpendAllProfessionKnowledge()
 	end
 end)
 
 -- When a recipe is selected (also used to determine professionID, which TRADE_SKILL_SHOW() is too quick for)
 app.Event:Register("SPELL_DATA_LOAD_RESULT", function(spellID, success)
 	if C_AddOns.IsAddOnLoaded("Blizzard_Professions") and app.Flag.KnowledgeAssets then
-		app.KnowledgeTracker()
+		app:UpdateKnowledgeTracker()
 	end
 end)
 
 -- When profession knowledge is spent
 app.Event:Register("TRAIT_CONFIG_UPDATED", function(spellID, success)
 	if C_AddOns.IsAddOnLoaded("Blizzard_Professions") and app.Flag.KnowledgeAssets then
-		app.KnowledgeTracker()
+		app:UpdateKnowledgeTracker()
 	end
 end)
