@@ -200,7 +200,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 			elseif command == "reset" then
 				app.Reset(rest:match("^(%S*)%s*(.-)$"))
 			-- Track recipe
-			elseif command == 'track' then
+			elseif command == "track" then
 				-- Split entered recipeID and recipeQuantity and turn them into real numbers
 				local part1, part2 = rest:match("^(%S*)%s*(.-)$")
 				local recipeID = tonumber(part1)
@@ -216,7 +216,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 				else
 					app.Print(L.INVALID_RECIPEID)
 				end
-			elseif command == 'untrack' then
+			elseif command == "untrack" then
 				-- Split entered recipeID and recipeQuantity and turn them into real numbers
 				local part1, part2 = rest:match("^(%S*)%s*(.-)$")
 				local recipeID = tonumber(part1)
@@ -241,7 +241,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 					app.Print(L.INVALID_RECIPE_TRACKED)
 				end
 			-- Toggle debug mode
-			elseif command == 'debug' then
+			elseif command == "debug" then
 				if ProfessionShoppingList_Settings["debug"] then
 					ProfessionShoppingList_Settings["debug"] = false
 					app.Print(L.DEBUG_DISABLED)

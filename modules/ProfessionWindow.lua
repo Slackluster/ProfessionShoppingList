@@ -746,13 +746,13 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 			-- Alvin button
 			if ProfessionShoppingList_Data.Pets["alvin"] then
 				app.AlvinButton:SetAttribute("type1", "macro")
-				app.AlvinButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID('" .. ProfessionShoppingList_Data.Pets["alvin"].guid .. "')")
+				app.AlvinButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. ProfessionShoppingList_Data.Pets["alvin"].guid .. "\")")
 			end
 
 			-- Lil' Ragnaros button
 			if ProfessionShoppingList_Data.Pets["ragnaros"] then
 				app.RagnarosButton:SetAttribute("type1", "macro")
-				app.RagnarosButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID('" .. ProfessionShoppingList_Data.Pets["ragnaros"].guid .. "')")
+				app.RagnarosButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. ProfessionShoppingList_Data.Pets["ragnaros"].guid .. "\")")
 				app.RagnarosButton:SetAttribute("type2", "macro")
 				app.RagnarosButton:SetAttribute("macrotext2", "/run ProfessionShoppingList.SwapCookingPet()")
 			end
@@ -760,7 +760,7 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 			-- Pierre button
 			if ProfessionShoppingList_Data.Pets["pierre"] then
 				app.PierreButton:SetAttribute("type1", "macro")
-				app.PierreButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID('" .. ProfessionShoppingList_Data.Pets["pierre"].guid .. "')")
+				app.PierreButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. ProfessionShoppingList_Data.Pets["pierre"].guid .. "\")")
 				app.PierreButton:SetAttribute("type2", "macro")
 				app.PierreButton:SetAttribute("macrotext2", "/run ProfessionShoppingList.SwapCookingPet()")
 			end

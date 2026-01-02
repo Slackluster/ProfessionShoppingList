@@ -2315,7 +2315,7 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 
 				-- Get spell cooldown info
 				local recipeName = C_TradeSkillUI.GetRecipeSchematic(spellID, false).name
-				local cooldown, isDayCooldown, charges, maxCharges = C_TradeSkillUI.GetRecipeCooldown(spellID)	-- For daily cooldowns, 'cooldown' returns the time until midnight, after relogging it's accurate. 'isDayCooldown' can be used to identify if it should be aligned with daily reset right away.
+				local cooldown, isDayCooldown, charges, maxCharges = C_TradeSkillUI.GetRecipeCooldown(spellID)	-- For daily cooldowns, cooldown returns the time until midnight, after relogging it's accurate. isDayCooldown can be used to identify if it should be aligned with daily reset right away.
 				local recipeStart = GetServerTime()
 
 				-- Remove shared cooldowns and only leave the last one done
@@ -2342,7 +2342,7 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 				elseif spellID == 427174 or spellID == 430345 then
 					local spells = {427174, 430345}
 					sharedCooldowns(spells)
-				-- Daily cooldowns (which return the wrong 'cooldown' info initially)
+				-- Daily cooldowns (which return the wrong cooldown info initially)
 				elseif isDayCooldown then
 					-- Set the cooldown to align with daily reset
 					cooldown = C_DateAndTime.GetSecondsUntilDailyReset()
