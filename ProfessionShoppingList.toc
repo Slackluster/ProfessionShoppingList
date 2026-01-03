@@ -9,6 +9,8 @@
 ## X-Curse-Project-ID: 498475
 ## X-Wago-ID: Xb6X71Np
 
+## OptionalDeps: TradeSkillMaster
+
 ## SavedVariables: ProfessionShoppingList_Settings, ProfessionShoppingList_Data, ProfessionShoppingList_Library, ProfessionShoppingList_Cache
 ## SavedVariablesPerCharacter: ProfessionShoppingList_CharacterData
 

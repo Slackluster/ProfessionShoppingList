@@ -13,6 +13,7 @@ local api = app.api
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
+		app:MoveTSMButton()
 		app.Flag.MerchantAssets = false
 	end
 end)
@@ -145,23 +146,12 @@ app.Event:Register("MERCHANT_SHOW", function()
 			GameTooltip:Hide()
 		end)
 
-		if C_AddOns.IsAddOnLoaded("TradeSkillMaster") then
-			MerchantFrame:HookScript("OnShow", function()
-				RunNextFrame(function()
-					for _, child in ipairs({ MerchantFrame:GetChildren() }) do
-						local name = child:GetName()
-						if name and name:find("TSM_BUTTON") then
-							child:ClearAllPoints()
-							child:SetPoint("TOPRIGHT", app.MerchantButton, "TOPLEFT", -2, -4)
-							child.ClearAllPoints = nop
-							child.SetPoint = nop
-							break
-						end
-					end
-				end)
-			end)
-		end
-
 		app.Flag.MerchantAssets = true
 	end
 end)
+
+function app:MoveTSMButton()
+	if C_AddOns.IsAddOnLoaded("TradeSkillMaster") and TSM_API and TSM_API.ShiftDefaultUIButton then
+		TSM_API.ShiftDefaultUIButton("VENDORING", app.Name, -24)
+	end
+end
