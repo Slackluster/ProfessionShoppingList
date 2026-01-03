@@ -771,9 +771,6 @@ function app:UpdateRecipes()
 					else
 						app:UntrackRecipe(recipeInfo.recipeID, 1)
 					end
-
-					-- Show window
-					app:ShowWindow()
 				-- Left-click on recipe
 				elseif button == "LeftButton" then
 					-- If Shift is held also
@@ -1549,18 +1546,18 @@ end
 
 -- Show window and update numbers
 function app:ShowWindow()
-	-- Set window to its proper position and size
-	app.Window:ClearAllPoints()
-	if ProfessionShoppingList_Settings["pcWindows"] then
-		app.Window:SetSize(ProfessionShoppingList_Settings["pcWindowPosition"].width, ProfessionShoppingList_Settings["pcWindowPosition"].height)
-		app.Window:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", ProfessionShoppingList_Settings["pcWindowPosition"].left, ProfessionShoppingList_Settings["pcWindowPosition"].bottom)
-	else
-		app.Window:SetSize(ProfessionShoppingList_Settings["windowPosition"].width, ProfessionShoppingList_Settings["windowPosition"].height)
-		app.Window:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", ProfessionShoppingList_Settings["windowPosition"].left, ProfessionShoppingList_Settings["windowPosition"].bottom)
-	end
+	if not app.Window:IsShown() then
+		app.Window:ClearAllPoints()
+		if ProfessionShoppingList_Settings["pcWindows"] then
+			app.Window:SetSize(ProfessionShoppingList_Settings["pcWindowPosition"].width, ProfessionShoppingList_Settings["pcWindowPosition"].height)
+			app.Window:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", ProfessionShoppingList_Settings["pcWindowPosition"].left, ProfessionShoppingList_Settings["pcWindowPosition"].bottom)
+		else
+			app.Window:SetSize(ProfessionShoppingList_Settings["windowPosition"].width, ProfessionShoppingList_Settings["windowPosition"].height)
+			app.Window:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", ProfessionShoppingList_Settings["windowPosition"].left, ProfessionShoppingList_Settings["windowPosition"].bottom)
+		end
 
-	-- Show the window
-	app.Window:Show()
+		app.Window:Show()
+	end
 
 	-- Update numbers
 	app:UpdateRecipes()
@@ -2160,11 +2157,7 @@ function app:TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 	end
 	ProfessionShoppingList_Data.Recipes[recipeID].quantity = ProfessionShoppingList_Data.Recipes[recipeID].quantity + recipeQuantity
 
-	if not app.Window:IsShown() then
-		app:ShowWindow()
-	else
-		app:UpdateRecipes()
-	end
+	app:ShowWindow()
 end
 
 -- Untrack recipe
