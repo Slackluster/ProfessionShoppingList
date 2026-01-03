@@ -2,14 +2,15 @@
 ## Title: |cff3FC7EBProfession Shopping List|r
 ## Author: Slackluster
 ## IconTexture: Interface\AddOns\ProfessionShoppingList\assets\icon.png
-## AddonCompartmentFunc: ProfessionShoppingList_Click
-## AddonCompartmentFuncOnEnter: ProfessionShoppingList_Enter
-## AddonCompartmentFuncOnLeave: ProfessionShoppingList_Leave
 ## Version: @project-version@
 ## X-Curse-Project-ID: 498475
 ## X-Wago-ID: Xb6X71Np
 
 ## OptionalDeps: TradeSkillMaster
+
+## AddonCompartmentFunc: ProfessionShoppingList_Click
+## AddonCompartmentFuncOnEnter: ProfessionShoppingList_Enter
+## AddonCompartmentFuncOnLeave: ProfessionShoppingList_Leave
 
 ## SavedVariables: ProfessionShoppingList_Settings, ProfessionShoppingList_Data, ProfessionShoppingList_Library, ProfessionShoppingList_Cache
 ## SavedVariablesPerCharacter: ProfessionShoppingList_CharacterData
