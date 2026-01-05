@@ -807,4 +807,26 @@ app.ProfessionKnowledge = {
 		-- Catchup knowledge
 		{ quest = 0, type = "catchup", currency = 3067 },
 	},
+	-- [2906] = {	-- Midnight Alchemy
+	-- },
+	-- [2907] = {	-- Midnight Blacksmithing
+	-- },
+	-- [2909] = {	-- Midnight Enchanting
+	-- },
+	-- [2910] = {	-- Midnight Engineering
+	-- },
+	-- [2912] = {	-- Midnight Herbalism
+	-- },
+	-- [2913] = {	-- Midnight Inscription
+	-- },
+	-- [2914] = {	-- Midnight Jewelcrafting
+	-- },
+	-- [2915] = {	-- Midnight Leatherworking
+	-- },
+	-- [2916] = {	-- Midnight Mining
+	-- },
+	-- [2917] = {	-- Midnight Skinning
+	-- },
+	-- [2918] = {	-- Midnight Tailoring
+	-- },
 }
