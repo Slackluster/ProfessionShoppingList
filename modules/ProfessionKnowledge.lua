@@ -124,8 +124,8 @@ function app:UpdateKnowledgeTracker()
 		app.KnowledgePointTracker.Text:SetText(perksEarned .. "/" .. perkCount .. " " .. L.PERKS_UNLOCKED .. " (" .. knowledgeSpent .. "/" .. knowledgeMax .. " " .. L.PROFESSION_KNOWLEDGE .. ")")
 		local atlasInfo = C_Texture.GetAtlasInfo("Skillbar_Fill_Flipbook_" .. Professions.GetAtlasKitSpecifier(C_TradeSkillUI.GetChildProfessionInfo()) or "DefaultBlue")
 		local progress = knowledgeSpent / knowledgeMax
-		if progress < 0 then
-			progress = 0
+		if progress <= 0 then
+			progress = 0.001	-- Weird overflow issue with the texture at 0
 		elseif progress > 1 then
 			progress = 1
 		end
@@ -303,6 +303,8 @@ function app:UpdateKnowledgeTracker()
 					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n\n|r" .. L.CATCHUP_KNOWLEDGE .. "|cffffffff " .. catchupKnowledge
 				end
 			end
+		else
+			app.KnowledgePointTooltip = SPELL_FAILED_CUSTOM_ERROR_614
 		end
 	end
 
