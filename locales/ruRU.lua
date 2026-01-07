@@ -173,7 +173,7 @@ L.ERROR_GUILD =							L.ERROR .. ": Невозможно создать " .. PRO
 L.ERROR_RECIPIENT =						L.ERROR .. ": Выбранный получатель не может создать этот предмет. Введите допустимое имя получателя."
 L.ERROR_MULTISIM =						L.ERROR .. ": Никакие смоделированные реагенты не использовались. Пожалуйста, включите только один из следующих поддерживаемых аддонов:"
 
-L.VERSION_CHECK =						"Доступна более новая версия " .. app.NameLong .. " аддона:"
+L.NEW_VERSION_AVAILABLE =				"Доступна более новая версия " .. app.NameLong .. " аддона:"
 
 -- Settings
 L.SETTINGS_TOOLTIP =					app.NameLong .. "\n|cffFFFFFF" .. app.IconLMB .. ": Переключить окно\n" .. app.IconRMB .. ": " .. L.WINDOW_BUTTON_SETTINGS

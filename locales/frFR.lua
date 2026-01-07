@@ -173,7 +173,7 @@ L.ERROR_GUILD =							L.ERROR .. " : impossible de créer une " .. PROFESSIONS_C
 L.ERROR_RECIPIENT =						L.ERROR .. " : le destinataire cible ne peut pas fabriquer cet objet. Veuillez saisir un nom de destinataire valide"
 L.ERROR_MULTISIM =						L.ERROR .. " : aucun composant simulé n’a été utilisé. Veuillez n’activer que l’un des addons suivants :"
 
-L.VERSION_CHECK =						"Une nouvelle version de " .. app.NameLong .. " est disponible :"
+L.NEW_VERSION_AVAILABLE =				"Une nouvelle version de " .. app.NameLong .. " est disponible :"
 
 -- Settings
 L.SETTINGS_TOOLTIP =					app.NameLong .. "\n|cffFFFFFF" .. app.IconLMB .. " : afficher / masquer la fenêtre\n" .. app.IconRMB .. " : " .. L.WINDOW_BUTTON_SETTINGS

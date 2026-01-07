@@ -173,7 +173,7 @@ L.ERROR_GUILD =							L.ERROR .. ": Can't create a " .. PROFESSIONS_CRAFTING_FOR
 L.ERROR_RECIPIENT =						L.ERROR .. ": Target recipient cannot craft that item. Please enter a valid recipient name."
 L.ERROR_MULTISIM =						L.ERROR .. ": No simulated reagents have been used. Please only enable one of the following supported addons:"
 
-L.VERSION_CHECK =						"There is a newer version of " .. app.NameLong .. " available:"
+L.NEW_VERSION_AVAILABLE =				"There is a newer version of " .. app.NameLong .. " available:"
 
 -- Settings
 L.SETTINGS_TOOLTIP =					app.NameLong .. "\n|cffFFFFFF" .. app.IconLMB .. ": Toggle the window\n" .. app.IconRMB .. ": " .. L.WINDOW_BUTTON_SETTINGS

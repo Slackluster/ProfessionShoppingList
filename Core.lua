@@ -110,7 +110,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		app.Flag = {}
 		app.Flag.VersionCheck = 0
 
-		C_ChatInfo.RegisterAddonMessagePrefix("ProfShopList")
+		C_ChatInfo.RegisterAddonMessagePrefix(app.NamePrefix)
 
 		-- Slash commands
 		SLASH_RELOADUI1 = "/rl"
@@ -256,51 +256,45 @@ end)
 -- VERSION COMMS --
 -------------------
 
--- Send information to other PSL users
 function app:SendAddonMessage(message)
 	if IsInRaid(2) or IsInGroup(2) then
-		ChatThrottleLib:SendAddonMessage("NORMAL", "ProfShopList", message, "INSTANCE_CHAT")
+		ChatThrottleLib:SendAddonMessage("NORMAL", app.NamePrefix, message, "INSTANCE_CHAT")
 	elseif IsInRaid() then
-		ChatThrottleLib:SendAddonMessage("NORMAL", "ProfShopList", message, "RAID")
+		ChatThrottleLib:SendAddonMessage("NORMAL", app.NamePrefix, message, "RAID")
 	elseif IsInGroup() then
-		ChatThrottleLib:SendAddonMessage("NORMAL", "ProfShopList", message, "PARTY")
+		ChatThrottleLib:SendAddonMessage("NORMAL", app.NamePrefix, message, "PARTY")
 	end
 end
 
--- When joining a group
 app.Event:Register("GROUP_ROSTER_UPDATE", function(category, partyGUID)
-	local message = "version:" .. C_AddOns.GetAddOnMetadata("ProfessionShoppingList", "Version")
+	local message = "version:" .. C_AddOns.GetAddOnMetadata(appName, "Version")
 	app:SendAddonMessage(message)
 end)
 
--- When we receive information over the addon comms
 app.Event:Register("CHAT_MSG_ADDON", function(prefix, text, channel, sender, target, zoneChannelID, localID, name, instanceID)
-	if prefix == "ProfShopList" then
-		-- Version
+	if prefix == app.NamePrefix then
 		local version = text:match("version:(.+)")
-		if version then
-			if version ~= "@project-version@" then
-				local expansion, major, minor, iteration = version:match("v(%d+)%.(%d+)%.(%d+)%-(%d+)")
+		if version and not app.Flag.VersionCheck then
+			local expansion, major, minor, iteration = version:match("v(%d+)%.(%d+)%.(%d+)%-(%d+)")
+			if expansion then
 				expansion = string.format("%02d", expansion)
 				major = string.format("%02d", major)
 				minor = string.format("%02d", minor)
 				local otherGameVersion = tonumber(expansion .. major .. minor)
 				local otherAddonVersion = tonumber(iteration)
 
-				local localVersion = C_AddOns.GetAddOnMetadata("ProfessionShoppingList", "Version")
-				if localVersion ~= "@project-version@" then
-					expansion, major, minor, iteration = localVersion:match("v(%d+)%.(%d+)%.(%d+)%-(%d+)")
-					expansion = string.format("%02d", expansion)
-					major = string.format("%02d", major)
-					minor = string.format("%02d", minor)
-					local localGameVersion = tonumber(expansion .. major .. minor)
-					local localAddonVersion = tonumber(iteration)
+				local localVersion = C_AddOns.GetAddOnMetadata(appName, "Version")
+				local expansion2, major2, minor2, iteration2 = localVersion:match("v(%d+)%.(%d+)%.(%d+)%-(%d+)")
+				if expansion2 then
+					expansion2 = string.format("%02d", expansion2)
+					major2 = string.format("%02d", major2)
+					minor2 = string.format("%02d", minor2)
+					local localGameVersion = tonumber(expansion2 .. major2 .. minor2)
+					local localAddonVersion = tonumber(iteration2)
 
 					if otherGameVersion > localGameVersion or (otherGameVersion == localGameVersion and otherAddonVersion > localAddonVersion) then
-						if GetServerTime() - app.Flag.VersionCheck > 600 then
-							app:Print(L.VERSION_CHECK .. " " .. version)
-							app.Flag.VersionCheck = GetServerTime()
-						end
+						app:Print(L.NEW_VERSION_AVAILABLE, version)
+						app.Flag.VersionCheck = true
 					end
 				end
 			end
