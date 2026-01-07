@@ -776,7 +776,7 @@ function app:UpdateRecipes()
 					-- If Shift is held also
 					if IsShiftKeyDown() then
 						-- Try write link to chat
-						ChatEdit_InsertLink(recipeInfo.link)
+						ChatFrameUtil.InsertLink(recipeInfo.link)
 						app:SearchAH(recipeInfo.link)
 					-- If Control is held also
 					elseif IsControlKeyDown() and type(recipeInfo.recipeID) == "number" then
@@ -1299,7 +1299,7 @@ function app:UpdateRecipes()
 					end
 				-- Activate if Shift+clicking on the reagent
 				elseif button == "LeftButton" and IsShiftKeyDown() then
-					ChatEdit_InsertLink(reagentInfo.link)
+					ChatFrameUtil.InsertLink(reagentInfo.link)
 					app:SearchAH(reagentInfo.link)
 				end
 			end)
