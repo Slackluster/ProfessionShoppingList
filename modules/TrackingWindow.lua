@@ -289,7 +289,6 @@ function app:MoveWindow()
 		GameTooltip:Hide()
 		ShoppingTooltip1:Hide()
 	end
-	print(app.Window:GetFrameStrata(), app.Window:GetFrameLevel())
 end
 
 -- Save the main window position and size
