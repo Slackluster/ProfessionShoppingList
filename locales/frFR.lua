@@ -17,7 +17,7 @@ L.WINDOW_BUTTON_SETTINGS =				"Ouvrir les paramètres"
 L.WINDOW_BUTTON_CLEAR =					"Effacer toutes les recettes suivies"
 L.WINDOW_BUTTON_AUCTIONATOR =			"Mettre à jour la liste d’achats dans Auctionator\n" ..
 										"La liste d’achats sera générée automatiquement lors de l’ouverture de l’Hôtel des ventes"
-L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF : dimensionner automatiquement pour s’adapter à la fenêtre|R"
+L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF : dimensionner automatiquement pour s’adapter à la fenêtre|r"
 
 L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB -- "Recettes"
 L.WINDOW_HEADER_ITEMS =					ITEMS -- "Objets"

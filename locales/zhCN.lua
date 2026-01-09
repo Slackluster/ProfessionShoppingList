@@ -17,7 +17,7 @@ L.WINDOW_BUTTON_SETTINGS =				"打开设置"
 L.WINDOW_BUTTON_CLEAR =					"清除所有追踪的配方"
 -- L.WINDOW_BUTTON_AUCTIONATOR =			"Update the Auctionator shopping list\n" ..
 -- 										"The shopping list is automatically generated when opening the Auction House"
-L.WINDOW_BUTTON_CORNER =				"双击" .. app.IconLMB .. "|cffFFFFFF：自动调整窗口尺寸|R"
+L.WINDOW_BUTTON_CORNER =				"双击" .. app.IconLMB .. "|cffFFFFFF：自动调整窗口尺寸|r"
 
 L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB	-- "配方"
 L.WINDOW_HEADER_ITEMS =					ITEMS	-- "物品"

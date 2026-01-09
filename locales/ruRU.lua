@@ -17,7 +17,7 @@ L.WINDOW_BUTTON_SETTINGS =				"Откройте настройки"
 L.WINDOW_BUTTON_CLEAR =					"Очистить все отслеживаемые рецепты"
 L.WINDOW_BUTTON_AUCTIONATOR =			"Обновите список покупок на аукционе\n" ..
 										"Список покупок формируется автоматически при открытии Аукционного дома"
-L.WINDOW_BUTTON_CORNER =				"Двойной " .. app.IconLMB .. "|cffFFFFFF: Автоматическое изменение размера окна|R"
+L.WINDOW_BUTTON_CORNER =				"Двойной " .. app.IconLMB .. "|cffFFFFFF: Автоматическое изменение размера окна|r"
 
 L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB	-- "Recipes"
 L.WINDOW_HEADER_ITEMS =					ITEMS	-- "Items"

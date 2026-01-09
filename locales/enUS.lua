@@ -17,7 +17,7 @@ L.WINDOW_BUTTON_SETTINGS =				"Open the settings"
 L.WINDOW_BUTTON_CLEAR =					"Clear all tracked recipes"
 L.WINDOW_BUTTON_AUCTIONATOR =			"Update the Auctionator shopping list\n" ..
 										"The shopping list is automatically generated when opening the Auction House"
-L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF: Autosize to fit the window|R"
+L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF: Autosize to fit the window|r"
 
 L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB	-- "Recipes"
 L.WINDOW_HEADER_ITEMS =					ITEMS	-- "Items"
