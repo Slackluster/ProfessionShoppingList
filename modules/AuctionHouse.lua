@@ -4,6 +4,8 @@
 
 -- Initialisation
 local appName, app = ...
+local api = app.api
+local L = app.locales
 
 -------------
 -- ON LOAD --
