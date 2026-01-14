@@ -22,6 +22,10 @@
 		</Layers>
 	</Frame>
 
+	<Frame name="ProfessionShoppingList_SettingsExpandTemplate" inherits="SettingsExpandableSectionTemplate" mixin="ProfessionShoppingList_SettingsExpandMixin" virtual="true">
+		<Size y="24" />
+	</Frame>
+
 	<Frame name="ProfessionShoppingList_Tab" virtual="true" inherits="QuestLogTabButtonTemplate">
 		<KeyValues>
 			<KeyValue key="displayMode" value="QuestLogDisplayMode.Quests" type="global" />
@@ -32,9 +36,5 @@
 		<Anchors>
 			<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="0" y="-52" />
 		</Anchors>
-	</Frame>
-
-	<Frame name="ProfessionShoppingList_SettingsExpandTemplate" inherits="SettingsExpandableSectionTemplate" mixin="ProfessionShoppingList_SettingsExpandMixin" virtual="true">
-		<Size y="24" />
 	</Frame>
 </Ui>
