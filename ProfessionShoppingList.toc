@@ -1,4 +1,4 @@
-## Interface: 120000
+## Interface: 110207, 120000
 ## Title: |cff3FC7EBProfession Shopping List|r
 ## Author: Slackluster
 ## IconTexture: Interface\AddOns\ProfessionShoppingList\assets\icon.png
