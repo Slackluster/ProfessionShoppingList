@@ -24,7 +24,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		if not ProfessionShoppingList_CharacterData.Recipes then ProfessionShoppingList_CharacterData.Recipes = {} end
 		if not ProfessionShoppingList_CharacterData.Orders then ProfessionShoppingList_CharacterData.Orders = {} end
 
-		ProfessionShoppingList_Settings["tabOpened"] = ProfessionShoppingList_Settings["tabOpened"] or {}
+		ProfessionShoppingList_Settings["tabOpened"] = ProfessionShoppingList_Settings["tabOpened"] or false
 		if ProfessionShoppingList_Settings["pcRecipes"] then
 			ProfessionShoppingList_Data.Recipes = ProfessionShoppingList_CharacterData.Recipes
 		end
@@ -1619,7 +1619,6 @@ function app:CreateTab(frame)
 
 	local function showWindow()
 		app:ShowWindow()
-		app:ResizeWindow()
 		app.Window:ClearAllPoints()
 		app.Window:SetPoint("TOPLEFT", frame, "TOPRIGHT", 0, -1)
 		app.Window:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 0, 0)
