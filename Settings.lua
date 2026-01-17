@@ -195,6 +195,14 @@ function app:CreateSettings()
 				end
 			end)
 		end,
+		OnHide = function(dialog)
+			local editBox = dialog.GetEditBox and dialog:GetEditBox() or dialog.editBox
+			editBox:SetScript("OnEditFocusLost", nil)
+			editBox:SetScript("OnEscapePressed", nil)
+			editBox:SetScript("OnTextChanged", nil)
+			editBox:SetScript("OnKeyUp", nil)
+			editBox:SetText("")
+		end,
 	}
 	local function onSupportButtonClick()
 		StaticPopup_Show("PROFESSIONSHOPPINGLIST_URL", nil, nil, "https://buymeacoffee.com/Slackluster")
