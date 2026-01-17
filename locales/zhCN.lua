@@ -193,7 +193,7 @@ L.SETTINGS_TOOLTIP =					app.NameLong .. "\n|cffFFFFFF" .. app.IconLMB .. ": 切
 -- L.SETTINGS_URL_COPIED =					"Link copied to clipboard"
 
 L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & 斜杠命令"	-- "Keybindings"
--- _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =	"Toggle Window"
+-- _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =	app.NameShort .. ": Toggle Window"
 L.SETTINGS_SLASH_TOGGLE =				"切换追踪窗口"
 L.SETTINGS_SLASH_RESETPOS =				"重置窗口位置"
 L.SETTINGS_SLASH_RESET =				"重置保存的数据"

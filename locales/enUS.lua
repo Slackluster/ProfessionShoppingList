@@ -193,7 +193,7 @@ L.SETTINGS_URL_COPY =					"Ctrl+C to copy:"
 L.SETTINGS_URL_COPIED =					"Link copied to clipboard"
 
 L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & Slash Commands"	-- "Keybindings"
-_G["BINDING_NAME_PSL_TOGGLEWINDOW"] =	"Toggle Window"
+_G["BINDING_NAME_PSL_TOGGLEWINDOW"] =	app.NameShort .. ": Toggle Window"
 L.SETTINGS_SLASH_TOGGLE =				"Toggle the tracking window"
 L.SETTINGS_SLASH_RESETPOS =				"Reset the tracking window position"
 L.SETTINGS_SLASH_RESET =				"Reset saved data"

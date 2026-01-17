@@ -10,6 +10,8 @@ app.Name = "Profession Shopping List"
 app.NameLong = app:Colour("Profession Shopping List")
 app.NameShort = app:Colour("PSL")
 app.NamePrefix = "ProfShopList"
+_G["BINDING_NAME_PROFESSIONSHOPPINGLIST"] = app.Name
+_G["BINDING_NAME_SLACKWARE"] = "Slackware"
 
 -- Used textures
 app.IconPSL = "|TInterface\\AddOns\\ProfessionShoppingList\\assets\\icon.png:0|t"

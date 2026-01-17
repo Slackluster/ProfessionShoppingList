@@ -193,7 +193,7 @@ L.SETTINGS_URL_COPY =					"Ctrl + C pour copier :"
 L.SETTINGS_URL_COPIED =					"Lien copié dans le presse-papiers"
 
 L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & Commandes « Slash »"	-- "Keybindings"
--- _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =	"Toggle Window"
+-- _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =	app.NameShort .. ": Toggle Window"
 L.SETTINGS_SLASH_TOGGLE =				"Afficher / masquer la fenêtre de suivi"
 L.SETTINGS_SLASH_RESETPOS =				"Réinitialiser la position de la fenêtre de suivi"
 L.SETTINGS_SLASH_RESET =				"Réinitialiser les données enregistrées"
