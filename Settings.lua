@@ -236,7 +236,7 @@ function app:CreateSettings()
 
 	function ProfessionShoppingList_SettingsExpandMixin:OnExpandedChanged(expanded)
 		self:EvaluateVisibility(expanded)
-        SettingsInbound.RepairDisplay()
+		SettingsInbound.RepairDisplay()
 	end
 
 	function ProfessionShoppingList_SettingsExpandMixin:EvaluateVisibility(expanded)

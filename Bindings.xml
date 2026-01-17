@@ -1,5 +1,5 @@
 <Bindings>
-  <Binding name="PSL_TOGGLEWINDOW" category="|cff3FC7EBProfession Shopping List|r" searchTags="BINDING_NAME_PROFESSIONSHOPPINGLIST,BINDING_NAME_SLACKWARE">
-    ProfessionShoppingList:ToggleWindow()
-  </Binding>
+	<Binding name="PSL_TOGGLEWINDOW" category="|cff3FC7EBProfession Shopping List|r" searchTags="BINDING_NAME_PROFESSIONSHOPPINGLIST,BINDING_NAME_SLACKWARE">
+		ProfessionShoppingList:ToggleWindow()
+	</Binding>
 </Bindings>
