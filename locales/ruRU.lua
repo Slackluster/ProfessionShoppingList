@@ -178,7 +178,7 @@ L.NEW_VERSION_AVAILABLE =				"Доступна более новая верси�
 -- Settings
 L.SETTINGS_TOOLTIP =					app.NameLong .. "\n|cffFFFFFF" .. app.IconLMB .. ": Переключить окно\n" .. app.IconRMB .. ": " .. L.WINDOW_BUTTON_SETTINGS
 
--- L.SETTINGS_VERSION =					GAME_VERSION_LABEL .. ":"	-- "Version"
+L.SETTINGS_VERSION =					GAME_VERSION_LABEL .. ":"	-- "Version"
 L.SETTINGS_SUPPORT_TEXTLONG =			"Разработка этого аддона требует значительного времени и усилий.\nПожалуйста, рассмотрите возможность финансовой поддержки разработчика."
 L.SETTINGS_SUPPORT_TEXT =				"Поддержать"
 L.SETTINGS_SUPPORT_BUTTON =				"Buy Me a Coffee" -- Brand name, if there isn't a localised version, keep it the way it is
@@ -193,7 +193,7 @@ L.SETTINGS_URL_COPY =					"Ctrl+C — скопировать:"
 L.SETTINGS_URL_COPIED =					"Ссылка скопирована в буфер обмена"
 
 L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & Слэш-команды"	-- "Keybindings"
--- _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =	app.NameShort .. ": Toggle Window"
+_G["BINDING_NAME_PSL_TOGGLEWINDOW"] =	app.NameShort .. ": Включить окно"
 L.SETTINGS_SLASH_TOGGLE =				"Переключить окно отслеживания"
 L.SETTINGS_SLASH_RESETPOS =				"Сбросить положение окна отслеживания"
 L.SETTINGS_SLASH_RESET =				"Сбросить сохраненные данные"
