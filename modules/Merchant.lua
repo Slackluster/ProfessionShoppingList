@@ -151,7 +151,9 @@ app.Event:Register("MERCHANT_SHOW", function()
 end)
 
 function app:MoveTSMButton()
-	if C_AddOns.IsAddOnLoaded("TradeSkillMaster") and TSM_API and TSM_API.ShiftDefaultUIButton then
-		TSM_API.ShiftDefaultUIButton("VENDORING", app.Name, -24)
-	end
+	EventUtil.ContinueOnAddOnLoaded("TradeSkillMaster", function()
+		if TSM_API and TSM_API.ShiftDefaultUIButton then
+			TSM_API.ShiftDefaultUIButton("VENDORING", app.Name, -24)
+		end
+	end)
 end
