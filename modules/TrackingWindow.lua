@@ -2055,7 +2055,6 @@ function app:TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 
 		for i, orderInfo in pairs(ordersTable) do
 			if orderID == orderInfo.orderID then
-				DevTools_Dump(orderInfo.reagents)
 				key = "order:" .. orderID .. ":" .. recipeID
 
 				ProfessionShoppingList_Cache.FakeRecipes[key] = {
