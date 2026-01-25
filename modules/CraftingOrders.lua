@@ -128,13 +128,13 @@ function app:CreateCraftingOrdersAssets()
 					if ProfessionShoppingList_Cache.ReagentTiers[reagentID].three ~= 0 then
 						-- Set it to the lowest quality we have enough of for this order
 						if C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].one, true, false, true, true) >= quantityNo then
-							craftingReagentInfo[no1] = {itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].one, dataSlotIndex = i, quantity = quantityNo}
+							craftingReagentInfo[no1] = {itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].one, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
 							no1 = no1 + 1
 						elseif C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].two, true, false, true, true) >= quantityNo then
-							craftingReagentInfo[no1] = {itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].two, dataSlotIndex = i, quantity = quantityNo}
+							craftingReagentInfo[no1] = {itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].two, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
 							no1 = no1 + 1
 						elseif C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].three, true, false, true, true) >= quantityNo then
-							craftingReagentInfo[no1] = {itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].three, dataSlotIndex = i, quantity = quantityNo}
+							craftingReagentInfo[no1] = {itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].three, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
 							no1 = no1 + 1
 						end
 					-- Add the info for non-tiered reagents to reagentItems
@@ -157,39 +157,13 @@ function app:CreateCraftingOrdersAssets()
 			app.Flag.QuickOrder = 2
 		end
 
-		-- Place a guild order if the recipient is "GUILD"
-		local typeOrder = 2
+		local orderType = Enum.CraftingOrderType.Personal
 		if ProfessionShoppingList_CharacterData.Orders[recipeID] == "GUILD" then
-			typeOrder = 1
+			orderType = Enum.CraftingOrderType.Guild
 		end
 
-		-- Place the order
-		C_CraftingOrders.PlaceNewOrder({ skillLineAbilityID=ProfessionShoppingList_Library[recipeID].abilityID, orderType=typeOrder, orderDuration=ProfessionShoppingList_Settings["quickOrderDuration"], tipAmount=100, customerNotes="", orderTarget=ProfessionShoppingList_CharacterData.Orders[recipeID], reagentItems=reagentInfo, craftingReagentItems=craftingReagentInfo })
-
-		-- If there are tiered reagents and the user wants to use local reagents, adjust the dataSlotIndex and try again in case the first one failed
-		local next = next
-		if next(craftingReagentInfo) ~= nil and ProfessionShoppingList_Settings["useLocalReagents"] then
-			for i, _ in ipairs(craftingReagentInfo) do
-				craftingReagentInfo[i].dataSlotIndex = math.max(craftingReagentInfo[i].dataSlotIndex - 1, 0)
-			end
-
-			-- Place the alternative order (only one can succeed, worst case scenario it'll fail again)
-			C_CraftingOrders.PlaceNewOrder({ skillLineAbilityID=ProfessionShoppingList_Library[recipeID].abilityID, orderType=typeOrder, orderDuration=ProfessionShoppingList_Settings["quickOrderDuration"], tipAmount=100, customerNotes="", orderTarget=ProfessionShoppingList_CharacterData.Orders[recipeID], reagentItems=reagentInfo, craftingReagentItems=craftingReagentInfo })
-
-			for i, _ in ipairs(craftingReagentInfo) do
-				craftingReagentInfo[i].dataSlotIndex = math.max(craftingReagentInfo[i].dataSlotIndex - 1, 0)
-			end
-
-			-- Place the alternative order (only one can succeed, worst case scenario it'll fail again)
-			C_CraftingOrders.PlaceNewOrder({ skillLineAbilityID=ProfessionShoppingList_Library[recipeID].abilityID, orderType=typeOrder, orderDuration=ProfessionShoppingList_Settings["quickOrderDuration"], tipAmount=100, customerNotes="", orderTarget=ProfessionShoppingList_CharacterData.Orders[recipeID], reagentItems=reagentInfo, craftingReagentItems=craftingReagentInfo })
-
-			for i, _ in ipairs(craftingReagentInfo) do
-				craftingReagentInfo[i].dataSlotIndex = math.max(craftingReagentInfo[i].dataSlotIndex - 1, 0)
-			end
-
-			-- Place the alternative order (only one can succeed, worst case scenario it'll fail again)
-			C_CraftingOrders.PlaceNewOrder({ skillLineAbilityID=ProfessionShoppingList_Library[recipeID].abilityID, orderType=typeOrder, orderDuration=ProfessionShoppingList_Settings["quickOrderDuration"], tipAmount=100, customerNotes="", orderTarget=ProfessionShoppingList_CharacterData.Orders[recipeID], reagentItems=reagentInfo, craftingReagentItems=craftingReagentInfo })
-		end
+		local orderInfo = { skillLineAbilityID = ProfessionShoppingList_Library[recipeID].abilityID, orderType = orderType, orderDuration = ProfessionShoppingList_Settings["quickOrderDuration"], tipAmount = 100, customerNotes = "", orderTarget = ProfessionShoppingList_CharacterData.Orders[recipeID], reagentItems = reagentInfo, craftingReagentItems=craftingReagentInfo }
+		C_CraftingOrders.PlaceNewOrder(orderInfo)
 	end
 
 	-- Create the place crafting orders personal order button
