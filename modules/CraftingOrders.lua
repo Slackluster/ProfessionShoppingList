@@ -162,7 +162,7 @@ function app:CreateCraftingOrdersAssets()
 			orderType = Enum.CraftingOrderType.Guild
 		end
 
-		local orderInfo = { skillLineAbilityID = ProfessionShoppingList_Library[recipeID].abilityID, orderType = orderType, orderDuration = ProfessionShoppingList_Settings["quickOrderDuration"], tipAmount = 100, customerNotes = "", orderTarget = ProfessionShoppingList_CharacterData.Orders[recipeID], reagentItems = reagentInfo, craftingReagentItems=craftingReagentInfo }
+		local orderInfo = { skillLineAbilityID = ProfessionShoppingList_Library[recipeID].abilityID, orderType = orderType, orderDuration = ProfessionShoppingList_Settings["quickOrderDuration"], tipAmount = 100, customerNotes = "", orderTarget = ProfessionShoppingList_CharacterData.Orders[recipeID], reagentItems = reagentInfo, craftingReagentItems = craftingReagentInfo }
 		C_CraftingOrders.PlaceNewOrder(orderInfo)
 	end
 
