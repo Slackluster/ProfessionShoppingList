@@ -1882,10 +1882,10 @@ function app:GetReagents(reagentVariable, recipeID, recipeQuantity, recraft)
 				for k, v in pairs(ProfessionShoppingList_Cache.FakeRecipes[craftingRecipeID].reagents) do
 					-- Just add all qualities to be thorough, these can't double up within the same recipe anyway
 					-- Unless it's a Spark >:(
-					if ProfessionShoppingList_Cache.ReagentTiers[v.reagent.itemID] then
-						providedReagents[ProfessionShoppingList_Cache.ReagentTiers[v.reagent.itemID].one] = v.reagent.quantity
-						providedReagents[ProfessionShoppingList_Cache.ReagentTiers[v.reagent.itemID].two] = v.reagent.quantity
-						providedReagents[ProfessionShoppingList_Cache.ReagentTiers[v.reagent.itemID].three] = v.reagent.quantity
+					if ProfessionShoppingList_Cache.ReagentTiers[v.reagentInfo.reagent.itemID] then
+						providedReagents[ProfessionShoppingList_Cache.ReagentTiers[v.reagentInfo.reagent.itemID].one] = v.reagentInfo.quantity
+						providedReagents[ProfessionShoppingList_Cache.ReagentTiers[v.reagentInfo.reagent.itemID].two] = v.reagentInfo.quantity
+						providedReagents[ProfessionShoppingList_Cache.ReagentTiers[v.reagentInfo.reagent.itemID].three] = v.reagentInfo.quantity
 					end
 				end
 			end
