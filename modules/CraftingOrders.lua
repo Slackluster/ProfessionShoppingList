@@ -128,19 +128,19 @@ function app:CreateCraftingOrdersAssets()
 					if ProfessionShoppingList_Cache.ReagentTiers[reagentID].three ~= 0 then
 						-- Set it to the lowest quality we have enough of for this order
 						if C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].one, true, false, true, true) >= quantityNo then
-							craftingReagentInfo[no1] = {itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].one, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
+							craftingReagentInfo[no1] = {reagent = { itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].one}, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
 							no1 = no1 + 1
 						elseif C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].two, true, false, true, true) >= quantityNo then
-							craftingReagentInfo[no1] = {itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].two, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
+							craftingReagentInfo[no1] = {reagent = { itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].two}, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
 							no1 = no1 + 1
 						elseif C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].three, true, false, true, true) >= quantityNo then
-							craftingReagentInfo[no1] = {itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].three, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
+							craftingReagentInfo[no1] = {reagent = { itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].three}, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
 							no1 = no1 + 1
 						end
 					-- Add the info for non-tiered reagents to reagentItems
 					else
 						if C_Item.GetItemCount(reagentID, true, false, true, true) >= quantityNo then
-							reagentInfo[no2] = {itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].one, quantity = quantityNo}
+							reagentInfo[no2] = {reagent = { itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].one}, quantity = quantityNo}
 							no2 = no2 + 1
 						end
 					end
@@ -162,7 +162,7 @@ function app:CreateCraftingOrdersAssets()
 			orderType = Enum.CraftingOrderType.Guild
 		end
 
-		local orderInfo = { skillLineAbilityID = ProfessionShoppingList_Library[recipeID].abilityID, orderType = orderType, orderDuration = ProfessionShoppingList_Settings["quickOrderDuration"], tipAmount = 100, customerNotes = "", orderTarget = ProfessionShoppingList_CharacterData.Orders[recipeID], reagentItems = reagentInfo, craftingReagentItems = craftingReagentInfo }
+		local orderInfo = { skillLineAbilityID = ProfessionShoppingList_Library[recipeID].abilityID, orderType = orderType, orderDuration = ProfessionShoppingList_Settings["quickOrderDuration"], tipAmount = 100, customerNotes = "", orderTarget = ProfessionShoppingList_CharacterData.Orders[recipeID], reagentInfos = reagentInfo, craftingReagentItems = craftingReagentInfo }
 		C_CraftingOrders.PlaceNewOrder(orderInfo)
 	end
 
@@ -317,57 +317,36 @@ end)
 -- If placing a crafting order through PSL
 app.Event:Register("CRAFTINGORDERS_ORDER_PLACEMENT_RESPONSE", function(result)
 	if app.Flag.QuickOrder >= 1 then
-		-- Count a(nother) quick order attempt
-		app.QuickOrderAttempts = app.QuickOrderAttempts + 1
-
-		-- If this gives an error
-		if result ~= 0 then
-			-- Count a(nother) error for the quick order attempt
-			app.QuickOrderErrors = app.QuickOrderErrors + 1
-
-			-- Hide the error frame
-			UIErrorsFrame:Hide()
-
-			-- Clear the error frame before showing it again
-			C_Timer.After(1.0, function() UIErrorsFrame:Clear() UIErrorsFrame:Show() end)
-
-			-- If all 4 attempts fail, tell the user this
-			if app.QuickOrderErrors >= 4 then
-				app:Print(L.ERROR_QUICKORDER)
-			end
-		end
-		-- Separate error messages
 		if result == 29 then
 			app:Print(L.ERROR_REAGENTS)
+			return
 		elseif result == 34 then
 			app:Print(L.ERROR_WARBANK)
+			return
 		elseif result == 37 then
 			app:Print(L.ERROR_GUILD)
+			return
 		elseif result == 40 then
 			app:Print(L.ERROR_RECIPIENT)
+			return
 		end
 
-		-- Save this info as the last order done, unless it was a failed order
-		if (result ~= 29 and result ~= 34 and result ~= 37 and result ~= 40) or app.QuickOrderErrors >= 4 then ProfessionShoppingList_CharacterData.Orders["last"] = app.QuickOrderRecipeID end
+		ProfessionShoppingList_CharacterData.Orders["last"] = app.QuickOrderRecipeID
 
-		-- Set the last used recipe name for the repeat order button title
 		local recipeName = L.NOLASTORDER
-		-- Check for the name if there has been a last order
 		if ProfessionShoppingList_CharacterData.Orders["last"] ~= nil and ProfessionShoppingList_CharacterData.Orders["last"] ~= 0 then
 			app.RepeatQuickOrderTooltip.Reagents = L.FALSE
 			if ProfessionShoppingList_Settings["useLocalReagents"] then
 				app.RepeatQuickOrderTooltip.Reagents = L.TRUE
 			end
 			app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP .. "\n" .. L.RECIPIENT .. ": " .. ProfessionShoppingList_CharacterData.Orders[ProfessionShoppingList_CharacterData.Orders["last"]] .. "\n" .. L.LOCALREAGENTS_LABEL .. ": " .. app.RepeatQuickOrderTooltip.Reagents
+			recipeName = C_TradeSkillUI.GetRecipeSchematic(ProfessionShoppingList_CharacterData.Orders["last"], false).name
 		end
 		app.RepeatQuickOrderButton:SetText(recipeName)
 		app.RepeatQuickOrderButton:SetWidth(app.RepeatQuickOrderButton:GetTextWidth()+20)
 
-		-- Reset all the numbers if we're done
-		if (app.Flag.QuickOrder == 1 and app.QuickOrderAttempts >= 1) or (app.Flag.QuickOrder == 2 and app.QuickOrderAttempts >= 4) then
+		if app.Flag.QuickOrder > 0 then
 			app.Flag.QuickOrder = 0
-			app.QuickOrderAttempts = 0
-			app.QuickOrderErrors = 0
 		end
 	end
 end)
