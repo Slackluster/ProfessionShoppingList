@@ -107,7 +107,7 @@ end
 -- Settings and minimap icon
 function app:CreateSettings()
 	-- Minimap button
-	local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject("ProfessionShoppingList", {
+	local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject(app.NameLong, {
 		type = "data source",
 		text = app.NameLong,
 		icon = "Interface\\AddOns\\ProfessionShoppingList\\assets\\icon.png",
