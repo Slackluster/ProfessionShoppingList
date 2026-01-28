@@ -1684,8 +1684,9 @@ function app:CreateTab(frame)
 end
 
 app.Event:Register("TRADE_SKILL_SHOW", function()
-	app:CreateTab(ProfessionsFrame)
+	if C_AddOns.IsAddOnLoaded("Numdelicious_QoL_Tweaks") and NumyQT_DB["ProfessionButtonTab"] then return end
 
+	app:CreateTab(ProfessionsFrame)
 	hooksecurefunc(ProfessionsFrame.CraftingPage.CraftingOutputLog, "FinalizeResultData", function(self)
 		if app.Tab and app.Tab.IsShown[0] then
 			ProfessionsFrame.CraftingPage.CraftingOutputLog:Cleanup()
