@@ -293,7 +293,7 @@ end
 
 -- Save the main window position and size
 function app:SaveWindow()
-	if app.Tab and app.Tab.WindowIsShown then return end
+	if app.Tab and app.Tab.IsShown then return end
 
 	-- Stop highlighting the unlock button
 	app.UnlockButton:UnlockHighlight()
@@ -325,7 +325,7 @@ function app:ShowWindowTooltip(text, hyperlink, secondary, position)
 		GameTooltip:SetPoint("BOTTOM", app.Window, "TOP", 0, 0)
 	elseif position and position == "bottom" then
 		GameTooltip:SetPoint("TOP", app.Window, "BOTTOM", 0, 0)
-	elseif (app.Tab and app.Tab.WindowIsShown) or GetScreenWidth()/2-ProfessionShoppingList_Settings["windowPosition"].width/2-app.Window:GetLeft() >= 0 then
+	elseif (app.Tab and app.Tab.IsShown) or GetScreenWidth()/2-ProfessionShoppingList_Settings["windowPosition"].width/2-app.Window:GetLeft() >= 0 then
 		GameTooltip:SetPoint("LEFT", app.Window, "RIGHT", 0, 0)
 	else
 		GameTooltip:SetPoint("RIGHT", app.Window, "LEFT", 0, 0)
@@ -334,7 +334,7 @@ function app:ShowWindowTooltip(text, hyperlink, secondary, position)
 
 	if secondary and ProfessionShoppingList_Settings["helpTooltips"] then
 		ShoppingTooltip1:SetOwner(UIParent, "ANCHOR_NONE")
-		if (app.Tab and app.Tab.WindowIsShown) or GetScreenWidth()/2-ProfessionShoppingList_Settings["windowPosition"].width/2-app.Window:GetLeft() >= 0 then
+		if (app.Tab and app.Tab.IsShown) or GetScreenWidth()/2-ProfessionShoppingList_Settings["windowPosition"].width/2-app.Window:GetLeft() >= 0 then
 			ShoppingTooltip1:SetPoint("TOPLEFT", GameTooltip, "BOTTOMLEFT", 0, 0)
 		else
 			ShoppingTooltip1:SetPoint("TOPRIGHT", GameTooltip, "BOTTOMRIGHT", 0, 0)
@@ -1566,7 +1566,7 @@ end
 function api:ToggleWindow()
 	assert(self == api, "Call ProfessionShoppingList:ToggleWindow(), not ProfessionShoppingList.ToggleWindow()")
 
-	if app.Tab and app.Tab.IsShown and app.Tab.WindowIsShown then return end
+	if app.Tab and app.Tab.IsShown[0] then return end
 	if app.Window:IsShown() then
 		app.Window:Hide()
 	else
@@ -1614,55 +1614,62 @@ end)
 -------------------------
 
 function app:CreateTab(frame)
-	local tab
-	local locked = ProfessionShoppingList_Settings["windowLocked"]
+	app.Tab = app.Tab or {}
+	app.Tab.IsShown = app.Tab.IsShown or {}
+	if app.Tab[frame] then return end
+
+	app.Tab[frame] = CreateFrame("Frame", nil, frame, "ProfessionShoppingList_Tab")
 
 	local function showWindow()
 		app:ShowWindow()
 		app.Window:ClearAllPoints()
 		app.Window:SetPoint("TOPLEFT", frame, "TOPRIGHT", 0, -1)
 		app.Window:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 0, 0)
-		tab:SetPoint("TOPLEFT", app.Window, "TOPRIGHT", -1, -50)
-		app.Tab.WindowIsShown = true
+		app.Tab[frame]:SetPoint("TOPLEFT", app.Window, "TOPRIGHT", -1, -50)
+
+		app.Tab.IsShown[frame] = true
+		app.Tab.IsShown[0] = true
+		app.Tab[frame]:SetChecked(true)
 
 		app.CloseButton:Disable()
 		app.UnlockButton:Disable()
 		app:LockWindow()
+		print("show")
 	end
 
 	local function hideWindow()
-		for f, t in pairs(app.Tab) do
-			if f ~= "IsShown" and f ~= "WindowIsShown" then t:SetPoint("TOPLEFT", f, "TOPRIGHT", 0, -52) end
-		end
-		app.Tab.WindowIsShown = false
+		app.Tab[frame]:SetPoint("TOPLEFT", frame, "TOPRIGHT", 0, -52)
+		app.Tab.IsShown[frame] = false
+		app.Tab.IsShown[0] = false
 		api:ToggleWindow()
+		app.Tab[frame]:SetChecked(false)
 
 		app.CloseButton:Enable()
 		app.UnlockButton:Enable()
-		if not locked then app:UnlockWindow() end
+		if not ProfessionShoppingList_Settings["windowLocked"] then app:UnlockWindow() end
+		print("hide")
 	end
 
 	local function toggleWindow()
-		if ProfessionShoppingList_Settings["tabOpened"] then
+		if app.Tab.IsShown[frame] and ProfessionShoppingList_Settings["tabOpened"] then
 			ProfessionShoppingList_Settings["tabOpened"] = false
 			hideWindow()
-		else
+		elseif not app.Tab.IsShown[frame] and not ProfessionShoppingList_Settings["tabOpened"] then
 			ProfessionShoppingList_Settings["tabOpened"] = true
 			showWindow()
 		end
 	end
 
 	local function onWindowShow()
-		app.Tab.IsShown = app.Tab.IsShown or 0
-		app.Tab.IsShown = app.Tab.IsShown + 1
-		if not app.Tab.WindowIsShown and ProfessionShoppingList_Settings["tabOpened"] then
+		print("onshow")
+		if ProfessionShoppingList_Settings["tabOpened"] and not app.Tab.IsShown[0] then
+			print("onshow yes")
 			showWindow()
 		end
 	end
 
-	tab = CreateFrame("Frame", nil, frame, "ProfessionShoppingList_Tab")
-	tab:SetChecked(false)
-	tab:SetCustomOnMouseUpHandler(toggleWindow)
+	app.Tab[frame]:SetChecked(false)
+	app.Tab[frame]:SetCustomOnMouseUpHandler(toggleWindow)
 
 	frame:HookScript("OnShow", function()
 		onWindowShow()
@@ -1670,29 +1677,17 @@ function app:CreateTab(frame)
 	onWindowShow()
 
 	frame:HookScript("OnHide", function()
-		app.Tab.IsShown = app.Tab.IsShown - 1
-		if app.Tab.IsShown >= 1 then
-			for f, t in pairs(app.Tab) do
-				if f ~= "IsShown" and f ~= "WindowIsShown" and f:IsShown() then
-					app.Window:SetPoint("TOPLEFT", f, "TOPRIGHT", 0, -1)
-					app.Window:SetPoint("BOTTOMLEFT", f, "BOTTOMRIGHT", 0, 0)
-					t:SetPoint("TOPLEFT", app.Window, "TOPRIGHT", -1, -50)
-				end
-			end
-		elseif app.Tab.WindowIsShown then
+		if app.Tab.IsShown[frame] then
 			hideWindow()
 		end
 	end)
-
-	return tab
 end
 
 app.Event:Register("TRADE_SKILL_SHOW", function()
-	app.Tab = app.Tab or {}
-	app.Tab[ProfessionsFrame] = app.Tab[ProfessionsFrame] or app:CreateTab(ProfessionsFrame)
+	app:CreateTab(ProfessionsFrame)
 
 	hooksecurefunc(ProfessionsFrame.CraftingPage.CraftingOutputLog, "FinalizeResultData", function(self)
-		if app.Tab and app.Tab.WindowIsShown then
+		if app.Tab and app.Tab.IsShown[0] then
 			ProfessionsFrame.CraftingPage.CraftingOutputLog:Cleanup()
 			ProfessionsFrame.OrdersPage.OrderView.CraftingOutputLog:Cleanup()
 		end
@@ -1700,13 +1695,11 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 end)
 
 app.Event:Register("AUCTION_HOUSE_SHOW", function()
-	app.Tab = app.Tab or {}
-	app.Tab[AuctionHouseFrame] = app.Tab[AuctionHouseFrame] or app:CreateTab(AuctionHouseFrame)
+	app:CreateTab(AuctionHouseFrame)
 end)
 
 app.Event:Register("CRAFTINGORDERS_SHOW_CUSTOMER", function()
-	app.Tab = app.Tab or {}
-	app.Tab[ProfessionsCustomerOrdersFrame] = app.Tab[ProfessionsCustomerOrdersFrame] or app:CreateTab(ProfessionsCustomerOrdersFrame)
+	app:CreateTab(ProfessionsCustomerOrdersFrame)
 end)
 
 ------------------------
@@ -2234,7 +2227,7 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 
 			-- Close window if no recipes are left and the option is enabled
 			local next = next
-			if next(ProfessionShoppingList_Data.Recipes) == nil and ProfessionShoppingList_Settings["closeWhenDone"] and not (app.Tab and app.Tab.WindowIsShown) then
+			if next(ProfessionShoppingList_Data.Recipes) == nil and ProfessionShoppingList_Settings["closeWhenDone"] and not (app.Tab and app.Tab.IsShown) then
 				app.Window:Hide()
 			end
 		end
