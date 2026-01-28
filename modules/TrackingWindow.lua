@@ -1634,7 +1634,6 @@ function app:CreateTab(frame)
 		app.CloseButton:Disable()
 		app.UnlockButton:Disable()
 		app:LockWindow()
-		print("show")
 	end
 
 	local function hideWindow()
@@ -1647,7 +1646,6 @@ function app:CreateTab(frame)
 		app.CloseButton:Enable()
 		app.UnlockButton:Enable()
 		if not ProfessionShoppingList_Settings["windowLocked"] then app:UnlockWindow() end
-		print("hide")
 	end
 
 	local function toggleWindow()
@@ -1661,9 +1659,7 @@ function app:CreateTab(frame)
 	end
 
 	local function onWindowShow()
-		print("onshow")
 		if ProfessionShoppingList_Settings["tabOpened"] and not app.Tab.IsShown[0] then
-			print("onshow yes")
 			showWindow()
 		end
 	end
