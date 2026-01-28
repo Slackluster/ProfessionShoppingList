@@ -1682,13 +1682,15 @@ end
 app.Event:Register("TRADE_SKILL_SHOW", function()
 	if C_AddOns.IsAddOnLoaded("Numdelicious_QoL_Tweaks") and NumyQT_DB["ProfessionButtonTab"] then return end
 
-	if ProfessionsFrame then app:CreateTab(ProfessionsFrame) end
-	hooksecurefunc(ProfessionsFrame.CraftingPage.CraftingOutputLog, "FinalizeResultData", function(self)
-		if app.Tab and app.Tab.IsShown[0] then
-			ProfessionsFrame.CraftingPage.CraftingOutputLog:Cleanup()
-			ProfessionsFrame.OrdersPage.OrderView.CraftingOutputLog:Cleanup()
-		end
-	end)
+	if ProfessionsFrame then
+		app:CreateTab(ProfessionsFrame)
+		hooksecurefunc(ProfessionsFrame.CraftingPage.CraftingOutputLog, "FinalizeResultData", function(self)
+			if app.Tab and app.Tab.IsShown[0] then
+				ProfessionsFrame.CraftingPage.CraftingOutputLog:Cleanup()
+				ProfessionsFrame.OrdersPage.OrderView.CraftingOutputLog:Cleanup()
+			end
+		end)
+	end
 end)
 
 app.Event:Register("AUCTION_HOUSE_SHOW", function()
