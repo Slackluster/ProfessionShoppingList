@@ -261,7 +261,7 @@ function app:CreateSettings()
 		end
 	end
 
-	local expandInitializer, isExpanded = createExpandableSection(layout, "|A:UI-Journeys-GreatVault-Tag-new:33:49|a" .. L.SETTINGS_KEYSLASH_TITLE)
+	local expandInitializer, isExpanded = createExpandableSection(layout, app.IconNew .. L.SETTINGS_KEYSLASH_TITLE)
 
 		local action = "PSL_TOGGLEWINDOW"
 		local bindingIndex = C_KeyBindings.GetBindingIndex(action)

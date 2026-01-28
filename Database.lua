@@ -21,6 +21,7 @@ app.IconNotReady = "|TInterface\\RaidFrame\\ReadyCheck-NotReady:0|t"
 app.IconArrow = "|TInterface\\AddOns\\ProfessionShoppingList\\assets\\UI-RaidFrame-Arrow-Cropped:0|t"
 app.IconLMB = "|TInterface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:228:283|t"
 app.IconRMB = "|TInterface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:330:385|t"
+app.IconNew = "|TInterface\\AddOns\\ProfessionShoppingList\\assets\\new.png:20:28|t"
 app.IconProfession = {
 	[0] = "|TInterface\\MoneyFrame\\UI-GoldIcon:0|t",	-- Vendor
 	[1] = "|TInterface\\AddOns\\ProfessionShoppingList\\assets\\hammer-32:0|t",	-- Crafting order
