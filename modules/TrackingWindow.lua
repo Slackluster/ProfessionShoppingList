@@ -1680,7 +1680,7 @@ function app:CreateTab(frame)
 end
 
 app.Event:Register("TRADE_SKILL_SHOW", function()
-	if C_AddOns.IsAddOnLoaded("Numdelicious_QoL_Tweaks") and NumyQT_DB["ProfessionButtonTab"] then return end
+	if C_AddOns.IsAddOnLoaded("Numdelicious_QoL_Tweaks") and NumyQT_DB.modules["ProfessionButtonTab"] then return end
 
 	if ProfessionsFrame then
 		app:CreateTab(ProfessionsFrame)
