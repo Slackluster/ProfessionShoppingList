@@ -1345,7 +1345,7 @@ function app:UpdateRecipes()
 		-- Set the header title accordingly
 		if trackRecipes and trackItems then
 			app.RecipeHeader:SetText(L.WINDOW_HEADER_RECIPES .. " & " .. L.WINDOW_HEADER_ITEMS .. " (" .. #app.Rows.Recipe .. ")")
-			app.ReagentHeader:SetText(L.WINDOW_HEADER_REAGENTS .. "&" .. L.WINDOW_HEADER_COSTS)
+			app.ReagentHeader:SetText(L.WINDOW_HEADER_REAGENTS .. " & " .. L.WINDOW_HEADER_COSTS)
 		elseif trackRecipes == false and trackItems then
 			app.RecipeHeader:SetText(L.WINDOW_HEADER_ITEMS .. " (" .. #app.Rows.Recipe .. ")")
 			app.ReagentHeader:SetText(L.WINDOW_HEADER_COSTS)
