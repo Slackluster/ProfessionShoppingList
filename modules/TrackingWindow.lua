@@ -89,6 +89,9 @@ function app:CreateWindow()
 	app.Window:SetScript("OnDragStop", function()
 		app:SaveWindow()
 	end)
+	app.Window:SetScript("OnHide", function()
+		app.Window:StopMovingOrSizing()
+	end)
 	app.Window:Hide()
 
 	-- Resize corner
@@ -284,10 +287,10 @@ function app:MoveWindow()
 		app.UnlockButton:LockHighlight()
 	else
 		-- Start moving the window, and hide any visible tooltips
-		app.Window:StartMoving()
 		GameTooltip:ClearLines()
 		GameTooltip:Hide()
 		ShoppingTooltip1:Hide()
+		app.Window:StartMoving()
 	end
 end
 
