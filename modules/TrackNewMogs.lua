@@ -13,6 +13,7 @@ local L = app.locales
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
+		app.Tooltip = {}
 		app.Flag.ChangingRecipes = false
 	end
 end)
