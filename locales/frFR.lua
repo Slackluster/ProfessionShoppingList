@@ -148,6 +148,10 @@ L.HIDDEN_PROFESSION_MASTER =			"Maître de métier caché"
 L.CATCHUP_KNOWLEDGE =					"Connaissances de rattrapage disponibles :"
 -- L.LOADING =								SEARCH_LOADING_TEXT
 
+-- Order adjustments
+-- L.ORDERS_SCAN_NEEDED =					"Scan needed"
+-- L.ORDERS_DO_SCAN =						"Do a full scan with Auctionator for profit calculations."
+
 -- Chat feedback
 L.INVALID_PARAMETERS =					"Paramètres non valides"
 L.INVALID_RECIPEQUANTITY =				L.INVALID_PARAMETERS .. " Veuillez saisir une quantité de recette valide"

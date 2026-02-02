@@ -383,6 +383,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						app:GetReagents(reagents, key, 1, false)
 
 						-- Grab the costs for crafting this order
+						local needScan = false
 						for reagentID, quantity in pairs(reagents) do
 							if quantity > 0 then
 								local prices = {}
@@ -397,6 +398,13 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 									table.insert(prices, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, ProfessionShoppingList_Cache.ReagentTiers[reagentID].three))
 								end
 
+								local _, itemLink, _, _, _, _, _, _, _, fileID, _, _, _, bindType = C_Item.GetItemInfo(reagentID)
+								if not itemLink then
+									app:CacheItem(reagentID)
+									C_Timer.After(0.1, doTheThing)
+									return
+								end
+
 								local min = 100000000
 								for _, value in ipairs(prices) do
 									if value < min then
@@ -404,12 +412,9 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 									end
 								end
 
-								local _, itemLink, _, _, _, _, _, _, _, fileID = C_Item.GetItemInfo(reagentID)
-								if not itemLink then
-									app:CacheItem(reagentID)
-									C_Timer.After(1, doTheThing)
-									return
-								end
+								if bindType ~= 0 then min = 0 end
+								if min == 100000000 then needScan = true end
+
 								itemLink = itemLink:gsub("%s*|A:.-|a%s*", "")
 								table.insert(calculations, {type = "cost", icon = fileID, link = itemLink, quantity = quantity, amount = min * quantity})
 							end
@@ -450,7 +455,9 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						app.OrderAdjustments[v].rewardText:SetPoint("TOPLEFT", v.cells[3])
 						app.OrderAdjustments[v].rewardText:SetPoint("BOTTOMRIGHT", v.cells[3], 10, 0)
 
-						if roundedCommissionResult < 0 then
+						if needScan then
+							app.OrderAdjustments[v].rewardText:SetText(app:Colour(L.ORDERS_SCAN_NEEDED))
+						elseif roundedCommissionResult < 0 then
 							app.OrderAdjustments[v].rewardText:SetText("|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(-roundedCommissionResult))
 						elseif allProvided then
 							app.OrderAdjustments[v].rewardText:SetText("|cff008000" .. C_CurrencyInfo.GetCoinTextureString(roundedCommissionResult))
@@ -461,28 +468,32 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							GameTooltip:SetOwner(app.OrderAdjustments[v].rewardText, "ANCHOR_BOTTOMRIGHT")
 							GameTooltip:ClearLines()
 
-							-- Header
-							if commissionResult >= 0 then
-								GameTooltip:AddDoubleLine(app.IconPSL .. " " .. TOTAL, C_CurrencyInfo.GetCoinTextureString(commissionResult))
+							if needScan then
+								GameTooltip:AddLine(L.ORDERS_DO_SCAN)
 							else
-								GameTooltip:AddDoubleLine(app.IconPSL .. " " .. TOTAL, "|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(-commissionResult))
-							end
-							GameTooltip:AddLine(" ")
-
-							-- Costs
-							for _, entry in ipairs(calculations) do
-								if entry.type == "cost" then
-									GameTooltip:AddDoubleLine("|T"..entry.icon..":0|t " .. entry.link .. " ×" .. entry.quantity , "|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(entry.amount))
+								-- Header
+								if commissionResult >= 0 then
+									GameTooltip:AddDoubleLine(app.IconPSL .. " " .. TOTAL, C_CurrencyInfo.GetCoinTextureString(commissionResult))
+								else
+									GameTooltip:AddDoubleLine(app.IconPSL .. " " .. TOTAL, "|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(-commissionResult))
 								end
-							end
-							GameTooltip:AddLine(" ")
+								GameTooltip:AddLine(" ")
 
-							-- Rewards
-							for _, entry in ipairs(calculations) do
-								if entry.type == "reward" and entry.amount then
-									GameTooltip:AddDoubleLine("|T"..entry.icon..":0|t " .. entry.link, C_CurrencyInfo.GetCoinTextureString(entry.amount))
-								elseif entry.type == "reward" then
-									GameTooltip:AddDoubleLine("|T"..entry.icon..":0|t " .. entry.link, "-")
+								-- Costs
+								for _, entry in ipairs(calculations) do
+									if entry.type == "cost" then
+										GameTooltip:AddDoubleLine("|T"..entry.icon..":0|t " .. entry.link .. " ×" .. entry.quantity , "|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(entry.amount))
+									end
+								end
+								GameTooltip:AddLine(" ")
+
+								-- Rewards
+								for _, entry in ipairs(calculations) do
+									if entry.type == "reward" and entry.amount then
+										GameTooltip:AddDoubleLine("|T"..entry.icon..":0|t " .. entry.link, C_CurrencyInfo.GetCoinTextureString(entry.amount))
+									elseif entry.type == "reward" then
+										GameTooltip:AddDoubleLine("|T"..entry.icon..":0|t " .. entry.link, "-")
+									end
 								end
 							end
 

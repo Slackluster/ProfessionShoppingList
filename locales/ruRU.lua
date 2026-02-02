@@ -148,6 +148,10 @@ L.HIDDEN_PROFESSION_MASTER =			"Скрыть мастера профессии"
 L.CATCHUP_KNOWLEDGE =					"Доступные дополнительные знания:"
 L.LOADING =								SEARCH_LOADING_TEXT
 
+-- Order adjustments
+-- L.ORDERS_SCAN_NEEDED =					"Scan needed"
+-- L.ORDERS_DO_SCAN =						"Do a full scan with Auctionator for profit calculations."
+
 -- Chat feedback
 L.INVALID_PARAMETERS =					"Неверные параметры."
 L.INVALID_RECIPEQUANTITY =				L.INVALID_PARAMETERS .. " Пожалуйста, введите допустимое количество по рецепту."
