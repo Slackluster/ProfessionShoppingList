@@ -186,9 +186,6 @@ L.SETTINGS_SUPPORT_DESC =				"Спасибо!"
 L.SETTINGS_HELP_TEXT =					"Обратная связь и помощь"
 L.SETTINGS_HELP_BUTTON =				"Discord" -- Brand name, if there isn't a localised version, keep it the way it is
 L.SETTINGS_HELP_DESC =					"Присоединиться к серверу Discord."
-L.SETTINGS_ISSUES_TEXT =				"Отслеживание ошибок"
-L.SETTINGS_ISSUES_BUTTON =				"GitHub" -- Brand name, if there isn't a localised version, keep it the way it is
-L.SETTINGS_ISSUES_DESC =				"Просмотреть трекер ошибок на GitHub."
 L.SETTINGS_URL_COPY =					"Ctrl+C — скопировать:"
 L.SETTINGS_URL_COPIED =					"Ссылка скопирована в буфер обмена"
 

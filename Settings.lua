@@ -214,11 +214,6 @@ function app:CreateSettings()
 	end
 	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_HELP_TEXT, L.SETTINGS_HELP_BUTTON, onHelpButtonClick, L.SETTINGS_HELP_DESC, true))
 
-	local function onIssuesButtonClick()
-		StaticPopup_Show("PROFESSIONSHOPPINGLIST_URL", nil, nil, "https://github.com/slackluster/ProfessionShoppingList/issues")
-	end
-	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_ISSUES_TEXT, L.SETTINGS_ISSUES_BUTTON, onIssuesButtonClick, L.SETTINGS_ISSUES_DESC, true))
-
 	ProfessionShoppingList_SettingsExpandMixin = CreateFromMixins(SettingsExpandableSectionMixin)
 
 	function ProfessionShoppingList_SettingsExpandMixin:Init(initializer)

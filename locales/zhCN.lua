@@ -186,9 +186,6 @@ L.SETTINGS_TOOLTIP =					app.NameLong .. "\n|cffFFFFFF" .. app.IconLMB .. ": 切
 -- L.SETTINGS_HELP_TEXT =					"Feedback & Help"
 -- L.SETTINGS_HELP_BUTTON =				"Discord"	-- Brand name, if there isn't a localised version, keep it the way it is
 -- L.SETTINGS_HELP_DESC =					"Join the Discord server."
--- L.SETTINGS_ISSUES_TEXT =				"Issue Tracker"
--- L.SETTINGS_ISSUES_BUTTON =				"GitHub"	-- Brand name, if there isn't a localised version, keep it the way it is
--- L.SETTINGS_ISSUES_DESC =				"View the issue tracker on GitHub."
 -- L.SETTINGS_URL_COPY =					"Ctrl+C to copy:"
 -- L.SETTINGS_URL_COPIED =					"Link copied to clipboard"
 
