@@ -256,7 +256,7 @@ function app:CreateSettings()
 		end
 	end
 
-	local expandInitializer, isExpanded = createExpandableSection(layout, app.IconNew .. L.SETTINGS_KEYSLASH_TITLE)
+	local expandInitializer, isExpanded = createExpandableSection(layout, L.SETTINGS_KEYSLASH_TITLE .. app.IconNew)
 
 		local action = "PSL_TOGGLEWINDOW"
 		local bindingIndex = C_KeyBindings.GetBindingIndex(action)
