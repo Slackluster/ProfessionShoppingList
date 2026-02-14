@@ -149,8 +149,8 @@ L.CATCHUP_KNOWLEDGE =					"Доступные дополнительные зн�
 L.LOADING =								SEARCH_LOADING_TEXT
 
 -- Order adjustments
--- L.ORDERS_SCAN_NEEDED =					"Scan needed"
--- L.ORDERS_DO_SCAN =						"Do a full scan with Auctionator for profit calculations."
+L.ORDERS_SCAN_NEEDED =					"Требуется сканирование"
+L.ORDERS_DO_SCAN =						"Выполните полное сканирование с помощью Auctionator для расчета прибыли."
 
 -- Chat feedback
 L.INVALID_PARAMETERS =					"Неверные параметры."
