@@ -1790,7 +1790,7 @@ end)
 -- Register a recipe's information
 function app:RegisterRecipe(recipeID)
 	local item = C_TradeSkillUI.GetRecipeOutputItemData(recipeID).itemID or 0
-	local _, _, tradeskill = C_TradeSkillUI.GetTradeSkillLineForRecipe(recipeID)
+	local fallbackTradeskill, _, tradeskill = C_TradeSkillUI.GetTradeSkillLineForRecipe(recipeID)
 	local ability = C_TradeSkillUI.GetRecipeInfo(recipeID).skillLineAbilityID
 
 	-- Register if the recipe is known
@@ -1804,7 +1804,7 @@ function app:RegisterRecipe(recipeID)
 	-- (Over)write the info
 	ProfessionShoppingList_Library[recipeID].itemID = item
 	ProfessionShoppingList_Library[recipeID].abilityID = ability
-	ProfessionShoppingList_Library[recipeID].tradeskillID = tradeskill
+	ProfessionShoppingList_Library[recipeID].tradeskillID = tradeskill or fallbackTradeskill
 
 	-- But only update the recipe learned info if it's our own profession window, and it's true (to avoid the recipe marking as unlearned from viewing the same profession on alts)
 	if not C_TradeSkillUI.IsTradeSkillLinked() and not C_TradeSkillUI.IsTradeSkillGuild() and recipeLearned then
