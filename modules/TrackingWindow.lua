@@ -351,7 +351,7 @@ function app:UpdateNumbers()
 	for reagentID, amount in pairs(app.ReagentQuantities) do
 		local itemLink, fileID, icon
 
-		if not ProfessionShoppingList_Cache.Reagents[reagentID] then
+		if not ProfessionShoppingList_Cache.Reagents[reagentID] and type(reagentID) == "number" then
 			-- Cache item
 			app:CacheItem(reagentID)
 
@@ -884,7 +884,7 @@ function app:UpdateRecipes()
 
 		local reagentsSorted = {}
 		for k, v in pairs(app.ReagentQuantities) do
-			if not ProfessionShoppingList_Cache.Reagents[k] then
+			if not ProfessionShoppingList_Cache.Reagents[k] and type(k) == "number" then
 				-- Cache item
 				app:CacheItem(k)
 
@@ -1921,7 +1921,7 @@ function app:GetReagents(reagentVariable, recipeID, recipeQuantity, recraft)
 			end
 
 			-- Add the reagentID to the reagent cache
-			if not ProfessionShoppingList_Cache.Reagents[reagentID] then
+			if not ProfessionShoppingList_Cache.Reagents[reagentID] and reagentID ~= 0 then
 				-- Cache item
 				app:CacheItem(reagentID)
 
@@ -1937,12 +1937,23 @@ function app:GetReagents(reagentVariable, recipeID, recipeQuantity, recraft)
 
 					return
 				end
+			elseif reagentID == 0 then
+				local currencyID = reagentInfo.reagents[1].currencyID or 0
+				if currencyID ~= 0 and not ProfessionShoppingList_Cache.Reagents["currency:" .. currencyID] then
+					ProfessionShoppingList_Cache.Reagents["currency:" .. currencyID] = {}
+					ProfessionShoppingList_Cache.Reagents["currency:" .. currencyID].link = C_CurrencyInfo.GetCurrencyInfo(currencyID).name
+					ProfessionShoppingList_Cache.Reagents["currency:" .. currencyID].icon = C_CurrencyInfo.GetCurrencyInfo(currencyID).iconFileID
+				end
 			end
 
 			-- Add the info to the specified variable, if it's not 0 and not a simulated recipe
 			if (ProfessionShoppingList_Data.Recipes[craftingRecipeID] and not ProfessionShoppingList_Data.Recipes[craftingRecipeID].simRecipe and reagentAmount > 0) or not ProfessionShoppingList_Data.Recipes[craftingRecipeID] then
-				if reagentVariable[reagentID] == nil then reagentVariable[reagentID] = 0 end
-				reagentVariable[reagentID] = reagentVariable[reagentID] + ( reagentAmount * recipeQuantity )
+				if reagentID == 0 then	-- Currency
+					local currencyID = reagentInfo.reagents[1].currencyID
+					reagentVariable["currency:" .. currencyID] = (reagentVariable["currency:" .. currencyID] or 0) + ( reagentAmount * recipeQuantity )
+				else
+					reagentVariable[reagentID] = (reagentVariable[reagentID] or 0) + ( reagentAmount * recipeQuantity )
+				end
 			end
 		end
 	end
