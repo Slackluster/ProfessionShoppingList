@@ -422,15 +422,21 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 
 						-- Grab the rewards for crafting this order
 						table.insert(calculations, {type = "reward", icon = 133785, link = PROFESSIONS_COLUMN_HEADER_TIP, quantity = 0, amount = math.floor((data.option.tipAmount - data.option.consortiumCut) / 100 + 0.5) * 100})
-						for k, reward in pairs(data.option.npcOrderRewards) do
-							local _, itemLink, _, _, _, _, _, _, _, fileID = C_Item.GetItemInfo(reward.itemLink)
-							if not itemLink then
-								local itemID = C_Item.GetItemInfoInstant(reward.itemLink)
-								app:CacheItem(itemID)
-								C_Timer.After(1, doTheThing)
-								return
+						for _, reward in pairs(data.option.npcOrderRewards) do
+							if reward.itemLink then
+								local _, itemLink, _, _, _, _, _, _, _, fileID = C_Item.GetItemInfo(reward.itemLink)
+								if not itemLink then
+									local itemID = C_Item.GetItemInfoInstant(reward.itemLink)
+									app:CacheItem(itemID)
+									C_Timer.After(1, doTheThing)
+									return
+								end
+								table.insert(calculations, {type = "reward", icon = fileID, link = itemLink, quantity = 0, amount = Auctionator.API.v1.GetAuctionPriceByItemLink(app.Name, itemLink)})
+							elseif reward.currencyType then
+								local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(reward.currencyType)
+								local currencyLink = C_CurrencyInfo.GetCurrencyLink(reward.currencyType, reward.count)
+								table.insert(calculations, {type = "reward", icon = currencyInfo.iconFileID, link = currencyLink, quantity = 0, amount = 0})
 							end
-							table.insert(calculations, {type = "reward", icon = fileID, link = itemLink, quantity = 0, amount = Auctionator.API.v1.GetAuctionPriceByItemLink(app.Name, itemLink)})
 						end
 
 						-- Do maths
@@ -511,14 +517,20 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 					local rewards = {}
 					table.insert(rewards, {icon = 133785, link = CRAFTING_ORDER_FINAL_TIP .. " " .. C_CurrencyInfo.GetCoinTextureString(math.floor((data.option.tipAmount - data.option.consortiumCut) / 100 + 0.5) * 100)})
 					for _, reward in pairs(data.option.npcOrderRewards) do
-						local _, itemLink, _, _, _, _, _, _, _, fileID = C_Item.GetItemInfo(reward.itemLink)
-						if not itemLink then
-							local itemID = C_Item.GetItemInfoInstant(reward.itemLink)
-							app:CacheItem(itemID)
-							C_Timer.After(1, doTheThing)
-							return
+						if reward.itemLink then
+							local _, itemLink, _, _, _, _, _, _, _, fileID = C_Item.GetItemInfo(reward.itemLink)
+							if not itemLink then
+								local itemID = C_Item.GetItemInfoInstant(reward.itemLink)
+								app:CacheItem(itemID)
+								C_Timer.After(1, doTheThing)
+								return
+							end
+							table.insert(rewards, {icon = fileID, link = itemLink, count = reward.count})
+						elseif reward.currencyType then
+							local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(reward.currencyType)
+							local currencyLink = C_CurrencyInfo.GetCurrencyLink(reward.currencyType, reward.count)
+							table.insert(rewards, {icon = currencyInfo.iconFileID, link = currencyLink, count = reward.count})
 						end
-						table.insert(rewards, {icon = fileID, link = itemLink, count = reward.count})
 					end
 
 					if not app.OrderAdjustments[v].button then app.OrderAdjustments[v].button = {} end
