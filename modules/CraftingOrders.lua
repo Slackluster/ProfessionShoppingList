@@ -435,7 +435,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							elseif reward.currencyType then
 								local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(reward.currencyType)
 								local currencyLink = C_CurrencyInfo.GetCurrencyLink(reward.currencyType, reward.count)
-								table.insert(calculations, {type = "reward", icon = currencyInfo.iconFileID, link = currencyLink, quantity = 0, amount = 0})
+								table.insert(calculations, {type = "reward", icon = currencyInfo.iconFileID, link = currencyLink, quantity = 0})
 							end
 						end
 
