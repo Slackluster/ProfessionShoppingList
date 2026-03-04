@@ -405,7 +405,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 									return
 								end
 
-								local min = 100000000
+								local min = 10000000000
 								for _, value in ipairs(prices) do
 									if value < min then
 										min = value
@@ -413,7 +413,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 								end
 
 								if bindType ~= 0 then min = 0 end
-								if min == 100000000 then needScan = true end
+								if min == 10000000000 then needScan = true end
 
 								itemLink = itemLink:gsub("%s*|A:.-|a%s*", "")
 								table.insert(calculations, {type = "cost", icon = fileID, link = itemLink, quantity = quantity, amount = min * quantity})
