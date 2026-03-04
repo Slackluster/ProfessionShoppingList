@@ -31,6 +31,13 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		if ProfessionShoppingList_Settings["underminePrices"] ~= nil then ProfessionShoppingList_Settings["underminePrices"] = nil end
 		if ProfessionShoppingList_Settings["showTokenPrice"] ~= nil then ProfessionShoppingList_Settings["showTokenPrice"] = nil end
 		if ProfessionShoppingList_Settings["tokyoDrift"] ~= nil then ProfessionShoppingList_Settings["tokyoDrift"] = nil end
+
+		if not ProfessionShoppingList_Settings["midClean1"] then
+			if ProfessionShoppingList_Settings["reagentQuality"] == 3 then ProfessionShoppingList_Settings["reagentQuality"] = 2 end
+			if ProfessionShoppingList_Settings["includeHigher"] == 2 then ProfessionShoppingList_Settings["includeHigher"] = 1 end
+			if ProfessionShoppingList_Settings["includeHigher"] == 3 then ProfessionShoppingList_Settings["includeHigher"] = 2 end
+			ProfessionShoppingList_Settings["midClean1"] = true
+		end
 	end
 end)
 
@@ -330,9 +337,8 @@ function app:CreateSettings()
 	local variable, name, tooltip = "reagentQuality", L.SETTINGS_REAGENTQUALITY_TITLE, L.SETTINGS_REAGENTQUALITY_TOOLTIP
 	local function GetOptions()
 		local container = Settings.CreateControlTextContainer()
-		container:Add(1, "|A:Professions-ChatIcon-Quality-Tier1:17:15::1|a" .. L.SETTINGS_REAGENTTIER .. " 1")
-		container:Add(2, "|A:Professions-ChatIcon-Quality-Tier2:17:15::1|a" .. L.SETTINGS_REAGENTTIER .. " 2")
-		container:Add(3, "|A:Professions-ChatIcon-Quality-Tier3:17:15::1|a" .. L.SETTINGS_REAGENTTIER .. " 3")
+		container:Add(1, "|A:Professions-ChatIcon-Quality-12-Tier1:24:24::1|a" .. L.SETTINGS_REAGENTTIER .. " 1")
+		container:Add(2, "|A:Professions-ChatIcon-Quality-12-Tier2:24:24::1|a" .. L.SETTINGS_REAGENTTIER .. " 2")
 		return container:GetData()
 	end
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Number, name, 1)
@@ -344,9 +350,8 @@ function app:CreateSettings()
 	local variable, name, tooltip = "includeHigher", L.SETTINGS_INCLUDEHIGHER_TITLE, L.SETTINGS_INCLUDEHIGHER_TOOLTIP
 	local function GetOptions()
 		local container = Settings.CreateControlTextContainer()
-		container:Add(1, L.SETTINGS_INCLUDE .. " |A:Professions-ChatIcon-Quality-Tier3:17:15::1|a " .. L.SETTINGS_REAGENTTIER .. " 3 & " .. "|A:Professions-ChatIcon-Quality-Tier2:17:15::1|a " .. L.SETTINGS_REAGENTTIER .. " 2")
-		container:Add(2, L.SETTINGS_ONLY_INCLUDE .. " |A:Professions-ChatIcon-Quality-Tier2:17:15::1|a " .. L.SETTINGS_REAGENTTIER .. " 2")
-		container:Add(3, L.SETTINGS_DONT_INCLUDE)
+		container:Add(1, L.SETTINGS_INCLUDE)
+		container:Add(2, L.SETTINGS_DONT_INCLUDE)
 		return container:GetData()
 	end
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Number, name, 1)

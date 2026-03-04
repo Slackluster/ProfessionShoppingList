@@ -91,7 +91,7 @@ function app:CreateShoppingList()
 						elseif ProfessionShoppingList_Cache.ReagentTiers[reagentID].two == reagentID then
 							reagentQuality = 2
 						end
-					elseif ProfessionShoppingList_Cache.ReagentTiers[reagentID].three ~= 0 and ProfessionShoppingList_Settings["reagentQuality"] == 3 then
+					elseif ProfessionShoppingList_Cache.ReagentTiers[reagentID].three ~= 0 and ProfessionShoppingList_Settings["reagentQuality"] == 2 then
 						reagentQuality = 3
 					elseif ProfessionShoppingList_Cache.ReagentTiers[reagentID].two ~= 0 and ProfessionShoppingList_Settings["reagentQuality"] == 2 then
 						reagentQuality = 2

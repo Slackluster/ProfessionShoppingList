@@ -1907,9 +1907,7 @@ function app:GetReagents(reagentVariable, recipeID, recipeQuantity, recraft)
 			if ProfessionShoppingList_Cache.ReagentTiers[0] then ProfessionShoppingList_Cache.ReagentTiers[0] = nil end
 
 			-- Check which quality reagent to use
-			if ProfessionShoppingList_Settings["reagentQuality"] == 3 and reagentID3 ~= 0 then
-				reagentID = reagentID3
-			elseif ProfessionShoppingList_Settings["reagentQuality"] == 2 and reagentID2 ~= 0 then
+			if ProfessionShoppingList_Settings["reagentQuality"] == 2 and reagentID2 ~= 0 then
 				reagentID = reagentID2
 			else
 				reagentID = reagentID1
@@ -2000,7 +1998,7 @@ function app:GetReagentCount(reagentID)
 		local reagentCount
 		if ProfessionShoppingList_Settings["includeHigher"] == 1 then
 			reagentCount = math.max(0, C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].three, true, false, true, true) - (app.ReagentQuantities[ProfessionShoppingList_Cache.ReagentTiers[reagentID].three] or 0)) + C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].two, true, false, true, true)
-		elseif ProfessionShoppingList_Settings["includeHigher"] >= 2 then
+		elseif ProfessionShoppingList_Settings["includeHigher"] == 2 then
 			reagentCount = C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].two, true, false, true, true)
 		end
 		return reagentCount
@@ -2011,8 +2009,6 @@ function app:GetReagentCount(reagentID)
 		if ProfessionShoppingList_Settings["includeHigher"] == 1 then
 			reagentCount = math.max(0, (math.max(0, C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].three, true, false, true, true) - (app.ReagentQuantities[ProfessionShoppingList_Cache.ReagentTiers[reagentID].three] or 0)) + C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].two, true, false, true, true)) - (app.ReagentQuantities[ProfessionShoppingList_Cache.ReagentTiers[reagentID].two] or 0)) + C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].one, true, false, true, true)
 		elseif ProfessionShoppingList_Settings["includeHigher"] == 2 then
-			reagentCount = math.max(0, C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].two, true, false, true, true) - (app.ReagentQuantities[ProfessionShoppingList_Cache.ReagentTiers[reagentID].two] or 0)) + C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].one, true, false, true, true)
-		elseif ProfessionShoppingList_Settings["includeHigher"] == 3 then
 			reagentCount = C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].one, true, false, true, true)
 		end
 		return reagentCount
@@ -2032,8 +2028,6 @@ function app:GetReagentCount(reagentID)
 			reagentCount = C_Item.GetItemCount(reagentID, true, false, true, true)
 		end
 	-- Use our addon setting if there is no quality specified
-	elseif ProfessionShoppingList_Cache.ReagentTiers[reagentID].three ~= 0 and ProfessionShoppingList_Settings["reagentQuality"] == 3 then
-		reagentCount = tierThree()
 	elseif ProfessionShoppingList_Cache.ReagentTiers[reagentID].two ~= 0 and ProfessionShoppingList_Settings["reagentQuality"] == 2 then
 		reagentCount = tierTwo()
 	elseif ProfessionShoppingList_Cache.ReagentTiers[reagentID].one ~= 0 and ProfessionShoppingList_Settings["reagentQuality"] == 1 then
