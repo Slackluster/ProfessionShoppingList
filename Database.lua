@@ -819,7 +819,7 @@ app.ProfessionKnowledge = {
 		{ quest = 89115, type = "world", item = 238536, zone = 2393 },	-- Freshly Plucked Peacebloom
 		{ quest = 89116, type = "world", item = 238537, zone = 2536 },	-- Measured Ladle
 		{ quest = 89117, type = "world", item = 238538, zone = 2393 },	-- Pristine Potion
-		-- { quest = , type = "world", item = 238532, zone =  },	-- Vial of Eversong Oddities
+		-- { quest = 83845, type = "world", item = 238532, zone =  },	-- Vial of Eversong Oddities
 		{ quest = 89113, type = "world", item = 238534, zone = 2413 },	-- Vial of Rootlands Oddities
 		{ quest = 89112, type = "world", item = 238533, zone = 2444 },	-- Vial of Voidstorm Oddities
 		{ quest = 89114, type = "world", item = 238535, zone = 2437 },	-- Vial of Zul'Aman Oddities
@@ -840,13 +840,13 @@ app.ProfessionKnowledge = {
 
 		-- Treasures
 		{ quest = 89100, type = "world", item = 238548, zone = 2536 },	-- Enchanted Amani Mask
-		-- { quest = , type = "world", item = 238549, zone =  },	-- Enchanted Sunfire Silk
+		-- { quest = 83865, type = "world", item = 238549, zone =  },	-- Enchanted Sunfire Silk
 		{ quest = 89104, type = "world", item = 238552, zone = 2413 },	-- Entropic Shard
 		{ quest = 89103, type = "world", item = 238551, zone = 2395 },	-- Everblazing Sunmote
 		{ quest = 89106, type = "world", item = 238554, zone = 2437 },	-- Loa-Blessed Dust
 		{ quest = 89105, type = "world", item = 238553, zone = 2413 },	-- Primal Essence Orb
 		{ quest = 89102, type = "world", item = 238550, zone = 2405 },	-- Pure Void Crystal
-		{ quest = 83865, type = "world", item = 238555, zone = 2395 },	-- Sin'dorei Enchanting Rod
+		{ quest = 89107, type = "world", item = 238555, zone = 2395 },	-- Sin'dorei Enchanting Rod
 	},
 	[2910] = {	-- Midnight Engineering
 
@@ -931,6 +931,6 @@ app.ProfessionKnowledge = {
 		{ quest = 89084, type = "world", item = 238618, zone = 2393 },	-- Particularly Enchanting Tablecloth
 		{ quest = 89083, type = "world", item = 238617, zone = 2444 },	-- Satin Throw Pillow
 		{ quest = 89080, type = "world", item = 238614, zone = 2395 },	-- Sin'dorei Outfitter's Ruler
-		{ quest = 62655, type = "world", item = 238615, zone = 2413 },	-- Wooden Weaving Sword
+		{ quest = 89081, type = "world", item = 238615, zone = 2413 },	-- Wooden Weaving Sword
 	},
 }
