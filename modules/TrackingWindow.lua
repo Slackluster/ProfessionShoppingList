@@ -1717,11 +1717,15 @@ function app:CreateTab(frame, tabFrame)
 	app.Tab[frame]:SetCustomOnMouseUpHandler(toggleWindow)
 
 	frame:HookScript("OnShow", function()
-		hideWindow()
+		if app.Tab.IsShown[frame] then
+			hideWindow()
+		end
 	end)
 
 	frame:HookScript("OnHide", function()
-		hideWindow()
+		if app.Tab.IsShown[frame] then
+			hideWindow()
+		end
 	end)
 end
 
