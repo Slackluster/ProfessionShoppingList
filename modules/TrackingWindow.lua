@@ -24,7 +24,6 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		if not ProfessionShoppingList_CharacterData.Recipes then ProfessionShoppingList_CharacterData.Recipes = {} end
 		if not ProfessionShoppingList_CharacterData.Orders then ProfessionShoppingList_CharacterData.Orders = {} end
 
-		ProfessionShoppingList_Settings["tabOpened"] = ProfessionShoppingList_Settings["tabOpened"] or false
 		if ProfessionShoppingList_Settings["pcRecipes"] then
 			ProfessionShoppingList_Data.Recipes = ProfessionShoppingList_CharacterData.Recipes
 		end
@@ -55,6 +54,9 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 			ProfessionShoppingList_Cache.SimulatedRecipes = ProfessionShoppingList_Cache.CraftSimRecipes
 			ProfessionShoppingList_Cache.CraftSimRecipes = nil
 		end
+
+		-- Midnight cleanup
+		ProfessionShoppingList_Settings["tabOpened"] = nil
 	end
 end)
 
@@ -1704,17 +1706,9 @@ function app:CreateTab(frame, tabFrame)
 	end
 
 	local function toggleWindow()
-		if app.Tab.IsShown[frame] and ProfessionShoppingList_Settings["tabOpened"] then
-			ProfessionShoppingList_Settings["tabOpened"] = false
+		if app.Tab.IsShown[frame] then
 			hideWindow()
-		elseif not app.Tab.IsShown[frame] and not ProfessionShoppingList_Settings["tabOpened"] then
-			ProfessionShoppingList_Settings["tabOpened"] = true
-			showWindow()
-		end
-	end
-
-	local function onWindowShow()
-		if ProfessionShoppingList_Settings["tabOpened"] and not app.Tab.IsShown[0] then
+		else
 			showWindow()
 		end
 	end
@@ -1723,14 +1717,11 @@ function app:CreateTab(frame, tabFrame)
 	app.Tab[frame]:SetCustomOnMouseUpHandler(toggleWindow)
 
 	frame:HookScript("OnShow", function()
-		onWindowShow()
+		hideWindow()
 	end)
-	onWindowShow()
 
 	frame:HookScript("OnHide", function()
-		if app.Tab.IsShown[frame] then
-			hideWindow()
-		end
+		hideWindow()
 	end)
 end
 
