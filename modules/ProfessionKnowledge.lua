@@ -198,7 +198,7 @@ function app:UpdateKnowledgeTracker()
 					local _, itemLink = C_Item.GetItemInfo(v.item)
 
 					-- Grab faction name if applicable
-					local factionName, status, zoneName
+					local factionName, status, zoneName, currencyName
 					if v.renown then
 						factionName = C_Reputation.GetFactionDataByID(v.source).name
 						if C_MajorFactions.GetRenownLevels(v.source)[v.renown].locked then
@@ -208,6 +208,8 @@ function app:UpdateKnowledgeTracker()
 						end
 					elseif v.sourceType == "zone" then
 						zoneName = C_Map.GetMapInfo(v.source).name or ""
+					elseif v.sourceType == "currency" then
+						currencyName = C_CurrencyInfo.GetCurrencyInfo(v.source).name or ""
 					end
 
 					-- Add text
@@ -217,6 +219,8 @@ function app:UpdateKnowledgeTracker()
 						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffffffff (" .. zoneName .. ")|r"
 					elseif v.sourceType == "static" then
 						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffffffff (" .. v.source .. ")|r"
+					elseif v.sourceType == "currency" then
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffffffff (" .. currencyName .. ")|r"
 					end
 				end
 

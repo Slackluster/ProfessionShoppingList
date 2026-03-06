@@ -813,18 +813,22 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3067 },
 	},
 	[2906] = {	-- Midnight Alchemy
+		-- Vendors
+		{ quest = 93794, type = "vendor", item = 262645, source = 2699, renown = 9 },	-- Beyond the Event Horizon: Alchemy
 
 		-- Treasures
 		{ quest = 89118, type = "world", item = 238539, zone = 2405 },	-- Failed Experiment
 		{ quest = 89115, type = "world", item = 238536, zone = 2393 },	-- Freshly Plucked Peacebloom
 		{ quest = 89116, type = "world", item = 238537, zone = 2536 },	-- Measured Ladle
 		{ quest = 89117, type = "world", item = 238538, zone = 2393 },	-- Pristine Potion
-		-- { quest = 83845, type = "world", item = 238532, zone =  },	-- Vial of Eversong Oddities
+		{ quest = 89111, type = "world", item = 238532, zone = 2393 },	-- Vial of Eversong Oddities
 		{ quest = 89113, type = "world", item = 238534, zone = 2413 },	-- Vial of Rootlands Oddities
 		{ quest = 89112, type = "world", item = 238533, zone = 2444 },	-- Vial of Voidstorm Oddities
 		{ quest = 89114, type = "world", item = 238535, zone = 2437 },	-- Vial of Zul'Aman Oddities
 	},
 	[2907] = {	-- Midnight Blacksmithing
+		-- Vendors
+		{ quest = 93795, type = "vendor", item = 262644, source = 2699, renown = 9 },	-- Beyond the Event Horizon: Blacksmithing
 
 		-- Treasures
 		{ quest = 89179, type = "world", item = 238542, zone = 2536 },	-- Carefully Racked Spear
@@ -837,10 +841,13 @@ app.ProfessionKnowledge = {
 		{ quest = 89181, type = "world", item = 238544, zone = 2444 },	-- Voidstorm Defense Spear
 	},
 	[2909] = {	-- Midnight Enchanting
+		-- Vendors
+		{ quest = 92374, type = "vendor", item = 257600, source = 2710, renown = 6 },	-- Skill Issue: Enchanting
+		{ quest = 92186, type = "vendor", item = 250445, source = 3377, sourceType = "currency" },	-- Echo of Abundance: Enchanting
 
 		-- Treasures
 		{ quest = 89100, type = "world", item = 238548, zone = 2536 },	-- Enchanted Amani Mask
-		-- { quest = 83865, type = "world", item = 238549, zone =  },	-- Enchanted Sunfire Silk
+		{ quest = 89101, type = "world", item = 238549, zone = 2395 },	-- Enchanted Sunfire Silk
 		{ quest = 89104, type = "world", item = 238552, zone = 2413 },	-- Entropic Shard
 		{ quest = 89103, type = "world", item = 238551, zone = 2395 },	-- Everblazing Sunmote
 		{ quest = 89106, type = "world", item = 238554, zone = 2437 },	-- Loa-Blessed Dust
@@ -849,6 +856,8 @@ app.ProfessionKnowledge = {
 		{ quest = 89107, type = "world", item = 238555, zone = 2395 },	-- Sin'dorei Enchanting Rod
 	},
 	[2910] = {	-- Midnight Engineering
+		-- Vendors
+		{ quest = 93796, type = "vendor", item = 262646, source = 2699, renown = 9 },	-- Beyond the Event Horizon: Engineering
 
 		-- Treasures
 		{ quest = 89137, type = "world", item = 238560, zone = 2444 },	-- Ethereal Stormwrench
@@ -861,6 +870,8 @@ app.ProfessionKnowledge = {
 		{ quest = 89139, type = "world", item = 238562, zone = 2393 },	-- What To Do When Nothing Works
 	},
 	[2912] = {	-- Midnight Herbalism
+		-- Vendors
+		{ quest = 92174, type = "vendor", item = 250443, source = 3377, sourceType = "currency" },	-- Echo of Abundance: Herbalism
 
 		-- Treasures
 		{ quest = 89162, type = "world", item = 238468, zone = 2413 },	-- Bloomed Bud
@@ -869,12 +880,12 @@ app.ProfessionKnowledge = {
 		{ quest = 89156, type = "world", item = 238474, zone = 2405 },	-- Peculiar Lotus
 		{ quest = 89155, type = "world", item = 238475, zone = 2413 },	-- Planting Shovel
 		{ quest = 89160, type = "world", item = 238470, zone = 2393 },	-- Simple Leaf Pruners
+		{ quest = 89161, type = "world", item = 238469, zone = 2437 },	-- Sweeping Harvester's Scythe
 	},
 	[2913] = {	-- Midnight Inscription
 
 		-- Treasures
-
-		-- { quest = , type = "world", item = 238577, zone =  },	-- Half-Baked Techniques
+		{ quest = 89072, type = "world", item = 238577, zone = 2395 },	-- Half-Baked Techniques
 		{ quest = 89070, type = "world", item = 238575, zone = 2413 },	-- Intrepid Explorer's Marker
 		{ quest = 89068, type = "world", item = 238573, zone = 2437 },	-- Leather-Bound Techniques
 		{ quest = 89071, type = "world", item = 238576, zone = 2413 },	-- Leftover Sanguithorn Pigment
@@ -884,6 +895,8 @@ app.ProfessionKnowledge = {
 		{ quest = 89067, type = "world", item = 238572, zone = 2444 },	-- Void-Touched Quill
 	},
 	[2914] = {	-- Midnight Jewelcrafting
+		-- Vendors
+		{ quest = 93222, type = "vendor", item = 257599, source = 2710, renown = 6 },	-- Skill Issue: Jewelcrafting
 
 		-- Treasures
 		{ quest = 89124, type = "world", item = 238582, zone = 2393 },	-- Dual-Function Magnifiers
@@ -896,6 +909,8 @@ app.ProfessionKnowledge = {
 		{ quest = 89127, type = "world", item = 238585, zone = 2393 },	-- Vintage Soul Gem
 	},
 	[2915] = {	-- Midnight Leatherworking
+		-- Vendors
+		{ quest = 92371, type = "vendor", item = 250922, source = 2696, renown = 6 },	-- Whisper of the Loa: Leatherworking
 
 		-- Treasures
 		{ quest = 89089, type = "world", item = 238588, zone = 2437 },	-- Amani Leatherworker's Tool
@@ -908,6 +923,9 @@ app.ProfessionKnowledge = {
 		{ quest = 89091, type = "world", item = 238590, zone = 2437 },	-- Prestigiously Racked Hide
 	},
 	[2916] = {	-- Midnight Mining
+		-- Vendors
+		{ quest = 92372, type = "vendor", item = 250924, source = 2696, renown = 6 },	-- Whisper of the Loa: Mining
+		{ quest = 92187, type = "vendor", item = 250444, source = 3377, sourceType = "currency" },	-- Echo of Abundance: Mining
 
 		-- Treasures
 		{ quest = 89149, type = "world", item = 238601, zone = 2536 },	-- Amani Expert's Chisel
@@ -919,9 +937,24 @@ app.ProfessionKnowledge = {
 		{ quest = 89145, type = "world", item = 238597, zone = 2437 },	-- Spelunker's Lucky Charm
 		{ quest = 89150, type = "world", item = 238602, zone = 2405 },	-- Star Metal Deposit
 	},
-	-- [2917] = {	-- Midnight Skinning
-	-- },
+	[2917] = {	-- Midnight Skinning
+		-- Vendors
+		{ quest = 92373, type = "vendor", item = 250923, source = 2696, renown = 6 },	-- Whisper of the Loa: Skinning
+		{ quest = 92188, type = "vendor", item = 250360, source = 3377, sourceType = "currency" },	-- Echo of Abundance: Skinning
+
+		-- Treasures
+		{ quest = 89172, type = "world", item = 238634, zone = 2437 },	-- Amani Skinning Knife
+		{ quest = 89170, type = "world", item = 238632, zone = 2437 },	-- Amani Tanning Oil
+		{ quest = 89167, type = "world", item = 238629, zone = 2536 },	-- Cadre Skinning Knife
+		{ quest = 89166, type = "world", item = 238628, zone = 2413 },	-- Lightbloom Afflicted Hide
+		{ quest = 89168, type = "world", item = 238630, zone = 2413 },	-- Primal Hide
+		{ quest = 89171, type = "world", item = 238633, zone = 2393 },	-- Sin'dorei Tanning Oil
+		{ quest = 89173, type = "world", item = 238635, zone = 2395 },	-- Thalassian Skinning Knife
+		{ quest = 89169, type = "world", item = 238631, zone = 2444 },	-- Voidstorm Leather Sample
+	},
 	[2918] = {	-- Midnight Tailoring
+		-- Vendors
+		{ quest = 93201, type = "vendor", item = 257601, source = 2710, renown = 6 },	-- Skill Issue: Tailoring
 
 		-- Treasures
 		{ quest = 89078, type = "world", item = 238612, zone = 2413 },	-- A Child's Stuffy
