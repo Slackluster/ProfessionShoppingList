@@ -401,7 +401,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 								local _, itemLink, _, _, _, _, _, _, _, fileID, _, _, _, bindType = C_Item.GetItemInfo(reagentID)
 								if not itemLink then
 									app:CacheItem(reagentID)
-									C_Timer.After(0.1, doTheThing)
+									C_Timer.After(1, doTheThing)
 									return
 								end
 
