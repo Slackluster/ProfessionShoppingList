@@ -99,10 +99,12 @@ function app:AddTooltipInfo()
 						if emptyLine == false then
 							tooltip:AddLine(" ")
 						end
+						local tradeskillID = v.tradeskillID
+						if not app.IconProfession[v.tradeskillID] then tradeskillID = 999 end
 						if v.learned and v.tradeskillID then
-							tooltip:AddLine(app.IconPSL .. " " .. L.MADE_WITH .. "  " .. app.IconProfession[v.tradeskillID] .. " " .. C_TradeSkillUI.GetTradeSkillDisplayName(v.tradeskillID) .. " (" .. L.RECIPE_LEARNED .. ")")
+							tooltip:AddLine(app.IconPSL .. " " .. L.MADE_WITH .. "  " .. app.IconProfession[tradeskillID] .. " " .. C_TradeSkillUI.GetTradeSkillDisplayName(v.tradeskillID) .. " (" .. L.RECIPE_LEARNED .. ")")
 						elseif v.tradeskillID then
-							tooltip:AddLine(app.IconPSL .. " " .. L.MADE_WITH .. "  " .. app.IconProfession[v.tradeskillID] .. " " .. C_TradeSkillUI.GetTradeSkillDisplayName(v.tradeskillID) .. " (" .. L.RECIPE_UNLEARNED .. ")")
+							tooltip:AddLine(app.IconPSL .. " " .. L.MADE_WITH .. "  " .. app.IconProfession[tradeskillID] .. " " .. C_TradeSkillUI.GetTradeSkillDisplayName(v.tradeskillID) .. " (" .. L.RECIPE_UNLEARNED .. ")")
 						end
 						break
 					end
