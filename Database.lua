@@ -38,6 +38,7 @@ app.IconProfession = {
 	[393] = "|TInterface\\Icons\\ui_profession_skinning:0|t",
 	[755] = "|TInterface\\Icons\\ui_profession_jewelcrafting:0|t",
 	[773] = "|TInterface\\Icons\\ui_profession_inscription:0|t",
+	[2984] = "|TInterface\\Icons\\housing-dye-bonewhite:0|t",
 	[2950] = "|TInterface\\Icons\\ui_profession_alchemy:0|t",
 	[999] = "|TInterface\\Icons\\inv_misc_questionmark:0|t",
 }
