@@ -41,7 +41,7 @@ L.CONFIRMATION =						"Souhaitez-vous poursuivre ?"
 L.SUBREAGENTS1 =						"Il existe plusieurs recettes qui permettent de créer" -- Followed by an item link
 L.SUBREAGENTS2 =						"Veuillez sélectionner l’un des éléments suivants"
 L.GOLD =								BONUS_ROLL_REWARD_MONEY -- "Or"
--- L.MERCHANT_BUY = 						"Let " .. app.NameShort .. " buy the tracked " .. L.WINDOW_HEADER_REAGENTS .. " and " .. L.WINDOW_HEADER_COSTS .. "\nyou need from this merchant, if available."
+L.MERCHANT_BUY = 						"Laissez " .. app.NameShort .. " acheter les " .. L.WINDOW_HEADER_REAGENTS .. " et " .. L.WINDOW_HEADER_COSTS .. " dont vous avez besoin auprès de ce marchand, si disponibles."
 
 -- Cooldowns
 L.RECHARGED =							"Entièrement rechargé"
@@ -149,8 +149,8 @@ L.CATCHUP_KNOWLEDGE =					"Connaissances de rattrapage disponibles :"
 -- L.LOADING =								SEARCH_LOADING_TEXT
 
 -- Order adjustments
--- L.ORDERS_SCAN_NEEDED =					"Scan needed"
--- L.ORDERS_DO_SCAN =						"Do a full scan with Auctionator for profit calculations."
+L.ORDERS_SCAN_NEEDED =					"Analyse nécessaire"
+L.ORDERS_DO_SCAN =						"Effectuez une analyse complète avec Auctionator pour calculer les profits."
 
 -- Chat feedback
 L.INVALID_PARAMETERS =					"Paramètres non valides"
@@ -194,7 +194,7 @@ L.SETTINGS_URL_COPY =					"Ctrl + C pour copier :"
 L.SETTINGS_URL_COPIED =					"Lien copié dans le presse-papiers"
 
 L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & Commandes « Slash »"	-- "Keybindings"
--- _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =	app.NameShort .. ": Toggle Window"
+_G["BINDING_NAME_PSL_TOGGLEWINDOW"] =	app.NameShort .. " : basculer la fenêtre"
 L.SETTINGS_SLASH_TOGGLE =				"Afficher / masquer la fenêtre de suivi"
 L.SETTINGS_SLASH_RESETPOS =				"Réinitialiser la position de la fenêtre de suivi"
 L.SETTINGS_SLASH_RESET =				"Réinitialiser les données enregistrées"
@@ -218,9 +218,9 @@ L.SETTINGS_TOOLTIP_TOOLTIP =			"Afficher la quantité de composants que vous pos
 L.SETTINGS_CRAFTTOOLTIP_TITLE =			"Afficher les informations d’artisanat"
 L.SETTINGS_CRAFTTOOLTIP_TOOLTIP =		"Afficher avec quelle profession une pièce d’équipement est fabriquée et si la recette est connue sur votre compte."
 L.SETTINGS_REAGENTQUALITY_TITLE =		"Qualité minimale de composant"
--- L.SETTINGS_REAGENTQUALITY_TOOLTIP =		"Set the minimum quality reagents need to be before " .. app.NameShort .. " includes them in the item count. Simulated results will still override this."
+L.SETTINGS_REAGENTQUALITY_TOOLTIP =		"Définissez la qualité minimale requise pour les réactifs avant que " .. app.NameShort .. " ne les inclue dans le décompte des objets. Les résultats simulés prévaudront toutefois sur cette valeur."
 L.SETTINGS_INCLUDEHIGHER_TITLE =		"Inclure une qualité supérieure"
--- L.SETTINGS_INCLUDEHIGHER_TOOLTIP =		"Whether or not to count higher quality reagents. (I.e. include owned tier 2 reagents when counting tier 1 reagents.)"
+L.SETTINGS_INCLUDEHIGHER_TOOLTIP =		"Faut-il inclure ou non les réactifs de qualité supérieure ? (Par exemple, faut-il inclure les réactifs de niveau 2 détenus lors du décompte des réactifs de niveau 1 ?)"
 L.SETTINGS_COLLECTMODE_TITLE =			"Mode de collection"
 L.SETTINGS_COLLECTMODE_TOOLTIP =		"Définir les objets à inclure lors de l’utilisation du bouton " .. app:Colour(L.BUTTON_TRACKNEW) .. "."
 L.SETTINGS_ENHANCEDORDERS_TITLE =		"Commandes améliorées"
