@@ -401,7 +401,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 								local _, itemLink, _, _, _, _, _, _, _, fileID, _, _, _, bindType = C_Item.GetItemInfo(reagentID)
 								if not itemLink then
 									app:CacheItem(reagentID)
-									C_Timer.After(1, doTheThing)
+									C_Timer.After(0.1, doTheThing)
 									return
 								end
 
@@ -428,7 +428,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 								if not itemLink then
 									local itemID = C_Item.GetItemInfoInstant(reward.itemLink)
 									app:CacheItem(itemID)
-									C_Timer.After(1, doTheThing)
+									C_Timer.After(0.1, doTheThing)
 									return
 								end
 								table.insert(calculations, {type = "reward", icon = fileID, link = itemLink, quantity = 0, amount = Auctionator.API.v1.GetAuctionPriceByItemLink(app.Name, itemLink)})
@@ -522,7 +522,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							if not itemLink then
 								local itemID = C_Item.GetItemInfoInstant(reward.itemLink)
 								app:CacheItem(itemID)
-								C_Timer.After(1, doTheThing)
+								C_Timer.After(0.1, doTheThing)
 								return
 							end
 							table.insert(rewards, {icon = fileID, link = itemLink, count = reward.count})
@@ -607,11 +607,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 					end
 				end
 			end
-
-			-- Run our function twice, because gah loading times and shit
-			doTheThing()
-			C_Timer.After(1, doTheThing)
-			C_Timer.After(2, doTheThing)
+			RunNextFrame(doTheThing)
 		end
 
 		ScrollUtil.AddInitializedFrameCallback(ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ScrollBox, OnFrameInitialized, nil, true)
