@@ -357,8 +357,8 @@ end)
 
 app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numOrders)
 	if ProfessionShoppingList_Settings["enhancedOrders"] and numOrders >= 1 and not app.OrderAdjustments then
-		if not app.OrderAdjustments then app.OrderAdjustments = {} end
-		if not app.OrderIcons then app.OrderIcons = {} end
+		app.OrderAdjustments = app.OrderAdjustments or = {}
+		app.OrderIcons = app.OrderIcons or {}
 
 		local function OnFrameInitialized(_, v, data)
 			if v and data and v.cells and not C_AddOns.IsAddOnLoaded("PublicOrdersReagentsColumn") then
@@ -607,7 +607,6 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 					end
 				end
 				RunNextFrame(doTheThing)
-				-- C_Timer.After(1, doTheThing)
 
 				local originalOnClick = v:GetScript("OnClick")
 				v:SetScript("OnClick", function(self, button, down)
