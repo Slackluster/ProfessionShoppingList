@@ -23,35 +23,21 @@ end)
 
 -- Tooltip information
 function app:AddTooltipInfo()
-	local function OnTooltipSetItem(tooltip)
-		local itemLink, itemID, secondaryItemLink, secondaryItemID
-		local _, primaryItemLink, primaryItemID = TooltipUtil.GetDisplayedItem(GameTooltip)
-		if tooltip.GetItem then _, secondaryItemLink, secondaryItemID = tooltip:GetItem() end
-
-		-- Get our most accurate itemLink and itemID
-		itemID = primaryItemID or secondaryItemID
-		if itemID then
-			local _, _, _, _, _, _, _, _, _, _, _, classID, subclassID = C_Item.GetItemInfo(itemID)
-			if classID == 9 and subclassID ~= 0 then
-				_, itemLink = C_Item.GetItemInfo(itemID)
-			else
-				itemLink = primaryItemLink or secondaryItemLink
-				itemID = select(1,C_Item.GetItemInfoInstant(itemLink))
-			end
-			app.TooltipItemID = itemID
-		end
-
-		-- Return if no link
-		if not itemLink then return end
-
-		-- Only run this if the setting is enabled
+	local function OnTooltipSetItem(tooltip, itemData)
 		if ProfessionShoppingList_Settings["showTooltip"] then
-			-- Stop if error, it will try again on its own REAL soon
-			if itemID == nil then
-				return
+			local _, itemLink, itemID
+			if itemData and itemData.id then
+				itemID = itemData.id
+				itemLink = C_Item.GetItemInfo(itemID)
+			elseif tooltip.GetItem then
+				_, itemLink, itemID = tooltip:GetItem()
+			else
+				_, itemLink, itemID = TooltipUtil.GetDisplayedItem(GameTooltip)
 			end
 
-			-- Get have/need
+			if not itemLink and itemID then return end
+			app.TooltipItemID = itemID
+
 			local reagentID1 = 0
 			local reagentID2 = 0
 			local reagentID3 = 0
@@ -83,7 +69,6 @@ function app:AddTooltipInfo()
 				reagentAmountNeed = reagentAmountNeed1
 			end
 
-			-- Add the tooltip info
 			local emptyLine = false
 			if reagentAmountNeed > 0 then
 				local reagentAmountHave = app:GetReagentCount(itemID)
@@ -92,7 +77,6 @@ function app:AddTooltipInfo()
 				tooltip:AddLine(app.IconPSL .. " " .. reagentAmountHave .. "/" .. reagentAmountNeed .. " (" .. math.max(0,reagentAmountNeed-reagentAmountHave) .. " " .. L.MORE_NEEDED .. ")")
 			end
 
-			-- Check for crafting info
 			if ProfessionShoppingList_Settings["showCraftTooltip"] then
 				for k, v in pairs(ProfessionShoppingList_Library) do
 					if type(v) ~= "number" and v.itemID == itemID then	-- No clue why these non-table values are here, tbh
