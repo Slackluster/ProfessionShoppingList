@@ -46,20 +46,22 @@ function app:CreateProfessionKnowledgeAssets()
 	app.Flag.KnowledgeAssets = true
 end
 
-function app:SpendAllProfessionKnowledge()
+function app:SpendToNextPerk()
 	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 
 	if not app.Flag.SpendHook then app.Flag.SpendHook = {} end
 	if not app.Flag.SpendHook[skillLineID] then
 		hooksecurefunc(ProfessionsSpecPathMixin, "PurchaseRank", function(self)
-			local nodeID = self:GetNodeID()
-			local configID = C_ProfSpecs.GetConfigIDForSkillLine(C_TradeSkillUI.GetProfessionChildSkillLineID())
-			local pathInfo = C_Traits.GetNodeInfo(configID, nodeID)
+			if ProfessionShoppingList_Settings["spendToNextPerk"] then
+				local nodeID = self:GetNodeID()
+				local configID = C_ProfSpecs.GetConfigIDForSkillLine(C_TradeSkillUI.GetProfessionChildSkillLineID())
+				local pathInfo = C_Traits.GetNodeInfo(configID, nodeID)
 
-			local spend = 5 - ((pathInfo.ranksPurchased - 1) % 5)
-			while spend > 0 and spend < 5 do
-				C_Traits.PurchaseRank(configID, nodeID)
-				spend = spend - 1
+				local spend = 5 - ((pathInfo.ranksPurchased - 1) % 5)
+				while spend > 0 and spend < 5 do
+					C_Traits.PurchaseRank(configID, nodeID)
+					spend = spend - 1
+				end
 			end
 		end)
 		app.Flag.SpendHook[skillLineID] = true
@@ -340,7 +342,7 @@ end
 app.Event:Register("TRADE_SKILL_SHOW", function()
 	if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
 		app:CreateProfessionKnowledgeAssets()
-		app:SpendAllProfessionKnowledge()
+		app:SpendToNextPerk()
 	end
 end)
 

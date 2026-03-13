@@ -370,6 +370,10 @@ function app:CreateSettings()
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Number, name, 1)
 	Settings.CreateDropdown(category, setting, GetOptions, tooltip)
 
+	local variable, name, tooltip = "spendToNextPerk", L.SETTINGS_SPENDTOPERK_TITLE, L.SETTINGS_SPENDTOPERK_TOOLTIP
+	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, true)
+	Settings.CreateCheckbox(category, setting, tooltip)
+
 	local variable, name, tooltip = "enhancedOrders", L.SETTINGS_ENHANCEDORDERS_TITLE, L.SETTINGS_ENHANCEDORDERS_TOOLTIP
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Boolean, name, true)
 	Settings.CreateCheckbox(category, setting, tooltip)
