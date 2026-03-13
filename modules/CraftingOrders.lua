@@ -361,13 +361,13 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 		if not app.OrderIcons then app.OrderIcons = {} end
 
 		local function OnFrameInitialized(_, v, data)
-			local function doTheThing()
-				if data and v and v.cells and not C_AddOns.IsAddOnLoaded("PublicOrdersReagentsColumn") then	-- Don't interfere with No Mats, No Make
-					if not data.option or not data.option.orderID then return end
+			if v and data and v.cells and not C_AddOns.IsAddOnLoaded("PublicOrdersReagentsColumn") then
+				if not data.option or not data.option.orderID then return end
+				app.OrderAdjustments[v] = app.OrderAdjustments[v] or {}
 
-					local key = "order:" .. data.option.orderID .. ":" .. data.option.spellID
-					if not app.OrderAdjustments[v] then app.OrderAdjustments[v] = {} end
+				local key = "order:" .. data.option.orderID .. ":" .. data.option.spellID
 
+				local function doTheThing()
 					-- Order profit
 					if C_AddOns.IsAddOnLoaded("Auctionator") then	-- Requires Auctionator
 						v.cells[3].TipMoneyDisplayFrame:Hide()
@@ -606,8 +606,22 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						app.OrderAdjustments[v].firstCraft:Show()
 					end
 				end
+				RunNextFrame(doTheThing)
+				-- C_Timer.After(1, doTheThing)
+
+				local originalOnClick = v:GetScript("OnClick")
+				v:SetScript("OnClick", function(self, button, down)
+					if IsShiftKeyDown() then
+						if ProfessionShoppingList_Data.Recipes[key] then
+							api:UntrackRecipe(key, 1)
+						else
+							api:TrackRecipe(data.option.spellID, 1, data.option.isRecraft, data.option.orderID)
+						end
+					else
+						originalOnClick(self, button, down)
+					end
+				end)
 			end
-			RunNextFrame(doTheThing)
 		end
 
 		ScrollUtil.AddInitializedFrameCallback(ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ScrollBox, OnFrameInitialized, nil, true)
