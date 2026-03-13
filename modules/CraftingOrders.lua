@@ -357,7 +357,7 @@ end)
 
 app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numOrders)
 	if ProfessionShoppingList_Settings["enhancedOrders"] and numOrders >= 1 and not app.OrderAdjustments then
-		app.OrderAdjustments = app.OrderAdjustments or = {}
+		app.OrderAdjustments = app.OrderAdjustments or {}
 		app.OrderIcons = app.OrderIcons or {}
 
 		local function OnFrameInitialized(_, v, data)
