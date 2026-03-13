@@ -708,7 +708,7 @@ function app:UpdateRecipes()
 			"|cnIQ0",	-- Poor (quantity 0)
 		}
 
-		-- Custom comparison function based on the beginning of the string (Vibecoded)
+		-- Custom comparison function based on the beginning of the string
 		local function customSort(a, b)
 			for _, v in ipairs(customSortList) do
 				local indexA = string.find(a.link, v, 1, true)
