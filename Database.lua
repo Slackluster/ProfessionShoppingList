@@ -884,6 +884,7 @@ app.ProfessionKnowledge = {
 	},
 	[2912] = {	-- Midnight Herbalism
 		-- Vendors
+		{ quest = 93411, type = "vendor", item = 258410, source = 2704, renown = 5 },	-- Traditions of the Haranir: Herbalism
 		{ quest = 92174, type = "vendor", item = 250443, source = 3377, sourceType = "currency" },	-- Echo of Abundance: Herbalism
 
 		-- Treasures
@@ -899,6 +900,8 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3196 },
 	},
 	[2913] = {	-- Midnight Inscription
+		-- Vendors
+		{ quest = 93412, type = "vendor", item = 258411, source = 2704, renown = 5 },	-- Traditions of the Haranir: Inscription
 
 		-- Treasures
 		{ quest = 89072, type = "world", item = 238577, zone = 2395 },	-- Half-Baked Techniques
