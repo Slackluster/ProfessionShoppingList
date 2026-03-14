@@ -56,7 +56,7 @@ L.TRACK =								"Suivre"
 L.UNTRACK =								"Annuler le suivi"
 L.RANK =								"Rang"
 L.RECRAFT_TOOLTIP =						"Sélectionnez un objet dont la recette a été mise en cache pour en assurer le suivi.\n" ..
-										"Pour mettre en cache une recette, ouvrez la profession correspondante (sur n’importe quel personnage)\nou visualisez l’objet comme une commande d’artisanat normale."
+										"Pour mettre en cache une recette, ouvrez le métier correspondant (sur n’importe quel personnage)\nou visualisez l’objet comme une commande d’artisanat normale."
 L.QUICKORDER =							"Commande rapide"
 L.QUICKORDER_TOOLTIP =					"|cffFF0000Créer instantanément|r une commande d’artisanat pour le destinataire spécifié.\n\n" ..
 										"Utiliser |cffFFFFFFGUILD|r (tout en majuscules) pour placer une " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. ".\n" .. -- "Guild Order". Don't translate "|cffFFFFFFGUILD|r" as this is hardcoded
@@ -69,7 +69,7 @@ L.RECIPIENT =							"Destinataire"
 
 -- Profession window
 L.MILLING_INFO =						"Informations sur le broyage"
-L.THAUMATURGY_INFO =					"Informations sur la Thaumaturgie"
+L.THAUMATURGY_INFO =					"Informations sur la thaumaturgie"
 L.FROM =								"depuis" -- I will convert this whole section to item links, then this is the only localisation needed. I recommend skipping this section, other than the two headers. :)
 
 L.MILLING_CLASSIC =						"Pigment saphir : 25% depuis Sansam doré, Feuillerêve, Sauge-argent des montagnes, Chagrinelle, Chapeglace\n" ..
@@ -201,7 +201,7 @@ L.SETTINGS_SLASH_RESET =				"Réinitialiser les données enregistrées"
 L.SETTINGS_SLASH_TRACK =				"Suivre une recette"
 L.SETTINGS_SLASH_UNTRACK =				"Annuler le suivi d’une recette"
 L.SETTINGS_SLASH_UNTRACKALL =			"Annuler le suivi de toutes les unités d’une recette"
-L.SETTINGS_SLASH_TRACKACHIE =			"Suivre les recettes nécessaires pour le haut fait lié"
+L.SETTINGS_SLASH_TRACKACHIE =			"Suivre les recettes nécessaires pour le haut fait sélectionné"
 L.SETTINGS_SLASH_CRAFTINGACHIE =		"haut fait de métier"
 L.SETTINGS_SLASH_RECIPEID =				"recipeID"
 L.SETTINGS_SLASH_QUANTITY =				"quantité"
@@ -216,15 +216,15 @@ L.SETTINGS_COOLDOWNSWINDOW_TOOLTIP =	"Ouvrir la fenêtre de suivi lors de la con
 L.SETTINGS_TOOLTIP_TITLE =				"Afficher les informations de l’infobulle"
 L.SETTINGS_TOOLTIP_TOOLTIP =			"Afficher la quantité de composants que vous possédez / avez besoin dans l’infobulle de l’objet."
 L.SETTINGS_CRAFTTOOLTIP_TITLE =			"Afficher les informations d’artisanat"
-L.SETTINGS_CRAFTTOOLTIP_TOOLTIP =		"Afficher avec quelle profession une pièce d’équipement est fabriquée et si la recette est connue sur votre compte."
+L.SETTINGS_CRAFTTOOLTIP_TOOLTIP =		"Afficher avec quel métier une pièce d’équipement est fabriquée et si la recette est connue sur votre compte."
 L.SETTINGS_REAGENTQUALITY_TITLE =		"Qualité minimale de composant"
 L.SETTINGS_REAGENTQUALITY_TOOLTIP =		"Définissez la qualité minimale requise pour les réactifs avant que " .. app.NameShort .. " ne les inclue dans le décompte des objets. Les résultats simulés prévaudront toutefois sur cette valeur."
 L.SETTINGS_INCLUDEHIGHER_TITLE =		"Inclure une qualité supérieure"
 L.SETTINGS_INCLUDEHIGHER_TOOLTIP =		"Faut-il inclure ou non les réactifs de qualité supérieure ? (Par exemple, faut-il inclure les réactifs de niveau 2 détenus lors du décompte des réactifs de niveau 1 ?)"
 L.SETTINGS_COLLECTMODE_TITLE =			"Mode de collection"
 L.SETTINGS_COLLECTMODE_TOOLTIP =		"Définir les objets à inclure lors de l’utilisation du bouton " .. app:Colour(L.BUTTON_TRACKNEW) .. "."
--- L.SETTINGS_SPENDTOPERK_TITLE =		"Spend to Next Perk"
--- L.SETTINGS_SPENDTOPERK_TOOLTIP =		"Shift+clicking a profession knowledge node spends points until the next perk."
+L.SETTINGS_SPENDTOPERK_TITLE =			"Dépenser jusqu’au prochain palier"
+L.SETTINGS_SPENDTOPERK_TOOLTIP =		"Maj + Clic sur une spécialisation de métier dépense tous les points de savoir jusqu’au prochain palier."
 L.SETTINGS_ENHANCEDORDERS_TITLE =		"Commandes améliorées"
 L.SETTINGS_ENHANCEDORDERS_TOOLTIP =		"Améliore l’aperçu des récompenses et commissions de commande et ajoute des icônes pour les premières fabrications, les recettes non apprises et les recettes suivies.\n\n" .. L.REQUIRES_RELOAD
 L.SETTINGS_QUICKORDER_TITLE =			"Durée de la commande rapide"
@@ -249,7 +249,7 @@ L.SETTINGS_PERSONALWINDOWS_TOOLTIP =	"Enregistrer la position de la fenêtre par
 L.SETTINGS_PERSONALRECIPES_TITLE =		"Suivre les recettes par personnage"
 L.SETTINGS_PERSONALRECIPES_TOOLTIP =	"Suivre les recettes par personnage, au lieu de les suivre sur l’ensemble du compte."
 L.SETTINGS_SHOWREMAINING_TITLE =		"Afficher les composants restants"
-L.SETTINGS_SHOWREMAINING_TOOLTIP =		"Afficher uniquement le nombre de composants dont vous avez encore besoin dans la fenêtre de suivi, au lieu de possédés / requis"
+L.SETTINGS_SHOWREMAINING_TOOLTIP =		"Afficher uniquement le nombre de composants dont vous avez encore besoin dans la fenêtre de suivi, au lieu du nombre que vous possédez / dont vous avez besoin."
 L.SETTINGS_REMOVECRAFT_TITLE =			"Annuler le suivi après une fabrication"
 L.SETTINGS_REMOVECRAFT_TOOLTIP =		"Annuler le suivi d’une unité de la recette lorsque vous la fabriquez avec succès."
 L.SETTINGS_CLOSEWHENDONE_TITLE =		"Fermer la fenêtre lorsque vous avez terminé"
