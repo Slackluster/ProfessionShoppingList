@@ -337,8 +337,8 @@ function app:CreateSettings()
 	local variable, name, tooltip = "reagentQuality", L.SETTINGS_REAGENTQUALITY_TITLE, L.SETTINGS_REAGENTQUALITY_TOOLTIP
 	local function GetOptions()
 		local container = Settings.CreateControlTextContainer()
-		container:Add(1, "|A:Professions-ChatIcon-Quality-12-Tier1:24:24::1|a" .. L.SETTINGS_REAGENTTIER .. " 1")
-		container:Add(2, "|A:Professions-ChatIcon-Quality-12-Tier2:24:24::1|a" .. L.SETTINGS_REAGENTTIER .. " 2")
+		container:Add(1, "|A:Professions-ChatIcon-Quality-12-Tier1:24:24::1|a|A:Professions-ChatIcon-Quality-Tier1:20:18::1|a  " .. L.LOW)
+		container:Add(2, "|A:Professions-ChatIcon-Quality-12-Tier2:24:24::1|a|A:Professions-ChatIcon-Quality-Tier3:20:18::1|a  " .. L.HIGH)
 		return container:GetData()
 	end
 	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, ProfessionShoppingList_Settings, Settings.VarType.Number, name, 1)

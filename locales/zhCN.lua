@@ -230,7 +230,8 @@ L.SETTINGS_COLLECTMODE_TOOLTIP =		"设置使用" .. app:Colour(L.BUTTON_TRACKNEW
 L.SETTINGS_QUICKORDER_TITLE =			"快速订单时长"
 L.SETTINGS_QUICKORDER_TOOLTIP =			"设置" .. app.NameShort .. "快速订单的持续时间。"
 
-L.SETTINGS_REAGENTTIER =				"等级"	-- 后接数字
+-- L.LOW	= 									LOW
+-- L.HIGH =									HIGH
 -- L.SETTINGS_INCLUDE =					"Include higher qualities"
 L.SETTINGS_DONT_INCLUDE =				"不包含更高品质"
 L.SETTINGS_APPEARANCES_TITLE =			WARDROBE	-- "外观"

@@ -230,7 +230,8 @@ L.SETTINGS_ENHANCEDORDERS_TOOLTIP =		"Améliore l’aperçu des récompenses et 
 L.SETTINGS_QUICKORDER_TITLE =			"Durée de la commande rapide"
 L.SETTINGS_QUICKORDER_TOOLTIP =			"Définir la durée pour passer des commandes rapides avec " .. app.NameShort .. "."
 
-L.SETTINGS_REAGENTTIER =				"Rang" -- Followed by a number
+-- L.LOW	= 									LOW
+-- L.HIGH =									HIGH
 L.SETTINGS_INCLUDE =					"Inclure les qualités supérieures"
 L.SETTINGS_DONT_INCLUDE =				"Ne pas inclure les qualités supérieures"
 L.SETTINGS_APPEARANCES_TITLE =			WARDROBE -- "Appearances"

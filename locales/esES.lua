@@ -230,7 +230,8 @@ L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " y Comandos"	-- "K
 -- L.SETTINGS_QUICKORDER_TITLE =			"Quick Order Duration"
 -- L.SETTINGS_QUICKORDER_TOOLTIP =			"Set the duration for placing quick orders with " .. app.NameShort .. "."
 
--- L.SETTINGS_REAGENTTIER =				"Tier"	-- Followed by a number
+-- L.LOW	= 									LOW
+-- L.HIGH =									HIGH
 -- L.SETTINGS_INCLUDE =					"Include higher qualities"
 -- L.SETTINGS_DONT_INCLUDE =				"Don't include higher qualities"
 -- L.SETTINGS_APPEARANCES_TITLE =			WARDROBE	-- "Appearances"
