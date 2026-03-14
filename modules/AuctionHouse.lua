@@ -82,19 +82,23 @@ function app:CreateShoppingList()
 						end
 					end
 
-					-- Set reagent quality to 2 or 3 if applicable and the user has this set, otherwise don't specify quality
-					local reagentQuality = ""
-
+					local reagentQuality
+					local preMidnight = ProfessionShoppingList_Cache.ReagentTiers[reagentID].three ~= 0
+					local noQuality = ProfessionShoppingList_Cache.ReagentTiers[reagentID].two == 0
 					if simulatedReagents[reagentID] then
 						if ProfessionShoppingList_Cache.ReagentTiers[reagentID].three == reagentID then
 							reagentQuality = 3
 						elseif ProfessionShoppingList_Cache.ReagentTiers[reagentID].two == reagentID then
 							reagentQuality = 2
+						elseif preMidnight or noQuality then
+							reagentQuality = ""
+						else
+							reagentQuality = 1
 						end
-					elseif ProfessionShoppingList_Cache.ReagentTiers[reagentID].three ~= 0 and ProfessionShoppingList_Settings["reagentQuality"] == 2 then
-						reagentQuality = 3
-					elseif ProfessionShoppingList_Cache.ReagentTiers[reagentID].two ~= 0 and ProfessionShoppingList_Settings["reagentQuality"] == 2 then
-						reagentQuality = 2
+					elseif ProfessionShoppingList_Settings["reagentQuality"] == 2 then
+						reagentQuality = preMidnight and 3 or 2
+					elseif ProfessionShoppingList_Settings["reagentQuality"] == 1 then
+						reagentQuality = (preMidnight or noQuality) and "" or 1
 					end
 
 					-- Calculate how many we still need
