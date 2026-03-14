@@ -28,7 +28,7 @@ function app:AddTooltipInfo()
 			local _, itemLink, itemID
 			if itemData and itemData.id then
 				itemID = itemData.id
-				itemLink = C_Item.GetItemInfo(itemID)
+				_, itemLink = C_Item.GetItemInfo(itemID)
 			elseif tooltip.GetItem then
 				_, itemLink, itemID = tooltip:GetItem()
 			else
