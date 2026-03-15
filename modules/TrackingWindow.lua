@@ -1727,6 +1727,14 @@ function app:CreateTab(frame, tabFrame)
 			hideWindow()
 		end
 	end)
+
+	if C_AddOns.IsAddOnLoaded("TradeSkillMaster") and frame == ProfessionsFrame then
+		app.Event:Register("TRADE_SKILL_CLOSE", function()
+			if app.Tab.IsShown[frame] then
+				hideWindow()
+			end
+		end)
+	end
 end
 
 app.Event:Register("TRADE_SKILL_SHOW", function()
