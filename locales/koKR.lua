@@ -123,6 +123,7 @@ local L = app.locales
 
 -- Track new mogs
 -- L.BUTTON_TRACKNEW =						"Track New Mogs"
+-- L.BUTTON_TRACKALL =						"Track All"
 -- L.CURRENT_SETTING =						"Current setting:"
 -- L.MODE_APPEARANCES =					"new appearances"
 -- L.MODE_SOURCES =						"new appearances and sources"

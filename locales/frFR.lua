@@ -123,6 +123,7 @@ L.BUTTON_LIGHTFORGE =					app.IconLMB .. " : lancer"
 
 -- Track new mogs
 L.BUTTON_TRACKNEW =						"Suivre les apparences inconnues"
+-- L.BUTTON_TRACKALL =						"Track All"
 L.CURRENT_SETTING =						"Paramètre actuel :"
 L.MODE_APPEARANCES =					"nouvelles apparences"
 L.MODE_SOURCES =						"nouvelles apparences et sources"

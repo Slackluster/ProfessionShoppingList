@@ -123,6 +123,7 @@ L.BUTTON_LIGHTFORGE =					app.IconLMB .. ": Каст"
 
 -- Track new mogs
 L.BUTTON_TRACKNEW =						"Отслеживать новые образы"
+-- L.BUTTON_TRACKALL =						"Track All"
 L.CURRENT_SETTING =						"Текущая настройка:"
 L.MODE_APPEARANCES =					"новые внешние виды"
 L.MODE_SOURCES =						"новые внешние виды и источники"

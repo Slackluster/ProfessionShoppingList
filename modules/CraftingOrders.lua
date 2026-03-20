@@ -692,4 +692,36 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 
 		ScrollUtil.AddInitializedFrameCallback(ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ScrollBox, OnFrameInitialized, nil, true)
 	end
+
+	-- Track All button
+	if not app.TrackAllOrdersButton then
+		app.TrackAllOrdersButton = app:MakeButton(ProfessionsFrame.OrdersPage.BrowseFrame, L.BUTTON_TRACKALL)
+		app.TrackAllOrdersButton:SetPoint("TOPRIGHT", ProfessionsFrame.OrdersPage.BrowseFrame, "TOPRIGHT", -25, -5)
+		app.TrackAllOrdersButton:SetScript("OnClick", function()
+			local dataProvider = ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ScrollBox:GetDataProvider()
+			if not dataProvider then return end
+
+			app.Flag.ChangingRecipes = true
+
+			dataProvider:ForEach(function(elementData)
+				if elementData and elementData.option and elementData.option.orderID and elementData.option.spellID then
+					local spellID = elementData.option.spellID
+					local orderID = elementData.option.orderID
+					local isRecraft = elementData.option.isRecraft
+					local key = "order:" .. orderID .. ":" .. spellID
+
+					if not ProfessionShoppingList_Data.Recipes[key] then
+						local recipeInfo = C_TradeSkillUI.GetRecipeInfo(spellID)
+						if recipeInfo and recipeInfo.learned then
+							api:TrackRecipe(spellID, 1, isRecraft, orderID)
+						end
+					end
+				end
+			end)
+
+			app.Flag.ChangingRecipes = false
+			app:ShowWindow()
+			app:UpdateAssets()
+		end)
+	end
 end)

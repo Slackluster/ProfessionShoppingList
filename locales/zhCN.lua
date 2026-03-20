@@ -123,6 +123,7 @@ L.FROM =								"来自"	-- 用于材料来源说明
 
 -- Track new mogs
 L.BUTTON_TRACKNEW =						"追踪新外观"
+-- L.BUTTON_TRACKALL =						"Track All"
 L.CURRENT_SETTING =						"当前设置："
 L.MODE_APPEARANCES =					"新外观"
 L.MODE_SOURCES =						"新外观及来源"
