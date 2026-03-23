@@ -180,7 +180,7 @@ L.ERROR_MULTISIM =						L.ERROR .. " : aucun composant simulé n’a été utili
 L.NEW_VERSION_AVAILABLE =				"Une nouvelle version de " .. app.NameLong .. " est disponible :"
 
 -- Settings
-L.SETTINGS_TOOLTIP =					app.NameLong .. "\n|cffFFFFFF" .. app.IconLMB .. " : afficher / masquer la fenêtre\n" .. app.IconRMB .. " : " .. L.WINDOW_BUTTON_SETTINGS
+L.SETTINGS_TOOLTIP =					app.NameLong .. "\n|cffFFFFFF" .. app.IconLMB .. " : Afficher / masquer la fenêtre\n" .. app.IconRMB .. " : " .. L.WINDOW_BUTTON_SETTINGS
 
 -- L.SETTINGS_VERSION =					GAME_VERSION_LABEL .. ":"	-- "Version"
 L.SETTINGS_SUPPORT_TEXTLONG =			"Le développement de cette extension demande beaucoup de temps et d’efforts.\nVeuillez envisager de soutenir financièrement le développeur."
