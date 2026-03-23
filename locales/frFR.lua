@@ -10,42 +10,42 @@ local appName, app = ...
 local L = app.locales
 
 -- Main window
-L.WINDOW_BUTTON_CLOSE =					"Fermer la fenêtre"
-L.WINDOW_BUTTON_LOCK =					"Verrouiller la fenêtre"
-L.WINDOW_BUTTON_UNLOCK =				"Déverrouiller la fenêtre"
-L.WINDOW_BUTTON_SETTINGS =				"Ouvrir les paramètres"
-L.WINDOW_BUTTON_CLEAR =					"Effacer toutes les recettes suivies"
-L.WINDOW_BUTTON_AUCTIONATOR =			"Mettre à jour la liste d’achats dans Auctionator\n" ..
-										"La liste d’achats sera générée automatiquement lors de l’ouverture de l’Hôtel des ventes"
-L.WINDOW_BUTTON_CORNER =				"Double " .. app.IconLMB .. "|cffFFFFFF : dimensionner automatiquement pour s’adapter à la fenêtre|r"
+L.WINDOW_BUTTON_CLOSE =                    "Fermer la fenêtre"
+L.WINDOW_BUTTON_LOCK =                    "Verrouiller la fenêtre"
+L.WINDOW_BUTTON_UNLOCK =                "Déverrouiller la fenêtre"
+L.WINDOW_BUTTON_SETTINGS =                "Ouvrir les paramètres"
+L.WINDOW_BUTTON_CLEAR =                    "Effacer toutes les recettes suivies"
+L.WINDOW_BUTTON_AUCTIONATOR =            "Mettre à jour la liste d’achats dans Auctionator\n" ..
+                                        "La liste d’achats sera générée automatiquement lors de l’ouverture de l’Hôtel des ventes"
+L.WINDOW_BUTTON_CORNER =                "Double " .. app.IconLMB .. "|cffFFFFFF : dimensionner automatiquement pour s’adapter à la fenêtre|r"
 
-L.WINDOW_HEADER_RECIPES =				PROFESSIONS_RECIPES_TAB -- "Recettes"
-L.WINDOW_HEADER_ITEMS =					ITEMS -- "Objets"
-L.WINDOW_HEADER_REAGENTS =				PROFESSIONS_COLUMN_HEADER_REAGENTS -- "Composants"
-L.WINDOW_HEADER_COSTS =					"Coûts"
-L.WINDOW_HEADER_COOLDOWNS =				"Temps de recharge"
+L.WINDOW_HEADER_RECIPES =                PROFESSIONS_RECIPES_TAB -- "Recettes"
+L.WINDOW_HEADER_ITEMS =                    ITEMS -- "Objets"
+L.WINDOW_HEADER_REAGENTS =                PROFESSIONS_COLUMN_HEADER_REAGENTS -- "Composants"
+L.WINDOW_HEADER_COSTS =                    "Coûts"
+L.WINDOW_HEADER_COOLDOWNS =                "Temps de recharge"
 
-L.WINDOW_TOOLTIP_RECIPES =				"Maj " .. app.IconLMB .. "|cffFFFFFF : poster la recette\n|r" ..
-										"Ctrl " .. app.IconLMB .. "|cffFFFFFF : ouvrir la recette (si connue)\n|r" ..
-										"Alt " .. app.IconLMB .. "|cffFFFFFF : essayer de créer cette recette\n\n|r" ..
-										app.IconRMB .. "|cffFFFFFF : annuler le suivi d’1 unité de la recette\n|r" ..
-										"Ctrl " .. app.IconRMB .. "|cffFFFFFF : annuler le suivi de toutes les unités de la recette sélectionnée"
-L.WINDOW_TOOLTIP_REAGENTS =				"Maj " .. app.IconLMB .. "|cffFFFFFF : poster le composant\n|r" ..
-										"Ctrl " .. app.IconLMB .. "|cffFFFFFF : ajouter une recette pour le sous-composant sélectionné, s’il existe et est mis en cache"
-L.WINDOW_TOOLTIP_COOLDOWNS =			"Maj " .. app.IconRMB .. "|cffFFFFFF : supprimer le rappel de temps de recharge\n|r" ..
-										"Ctrl " .. app.IconLMB .. "|cffFFFFFF : ouvrir la recette (si connue)\n|r" ..
-										"Alt " .. app.IconLMB .. "|cffFFFFFF : essayer de créer cette recette"
+L.WINDOW_TOOLTIP_RECIPES =                "Maj " .. app.IconLMB .. "|cffFFFFFF : poster la recette\n|r" ..
+                                        "Ctrl " .. app.IconLMB .. "|cffFFFFFF : ouvrir la recette (si connue)\n|r" ..
+                                        "Alt " .. app.IconLMB .. "|cffFFFFFF : essayer de créer cette recette\n\n|r" ..
+                                        app.IconRMB .. "|cffFFFFFF : annuler le suivi d’1 unité de la recette\n|r" ..
+                                        "Ctrl " .. app.IconRMB .. "|cffFFFFFF : annuler le suivi de toutes les unités de la recette sélectionnée"
+L.WINDOW_TOOLTIP_REAGENTS =                "Maj " .. app.IconLMB .. "|cffFFFFFF : poster le composant\n|r" ..
+                                        "Ctrl " .. app.IconLMB .. "|cffFFFFFF : ajouter une recette pour le sous-composant sélectionné, s’il existe et est mis en cache"
+L.WINDOW_TOOLTIP_COOLDOWNS =            "Maj " .. app.IconRMB .. "|cffFFFFFF : supprimer le rappel de temps de recharge\n|r" ..
+                                        "Ctrl " .. app.IconLMB .. "|cffFFFFFF : ouvrir la recette (si connue)\n|r" ..
+                                        "Alt " .. app.IconLMB .. "|cffFFFFFF : essayer de créer cette recette"
 
-L.CLEAR_CONFIRMATION =					"Cela effacera toutes les recettes."
-L.CONFIRMATION =						"Souhaitez-vous poursuivre ?"
-L.SUBREAGENTS1 =						"Il existe plusieurs recettes qui permettent de créer" -- Followed by an item link
-L.SUBREAGENTS2 =						"Veuillez sélectionner l’un des éléments suivants"
-L.GOLD =								BONUS_ROLL_REWARD_MONEY -- "Or"
-L.MERCHANT_BUY = 						"Laissez " .. app.NameShort .. " acheter les " .. L.WINDOW_HEADER_REAGENTS .. " et " .. L.WINDOW_HEADER_COSTS .. " dont vous avez besoin auprès de ce marchand, si disponibles."
+L.CLEAR_CONFIRMATION =                    "Cela effacera toutes les recettes."
+L.CONFIRMATION =                        "Souhaitez-vous poursuivre ?"
+L.SUBREAGENTS1 =                        "Il existe plusieurs recettes qui permettent de créer" -- Followed by an item link
+L.SUBREAGENTS2 =                        "Veuillez sélectionner l’un des éléments suivants"
+L.GOLD =                                BONUS_ROLL_REWARD_MONEY -- "Or"
+L.MERCHANT_BUY =                         "Laissez " .. app.NameShort .. " acheter les " .. L.WINDOW_HEADER_REAGENTS .. " et " .. L.WINDOW_HEADER_COSTS .. " dont vous avez besoin auprès de ce marchand, si disponibles."
 
 -- Cooldowns
-L.RECHARGED =							"Entièrement rechargé"
-L.READY =								"Prêt"
+L.RECHARGED =                            "Entièrement rechargé"
+L.READY =                        		"Prêt"
 L.DAYS =								"j"
 L.HOURS =								"h"
 L.MINUTES =								"m"
@@ -244,14 +244,14 @@ L.SETTINGS_DURATION_LONG =				"Long (48 heures)"
 
 L.SETTINGS_HEADER_TRACK =				"Fenêtre de suivi"
 L.SETTINGS_HELP_TITLE =					"Afficher les infobulles d’aide"
-L.SETTINGS_HELP_TOOLTIP =				"Affiche les actions de la souris qui existent lors du survol des entrées dans la fenêtre de suivi."
+L.SETTINGS_HELP_TOOLTIP =				"Afficher les actions disponibles à la souris lorsque vous survolez des éléments dans la fenêtre de suivi."
 L.SETTINGS_PERSONALWINDOWS_TITLE =		"Position de la fenêtre par personnage"
-L.SETTINGS_PERSONALWINDOWS_TOOLTIP =	"Enregistrer la position de la fenêtre par personnage, au lieu de l’enregistrer sur l’ensemble du compte."
+L.SETTINGS_PERSONALWINDOWS_TOOLTIP =	"Enregistrer la position de la fenêtre pour chaque personnage, au lieu de l’appliquer à tout le compte."
 L.SETTINGS_PERSONALRECIPES_TITLE =		"Suivre les recettes par personnage"
-L.SETTINGS_PERSONALRECIPES_TOOLTIP =	"Suivre les recettes par personnage, au lieu de les suivre sur l’ensemble du compte."
+L.SETTINGS_PERSONALRECIPES_TOOLTIP =	"Suit les recettes pour chaque personnage, au lieu de les partager à tout le compte."
 L.SETTINGS_SHOWREMAINING_TITLE =		"Afficher les composants restants"
-L.SETTINGS_SHOWREMAINING_TOOLTIP =		"Afficher uniquement le nombre de composants dont vous avez encore besoin dans la fenêtre de suivi, au lieu du nombre que vous possédez / dont vous avez besoin."
-L.SETTINGS_REMOVECRAFT_TITLE =			"Annuler le suivi après une fabrication"
-L.SETTINGS_REMOVECRAFT_TOOLTIP =		"Supprimer une recette suivie une fois fabriquée."
-L.SETTINGS_CLOSEWHENDONE_TITLE =		"Fermer la fenêtre de suivi lorsque terminé"
-L.SETTINGS_CLOSEWHENDONE_TOOLTIP =		"Fermer la fenêtre de suivi après avoir fabriqué la dernière recette suivie."
+L.SETTINGS_SHOWREMAINING_TOOLTIP =		"Afficher uniquement le nombre de composants qu’il vous reste à obtenir dans la fenêtre de suivi, au lieu d’afficher ceux possédés / requis."
+L.SETTINGS_REMOVECRAFT_TITLE =			"Retirer après fabrication"
+L.SETTINGS_REMOVECRAFT_TOOLTIP =		"Retirer une recette suivie lorsque vous la fabriquez avec succès."
+L.SETTINGS_CLOSEWHENDONE_TITLE =		"Fermer la fenêtre une fois terminé"
+L.SETTINGS_CLOSEWHENDONE_TOOLTIP =		"Ferme la fenêtre de suivi après avoir fabriqué la dernière recette suivie."
