@@ -230,7 +230,7 @@ L.SETTINGS_ENHANCEDORDERS_TOOLTIP =    "Enhance the preview of order rewards and
 L.SETTINGS_QUICKORDER_TITLE =          "Quick Order Duration"
 L.SETTINGS_QUICKORDER_TOOLTIP =        "Set the duration for placing quick orders with " .. app.NameShort .. "."
 
-L.LOW    =                             LOW
+L.LOW =                                LOW
 L.HIGH =                               HIGH
 L.SETTINGS_INCLUDE =                   "Include higher qualities"
 L.SETTINGS_DONT_INCLUDE =              "Don't include higher qualities"
