@@ -450,13 +450,13 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							if reagent.count > 0 then
 								local prices = {}
 								table.insert(prices, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, reagent.itemID))
-								if ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].one then
+								if ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID] and ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].one then
 									table.insert(prices, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].one))
 								end
-								if ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].two then
+								if ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID] and ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].two then
 									table.insert(prices, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].two))
 								end
-								if ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].three then
+								if ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID] and ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].three then
 									table.insert(prices, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].three))
 								end
 
