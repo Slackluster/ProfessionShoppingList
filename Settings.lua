@@ -26,19 +26,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		app:CreateSettings()
 
 		-- Midnight cleanup
-		app.Settings["backpackCount"] = nil
-		app.Settings["queueSound"] = nil
-		app.Settings["handyNotes"] = nil
-		app.Settings["underminePrices"] = nil
-		app.Settings["showTokenPrice"] = nil
-		app.Settings["tokyoDrift"] = nil
-
-		if not app.Settings["midClean1"] then
-			if app.Settings["reagentQuality"] == 3 then app.Settings["reagentQuality"] = 2 end
-			if app.Settings["includeHigher"] == 2 then app.Settings["includeHigher"] = 1 end
-			if app.Settings["includeHigher"] == 3 then app.Settings["includeHigher"] = 2 end
-			app.Settings["midClean1"] = true
-		end
+		app.Settings["midClean1"] = nil
 	end
 end)
 

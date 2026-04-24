@@ -53,9 +53,6 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 			ProfessionShoppingList_Cache.SimulatedRecipes = ProfessionShoppingList_Cache.CraftSimRecipes
 			ProfessionShoppingList_Cache.CraftSimRecipes = nil
 		end
-
-		-- Midnight cleanup
-		app.Settings["tabOpened"] = nil
 	end
 end)
 
