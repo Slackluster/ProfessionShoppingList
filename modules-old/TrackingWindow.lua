@@ -746,7 +746,7 @@ function app:UpdateRecipes()
 			table.insert(recipesSorted, key)
 		end
 
-		for _i, recipeInfo in ipairs(recipesSorted) do
+		for _, recipeInfo in ipairs(recipesSorted) do
 			rowNo = rowNo + 1
 
 			local row = CreateFrame("Button", nil, app.Window.Recipes)
@@ -789,8 +789,10 @@ function app:UpdateRecipes()
 						app:SearchAH(recipeInfo.link)
 					-- If Control is held also
 					elseif IsControlKeyDown() and type(recipeInfo.recipeID) == "number" then
-							C_TradeSkillUI.SetRecipeItemNameFilter("") -- Clear search filter, which can interfere
-							C_TradeSkillUI.OpenRecipe(recipeInfo.recipeID)
+						C_TradeSkillUI.SetRecipeItemNameFilter("") -- Clear search filter, which can interfere
+						C_TradeSkillUI.OpenRecipe(recipeInfo.recipeID)
+					elseif IsControlKeyDown() and app.OrderInfo and app.OrderInfo[recipeInfo.recipeID] then
+						ProfessionsFrame.OrdersPage:ViewOrder(app.OrderInfo[recipeInfo.recipeID].view)
 					-- If Alt is held also
 					elseif IsAltKeyDown() and type(recipeInfo.recipeID) == "number" then
 						C_TradeSkillUI.SetRecipeItemNameFilter("") -- Clear search filter, which can interfere

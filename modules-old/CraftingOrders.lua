@@ -358,6 +358,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 	if app.Settings["enhancedOrders"] and numOrders >= 1 and not app.OrderAdjustments then
 		app.OrderAdjustments = app.OrderAdjustments or {}
 		app.OrderIcons = app.OrderIcons or {}
+		app.OrderInfo = app.OrderInfo or {}
 
 		local function OnFrameInitialized(_, v, data)
 			if v and data and v.cells and not C_AddOns.IsAddOnLoaded("PublicOrdersReagentsColumn") then
@@ -365,6 +366,8 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 				app.OrderAdjustments[v] = app.OrderAdjustments[v] or {}
 
 				local key = "order:" .. data.option.orderID .. ":" .. data.option.spellID
+				app.OrderInfo[key] = {}
+				app.OrderInfo[key].view = v.option
 
 				local function doTheThing()
 					-- Needed reagents
