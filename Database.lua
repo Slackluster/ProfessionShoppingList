@@ -249,6 +249,59 @@ app.nyiRecipes = {
 	[382978] = true, -- Pandaria Prospecting (not NYI, but returns Infurious Alloy)
 }
 
+app.CraftingOrderRewards = {
+	items = {
+		[210814] = "artisan",
+		[227713] = "payout",
+		[228724] = "knowledge1",
+		[228725] = "knowledge2",
+		[228726] = "knowledge1",
+		[228727] = "knowledge2",
+		[228728] = "knowledge1",
+		[228729] = "knowledge2",
+		[228730] = "knowledge1",
+		[228731] = "knowledge2",
+		[228732] = "knowledge1",
+		[228733] = "knowledge2",
+		[228734] = "knowledge1",
+		[228735] = "knowledge2",
+		[228736] = "knowledge1",
+		[228737] = "knowledge2",
+		[228738] = "knowledge1",
+		[228739] = "knowledge2",
+		[246320] = "knowledge1",
+		[246321] = "knowledge2",
+		[246322] = "knowledge1",
+		[246323] = "knowledge2",
+		[246324] = "knowledge1",
+		[246325] = "knowledge2",
+		[246326] = "knowledge1",
+		[246327] = "knowledge2",
+		[246328] = "knowledge1",
+		[246329] = "knowledge2",
+		[246330] = "knowledge1",
+		[246331] = "knowledge2",
+		[246332] = "knowledge1",
+		[246333] = "knowledge2",
+		[246334] = "knowledge1",
+		[246335] = "knowledge2",
+		[246585] = "payout",
+	},
+	currency = {
+		[3256] = "artisan",
+		[3257] = "artisan",
+		[3258] = "artisan",
+		[3259] = "artisan",
+		[3260] = "artisan",
+		[3261] = "artisan",
+		[3262] = "artisan",
+		[3263] = "artisan",
+		[3264] = "artisan",
+		[3265] = "artisan",
+		[3266] = "artisan",
+	},
+}
+
 -- Profession Knowledge
 app.ProfessionKnowledge = {
 	[2823] = { -- Dragonflight Alchemy

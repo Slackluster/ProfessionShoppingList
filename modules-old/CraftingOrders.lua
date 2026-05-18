@@ -13,6 +13,15 @@ local L = app.locales
 -- When the addon is fully loaded, actually run the components
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
+		app.Settings["craftingOrders"] = app.Settings["craftingOrders"] or {
+			knowledgeCost = 100,
+			artisanCost = 5,
+			payoutCost = 100,
+		}
+		if ProfessionShoppingList_CharacterData.TrackConcentration == nil then
+			ProfessionShoppingList_CharacterData.TrackConcentration = true
+		end
+
 		app.Flag.CraftingOrderAssets = false
 		app.Flag.QuickOrder = 0
 		app.RepeatQuickOrderTooltip = {}
@@ -255,6 +264,210 @@ function app:CreateCraftingOrdersAssets()
 	app.Flag.CraftingOrderAssets = true
 end
 
+function app:CreateProfessionsOrdersAssets()
+	if not app.TrackOrdersButton then
+		app.TrackOrdersButton = app:MakeButton(ProfessionsFrame.OrdersPage.BrowseFrame, L.TRACK)
+		app.TrackOrdersButton:SetPoint("LEFT", ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "RIGHT", 6, 0)
+		app.TrackOrdersButton:SetScript("OnClick", function()
+			if C_AddOns.IsAddOnLoaded("Auctionator") then
+				for key, orderInfo in pairs(app.OrderInfo) do
+					if orderInfo.learned then
+						local profit = orderInfo.profit
+						profit = profit + (orderInfo.knowledge * (app.Settings["craftingOrders"].knowledgeCost * 10000))
+						profit = profit + (orderInfo.artisan * (app.Settings["craftingOrders"].artisanCost * 10000))
+						profit = profit + (orderInfo.payout * (app.Settings["craftingOrders"].payoutCost * 10000))
+
+						if profit >= 0 and not ProfessionShoppingList_Data.Recipes[key] then
+							if ProfessionShoppingList_CharacterData.TrackConcentration or C_TradeSkillUI.GetCraftingOperationInfo(app.OrderInfo[key].spellID, app.OrderInfo[key].reagents, nil, false).craftingQuality >= orderInfo.minQuality then
+								api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
+							end
+						end
+					end
+				end
+			else
+				for key, orderInfo in pairs(app.OrderInfo) do
+					if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] then
+						if ProfessionShoppingList_CharacterData.TrackConcentration or C_TradeSkillUI.GetCraftingOperationInfo(app.OrderInfo[key].spellID, app.OrderInfo[key].reagents, nil, false).craftingQuality >= orderInfo.minQuality then
+							api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
+						end
+					end
+				end
+			end
+		end)
+		app.TrackOrdersButton:SetScript("OnEnter", function()
+			app:ShowWindowTooltip(L.WINDOW_BUTTON_SETTINGS, nil, nil, "top")
+		end)
+		app.TrackOrdersButton:SetScript("OnLeave", function()
+			GameTooltip:Hide()
+		end)
+		app.TrackOrdersButton:Hide()
+
+		app.TrackOrdersSettingsButton = CreateFrame("Button", "", app.TrackOrdersButton, "")
+		app.TrackOrdersSettingsButton:SetPoint("LEFT", app.TrackOrdersButton, "RIGHT", 2, 0)
+		app.TrackOrdersSettingsButton:SetSize(24, 24)
+		local texture = app.TrackOrdersSettingsButton:CreateTexture(nil, "ARTWORK")
+		texture:SetAllPoints(app.TrackOrdersSettingsButton)
+		texture:SetAtlas("mechagon-projects", true)
+		app.TrackOrdersSettingsButton:SetHighlightTexture("UI-Niffen-Highlight-Bottom")
+		app.TrackOrdersSettingsButton:SetScript("OnMouseDown", function()
+			app.TrackOrdersSettingsButton:SetPoint("LEFT", app.TrackOrdersButton, "RIGHT", 3, -1)
+		end)
+		app.TrackOrdersSettingsButton:SetScript("OnMouseUp", function()
+			app.TrackOrdersSettingsButton:SetPoint("LEFT", app.TrackOrdersButton, "RIGHT", 2, 0)
+		end)
+		app.TrackOrdersSettingsButton:SetScript("OnClick", function()
+			if not app.TrackOrdersSettings:IsShown() then
+				app.TrackOrdersSettings:Show()
+				app.TrackOrdersSettings:SetToplevel(true)
+			else
+				app.TrackOrdersSettings:Hide()
+			end
+		end)
+		app.TrackOrdersSettingsButton:SetScript("OnEnter", function()
+			app:ShowWindowTooltip(L.WINDOW_BUTTON_SETTINGS, nil, nil, "top")
+		end)
+		app.TrackOrdersSettingsButton:SetScript("OnLeave", function()
+			GameTooltip:Hide()
+		end)
+
+		hooksecurefunc(ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton, "SetTabSelected", function()
+			if ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
+				app.TrackOrdersButton:Show()
+			else
+				app.TrackOrdersButton:Hide()
+			end
+		end)
+
+		app.TrackOrdersSettings = CreateFrame("Frame", "", ProfessionsFrame, "BasicFrameTemplate")
+		app.TrackOrdersSettings:SetFrameStrata("DIALOG")
+		app.TrackOrdersSettings:SetPoint("TOPLEFT", app.TrackOrdersSettingsButton, "TOPRIGHT", 6, 0)
+		app.TrackOrdersSettings:EnableMouse(true) -- Stop OnEnter for the frames below from triggering
+		app.TrackOrdersSettings:Hide()
+		app.TrackOrdersSettings.TitleText:SetText(app.NameLong)
+
+		local text0 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		text0:SetPoint("TOPLEFT", app.TrackOrdersSettings, "TOPLEFT", 10, -30)
+		text0:SetJustifyH("LEFT")
+		text0:SetText(L.ORDERS_SET_CRITERIA .. "\n" .. L.ORDERS_COST_NEED)
+		app.TrackOrdersSettings:SetSize(text0:GetStringWidth() + 20, 235)
+
+
+		local text1 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		text1:SetPoint("TOPLEFT", text0, "BOTTOMLEFT", 0, -10)
+		text1:SetJustifyH("LEFT")
+		text1:SetText(L.ORDERS_MAX_COST_KNOWLEDGE)
+
+		local editbox1 = CreateFrame("EditBox", nil, app.TrackOrdersSettings, "InputBoxTemplate")
+		editbox1:SetSize(40,20)
+		editbox1:SetPoint("TOPLEFT", text1, "BOTTOMLEFT", 4, -4)
+		editbox1:SetAutoFocus(false)
+		editbox1:SetCursorPosition(0)
+		editbox1:SetText(app.Settings["craftingOrders"].knowledgeCost)
+		editbox1:SetJustifyH("RIGHT")
+		editbox1:SetTextInsets(0, 3, 0, 0)
+		editbox1:SetScript("OnEditFocusLost", function(self)
+			app.Settings["craftingOrders"].knowledgeCost = math.floor(tonumber(editbox1:GetText()) or app.Settings["craftingOrders"].knowledgeCost)
+			editbox1:SetText(app.Settings["craftingOrders"].knowledgeCost)
+		end)
+		editbox1:SetScript("OnEnterPressed", function(self)
+			self:ClearFocus()
+		end)
+		editbox1:SetScript("OnEscapePressed", function(self)
+			editbox1:SetText(app.Settings["craftingOrders"].knowledgeCost)
+		end)
+		app:SetBorder(editbox1, -6, 1, 2, -1)
+
+		local gold2 = CreateFrame("Button", "", app.TrackOrdersSettings, "")
+		gold2:SetPoint("LEFT", editbox1, "RIGHT", 6, 0)
+		gold2:SetSize(16, 16)
+		local texture = gold2:CreateTexture(nil, "ARTWORK")
+		texture:SetAllPoints(gold2)
+		texture:SetAtlas("auctionhouse-icon-coin-gold", true)
+
+		local text2 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		text2:SetPoint("TOPLEFT", text1, "BOTTOMLEFT", 0, -30)
+		text2:SetJustifyH("LEFT")
+		text2:SetText(L.ORDERS_MAX_COST_ARTISAN)
+
+		local editbox2 = CreateFrame("EditBox", nil, app.TrackOrdersSettings, "InputBoxTemplate")
+		editbox2:SetSize(40,20)
+		editbox2:SetPoint("TOPLEFT", text2, "BOTTOMLEFT", 4, -4)
+		editbox2:SetAutoFocus(false)
+		editbox2:SetCursorPosition(0)
+		editbox2:SetText(app.Settings["craftingOrders"].artisanCost)
+		editbox2:SetJustifyH("RIGHT")
+		editbox2:SetTextInsets(0, 3, 0, 0)
+		editbox2:SetScript("OnEditFocusLost", function(self)
+			app.Settings["craftingOrders"].artisanCost = math.floor(tonumber(editbox2:GetText()) or app.Settings["craftingOrders"].artisanCost)
+			editbox2:SetText(app.Settings["craftingOrders"].artisanCost)
+		end)
+		editbox2:SetScript("OnEnterPressed", function(self)
+			self:ClearFocus()
+		end)
+		editbox2:SetScript("OnEscapePressed", function(self)
+			editbox2:SetText(app.Settings["craftingOrders"].artisanCost)
+		end)
+		app:SetBorder(editbox2, -6, 1, 2, -1)
+
+		local gold2 = CreateFrame("Button", "", app.TrackOrdersSettings, "")
+		gold2:SetPoint("LEFT", editbox2, "RIGHT", 6, 0)
+		gold2:SetSize(16, 16)
+		local texture = gold2:CreateTexture(nil, "ARTWORK")
+		texture:SetAllPoints(gold2)
+		texture:SetAtlas("auctionhouse-icon-coin-gold", true)
+
+		local text3 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		text3:SetPoint("TOPLEFT", text2, "BOTTOMLEFT", 0, -30)
+		text3:SetJustifyH("LEFT")
+		text3:SetText(L.ORDERS_MAX_COST_PAYOUT)
+
+		local editbox3 = CreateFrame("EditBox", nil, app.TrackOrdersSettings, "InputBoxTemplate")
+		editbox3:SetSize(40,20)
+		editbox3:SetPoint("TOPLEFT", text3, "BOTTOMLEFT", 4, -4)
+		editbox3:SetAutoFocus(false)
+		editbox3:SetCursorPosition(0)
+		editbox3:SetText(app.Settings["craftingOrders"].payoutCost)
+		editbox3:SetJustifyH("RIGHT")
+		editbox3:SetTextInsets(0, 3, 0, 0)
+		editbox3:SetScript("OnEditFocusLost", function(self)
+			app.Settings["craftingOrders"].payoutCost = math.floor(tonumber(editbox3:GetText()) or app.Settings["craftingOrders"].payoutCost)
+			editbox3:SetText(app.Settings["craftingOrders"].payoutCost)
+		end)
+		editbox3:SetScript("OnEnterPressed", function(self)
+			self:ClearFocus()
+		end)
+		editbox3:SetScript("OnEscapePressed", function(self)
+			editbox3:SetText(app.Settings["craftingOrders"].payoutCost)
+		end)
+		app:SetBorder(editbox3, -6, 1, 2, -1)
+
+		local gold3 = CreateFrame("Button", "", app.TrackOrdersSettings, "")
+		gold3:SetPoint("LEFT", editbox3, "RIGHT", 6, 0)
+		gold3:SetSize(16, 16)
+		local texture = gold3:CreateTexture(nil, "ARTWORK")
+		texture:SetAllPoints(gold3)
+		texture:SetAtlas("auctionhouse-icon-coin-gold", true)
+
+		local text4 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		text4:SetPoint("TOPLEFT", text3, "BOTTOMLEFT", 0, -30)
+		text4:SetJustifyH("LEFT")
+		text4:SetText(L.ORDERS_TRACK_CONCENTRATION)
+
+		local _, classFilename = UnitClass("player")
+		local _, _, _, classColor = GetClassColor(classFilename)
+
+		local checkbox = CreateFrame("CheckButton", nil, app.TrackOrdersSettings, "ChatConfigCheckButtonTemplate")
+		checkbox:SetPoint("TOPLEFT", text4, "BOTTOMLEFT", -3, -2)
+		checkbox.Text:SetText("|c" .. classColor .. UnitName("player") .. "-" .. GetNormalizedRealmName())
+		checkbox:SetChecked(ProfessionShoppingList_CharacterData.TrackConcentration)
+		checkbox:SetScript("OnClick", function(self)
+			ProfessionShoppingList_CharacterData.TrackConcentration = self:GetChecked()
+		end)
+
+		app.TrackOrdersSettings:SetFlattensRenderLayers(true)
+	end
+end
+
 ---------------------
 -- CRAFTING ORDERS --
 ---------------------
@@ -354,6 +567,14 @@ end)
 -- ORDER ADJUSTMENTS --
 -----------------------
 
+app.Event:Register("TRADE_SKILL_SHOW", function()
+	if not InCombatLockdown() then
+		if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
+			app:CreateProfessionsOrdersAssets()
+		end
+	end
+end)
+
 app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numOrders)
 	if app.Settings["enhancedOrders"] and numOrders >= 1 and not app.OrderAdjustments then
 		app.OrderAdjustments = app.OrderAdjustments or {}
@@ -366,10 +587,22 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 				app.OrderAdjustments[v] = app.OrderAdjustments[v] or {}
 
 				local key = "order:" .. data.option.orderID .. ":" .. data.option.spellID
-				app.OrderInfo[key] = {}
-				app.OrderInfo[key].view = v.option
 
 				local function doTheThing()
+					app.OrderInfo[key] = {
+						view = v.option,
+						learned = C_TradeSkillUI.GetRecipeInfo(data.option.spellID).learned,
+						spellID = data.option.spellID,
+						orderID = data.option.orderID,
+						isRecraft = data.option.isRecraft,
+						knowledge = 0,
+						artisan = 0,
+						payout = 0,
+						profit = 0,
+						reagents = {},
+						minQuality = data.option.minQuality,
+					}
+
 					-- Needed reagents
 					v.cells[4].Text:Hide()
 					v.cells[4]:EnableMouse(false)
@@ -382,25 +615,26 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						end
 					end
 
-					for _, v in ipairs(C_TradeSkillUI.GetRecipeSchematic(data.option.spellID,false).reagentSlotSchematics) do
-						if v.required then
-							local provided = false
-							for _, j in ipairs(v.reagents) do
-								if providedReagents[j.itemID] then
-									provided = true
-									break
+					for _, v in ipairs(C_TradeSkillUI.GetRecipeSchematic(data.option.spellID, false).reagentSlotSchematics) do
+						local provided = false
+						for _, j in ipairs(v.reagents) do
+							if providedReagents[j.itemID] then
+								provided = true
+								if v.dataSlotType == Enum.TradeskillSlotDataType.ModifiedReagent then
+									table.insert(app.OrderInfo[key].reagents, { reagent = { itemID = j.itemID }, dataSlotIndex = v.dataSlotIndex, quantity = providedReagents[j.itemID] })
 								end
+								break
 							end
+						end
 
-							if not provided then
-								local _, itemLink, _, _, _, _, _, _, _, fileID, _, _, _, bindType = C_Item.GetItemInfo(v.reagents[1].itemID)
-								if not itemLink then
-									app:CacheItem(v.reagents[1].itemID)
-									C_Timer.After(0.1, doTheThing)
-									return
-								end
-								table.insert(neededReagents, { icon = fileID, link = itemLink, itemID = v.reagents[1].itemID, count = v.quantityRequired, bindType = bindType } )
+						if not provided and v.required then
+							local _, itemLink, _, _, _, _, _, _, _, fileID, _, _, _, bindType = C_Item.GetItemInfo(v.reagents[1].itemID)
+							if not itemLink then
+								app:CacheItem(v.reagents[1].itemID)
+								C_Timer.After(0.1, doTheThing)
+								return
 							end
+							table.insert(neededReagents, { icon = fileID, link = itemLink, itemID = v.reagents[1].itemID, count = v.quantityRequired, bindType = bindType })
 						end
 					end
 
@@ -483,17 +717,45 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						for _, reward in pairs(data.option.npcOrderRewards) do
 							if reward.itemLink then
 								local _, itemLink, _, _, _, _, _, _, _, fileID = C_Item.GetItemInfo(reward.itemLink)
+								local itemID = C_Item.GetItemInfoInstant(reward.itemLink)
 								if not itemLink then
-									local itemID = C_Item.GetItemInfoInstant(reward.itemLink)
 									app:CacheItem(itemID)
 									C_Timer.After(0.1, doTheThing)
 									return
 								end
 								table.insert(calculations, {type = "reward", icon = fileID, link = itemLink, quantity = 0, amount = Auctionator.API.v1.GetAuctionPriceByItemLink(app.Name, itemLink)})
+								local rewardType = app.CraftingOrderRewards.items[itemID]
+								if rewardType then
+									if rewardType == "payout" then
+										app.OrderInfo[key].payout = app.OrderInfo[key].payout + 1
+									elseif rewardType == "artisan" then
+										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + reward.count
+									elseif rewardType == "knowledge1" then
+										app.OrderInfo[key].knowledge = app.OrderInfo[key].knowledge + 1
+										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 5
+									elseif rewardType == "knowledge2" then
+										app.OrderInfo[key].knowledge = app.OrderInfo[key].knowledge + 2
+										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 10
+									end
+								end
 							elseif reward.currencyType then
 								local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(reward.currencyType)
 								local currencyLink = C_CurrencyInfo.GetCurrencyLink(reward.currencyType, reward.count)
 								table.insert(calculations, {type = "reward", icon = currencyInfo.iconFileID, link = currencyLink, quantity = 0})
+								local rewardType = app.CraftingOrderRewards.currency[reward.currencyType]
+								if rewardType then
+									if rewardType == "payout" then
+										app.OrderInfo[key].payout = app.OrderInfo[key].payout + 1
+									elseif rewardType == "artisan" then
+										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + reward.count
+									elseif rewardType == "knowledge1" then
+										app.OrderInfo[key].knowledge = app.OrderInfo[key].knowledge + 1
+										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 5
+									elseif rewardType == "knowledge2" then
+										app.OrderInfo[key].knowledge = app.OrderInfo[key].knowledge + 2
+										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 10
+									end
+								end
 							end
 						end
 
@@ -508,6 +770,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 								commissionResult = commissionResult + entry.amount
 							end
 						end
+						app.OrderInfo[key].profit = commissionResult
 						local roundedCommissionResult = math.floor((commissionResult + (commissionResult >= 0 and 5000 or -5000)) / 10000) * 10000
 						local _, itemLink = C_Item.GetItemInfo(data.option.itemID)
 
@@ -661,6 +924,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						app.OrderAdjustments[v].unlearned:Show()
 					elseif C_TradeSkillUI.GetRecipeInfo(data.option.spellID).firstCraft then
 						app.OrderAdjustments[v].firstCraft:Show()
+						app.OrderInfo[key].knowledge = app.OrderInfo[key].knowledge + 1
 					end
 				end
 				RunNextFrame(doTheThing)
