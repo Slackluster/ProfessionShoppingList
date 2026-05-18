@@ -14,9 +14,9 @@ local L = app.locales
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		app.Settings["craftingOrders"] = app.Settings["craftingOrders"] or {
-			knowledgeCost = 100,
-			artisanCost = 5,
-			payoutCost = 100,
+			knowledgeCost = 85,
+			artisanCost = 3,
+			payoutCost = 50,
 		}
 		if ProfessionShoppingList_CharacterData.TrackConcentration == nil then
 			ProfessionShoppingList_CharacterData.TrackConcentration = true
