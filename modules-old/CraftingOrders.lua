@@ -294,12 +294,6 @@ function app:CreateProfessionsOrdersAssets()
 				end
 			end
 		end)
-		app.TrackOrdersButton:SetScript("OnEnter", function()
-			app:ShowWindowTooltip(L.WINDOW_BUTTON_SETTINGS, nil, nil, "top")
-		end)
-		app.TrackOrdersButton:SetScript("OnLeave", function()
-			GameTooltip:Hide()
-		end)
 		app.TrackOrdersButton:Hide()
 
 		app.TrackOrdersSettingsButton = CreateFrame("Button", "", app.TrackOrdersButton, "")
@@ -322,12 +316,6 @@ function app:CreateProfessionsOrdersAssets()
 			else
 				app.TrackOrdersSettings:Hide()
 			end
-		end)
-		app.TrackOrdersSettingsButton:SetScript("OnEnter", function()
-			app:ShowWindowTooltip(L.WINDOW_BUTTON_SETTINGS, nil, nil, "top")
-		end)
-		app.TrackOrdersSettingsButton:SetScript("OnLeave", function()
-			GameTooltip:Hide()
 		end)
 
 		hooksecurefunc(ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton, "SetTabSelected", function()
