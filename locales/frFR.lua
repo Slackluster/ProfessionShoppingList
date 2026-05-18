@@ -139,7 +139,7 @@ L.RECIPE_UNLEARNED =                     "recette non apprise"
 
 -- Profession knowledge
 L.PERKS_UNLOCKED =                       "avantages débloqués"
-L.PROFESSION_KNOWLEDGE =                 "connaissances"
+L.PROFESSION_KNOWLEDGE =                 "connaissance"
 L.VENDORS =                              "Vendeurs"
 L.RENOWN =                               COVENANT_SANCTUM_TAB_RENOWN --"Renown "
 L.WORLD =                                "Monde"
@@ -150,19 +150,19 @@ L.LOADING =                              SEARCH_LOADING_TEXT -- "Loading..."
 -- Order adjustments
 L.ORDERS_SCAN_NEEDED =                   "Analyse nécessaire"
 L.ORDERS_DO_SCAN =                       "Effectuez une analyse complète avec Auctionator pour calculer les profits."
--- L.ORDERS_SET_CRITERIA =                  "Set the criteria to track orders."
--- L.ORDERS_COST_NEED =                     "Cost settings only work with Auctionator enabled."
--- L.ORDERS_MAX_COST_KNOWLEDGE =            "Maximum cost per knowledge point:"
--- L.ORDERS_MAX_COST_ARTISAN =              "Maximum cost per artisan currency:" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
--- L.ORDERS_MAX_COST_PAYOUT =               "Maximum cost per reward bag:" -- This refers to Artisan's Payout bag
--- L.ORDERS_TRACK_CONCENTRATION =           "Track orders costing concentration:"
+L.ORDERS_SET_CRITERIA =                  "Définir les critères de suivi des commandes."
+L.ORDERS_COST_NEED =                     "Les paramètres de coût ne fonctionnent que si Auctionator est activé."
+L.ORDERS_MAX_COST_KNOWLEDGE =            "Coût maximal par point de connaissance :"
+L.ORDERS_MAX_COST_ARTISAN =              "Coût maximal par unité de monnaie d'artisan :" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
+L.ORDERS_MAX_COST_PAYOUT =               "Coût maximal par sac de récompense :" -- This refers to Artisan's Payout bag
+L.ORDERS_TRACK_CONCENTRATION =           "Suivre les commandes par coûts en concentration :"
 
 -- Chat feedback
 L.INVALID_PARAMETERS =                   "Paramètres non valides"
-L.INVALID_RECIPEQUANTITY =               L.INVALID_PARAMETERS .. " Veuillez saisir une quantité de recette valide"
-L.INVALID_RECIPEID =                     L.INVALID_PARAMETERS .. " Veuillez saisir un numéro d’identification de recette (recipeID) mis en cache"
-L.INVALID_RECIPE_TRACKED =               L.INVALID_PARAMETERS .. " Veuillez saisir un numéro de recette suivie (recipeID)"
-L.INVALID_ACHIEVEMENT =                  L.INVALID_PARAMETERS .. " Il ne s’agit pas d’un haut fait de métier. Aucune recette n’a été ajoutée"
+L.INVALID_RECIPEQUANTITY =               L.INVALID_PARAMETERS .. " Veuillez saisir une quantité valide pour la recette."
+L.INVALID_RECIPEID =                     L.INVALID_PARAMETERS .. " Veuillez saisir un identifiant de recette (recipeID) mis en cache."
+L.INVALID_RECIPE_TRACKED =               L.INVALID_PARAMETERS .. " Veuillez saisir un identifiant de recette suivie (recipeID)"
+L.INVALID_ACHIEVEMENT =                  L.INVALID_PARAMETERS .. " Il ne s’agit pas d’un haut fait de métier. Aucune recette n’a été ajoutée."
 L.INVALID_RESET_ARG =                    L.INVALID_PARAMETERS .. " Vous pouvez utiliser les arguments suivants :"
 L.INVALID_COMMAND =                      "Commande non valide. Voir " .. app:Colour("/psl settings") .. " pour plus d’informations."
 L.DEBUG_ENABLED =                        "Mode débogage activé"
@@ -198,7 +198,7 @@ L.SETTINGS_HELP_TEXT =                   "Commentaires et aide"
 L.SETTINGS_HELP_BUTTON =                 "Discord"    -- Brand name, if there isn't a localised version, keep it the way it is
 L.SETTINGS_HELP_DESC =                   "Rejoignez le serveur Discord."
 L.SETTINGS_URL_COPY =                    "Ctrl + C pour copier :"
-L.SETTINGS_URL_COPIED =                  "Lien copié dans le presse-papiers"
+L.SETTINGS_URL_COPIED =                  "lien a été copié dans le presse-papiers"
 
 L.SETTINGS_KEYSLASH_TITLE =              SETTINGS_KEYBINDINGS_LABEL .. " & Commandes « Slash »"    -- "Keybindings"
 _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =    app.NameShort .. " : afficher / masquer la fenêtre"
@@ -258,7 +258,7 @@ L.SETTINGS_PERSONALRECIPES_TITLE =       "Suivre les recettes par personnage"
 L.SETTINGS_PERSONALRECIPES_DESC =        "Suit les recettes pour chaque personnage, au lieu de les partager à tout le compte."
 L.SETTINGS_SHOWREMAINING_TITLE =         "Afficher les composants restants"
 L.SETTINGS_SHOWREMAINING_DESC =          "Afficher uniquement le nombre de composants qu’il vous reste à obtenir dans la fenêtre de suivi, au lieu d’afficher ceux possédés / requis."
-L.SETTINGS_REMOVECRAFT_TITLE =           "Retirer après fabrication"
-L.SETTINGS_REMOVECRAFT_DESC =            "Retirer une recette suivie lorsque vous la fabriquez avec succès."
+L.SETTINGS_REMOVECRAFT_TITLE =           "Arrêt du suivi après fabrication"
+L.SETTINGS_REMOVECRAFT_DESC =            "Arrêter de suivre une recette lorsque vous la fabriquez avec succès."
 L.SETTINGS_CLOSEWHENDONE_TITLE =         "Fermer la fenêtre une fois terminé"
 L.SETTINGS_CLOSEWHENDONE_DESC =          "Ferme la fenêtre de suivi après avoir fabriqué la dernière recette suivie."
