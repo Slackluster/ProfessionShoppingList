@@ -278,7 +278,7 @@ function app:CreateProfessionsOrdersAssets()
 						profit = profit + (orderInfo.payout * (app.Settings["craftingOrders"].payoutCost * 10000))
 
 						if profit >= 0 and not ProfessionShoppingList_Data.Recipes[key] then
-							if ProfessionShoppingList_CharacterData.TrackConcentration or C_TradeSkillUI.GetCraftingOperationInfo(app.OrderInfo[key].spellID, app.OrderInfo[key].reagents, nil, false).craftingQuality >= orderInfo.minQuality then
+							if ProfessionShoppingList_CharacterData.TrackConcentration or orderInfo.concentrationCost == 0 then
 								api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
 							end
 						end
@@ -287,7 +287,7 @@ function app:CreateProfessionsOrdersAssets()
 			else
 				for key, orderInfo in pairs(app.OrderInfo) do
 					if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] then
-						if ProfessionShoppingList_CharacterData.TrackConcentration or C_TradeSkillUI.GetCraftingOperationInfo(app.OrderInfo[key].spellID, app.OrderInfo[key].reagents, nil, false).craftingQuality >= orderInfo.minQuality then
+						if ProfessionShoppingList_CharacterData.TrackConcentration or orderInfo.concentrationCost == 0 then
 							api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
 						end
 					end
@@ -599,8 +599,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						artisan = 0,
 						payout = 0,
 						profit = 0,
-						reagents = {},
-						minQuality = data.option.minQuality,
+						concentrationCost = 0,
 					}
 
 					-- Needed reagents
@@ -609,6 +608,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 
 					local neededReagents = {}
 					local providedReagents = {}
+					local concReagents = {}
 					for k, v in ipairs(data.option.reagents) do
 						if v.reagentInfo.reagent.itemID then
 							providedReagents[v.reagentInfo.reagent.itemID] = v.reagentInfo.quantity
@@ -621,7 +621,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							if providedReagents[j.itemID] then
 								provided = true
 								if v.dataSlotType == Enum.TradeskillSlotDataType.ModifiedReagent then
-									table.insert(app.OrderInfo[key].reagents, { reagent = { itemID = j.itemID }, dataSlotIndex = v.dataSlotIndex, quantity = providedReagents[j.itemID] })
+									table.insert(concReagents, { reagent = { itemID = j.itemID }, dataSlotIndex = v.dataSlotIndex, quantity = providedReagents[j.itemID] })
 								end
 								break
 							end
@@ -672,8 +672,35 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						end
 					end
 
+					-- Concentration icon
+					local concInfo = C_TradeSkillUI.GetCraftingOperationInfo(app.OrderInfo[key].spellID, concReagents, nil, false)
+					if concInfo.craftingQuality < data.option.minQuality then
+						app.OrderInfo[key].concentrationCost = concInfo.concentrationCost
+
+						app.OrderAdjustments[v].conc = CreateFrame("Button", "ReagentButton", v, "UIPanelButtonTemplate")
+						app.OrderAdjustments[v].conc:SetWidth(20)
+						app.OrderAdjustments[v].conc:SetHeight(20)
+						app.OrderAdjustments[v].conc:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+						app.OrderAdjustments[v].conc.Text = app.OrderAdjustments[v].conc:CreateFontString(nil, "ARTWORK", "GameFontNormalOutline")
+						app.OrderAdjustments[v].conc.Text:SetJustifyH("RIGHT")
+						app.OrderAdjustments[v].conc.Text:SetTextScale(0.7)
+						app.OrderAdjustments[v].conc.Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].conc, "BOTTOMRIGHT", 2, 0)
+						app.OrderAdjustments[v].conc.Text:SetText(concInfo.concentrationCost)
+						app.OrderAdjustments[v].conc:SetNormalTexture(5747318)
+						app.OrderAdjustments[v].conc:Show()
+						app.OrderAdjustments[v].conc:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].reagent[1], "BOTTOMLEFT", -2, 0)
+						app.OrderAdjustments[v].conc:SetScript("OnEnter", function(self)
+							GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
+							GameTooltip:SetText(concInfo.concentrationCost .. " " .. PROFESSIONS_CRAFTING_STAT_CONCENTRATION)
+							GameTooltip:Show()
+						end)
+						app.OrderAdjustments[v].conc:SetScript("OnLeave", function()
+							GameTooltip:Hide()
+						end)
+					end
+
 					-- Nudge duration to the right
-					v.cells[5].Text:SetPoint("BOTTOMRIGHT", v.cells[5], -20, 0)
+					v.cells[5].Text:SetPoint("BOTTOMRIGHT", v.cells[5], -15, 0)
 
 					-- Order profit
 					if C_AddOns.IsAddOnLoaded("Auctionator") then -- Requires Auctionator
@@ -780,7 +807,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							app.OrderAdjustments[v].rewardText:SetJustifyH("RIGHT")
 						end
 						app.OrderAdjustments[v].rewardText:SetPoint("TOPLEFT", v.cells[3])
-						app.OrderAdjustments[v].rewardText:SetPoint("BOTTOMRIGHT", v.cells[3], 10, 0)
+						app.OrderAdjustments[v].rewardText:SetPoint("BOTTOMRIGHT", v.cells[3], -10, 0)
 
 						if needScan then
 							app.OrderAdjustments[v].rewardText:SetText(app:Colour(L.ORDERS_SCAN_NEEDED))
@@ -870,7 +897,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							app.OrderAdjustments[v].reward[i].Text:SetTextScale(0.9)
 						end
 						app.OrderAdjustments[v].reward[i]:Show()
-						app.OrderAdjustments[v].reward[i]:SetPoint("BOTTOMLEFT", v.cells[3], "BOTTOMLEFT", -44+i*22, 0)
+						app.OrderAdjustments[v].reward[i]:SetPoint("BOTTOMLEFT", v.cells[3], "BOTTOMLEFT", -50+i*22, 0)
 						app.OrderAdjustments[v].reward[i]:SetScript("OnEnter", function(self)
 							GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
 							if i == 1 then
