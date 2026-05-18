@@ -493,19 +493,22 @@ end)
 
 -- When fulfilling an order
 app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, orderID)
-	if app.Settings["removeCraft"] then
-		for k, v in pairs(ProfessionShoppingList_Data.Recipes) do
-			if tonumber(string.match(k, ":(%d+):")) == orderID then
-				-- Remove 1 tracked recipe when it has been crafted (if the option is enabled)
-				api:UntrackRecipe(k, 1)
-				break
+	for k, v in pairs(ProfessionShoppingList_Data.Recipes) do
+		if tonumber(string.match(k, ":(%d+):")) == orderID then
+			if app.OrderInfo and app.OrderInfo[k] then
+				app.OrderInfo[k] = nil
 			end
-		end
 
-		-- Close window if no recipes are left and the option is enabled
-		local next = next
-		if next(ProfessionShoppingList_Data.Recipes) == nil and app.Settings["closeWhenDone"] then
-			app.Window:Hide()
+			if app.Settings["removeCraft"] then
+				api:UntrackRecipe(k, 1)
+
+				local next = next
+				if next(ProfessionShoppingList_Data.Recipes) == nil and app.Settings["closeWhenDone"] then
+					app.Window:Hide()
+				end
+			end
+
+			break
 		end
 	end
 end)
@@ -559,6 +562,7 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 	if not InCombatLockdown() then
 		if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
 			app:CreateProfessionsOrdersAssets()
+			app.OrderInfo = {}
 		end
 	end
 end)
