@@ -150,12 +150,12 @@ L.LOADING =                              SEARCH_LOADING_TEXT -- "Loading..."
 -- Order adjustments
 L.ORDERS_SCAN_NEEDED =                   "Требуется сканирование"
 L.ORDERS_DO_SCAN =                       "Выполните полное сканирование с помощью Auctionator для расчета прибыли."
--- L.ORDERS_SET_CRITERIA =                  "Set the criteria to track orders."
--- L.ORDERS_COST_NEED =                     "Cost settings only work with Auctionator enabled."
--- L.ORDERS_MAX_COST_KNOWLEDGE =            "Maximum cost per knowledge point:"
--- L.ORDERS_MAX_COST_ARTISAN =              "Maximum cost per artisan currency:" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
--- L.ORDERS_MAX_COST_PAYOUT =               "Maximum cost per reward bag:" -- This refers to Artisan's Payout bag
--- L.ORDERS_TRACK_CONCENTRATION =           "Track orders costing concentration:"
+L.ORDERS_SET_CRITERIA =                  "Задайте критерии для отслеживания заказов."
+L.ORDERS_COST_NEED =                     "Настройки стоимости работают только при включенном аддоне Auctionator."
+L.ORDERS_MAX_COST_KNOWLEDGE =            "Макс. стоимость за одно очко знаний:"
+L.ORDERS_MAX_COST_ARTISAN =              "Макс. стоимость за ремесленную валюту:" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
+L.ORDERS_MAX_COST_PAYOUT =               "Макс. стоимость за сумку с наградой:" -- This refers to Artisan's Payout bag
+L.ORDERS_TRACK_CONCENTRATION =           "Отслеживать заказы, требующие концентрации:"
 
 -- Chat feedback
 L.INVALID_PARAMETERS =                   "Неверные параметры."
