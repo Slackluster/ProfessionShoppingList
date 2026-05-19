@@ -14,9 +14,9 @@ local L = app.locales
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		app.Settings["craftingOrders"] = app.Settings["craftingOrders"] or {
-			knowledgeCost = 100,
-			artisanCost = 5,
-			payoutCost = 100,
+			knowledgeCost = 85,
+			artisanCost = 3,
+			payoutCost = 50,
 		}
 		if ProfessionShoppingList_CharacterData.TrackConcentration == nil then
 			ProfessionShoppingList_CharacterData.TrackConcentration = true
@@ -493,19 +493,22 @@ end)
 
 -- When fulfilling an order
 app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, orderID)
-	if app.Settings["removeCraft"] then
-		for k, v in pairs(ProfessionShoppingList_Data.Recipes) do
-			if tonumber(string.match(k, ":(%d+):")) == orderID then
-				-- Remove 1 tracked recipe when it has been crafted (if the option is enabled)
-				api:UntrackRecipe(k, 1)
-				break
+	for k, v in pairs(ProfessionShoppingList_Data.Recipes) do
+		if tonumber(string.match(k, ":(%d+):")) == orderID then
+			if app.OrderInfo and app.OrderInfo[k] then
+				app.OrderInfo[k] = nil
 			end
-		end
 
-		-- Close window if no recipes are left and the option is enabled
-		local next = next
-		if next(ProfessionShoppingList_Data.Recipes) == nil and app.Settings["closeWhenDone"] then
-			app.Window:Hide()
+			if app.Settings["removeCraft"] then
+				api:UntrackRecipe(k, 1)
+
+				local next = next
+				if next(ProfessionShoppingList_Data.Recipes) == nil and app.Settings["closeWhenDone"] then
+					app.Window:Hide()
+				end
+			end
+
+			break
 		end
 	end
 end)
@@ -559,6 +562,7 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 	if not InCombatLockdown() then
 		if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
 			app:CreateProfessionsOrdersAssets()
+			app.OrderInfo = {}
 		end
 	end
 end)
@@ -661,22 +665,26 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 					end
 
 					-- Concentration icon
+					if app.OrderAdjustments[v].conc then app.OrderAdjustments[v].conc:Hide() end
+
 					local concInfo = C_TradeSkillUI.GetCraftingOperationInfo(app.OrderInfo[key].spellID, concReagents, nil, false)
 					if concInfo.craftingQuality < data.option.minQuality then
 						app.OrderInfo[key].concentrationCost = concInfo.concentrationCost
 
-						app.OrderAdjustments[v].conc = CreateFrame("Button", "ReagentButton", v, "UIPanelButtonTemplate")
-						app.OrderAdjustments[v].conc:SetWidth(20)
-						app.OrderAdjustments[v].conc:SetHeight(20)
-						app.OrderAdjustments[v].conc:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
-						app.OrderAdjustments[v].conc.Text = app.OrderAdjustments[v].conc:CreateFontString(nil, "ARTWORK", "GameFontNormalOutline")
-						app.OrderAdjustments[v].conc.Text:SetJustifyH("RIGHT")
-						app.OrderAdjustments[v].conc.Text:SetTextScale(0.7)
-						app.OrderAdjustments[v].conc.Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].conc, "BOTTOMRIGHT", 2, 0)
-						app.OrderAdjustments[v].conc.Text:SetText(concInfo.concentrationCost)
-						app.OrderAdjustments[v].conc:SetNormalTexture(5747318)
-						app.OrderAdjustments[v].conc:Show()
+						if not app.OrderAdjustments[v].conc then
+							app.OrderAdjustments[v].conc = CreateFrame("Button", "ReagentButton", v, "UIPanelButtonTemplate")
+							app.OrderAdjustments[v].conc:SetWidth(20)
+							app.OrderAdjustments[v].conc:SetHeight(20)
+							app.OrderAdjustments[v].conc:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+							app.OrderAdjustments[v].conc.Text = app.OrderAdjustments[v].conc:CreateFontString(nil, "ARTWORK", "GameFontNormalOutline")
+							app.OrderAdjustments[v].conc.Text:SetJustifyH("RIGHT")
+							app.OrderAdjustments[v].conc.Text:SetTextScale(0.7)
+							app.OrderAdjustments[v].conc.Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].conc, "BOTTOMRIGHT", 2, 0)
+							app.OrderAdjustments[v].conc:SetNormalTexture(5747318)
+						end
 						app.OrderAdjustments[v].conc:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].reagent[1], "BOTTOMLEFT", -2, 0)
+						app.OrderAdjustments[v].conc.Text:SetText(concInfo.concentrationCost)
+						app.OrderAdjustments[v].conc:Show()
 						app.OrderAdjustments[v].conc:SetScript("OnEnter", function(self)
 							GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
 							GameTooltip:SetText(concInfo.concentrationCost .. " " .. PROFESSIONS_CRAFTING_STAT_CONCENTRATION)
