@@ -337,8 +337,6 @@ function app:CreateProfessionsOrdersAssets()
 		text0:SetPoint("TOPLEFT", app.TrackOrdersSettings, "TOPLEFT", 10, -30)
 		text0:SetJustifyH("LEFT")
 		text0:SetText(L.ORDERS_SET_CRITERIA .. "\n" .. L.ORDERS_COST_NEED)
-		app.TrackOrdersSettings:SetSize(text0:GetStringWidth() + 20, 235)
-
 
 		local text1 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		text1:SetPoint("TOPLEFT", text0, "BOTTOMLEFT", 0, -10)
@@ -453,6 +451,12 @@ function app:CreateProfessionsOrdersAssets()
 		end)
 
 		app.TrackOrdersSettings:SetFlattensRenderLayers(true)
+		app.TrackOrdersSettings:SetSize(text0:GetStringWidth() + 20, 235)
+		app.TrackOrdersSettings:SetScript("OnShow", function()
+			RunNextFrame(function()
+				app.TrackOrdersSettings:SetHeight(math.abs(checkbox:GetBottom() - app.TrackOrdersSettings:GetTop()) + 6)
+			end)
+		end)
 	end
 end
 
