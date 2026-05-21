@@ -319,7 +319,7 @@ function app:CreateProfessionsOrdersAssets()
 		end)
 
 		hooksecurefunc(ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton, "SetTabSelected", function()
-			if ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
+			if app.Settings["enhancedOrders"] and ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
 				app.TrackOrdersButton:Show()
 			else
 				app.TrackOrdersButton:Hide()
