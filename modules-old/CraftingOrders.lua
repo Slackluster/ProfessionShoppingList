@@ -319,7 +319,7 @@ function app:CreateProfessionsOrdersAssets()
 		end)
 
 		hooksecurefunc(ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton, "SetTabSelected", function()
-			if ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
+			if app.Settings["enhancedOrders"] and ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
 				app.TrackOrdersButton:Show()
 			else
 				app.TrackOrdersButton:Hide()
@@ -337,8 +337,6 @@ function app:CreateProfessionsOrdersAssets()
 		text0:SetPoint("TOPLEFT", app.TrackOrdersSettings, "TOPLEFT", 10, -30)
 		text0:SetJustifyH("LEFT")
 		text0:SetText(L.ORDERS_SET_CRITERIA .. "\n" .. L.ORDERS_COST_NEED)
-		app.TrackOrdersSettings:SetSize(text0:GetStringWidth() + 20, 235)
-
 
 		local text1 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		text1:SetPoint("TOPLEFT", text0, "BOTTOMLEFT", 0, -10)
@@ -453,6 +451,12 @@ function app:CreateProfessionsOrdersAssets()
 		end)
 
 		app.TrackOrdersSettings:SetFlattensRenderLayers(true)
+		app.TrackOrdersSettings:SetSize(text0:GetStringWidth() + 20, 235)
+		app.TrackOrdersSettings:SetScript("OnShow", function()
+			RunNextFrame(function()
+				app.TrackOrdersSettings:SetHeight(math.abs(checkbox:GetBottom() - app.TrackOrdersSettings:GetTop()) + 6)
+			end)
+		end)
 	end
 end
 
@@ -574,7 +578,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 		app.OrderInfo = app.OrderInfo or {}
 
 		local function OnFrameInitialized(_, v, data)
-			if v and data and v.cells and not C_AddOns.IsAddOnLoaded("PublicOrdersReagentsColumn") then
+			if v and data and v.cells then
 				if not data.option or not data.option.orderID then return end
 				app.OrderAdjustments[v] = app.OrderAdjustments[v] or {}
 
@@ -681,8 +685,8 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							app.OrderAdjustments[v].conc.Text:SetTextScale(0.7)
 							app.OrderAdjustments[v].conc.Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].conc, "BOTTOMRIGHT", 2, 0)
 							app.OrderAdjustments[v].conc:SetNormalTexture(5747318)
+							app.OrderAdjustments[v].conc:SetPoint("BOTTOMLEFT", v.cells[4], "BOTTOMLEFT", -26, 0)
 						end
-						app.OrderAdjustments[v].conc:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].reagent[1], "BOTTOMLEFT", -2, 0)
 						app.OrderAdjustments[v].conc.Text:SetText(concInfo.concentrationCost)
 						app.OrderAdjustments[v].conc:Show()
 						app.OrderAdjustments[v].conc:SetScript("OnEnter", function(self)
