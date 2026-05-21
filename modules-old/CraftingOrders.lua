@@ -669,24 +669,24 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 					end
 
 					-- Concentration icon
-					if app.OrderAdjustments[v].conc then app.OrderAdjustments[v].conc:Hide() end
+					if not app.OrderAdjustments[v].conc then
+						app.OrderAdjustments[v].conc = CreateFrame("Button", "ReagentButton", v, "UIPanelButtonTemplate")
+						app.OrderAdjustments[v].conc:SetWidth(20)
+						app.OrderAdjustments[v].conc:SetHeight(20)
+						app.OrderAdjustments[v].conc:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+						app.OrderAdjustments[v].conc.Text = app.OrderAdjustments[v].conc:CreateFontString(nil, "ARTWORK", "GameFontNormalOutline")
+						app.OrderAdjustments[v].conc.Text:SetJustifyH("RIGHT")
+						app.OrderAdjustments[v].conc.Text:SetTextScale(0.7)
+						app.OrderAdjustments[v].conc.Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].conc, "BOTTOMRIGHT", 2, 0)
+						app.OrderAdjustments[v].conc:SetNormalTexture(5747318)
+					end
+					app.OrderAdjustments[v].conc:SetPoint("BOTTOMLEFT", v.cells[4], "BOTTOMLEFT", -26, 0)
+					app.OrderAdjustments[v].conc:Hide()
 
 					local concInfo = C_TradeSkillUI.GetCraftingOperationInfo(app.OrderInfo[key].spellID, concReagents, nil, false)
 					if concInfo.craftingQuality < data.option.minQuality then
 						app.OrderInfo[key].concentrationCost = concInfo.concentrationCost
 
-						if not app.OrderAdjustments[v].conc then
-							app.OrderAdjustments[v].conc = CreateFrame("Button", "ReagentButton", v, "UIPanelButtonTemplate")
-							app.OrderAdjustments[v].conc:SetWidth(20)
-							app.OrderAdjustments[v].conc:SetHeight(20)
-							app.OrderAdjustments[v].conc:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
-							app.OrderAdjustments[v].conc.Text = app.OrderAdjustments[v].conc:CreateFontString(nil, "ARTWORK", "GameFontNormalOutline")
-							app.OrderAdjustments[v].conc.Text:SetJustifyH("RIGHT")
-							app.OrderAdjustments[v].conc.Text:SetTextScale(0.7)
-							app.OrderAdjustments[v].conc.Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].conc, "BOTTOMRIGHT", 2, 0)
-							app.OrderAdjustments[v].conc:SetNormalTexture(5747318)
-							app.OrderAdjustments[v].conc:SetPoint("BOTTOMLEFT", v.cells[4], "BOTTOMLEFT", -26, 0)
-						end
 						app.OrderAdjustments[v].conc.Text:SetText(concInfo.concentrationCost)
 						app.OrderAdjustments[v].conc:Show()
 						app.OrderAdjustments[v].conc:SetScript("OnEnter", function(self)
