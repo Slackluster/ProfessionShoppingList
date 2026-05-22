@@ -318,11 +318,29 @@ function app:CreateProfessionsOrdersAssets()
 			end
 		end)
 
+		local function sortOrders()
+			ProfessionsFrame.OrdersPage:ResetSortOrder()
+			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration)
+			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration) -- Can't specify ascending
+			C_Timer.After(0.2, function()
+				if ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.LoadingSpinner:IsShown() then
+					sortOrders()
+				end
+			end)
+		end
+
 		hooksecurefunc(ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton, "SetTabSelected", function()
 			if app.Settings["enhancedOrders"] and ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
 				app.TrackOrdersButton:Show()
+				sortOrders()
 			else
 				app.TrackOrdersButton:Hide()
+			end
+		end)
+
+		ProfessionsFrame.OrdersPage:HookScript("OnShow", function()
+			if app.Settings["enhancedOrders"] and ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
+				sortOrders()
 			end
 		end)
 
