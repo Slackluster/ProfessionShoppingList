@@ -158,9 +158,9 @@ L.ORDERS_MAX_COST_PAYOUT =               "Coût maximal par sac de récompense :
 L.ORDERS_TRACK_CONCENTRATION =           "Suivre les commandes par coûts en concentration :"
 
 L.ORDERSQUEUE_QUEUE =                    "File d'attente"
-L.ORDERSQUEUE_QUEUE =                    "Commandes en attente :"
+L.ORDERSQUEUE_QUEUED =                   "Commandes en attente"
 L.ORDERSQUEUE_NEXT =                     "Prochaine commande"
-L.ORDERSQUEUE_CLAIM =                    "Claim Order"
+L.ORDERSQUEUE_CLAIM =                    "Commencer la commande"
 L.ORDERSQUEUE_CRAFT =                    "Lancer la commande"
 L.ORDERSQUEUE_CRAFTING =                 "En cours..."
 L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
