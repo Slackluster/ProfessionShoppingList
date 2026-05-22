@@ -157,6 +157,14 @@ L.LOADING =                              SEARCH_LOADING_TEXT -- "Loading..."
 -- L.ORDERS_MAX_COST_PAYOUT =               "Maximum cost per reward bag:" -- This refers to Artisan's Payout bag
 -- L.ORDERS_TRACK_CONCENTRATION =           "Track orders costing concentration:"
 
+-- L.ORDERSQUEUE_QUEUE =                    "Queue"
+-- L.ORDERSQUEUE_QUEUE =                    "Orders in queue:"
+-- L.ORDERSQUEUE_NEXT =                     "Next Order"
+-- L.ORDERSQUEUE_CLAIM =                    "Claim Order"
+-- L.ORDERSQUEUE_CRAFT =                    "Craft Order"
+-- L.ORDERSQUEUE_CRAFTING =                 "Crafting..."
+-- L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
+
 -- Chat feedback
 L.INVALID_PARAMETERS =                   "参数无效。"
 L.INVALID_RECIPEQUANTITY =               L.INVALID_PARAMETERS .. " 请输入有效的配方数量。"

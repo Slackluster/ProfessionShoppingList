@@ -157,6 +157,14 @@ L.ORDERS_MAX_COST_ARTISAN =              "Coût maximal par unité de monnaie d'
 L.ORDERS_MAX_COST_PAYOUT =               "Coût maximal par sac de récompense :" -- This refers to Artisan's Payout bag
 L.ORDERS_TRACK_CONCENTRATION =           "Suivre les commandes par coûts en concentration :"
 
+-- L.ORDERSQUEUE_QUEUE =                    "Queue"
+-- L.ORDERSQUEUE_QUEUE =                    "Orders in queue:"
+-- L.ORDERSQUEUE_NEXT =                     "Next Order"
+-- L.ORDERSQUEUE_CLAIM =                    "Claim Order"
+-- L.ORDERSQUEUE_CRAFT =                    "Craft Order"
+-- L.ORDERSQUEUE_CRAFTING =                 "Crafting..."
+-- L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
+
 -- Chat feedback
 L.INVALID_PARAMETERS =                   "Paramètres non valides"
 L.INVALID_RECIPEQUANTITY =               L.INVALID_PARAMETERS .. " Veuillez saisir une quantité valide pour la recette."

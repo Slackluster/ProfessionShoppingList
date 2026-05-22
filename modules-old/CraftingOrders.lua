@@ -606,6 +606,11 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 		app.OrderInfo = app.OrderInfo or {}
 
 		local function OnFrameInitialized(_, v, data)
+			app.OrderState = app.Enum.OrderState.Idle
+			if app.OrdersQueue:IsShown() then
+				app:UpdateOrdersQueue()
+			end
+
 			if v and data and v.cells then
 				if not data.option or not data.option.orderID then return end
 				app.OrderAdjustments[v] = app.OrderAdjustments[v] or {}

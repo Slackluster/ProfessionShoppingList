@@ -2232,7 +2232,7 @@ function api:TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 
 	-- Track recipe
 	if not ProfessionShoppingList_Data.Recipes[recipeID] then
-		ProfessionShoppingList_Data.Recipes[recipeID] = { quantity = 0, recraft = recraft or false, link = recipeLink, simRecipe = simRecipe }
+		ProfessionShoppingList_Data.Recipes[recipeID] = { professionID = C_TradeSkillUI.GetProfessionInfoByRecipeID(originalRecipeID).profession, recipeID = originalRecipeID, orderID = orderID, quantity = 0, recraft = recraft or false, link = recipeLink, simRecipe = simRecipe }
 	end
 	ProfessionShoppingList_Data.Recipes[recipeID].quantity = ProfessionShoppingList_Data.Recipes[recipeID].quantity + recipeQuantity
 
