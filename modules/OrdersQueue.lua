@@ -155,13 +155,8 @@ end)
 
 app.Event:Register("CRAFTINGORDERS_CLAIMED_ORDER_UPDATED", function(orderID)
 	if app.OrdersQueue:IsShown() then
-		local orderInfo = C_CraftingOrders.GetClaimedOrder()
-		local orderState = orderInfo and orderInfo.orderState
-
-		if orderState == Enum.CraftingOrderState.Claimed and app.OrderState ~= app.Enum.OrderState.Created then
+		if C_CraftingOrders.GetClaimedOrder() and app.OrderState ~= app.Enum.OrderState.Created then
 			app.OrderState = app.Enum.OrderState.Claimed
-		elseif orderState == Enum.CraftingOrderState.Fulfilled then
-			app.OrderState = app.Enum.OrderState.Idle
 		end
 		app:UpdateOrdersQueue()
 	end
@@ -175,10 +170,12 @@ app.Event:Register("UNIT_SPELLCAST_START", function(unitTarget, castGUID, spellI
 end)
 
 app.Event:Register("UNIT_SPELLCAST_STOP", function(unitTarget, castGUID, spellID, castBarID)
-	if unitTarget == "player" and app.OrdersQueue and app.OrdersQueue:IsShown() and spellID == app.QueuedOrder.recipeID and app.OrderState ~= app.Enum.OrderState.Created then
-		app.OrderState = app.Enum.OrderState.Claimed
-		app:UpdateOrdersQueue()
-	end
+	C_Timer.After(1, function()
+		if unitTarget == "player" and app.OrdersQueue and app.OrdersQueue:IsShown() and spellID == app.QueuedOrder.recipeID and app.OrderState ~= app.Enum.OrderState.Created then
+			app.OrderState = app.Enum.OrderState.Claimed
+			app:UpdateOrdersQueue()
+		end
+	end)
 end)
 
 app.Event:Register("UNIT_SPELLCAST_INTERRUPTED", function(unitTarget, castGUID, spellID, castBarID)
@@ -189,7 +186,7 @@ app.Event:Register("UNIT_SPELLCAST_INTERRUPTED", function(unitTarget, castGUID, 
 end)
 
 app.Event:Register("TRADE_SKILL_ITEM_CRAFTED_RESULT", function(data)
-	if app.OrdersQueue:IsShown() and app.OrderState == app.Enum.OrderState.Crafting then
+	if app.OrdersQueue:IsShown() and app.OrderState then
 		app.OrderState = app.Enum.OrderState.Created
 		app:UpdateOrdersQueue()
 	end
