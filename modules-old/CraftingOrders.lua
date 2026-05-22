@@ -1010,3 +1010,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 		ScrollUtil.AddInitializedFrameCallback(ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ScrollBox, OnFrameInitialized, nil, true)
 	end
 end)
+
+app.Event:Register("TRADE_SKILL_CLOSE", function()
+	app.TrackOrdersSettings:Hide()
+end)
