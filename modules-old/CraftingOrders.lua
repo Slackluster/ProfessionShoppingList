@@ -1012,5 +1012,5 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 end)
 
 app.Event:Register("TRADE_SKILL_CLOSE", function()
-	app.TrackOrdersSettings:Hide()
+	if app.TrackOrdersSettings then app.TrackOrdersSettings:Hide() end
 end)
