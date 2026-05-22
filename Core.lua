@@ -44,6 +44,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		ProfessionShoppingList_Library = ProfessionShoppingList_Library or {}
 
 		app.Flag = {}
+		app.Enum = {}
 
 		C_ChatInfo.RegisterAddonMessagePrefix(app.NamePrefix)
 		app:CreateSlashCommands()
@@ -304,8 +305,8 @@ function app:SetBorder(parent, a, b, c, d)
 	border:SetBackdropBorderColor(0.25, 0.78, 0.92)
 end
 
-function app:MakeButton(parent, text)
-	local frame = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
+function app:MakeButton(parent, text, name)
+	local frame = CreateFrame("Button", name, parent, "UIPanelButtonTemplate")
 	frame:SetText(text)
 	frame:SetWidth(frame:GetTextWidth()+20)
 

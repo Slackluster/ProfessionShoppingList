@@ -318,11 +318,29 @@ function app:CreateProfessionsOrdersAssets()
 			end
 		end)
 
+		local function sortOrders()
+			ProfessionsFrame.OrdersPage:ResetSortOrder()
+			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration)
+			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration) -- Can't specify ascending
+			C_Timer.After(0.2, function()
+				if ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.LoadingSpinner:IsShown() then
+					sortOrders()
+				end
+			end)
+		end
+
 		hooksecurefunc(ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton, "SetTabSelected", function()
 			if app.Settings["enhancedOrders"] and ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
 				app.TrackOrdersButton:Show()
+				sortOrders()
 			else
 				app.TrackOrdersButton:Hide()
+			end
+		end)
+
+		ProfessionsFrame.OrdersPage:HookScript("OnShow", function()
+			if app.Settings["enhancedOrders"] and ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
+				sortOrders()
 			end
 		end)
 
@@ -572,12 +590,27 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 end)
 
 app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numOrders)
+	if ProfessionsFrame.OrdersPage:IsShown() then
+		local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
+		if skillLineID and not app.ProfessionKnowledge[skillLineID] then
+			local profInfo = C_TradeSkillUI.GetChildProfessionInfos()
+			if profInfo and profInfo[1] and profInfo[1].professionID then
+				C_TradeSkillUI.SetProfessionChildSkillLineID(profInfo[1].professionID)
+			end
+		end
+	end
+
 	if app.Settings["enhancedOrders"] and numOrders >= 1 and not app.OrderAdjustments then
 		app.OrderAdjustments = app.OrderAdjustments or {}
 		app.OrderIcons = app.OrderIcons or {}
 		app.OrderInfo = app.OrderInfo or {}
 
 		local function OnFrameInitialized(_, v, data)
+			app.OrderState = app.Enum.OrderState.Idle
+			if app.OrdersQueue:IsShown() then
+				app:UpdateOrdersQueue()
+			end
+
 			if v and data and v.cells then
 				if not data.option or not data.option.orderID then return end
 				app.OrderAdjustments[v] = app.OrderAdjustments[v] or {}
@@ -669,24 +702,24 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 					end
 
 					-- Concentration icon
-					if app.OrderAdjustments[v].conc then app.OrderAdjustments[v].conc:Hide() end
+					if not app.OrderAdjustments[v].conc then
+						app.OrderAdjustments[v].conc = CreateFrame("Button", "ReagentButton", v, "UIPanelButtonTemplate")
+						app.OrderAdjustments[v].conc:SetWidth(20)
+						app.OrderAdjustments[v].conc:SetHeight(20)
+						app.OrderAdjustments[v].conc:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+						app.OrderAdjustments[v].conc.Text = app.OrderAdjustments[v].conc:CreateFontString(nil, "ARTWORK", "GameFontNormalOutline")
+						app.OrderAdjustments[v].conc.Text:SetJustifyH("RIGHT")
+						app.OrderAdjustments[v].conc.Text:SetTextScale(0.7)
+						app.OrderAdjustments[v].conc.Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].conc, "BOTTOMRIGHT", 2, 0)
+						app.OrderAdjustments[v].conc:SetNormalTexture(5747318)
+					end
+					app.OrderAdjustments[v].conc:SetPoint("BOTTOMLEFT", v.cells[4], "BOTTOMLEFT", -26, 0)
+					app.OrderAdjustments[v].conc:Hide()
 
 					local concInfo = C_TradeSkillUI.GetCraftingOperationInfo(app.OrderInfo[key].spellID, concReagents, nil, false)
 					if concInfo.craftingQuality < data.option.minQuality then
 						app.OrderInfo[key].concentrationCost = concInfo.concentrationCost
 
-						if not app.OrderAdjustments[v].conc then
-							app.OrderAdjustments[v].conc = CreateFrame("Button", "ReagentButton", v, "UIPanelButtonTemplate")
-							app.OrderAdjustments[v].conc:SetWidth(20)
-							app.OrderAdjustments[v].conc:SetHeight(20)
-							app.OrderAdjustments[v].conc:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
-							app.OrderAdjustments[v].conc.Text = app.OrderAdjustments[v].conc:CreateFontString(nil, "ARTWORK", "GameFontNormalOutline")
-							app.OrderAdjustments[v].conc.Text:SetJustifyH("RIGHT")
-							app.OrderAdjustments[v].conc.Text:SetTextScale(0.7)
-							app.OrderAdjustments[v].conc.Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].conc, "BOTTOMRIGHT", 2, 0)
-							app.OrderAdjustments[v].conc:SetNormalTexture(5747318)
-							app.OrderAdjustments[v].conc:SetPoint("BOTTOMLEFT", v.cells[4], "BOTTOMLEFT", -26, 0)
-						end
 						app.OrderAdjustments[v].conc.Text:SetText(concInfo.concentrationCost)
 						app.OrderAdjustments[v].conc:Show()
 						app.OrderAdjustments[v].conc:SetScript("OnEnter", function(self)
@@ -976,4 +1009,8 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 
 		ScrollUtil.AddInitializedFrameCallback(ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ScrollBox, OnFrameInitialized, nil, true)
 	end
+end)
+
+app.Event:Register("TRADE_SKILL_CLOSE", function()
+	app.TrackOrdersSettings:Hide()
 end)
