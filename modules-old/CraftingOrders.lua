@@ -590,6 +590,16 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 end)
 
 app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numOrders)
+	if ProfessionsFrame.OrdersPage:IsShown() then
+		local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
+		if skillLineID and not app.ProfessionKnowledge[skillLineID] then
+			local profInfo = C_TradeSkillUI.GetChildProfessionInfos()
+			if profInfo and profInfo[1] and profInfo[1].professionID then
+				C_TradeSkillUI.SetProfessionChildSkillLineID(profInfo[1].professionID)
+			end
+		end
+	end
+
 	if app.Settings["enhancedOrders"] and numOrders >= 1 and not app.OrderAdjustments then
 		app.OrderAdjustments = app.OrderAdjustments or {}
 		app.OrderIcons = app.OrderIcons or {}
