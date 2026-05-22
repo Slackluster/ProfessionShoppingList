@@ -127,7 +127,7 @@ function app:UpdateOrdersQueue()
 end
 
 app.Event:Register("TRADE_SKILL_CLOSE", function()
-	app.OrdersQueue:Hide()
+	if app.OrdersQueue then app.OrdersQueue:Hide() end
 end)
 
 app.Event:Register("TRADE_SKILL_SHOW", function()
