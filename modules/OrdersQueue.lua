@@ -154,7 +154,7 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 end)
 
 app.Event:Register("CRAFTINGORDERS_CLAIMED_ORDER_UPDATED", function(orderID)
-	if app.OrdersQueue:IsShown() then
+	if app.OrdersQueue and app.OrdersQueue:IsShown() then
 		if C_CraftingOrders.GetClaimedOrder() and app.OrderState ~= app.Enum.OrderState.Created then
 			app.OrderState = app.Enum.OrderState.Claimed
 		end
@@ -186,7 +186,7 @@ app.Event:Register("UNIT_SPELLCAST_INTERRUPTED", function(unitTarget, castGUID, 
 end)
 
 app.Event:Register("TRADE_SKILL_ITEM_CRAFTED_RESULT", function(data)
-	if app.OrdersQueue:IsShown() and app.OrderState then
+	if app.OrdersQueue and app.OrdersQueue:IsShown() and app.OrderState then
 		app.OrderState = app.Enum.OrderState.Created
 		app:UpdateOrdersQueue()
 	end
