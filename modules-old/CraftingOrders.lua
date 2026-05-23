@@ -309,13 +309,17 @@ function app:CreateProfessionsOrdersAssets()
 			end
 		end)
 
+		app.Flag.ReloadingOrders = 0
 		local function sortOrders()
 			ProfessionsFrame.OrdersPage:ResetSortOrder()
 			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration)
 			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration) -- Can't specify ascending
 			C_Timer.After(0.2, function()
-				if ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.LoadingSpinner:IsShown() then
+				app.Flag.ReloadingOrders = app.Flag.ReloadingOrders + 1
+				if (ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.LoadingSpinner:IsShown() or ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ResultsText:IsShown()) and app.Flag.ReloadingOrders < 15 then
 					sortOrders()
+				else
+					app.Flag.ReloadingOrders = 0
 				end
 			end)
 		end
