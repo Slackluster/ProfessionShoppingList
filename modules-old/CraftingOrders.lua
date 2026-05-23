@@ -269,27 +269,18 @@ function app:CreateProfessionsOrdersAssets()
 		app.TrackOrdersButton = app:MakeButton(ProfessionsFrame.OrdersPage.BrowseFrame, L.TRACK)
 		app.TrackOrdersButton:SetPoint("LEFT", ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "RIGHT", 6, 0)
 		app.TrackOrdersButton:SetScript("OnClick", function()
-			if C_AddOns.IsAddOnLoaded("Auctionator") then
-				for key, orderInfo in pairs(app.OrderInfo) do
-					if orderInfo.learned then
-						local profit = orderInfo.profit
+			for key, orderInfo in pairs(app.OrderInfo) do
+				if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] then
+					local profit = 1
+					if C_AddOns.IsAddOnLoaded("Auctionator") then
+						profit = orderInfo.profit
 						profit = profit + (orderInfo.knowledge * (app.Settings["craftingOrders"].knowledgeCost * 10000))
 						profit = profit + (orderInfo.artisan * (app.Settings["craftingOrders"].artisanCost * 10000))
 						profit = profit + (orderInfo.payout * (app.Settings["craftingOrders"].payoutCost * 10000))
-
-						if profit >= 0 and not ProfessionShoppingList_Data.Recipes[key] then
-							if ProfessionShoppingList_CharacterData.TrackConcentration or orderInfo.concentrationCost == 0 then
-								api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
-							end
-						end
 					end
-				end
-			else
-				for key, orderInfo in pairs(app.OrderInfo) do
-					if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] then
-						if ProfessionShoppingList_CharacterData.TrackConcentration or orderInfo.concentrationCost == 0 then
-							api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
-						end
+
+					if profit >= 0 and (ProfessionShoppingList_CharacterData.TrackConcentration or orderInfo.concentrationCost == 0) then
+						api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
 					end
 				end
 			end
