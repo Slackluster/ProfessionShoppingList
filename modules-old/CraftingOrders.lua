@@ -314,9 +314,9 @@ function app:CreateProfessionsOrdersAssets()
 			ProfessionsFrame.OrdersPage:ResetSortOrder()
 			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration)
 			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration) -- Can't specify descending
-			C_Timer.After(0.2, function()
+			C_Timer.After(0.5, function()
 				app.Flag.ReloadingOrders = app.Flag.ReloadingOrders + 1
-				if (ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.LoadingSpinner:IsShown() or ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ResultsText:IsShown()) and app.Flag.ReloadingOrders < 15 then
+				if (ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.LoadingSpinner:IsShown() or ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ResultsText:IsShown()) and app.Flag.ReloadingOrders < 6 then
 					sortOrders()
 				else
 					app.Flag.ReloadingOrders = 0
