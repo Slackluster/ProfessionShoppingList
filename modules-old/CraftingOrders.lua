@@ -630,11 +630,11 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 					local providedReagents = {}
 					local concReagents = {}
 					for k, v in ipairs(data.option.reagents) do
+						if v.reagentInfo.dataSlotType == Enum.TradeskillSlotDataType.ModifiedReagent then
+							table.insert(concReagents, { reagent = v.reagentInfo.reagent, dataSlotIndex = v.reagentInfo.dataSlotIndex, quantity = v.reagentInfo.quantity })
+						end
 						if v.reagentInfo.reagent.itemID then
 							providedReagents[v.reagentInfo.reagent.itemID] = v.reagentInfo.quantity
-							if v.reagentInfo.dataSlotType == Enum.TradeskillSlotDataType.ModifiedReagent then
-								table.insert(concReagents, { reagent = v.reagentInfo.reagent, dataSlotIndex = v.reagentInfo.dataSlotIndex, quantity = v.reagentInfo.quantity })
-							end
 						end
 					end
 
