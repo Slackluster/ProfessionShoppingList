@@ -64,7 +64,7 @@ function app:CreateOrdersQueue()
 		end)
 
 		app.QueueOrdersButton = app:MakeButton(app.TrackOrdersButton, L.ORDERSQUEUE_QUEUE)
-		app.QueueOrdersButton:SetPoint("LEFT", app.TrackOrdersSettingsButton, "RIGHT", 2, 0)
+		app.QueueOrdersButton:SetPoint("LEFT", app.TrackOrdersButton, "RIGHT", 28, 0)
 		app.QueueOrdersButton:SetScript("OnClick", function()
 			if not app.OrdersQueue:IsShown() then
 				app.OrdersQueue:Show()
