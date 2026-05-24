@@ -157,13 +157,13 @@ L.ORDERS_MAX_COST_ARTISAN =              "Макс. стоимость за ре
 L.ORDERS_MAX_COST_PAYOUT =               "Макс. стоимость за сумку с наградой:" -- This refers to Artisan's Payout bag
 L.ORDERS_TRACK_CONCENTRATION =           "Отслеживать заказы, требующие концентрации:"
 
--- L.ORDERSQUEUE_QUEUE =                    "Queue"
--- L.ORDERSQUEUE_QUEUE =                    "Orders in queue:"
--- L.ORDERSQUEUE_NEXT =                     "Next Order"
--- L.ORDERSQUEUE_CLAIM =                    "Claim Order"
--- L.ORDERSQUEUE_CRAFT =                    "Craft Order"
--- L.ORDERSQUEUE_CRAFTING =                 "Crafting..."
--- L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
+L.ORDERSQUEUE_QUEUE =                    "Очередь"
+L.ORDERSQUEUE_QUEUE =                    "Заказов в очереди:"
+L.ORDERSQUEUE_NEXT =                     "След. заказ"
+L.ORDERSQUEUE_CLAIM =                    "Принять заказ"
+L.ORDERSQUEUE_CRAFT =                    "Изготовить"
+L.ORDERSQUEUE_CRAFTING =                 "Изготовление..."
+L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
 
 -- Chat feedback
 L.INVALID_PARAMETERS =                   "Неверные параметры."
