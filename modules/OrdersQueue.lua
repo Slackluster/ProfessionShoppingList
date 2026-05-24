@@ -78,7 +78,7 @@ function app:UpdateOrdersQueue()
 		local numOrders = 0
 		app.QueuedOrder = {}
 		for key, recipe in pairs(ProfessionShoppingList_Data.Recipes) do
-			if recipe.professionID == professionID and string.sub(key, 1, 6) == "order:" then
+			if recipe.professionID == professionID and recipe.orderID and app.OrderInfo[key].view.orderType == Enum.CraftingOrderType.Npc then
 				if not app.QueuedOrder.key then
 					app.QueuedOrder.key = key
 					app.QueuedOrder.orderID = recipe.orderID

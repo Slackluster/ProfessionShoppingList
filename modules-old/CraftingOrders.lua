@@ -270,7 +270,7 @@ function app:CreateProfessionsOrdersAssets()
 		app.TrackOrdersButton:SetPoint("LEFT", ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "RIGHT", 6, 0)
 		app.TrackOrdersButton:SetScript("OnClick", function()
 			for key, orderInfo in pairs(app.OrderInfo) do
-				if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] then
+				if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] and orderInfo.view.orderType == Enum.CraftingOrderType.Npc then
 					local profit = 1
 					if C_AddOns.IsAddOnLoaded("Auctionator") then
 						profit = orderInfo.profit
