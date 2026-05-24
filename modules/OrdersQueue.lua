@@ -50,17 +50,6 @@ function app:CreateOrdersQueue()
 				app:UpdateOrdersQueue()
 				app.OrdersQueue:SetHeight(math.abs(app.OrdersQueue.Status:GetBottom() - app.OrdersQueue:GetTop()) + 12)
 			end)
-			if C_AddOns.IsAddOnLoaded("DialogKey_Numy") and DialogKeyNumyDB then
-				DialogKeyNumyDB.handleCraftingOrders = false
-				if DialogKeyNumyDB.customFrames and not DialogKeyNumyDB.customFrames.PSLOrdersQueueButton then
-					DialogKeyNS:AddToWatchlist("PSLOrdersQueueButton")
-				end
-			end
-		end)
-		app.OrdersQueue:SetScript("OnHide", function()
-			if C_AddOns.IsAddOnLoaded("DialogKey_Numy") and DialogKeyNumyDB then
-				DialogKeyNumyDB.handleCraftingOrders = true
-			end
 		end)
 
 		app.QueueOrdersButton = app:MakeButton(app.TrackOrdersButton, L.ORDERSQUEUE_QUEUE)
@@ -72,6 +61,12 @@ function app:CreateOrdersQueue()
 				app.OrdersQueue:Hide()
 			end
 		end)
+
+		if C_AddOns.IsAddOnLoaded("DialogKey_Numy") then
+			DialogKeyAPI:RegisterAddonFrame(DialogKeyAPI.Enum.FrameType.CraftingOrder, function()
+				return app.OrdersQueue.Button
+			end)
+		end
 	end
 end
 
