@@ -185,8 +185,15 @@ app.Event:Register("UNIT_SPELLCAST_INTERRUPTED", function(unitTarget, castGUID, 
 end)
 
 app.Event:Register("TRADE_SKILL_ITEM_CRAFTED_RESULT", function(data)
-	if app.OrdersQueue and app.OrdersQueue:IsShown() and app.OrderState then
+	if app.OrdersQueue and app.OrdersQueue:IsShown() then
 		app.OrderState = app.Enum.OrderState.Created
+		app:UpdateOrdersQueue()
+	end
+end)
+
+app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, orderID)
+	if app.OrdersQueue and app.OrdersQueue:IsShown() and result == 0 then
+		app.OrderState = app.Enum.OrderState.Idle
 		app:UpdateOrdersQueue()
 	end
 end)

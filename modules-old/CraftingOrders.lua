@@ -315,6 +315,10 @@ function app:CreateProfessionsOrdersAssets()
 			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration)
 			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration) -- Can't specify descending
 			C_Timer.After(0.5, function()
+				if not C_CraftingOrders.GetClaimedOrder() then
+					app.OrderState = app.Enum.OrderState.Idle
+				end
+
 				app.Flag.ReloadingOrders = app.Flag.ReloadingOrders + 1
 				if (ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.LoadingSpinner:IsShown() or ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ResultsText:IsShown()) and app.Flag.ReloadingOrders < 6 then
 					sortOrders()
@@ -601,7 +605,6 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 		app.OrderInfo = app.OrderInfo or {}
 
 		local function OnFrameInitialized(_, v, data)
-			app.OrderState = app.Enum.OrderState.Idle
 			if app.OrdersQueue:IsShown() then
 				app:UpdateOrdersQueue()
 			end
