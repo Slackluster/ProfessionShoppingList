@@ -107,9 +107,31 @@ function app:UpdateOrdersQueue()
 			C_CraftingOrders.ClaimOrder(app.QueuedOrder.orderID, professionID)
 		end)
 	elseif app.OrderState == app.Enum.OrderState.Claimed then
+		local oldText = app.OrdersQueue.Status:GetText()
 		app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_CRAFT)
 		app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
 		app.OrdersQueue.Button:SetScript("OnClick", function()
+			if not ProfessionsFrame.OrdersPage.OrderView.CreateButton:IsEnabled() then
+				local errorReason
+				if C_TradeSkillUI.GetRecipeCooldown(ProfessionsFrame.OrdersPage.OrderView.order.spellID) then
+					errorReason = PROFESSIONS_RECIPE_COOLDOWN
+				elseif not ProfessionsFrame.OrdersPage.OrderView.OrderDetails.SchematicForm.transaction:HasMetAllRequirements() then
+					errorReason = PROFESSIONS_INSUFFICIENT_REAGENTS
+				elseif ProfessionsFrame.OrdersPage.OrderView.order.minQuality then
+					local qualityInfo = ProfessionsFrame.OrdersPage.OrderView.OrderDetails.SchematicForm.Details:GetProjectedQualityInfo()
+					if qualityInfo and ProfessionsFrame.OrdersPage.OrderView.order.minQuality > qualityInfo.quality then
+						local requiredQualityInfo = C_TradeSkillUI.GetRecipeItemQualityInfo(ProfessionsFrame.OrdersPage.OrderView.order.spellID, ProfessionsFrame.OrdersPage.OrderView.order.minQuality)
+						errorReason = PROFESSIONS_CRAFTING_FORM_MIN_QUALITY .. Professions.GetChatIconMarkupForQuality(requiredQualityInfo, true)
+					end
+				else
+					errorReason = GUILD_RENAME_ERROR_UNKNOWN
+				end
+				app.OrdersQueue.Status:SetText(errorReason)
+				app.OrdersQueue.Status:SetTextColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
+			else
+				app.OrdersQueue.Status:SetText(oldText)
+				app.OrdersQueue.Status:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
+			end
 			ProfessionsFrame.OrdersPage.OrderView.CreateButton:Click()
 		end)
 	elseif app.OrderState == app.Enum.OrderState.Crafting then
@@ -193,6 +215,13 @@ end)
 
 app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, orderID)
 	if app.OrdersQueue and app.OrdersQueue:IsShown() and result == 0 then
+		app.OrderState = app.Enum.OrderState.Idle
+		app:UpdateOrdersQueue()
+	end
+end)
+
+app.Event:Register("CRAFTINGORDERS_RELEASE_ORDER_RESPONSE", function(result, orderID)
+	if app.OrdersQueue and app.OrdersQueue:IsShown() then
 		app.OrderState = app.Enum.OrderState.Idle
 		app:UpdateOrdersQueue()
 	end
