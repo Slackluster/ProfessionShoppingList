@@ -182,7 +182,7 @@ app.Event:Register("CRAFTINGORDERS_CLAIMED_ORDER_UPDATED", function(orderID)
 end)
 
 app.Event:Register("UNIT_SPELLCAST_START", function(unitTarget, castGUID, spellID, castBarID)
-	if unitTarget == "player" and app.OrdersQueue and app.OrdersQueue:IsShown() and spellID == app.QueuedOrder.recipeID then
+	if unitTarget == "player" and app.OrdersQueue and app.OrdersQueue:IsShown() and spellID == app.QueuedOrder.recipeID and app.OrderState ~= app.Enum.OrderState.Created then
 		app.OrderState = app.Enum.OrderState.Crafting
 		app:UpdateOrdersQueue()
 	end
