@@ -18,6 +18,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 			artisanCost = 3,
 			payoutCost = 50,
 		}
+		if app.Settings["craftingOrders"].trackReset == nil then app.Settings["craftingOrders"].trackReset = true end
 		if ProfessionShoppingList_CharacterData.TrackConcentration == nil then
 			ProfessionShoppingList_CharacterData.TrackConcentration = true
 		end
@@ -279,7 +280,7 @@ function app:CreateProfessionsOrdersAssets()
 						profit = profit + (orderInfo.payout * (app.Settings["craftingOrders"].payoutCost * 10000))
 					end
 
-					if profit >= 0 and (ProfessionShoppingList_CharacterData.TrackConcentration or orderInfo.concentrationCost == 0) then
+					if profit >= 0 and (ProfessionShoppingList_CharacterData.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings["craftingOrders"].trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) then
 						api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
 					end
 				end
@@ -451,19 +452,31 @@ function app:CreateProfessionsOrdersAssets()
 		texture:SetAllPoints(gold3)
 		texture:SetAtlas("auctionhouse-icon-coin-gold", true)
 
+		local checkbox1 = CreateFrame("CheckButton", nil, app.TrackOrdersSettings, "ChatConfigCheckButtonTemplate")
+		checkbox1:SetPoint("TOPLEFT", text3, "BOTTOMLEFT", -3, -26)
+		checkbox1.Text:SetText(L.ORDERS_TRACK_AFTER_RESET)
+		checkbox1.Text:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
+		checkbox1.Text:SetPoint("LEFT", checkbox1, "RIGHT")
+		checkbox1:SetChecked(app.Settings["craftingOrders"].trackReset)
+		checkbox1:SetScript("OnClick", function(self)
+			app.Settings["craftingOrders"].trackReset = self:GetChecked()
+		end)
+
 		local text4 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		text4:SetPoint("TOPLEFT", text3, "BOTTOMLEFT", 0, -30)
+		text4:SetPoint("LEFT", text3)
+		text4:SetPoint("TOP", checkbox1, "BOTTOM", 0, -4)
 		text4:SetJustifyH("LEFT")
 		text4:SetText(L.ORDERS_TRACK_CONCENTRATION)
 
 		local _, classFilename = UnitClass("player")
 		local _, _, _, classColor = GetClassColor(classFilename)
 
-		local checkbox = CreateFrame("CheckButton", nil, app.TrackOrdersSettings, "ChatConfigCheckButtonTemplate")
-		checkbox:SetPoint("TOPLEFT", text4, "BOTTOMLEFT", -3, -2)
-		checkbox.Text:SetText("|c" .. classColor .. UnitName("player") .. "-" .. GetNormalizedRealmName())
-		checkbox:SetChecked(ProfessionShoppingList_CharacterData.TrackConcentration)
-		checkbox:SetScript("OnClick", function(self)
+		local checkbox2 = CreateFrame("CheckButton", nil, app.TrackOrdersSettings, "ChatConfigCheckButtonTemplate")
+		checkbox2:SetPoint("TOPLEFT", text4, "BOTTOMLEFT", -3, -2)
+		checkbox2.Text:SetText("|c" .. classColor .. UnitName("player") .. "-" .. GetNormalizedRealmName())
+		checkbox2.Text:SetPoint("LEFT", checkbox2, "RIGHT")
+		checkbox2:SetChecked(ProfessionShoppingList_CharacterData.TrackConcentration)
+		checkbox2:SetScript("OnClick", function(self)
 			ProfessionShoppingList_CharacterData.TrackConcentration = self:GetChecked()
 		end)
 
@@ -471,7 +484,7 @@ function app:CreateProfessionsOrdersAssets()
 		app.TrackOrdersSettings:SetSize(text0:GetStringWidth() + 20, 235)
 		app.TrackOrdersSettings:SetScript("OnShow", function()
 			RunNextFrame(function()
-				app.TrackOrdersSettings:SetHeight(math.abs(checkbox:GetBottom() - app.TrackOrdersSettings:GetTop()) + 6)
+				app.TrackOrdersSettings:SetHeight(math.abs(checkbox2:GetBottom() - app.TrackOrdersSettings:GetTop()) + 6)
 			end)
 		end)
 	end
@@ -602,7 +615,6 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 	if app.Settings["enhancedOrders"] and numOrders >= 1 and not app.OrderAdjustments then
 		app.OrderAdjustments = app.OrderAdjustments or {}
 		app.OrderIcons = app.OrderIcons or {}
-		app.OrderInfo = app.OrderInfo or {}
 
 		local function OnFrameInitialized(_, v, data)
 			if app.OrdersQueue:IsShown() then
@@ -622,6 +634,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						spellID = data.option.spellID,
 						orderID = data.option.orderID,
 						isRecraft = data.option.isRecraft,
+						expirationTime = data.option.expirationTime,
 						knowledge = 0,
 						artisan = 0,
 						payout = 0,
