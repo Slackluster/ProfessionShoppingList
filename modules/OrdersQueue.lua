@@ -63,9 +63,7 @@ function app:CreateOrdersQueue()
 		end)
 
 		if C_AddOns.IsAddOnLoaded("DialogKey_Numy") then
-			DialogKeyAPI:RegisterAddonFrame(DialogKeyAPI.Enum.FrameType.CraftingOrder, function()
-				return app.OrdersQueue.Button
-			end)
+			DialogKeyAPI:RegisterAddonFrame(DialogKeyAPI.Enum.FrameType.CraftingOrder, app.OrdersQueue.Button)
 		end
 	end
 end
