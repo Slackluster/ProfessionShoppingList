@@ -596,7 +596,6 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 	if not InCombatLockdown() then
 		if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
 			app:CreateProfessionsOrdersAssets()
-			app.OrderInfo = {}
 		end
 	end
 end)
@@ -615,6 +614,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 	if app.Settings["enhancedOrders"] and numOrders >= 1 and not app.OrderAdjustments then
 		app.OrderAdjustments = app.OrderAdjustments or {}
 		app.OrderIcons = app.OrderIcons or {}
+		app.OrderInfo = app.OrderInfo or {}
 
 		local function OnFrameInitialized(_, v, data)
 			if app.OrdersQueue:IsShown() then
