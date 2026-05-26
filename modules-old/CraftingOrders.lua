@@ -270,8 +270,9 @@ function app:CreateProfessionsOrdersAssets()
 		app.TrackOrdersButton = app:MakeButton(ProfessionsFrame.OrdersPage.BrowseFrame, L.TRACK)
 		app.TrackOrdersButton:SetPoint("LEFT", ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "RIGHT", 6, 0)
 		app.TrackOrdersButton:SetScript("OnClick", function()
+			local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 			for key, orderInfo in pairs(app.OrderInfo) do
-				if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] and orderInfo.view.orderType == Enum.CraftingOrderType.Npc then
+				if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] and skillLineID == orderInfo.skillLineID and orderInfo.view.orderType == Enum.CraftingOrderType.Npc then
 					local profit = 1
 					if C_AddOns.IsAddOnLoaded("Auctionator") then
 						profit = orderInfo.profit
@@ -632,6 +633,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						view = v.option,
 						learned = C_TradeSkillUI.GetRecipeInfo(data.option.spellID).learned,
 						spellID = data.option.spellID,
+						skillLineID = C_TradeSkillUI.GetTradeSkillLineForRecipe(data.option.spellID),
 						orderID = data.option.orderID,
 						isRecraft = data.option.isRecraft,
 						expirationTime = data.option.expirationTime,
