@@ -72,6 +72,7 @@ end
 
 function app:UpdateOrdersQueue()
 	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(C_TradeSkillUI.GetProfessionChildSkillLineID()).profession
+	if not professionID then return end
 
 	app.OrderState = app.OrderState or app.Enum.OrderState.Idle
 	if app.OrderState == app.Enum.OrderState.Idle then
