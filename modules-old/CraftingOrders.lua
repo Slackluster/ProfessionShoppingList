@@ -619,6 +619,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 
 		local function OnFrameInitialized(_, v, data)
 			if app.OrdersQueue:IsShown() then
+				app.OrderState = app.Enum.OrderState.Idle
 				app:UpdateOrdersQueue()
 			end
 
