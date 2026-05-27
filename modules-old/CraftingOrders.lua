@@ -286,6 +286,9 @@ function app:CreateProfessionsOrdersAssets()
 					end
 				end
 			end
+			if app.OrdersQueue and app.OrdersQueue:IsShown() then
+				app:UpdateOrdersQueue()
+			end
 		end)
 		app.TrackOrdersButton:Hide()
 
