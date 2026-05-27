@@ -155,6 +155,7 @@ L.ORDERS_COST_NEED =                     "Les paramètres de coût ne fonctionne
 L.ORDERS_MAX_COST_KNOWLEDGE =            "Coût maximal par point de connaissance :"
 L.ORDERS_MAX_COST_ARTISAN =              "Coût maximal par unité de monnaie d'artisan :" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
 L.ORDERS_MAX_COST_PAYOUT =               "Coût maximal par sac de récompense :" -- This refers to Artisan's Payout bag
+-- L.ORDERS_TRACK_AFTER_RESET =             "Track orders available after weekly reset"
 L.ORDERS_TRACK_CONCENTRATION =           "Suivre les commandes par coûts en concentration :"
 
 L.ORDERSQUEUE_QUEUE =                    "File d'attente"

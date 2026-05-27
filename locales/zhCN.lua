@@ -155,6 +155,7 @@ L.LOADING =                              SEARCH_LOADING_TEXT -- "Loading..."
 -- L.ORDERS_MAX_COST_KNOWLEDGE =            "Maximum cost per knowledge point:"
 -- L.ORDERS_MAX_COST_ARTISAN =              "Maximum cost per artisan currency:" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
 -- L.ORDERS_MAX_COST_PAYOUT =               "Maximum cost per reward bag:" -- This refers to Artisan's Payout bag
+-- L.ORDERS_TRACK_AFTER_RESET =             "Track orders available after weekly reset"
 -- L.ORDERS_TRACK_CONCENTRATION =           "Track orders costing concentration:"
 
 -- L.ORDERSQUEUE_QUEUE =                    "Queue"

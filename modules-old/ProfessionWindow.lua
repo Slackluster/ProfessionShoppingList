@@ -562,154 +562,156 @@ end
 
 -- Update assets
 function app:UpdateAssets()
-	-- Profession window
-	if app.Flag.TradeskillAssets then
-		-- Enable Profession tracking for 1 = Item, 3 = Enchant
-		if app.SelectedRecipe.Profession.recipeType == 1 or app.SelectedRecipe.Profession.recipeType == 3 then
-			app.TrackProfessionButton:Enable()
-			app.RecipeQuantityBox:Enable()
-		end
-
-		-- Disable Profession tracking for 2 = Salvage, recipes without reagents
-		if app.SelectedRecipe.Profession.recipeType == 2 or C_TradeSkillUI.GetRecipeSchematic(app.SelectedRecipe.Profession.recipeID,false).reagentSlotSchematics[1] == nil then
-			app.TrackProfessionButton:Disable()
-			app.UntrackProfessionButton:Disable()
-			app.RecipeQuantityBox:Disable()
-		end
-
-		-- Enable Profession untracking for tracked recipes
-		if not ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID] or ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID].quantity == 0 then
-			app.UntrackProfessionButton:Disable()
-		else
-			app.UntrackProfessionButton:Enable()
-		end
-
-		-- Update the Profession quantity editbox
-		if ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID] then
-			app.RecipeQuantityBox:SetText(ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID].quantity or 0)
-		else
-			app.RecipeQuantityBox:SetText(0)
-		end
-
-		-- Update the Make Order button
-		if app.SelectedRecipe.MakeOrder.orderID and app.SelectedRecipe.MakeOrder.spellID then
-			-- Enable/Disable the Make Order button depending on if the recipe is learned
-			if app.SelectedRecipe.MakeOrder.spellID and C_TradeSkillUI.GetRecipeInfo(app.SelectedRecipe.MakeOrder.spellID).learned then
-				app.TrackMakeOrderButton:Enable()
-			else
-				app.TrackMakeOrderButton:Disable()
+	if not InCombatLockdown() then
+		-- Profession window
+		if app.Flag.TradeskillAssets then
+			-- Enable Profession tracking for 1 = Item, 3 = Enchant
+			if app.SelectedRecipe.Profession.recipeType == 1 or app.SelectedRecipe.Profession.recipeType == 3 then
+				app.TrackProfessionButton:Enable()
+				app.RecipeQuantityBox:Enable()
 			end
 
-			-- Set the Make Order button to Track or Untrack depending on if the recipe is tracked or not
-			local key = "order:" .. app.SelectedRecipe.MakeOrder.orderID .. ":" .. app.SelectedRecipe.MakeOrder.spellID
-			if ProfessionShoppingList_Data.Recipes[key] then
-				app.TrackMakeOrderButton:SetText(L.UNTRACK)
-				app.TrackMakeOrderButton:SetWidth(app.TrackMakeOrderButton:GetTextWidth()+20)
+			-- Disable Profession tracking for 2 = Salvage, recipes without reagents
+			if app.SelectedRecipe.Profession.recipeType == 2 or C_TradeSkillUI.GetRecipeSchematic(app.SelectedRecipe.Profession.recipeID,false).reagentSlotSchematics[1] == nil then
+				app.TrackProfessionButton:Disable()
+				app.UntrackProfessionButton:Disable()
+				app.RecipeQuantityBox:Disable()
+			end
+
+			-- Enable Profession untracking for tracked recipes
+			if not ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID] or ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID].quantity == 0 then
+				app.UntrackProfessionButton:Disable()
 			else
-				app.TrackMakeOrderButton:SetText(L.TRACK)
-				app.TrackMakeOrderButton:SetWidth(app.TrackMakeOrderButton:GetTextWidth()+20)
+				app.UntrackProfessionButton:Enable()
+			end
+
+			-- Update the Profession quantity editbox
+			if ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID] then
+				app.RecipeQuantityBox:SetText(ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID].quantity or 0)
+			else
+				app.RecipeQuantityBox:SetText(0)
+			end
+
+			-- Update the Make Order button
+			if app.SelectedRecipe.MakeOrder.orderID and app.SelectedRecipe.MakeOrder.spellID then
+				-- Enable/Disable the Make Order button depending on if the recipe is learned
+				if app.SelectedRecipe.MakeOrder.spellID and C_TradeSkillUI.GetRecipeInfo(app.SelectedRecipe.MakeOrder.spellID).learned then
+					app.TrackMakeOrderButton:Enable()
+				else
+					app.TrackMakeOrderButton:Disable()
+				end
+
+				-- Set the Make Order button to Track or Untrack depending on if the recipe is tracked or not
+				local key = "order:" .. app.SelectedRecipe.MakeOrder.orderID .. ":" .. app.SelectedRecipe.MakeOrder.spellID
+				if ProfessionShoppingList_Data.Recipes[key] then
+					app.TrackMakeOrderButton:SetText(L.UNTRACK)
+					app.TrackMakeOrderButton:SetWidth(app.TrackMakeOrderButton:GetTextWidth()+20)
+				else
+					app.TrackMakeOrderButton:SetText(L.TRACK)
+					app.TrackMakeOrderButton:SetWidth(app.TrackMakeOrderButton:GetTextWidth()+20)
+				end
+			end
+
+			-- Make the Chef's Hat button not desaturated if it can be used
+			if PlayerHasToy(134020) then
+				app.ChefsHatButton:GetNormalTexture():SetDesaturated(false)
+			end
+
+			-- Check how many thermal anvils the player has
+			if not C_Item.IsItemDataCachedByID(87216) then local item = Item:CreateFromItemID(87216) end
+			local anvilCount = C_Item.GetItemCount(87216, false, false, false, false)
+			-- (De)saturate based on that
+			if anvilCount >= 1 then
+				app.ThermalAnvilButton:GetNormalTexture():SetDesaturated(false)
+			else
+				app.ThermalAnvilButton:GetNormalTexture():SetDesaturated(true)
+			end
+			-- Update charges
+			local anvilCharges = C_Item.GetItemCount(87216, false, true, false, false)
+			app.ThermalAnvilCharges:SetText(anvilCharges)
+
+			-- Cooking Fire button cooldown
+			local startTime = C_Spell.GetSpellCooldown(818).startTime
+			local duration = C_Spell.GetSpellCooldown(818).duration
+			app.CookingFireCooldown:SetCooldown(startTime, duration)
+
+			-- Chef's Hat button cooldown
+			startTime, duration = C_Item.GetItemCooldown(134020)
+			app.ChefsHatCooldown:SetCooldown(startTime, duration)
+
+			-- Thermal Anvil button cooldown
+			startTime, duration = C_Item.GetItemCooldown(87216)
+			app.ThermalAnvilCooldown:SetCooldown(startTime, duration)
+
+			-- Make the Alvin the Anvil button not desaturated if it can be used
+			if ProfessionShoppingList_Data.Pets["alvin"] and C_PetJournal.PetIsSummonable(ProfessionShoppingList_Data.Pets["alvin"].guid) then
+				app.AlvinButton:GetNormalTexture():SetDesaturated(false)
+			end
+
+			-- Pet buttons cooldown
+			startTime = C_Spell.GetSpellCooldown(61304).startTime
+			duration = C_Spell.GetSpellCooldown(61304).duration
+			app.AlvinCooldown:SetCooldown(startTime, duration)
+			app.RagnarosCooldown:SetCooldown(startTime, duration)
+			app.PierreCooldown:SetCooldown(startTime, duration)
+
+			-- Lightforge cooldown
+			startTime = C_Spell.GetSpellCooldown(259930).startTime
+			duration = C_Spell.GetSpellCooldown(259930).duration
+			app.LightforgeCooldown:SetCooldown(startTime, duration)
+		end
+
+		-- Crafting orders window
+		if app.Flag.CraftingOrderAssets then
+			-- Disable tracking for recrafts without a cached recipe
+			if app.SelectedRecipe.PlaceOrder.recraft and app.SelectedRecipe.PlaceOrder.recipeID == 0 then
+				app.TrackPlaceOrderButton:Disable()
+			else
+				app.TrackPlaceOrderButton:Enable()
+			end
+
+			-- Disable untracking for untracked recipes
+			if not ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.PlaceOrder.recipeID] or ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.PlaceOrder.recipeID].quantity == 0 then
+				app.UntrackPlaceOrderButton:Disable()
+			else
+				app.UntrackPlaceOrderButton:Enable()
+			end
+
+			-- Remove the personal order entry if the value is ""
+			if ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] == "" then
+				ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] = nil
+			end
+
+			-- Enable the quick order button if recipe is cached and target are known
+			if ProfessionShoppingList_Library[app.SelectedRecipe.PlaceOrder.recipeID] and ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] then
+				app.QuickOrderButton:Enable()
+			else
+				app.QuickOrderButton:Disable()
+			end
+
+			-- Update the personal order name textbox
+			if ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] then
+				app.QuickOrderTargetBox:SetText(ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID])
+			else
+				app.QuickOrderTargetBox:SetText("")
 			end
 		end
 
-		-- Make the Chef's Hat button not desaturated if it can be used
-		if PlayerHasToy(134020) then
-			app.ChefsHatButton:GetNormalTexture():SetDesaturated(false)
-		end
+		-- Order adjustments
+		if app.OrderAdjustments then
+			for _, row in pairs(app.OrderAdjustments) do
+				if row.tracked then
+					row.tracked:Hide()
+					row.unlearned:Hide()
+					row.firstCraft:Hide()
 
-		-- Check how many thermal anvils the player has
-		if not C_Item.IsItemDataCachedByID(87216) then local item = Item:CreateFromItemID(87216) end
-		local anvilCount = C_Item.GetItemCount(87216, false, false, false, false)
-		-- (De)saturate based on that
-		if anvilCount >= 1 then
-			app.ThermalAnvilButton:GetNormalTexture():SetDesaturated(false)
-		else
-			app.ThermalAnvilButton:GetNormalTexture():SetDesaturated(true)
-		end
-		-- Update charges
-		local anvilCharges = C_Item.GetItemCount(87216, false, true, false, false)
-		app.ThermalAnvilCharges:SetText(anvilCharges)
-
-		-- Cooking Fire button cooldown
-		local startTime = C_Spell.GetSpellCooldown(818).startTime
-		local duration = C_Spell.GetSpellCooldown(818).duration
-		app.CookingFireCooldown:SetCooldown(startTime, duration)
-
-		-- Chef's Hat button cooldown
-		startTime, duration = C_Item.GetItemCooldown(134020)
-		app.ChefsHatCooldown:SetCooldown(startTime, duration)
-
-		-- Thermal Anvil button cooldown
-		startTime, duration = C_Item.GetItemCooldown(87216)
-		app.ThermalAnvilCooldown:SetCooldown(startTime, duration)
-
-		-- Make the Alvin the Anvil button not desaturated if it can be used
-		if ProfessionShoppingList_Data.Pets["alvin"] and C_PetJournal.PetIsSummonable(ProfessionShoppingList_Data.Pets["alvin"].guid) then
-			app.AlvinButton:GetNormalTexture():SetDesaturated(false)
-		end
-
-		-- Pet buttons cooldown
-		startTime = C_Spell.GetSpellCooldown(61304).startTime
-		duration = C_Spell.GetSpellCooldown(61304).duration
-		app.AlvinCooldown:SetCooldown(startTime, duration)
-		app.RagnarosCooldown:SetCooldown(startTime, duration)
-		app.PierreCooldown:SetCooldown(startTime, duration)
-
-		-- Lightforge cooldown
-		startTime = C_Spell.GetSpellCooldown(259930).startTime
-		duration = C_Spell.GetSpellCooldown(259930).duration
-		app.LightforgeCooldown:SetCooldown(startTime, duration)
-	end
-
-	-- Crafting orders window
-	if app.Flag.CraftingOrderAssets then
-		-- Disable tracking for recrafts without a cached recipe
-		if app.SelectedRecipe.PlaceOrder.recraft and app.SelectedRecipe.PlaceOrder.recipeID == 0 then
-			app.TrackPlaceOrderButton:Disable()
-		else
-			app.TrackPlaceOrderButton:Enable()
-		end
-
-		-- Disable untracking for untracked recipes
-		if not ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.PlaceOrder.recipeID] or ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.PlaceOrder.recipeID].quantity == 0 then
-			app.UntrackPlaceOrderButton:Disable()
-		else
-			app.UntrackPlaceOrderButton:Enable()
-		end
-
-		-- Remove the personal order entry if the value is ""
-		if ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] == "" then
-			ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] = nil
-		end
-
-		-- Enable the quick order button if recipe is cached and target are known
-		if ProfessionShoppingList_Library[app.SelectedRecipe.PlaceOrder.recipeID] and ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] then
-			app.QuickOrderButton:Enable()
-		else
-			app.QuickOrderButton:Disable()
-		end
-
-		-- Update the personal order name textbox
-		if ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] then
-			app.QuickOrderTargetBox:SetText(ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID])
-		else
-			app.QuickOrderTargetBox:SetText("")
-		end
-	end
-
-	-- Order adjustments
-	if app.OrderAdjustments then
-		for _, row in pairs(app.OrderAdjustments) do
-			if row.tracked then
-				row.tracked:Hide()
-				row.unlearned:Hide()
-				row.firstCraft:Hide()
-
-				if ProfessionShoppingList_Data.Recipes[row.key] then
-					row.tracked:Show()
-				elseif not C_TradeSkillUI.GetRecipeInfo(row.recipeID).learned then
-					row.unlearned:Show()
-				elseif C_TradeSkillUI.GetRecipeInfo(row.recipeID).firstCraft then
-					row.firstCraft:Show()
+					if ProfessionShoppingList_Data.Recipes[row.key] then
+						row.tracked:Show()
+					elseif not C_TradeSkillUI.GetRecipeInfo(row.recipeID).learned then
+						row.unlearned:Show()
+					elseif C_TradeSkillUI.GetRecipeInfo(row.recipeID).firstCraft then
+						row.firstCraft:Show()
+					end
 				end
 			end
 		end

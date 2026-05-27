@@ -18,6 +18,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 			artisanCost = 3,
 			payoutCost = 50,
 		}
+		if app.Settings["craftingOrders"].trackReset == nil then app.Settings["craftingOrders"].trackReset = true end
 		if ProfessionShoppingList_CharacterData.TrackConcentration == nil then
 			ProfessionShoppingList_CharacterData.TrackConcentration = true
 		end
@@ -269,29 +270,24 @@ function app:CreateProfessionsOrdersAssets()
 		app.TrackOrdersButton = app:MakeButton(ProfessionsFrame.OrdersPage.BrowseFrame, L.TRACK)
 		app.TrackOrdersButton:SetPoint("LEFT", ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "RIGHT", 6, 0)
 		app.TrackOrdersButton:SetScript("OnClick", function()
-			if C_AddOns.IsAddOnLoaded("Auctionator") then
-				for key, orderInfo in pairs(app.OrderInfo) do
-					if orderInfo.learned then
-						local profit = orderInfo.profit
+			local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
+			for key, orderInfo in pairs(app.OrderInfo) do
+				if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] and skillLineID == orderInfo.skillLineID and orderInfo.view.orderType == Enum.CraftingOrderType.Npc then
+					local profit = 1
+					if C_AddOns.IsAddOnLoaded("Auctionator") then
+						profit = orderInfo.profit
 						profit = profit + (orderInfo.knowledge * (app.Settings["craftingOrders"].knowledgeCost * 10000))
 						profit = profit + (orderInfo.artisan * (app.Settings["craftingOrders"].artisanCost * 10000))
 						profit = profit + (orderInfo.payout * (app.Settings["craftingOrders"].payoutCost * 10000))
+					end
 
-						if profit >= 0 and not ProfessionShoppingList_Data.Recipes[key] then
-							if ProfessionShoppingList_CharacterData.TrackConcentration or orderInfo.concentrationCost == 0 then
-								api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
-							end
-						end
+					if profit >= 0 and (ProfessionShoppingList_CharacterData.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings["craftingOrders"].trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) then
+						api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
 					end
 				end
-			else
-				for key, orderInfo in pairs(app.OrderInfo) do
-					if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] then
-						if ProfessionShoppingList_CharacterData.TrackConcentration or orderInfo.concentrationCost == 0 then
-							api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
-						end
-					end
-				end
+			end
+			if app.OrdersQueue and app.OrdersQueue:IsShown() then
+				app:UpdateOrdersQueue()
 			end
 		end)
 		app.TrackOrdersButton:Hide()
@@ -318,13 +314,21 @@ function app:CreateProfessionsOrdersAssets()
 			end
 		end)
 
+		app.Flag.ReloadingOrders = 0
 		local function sortOrders()
 			ProfessionsFrame.OrdersPage:ResetSortOrder()
 			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration)
-			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration) -- Can't specify ascending
-			C_Timer.After(0.2, function()
-				if ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.LoadingSpinner:IsShown() then
+			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration) -- Can't specify descending
+			C_Timer.After(0.5, function()
+				if not C_CraftingOrders.GetClaimedOrder() then
+					app.OrderState = app.Enum.OrderState.Idle
+				end
+
+				app.Flag.ReloadingOrders = app.Flag.ReloadingOrders + 1
+				if (ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.LoadingSpinner:IsShown() or ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ResultsText:IsShown()) and app.Flag.ReloadingOrders < 6 then
 					sortOrders()
+				else
+					app.Flag.ReloadingOrders = 0
 				end
 			end)
 		end
@@ -452,19 +456,31 @@ function app:CreateProfessionsOrdersAssets()
 		texture:SetAllPoints(gold3)
 		texture:SetAtlas("auctionhouse-icon-coin-gold", true)
 
+		local checkbox1 = CreateFrame("CheckButton", nil, app.TrackOrdersSettings, "ChatConfigCheckButtonTemplate")
+		checkbox1:SetPoint("TOPLEFT", text3, "BOTTOMLEFT", -3, -26)
+		checkbox1.Text:SetText(L.ORDERS_TRACK_AFTER_RESET)
+		checkbox1.Text:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
+		checkbox1.Text:SetPoint("LEFT", checkbox1, "RIGHT")
+		checkbox1:SetChecked(app.Settings["craftingOrders"].trackReset)
+		checkbox1:SetScript("OnClick", function(self)
+			app.Settings["craftingOrders"].trackReset = self:GetChecked()
+		end)
+
 		local text4 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		text4:SetPoint("TOPLEFT", text3, "BOTTOMLEFT", 0, -30)
+		text4:SetPoint("LEFT", text3)
+		text4:SetPoint("TOP", checkbox1, "BOTTOM", 0, -4)
 		text4:SetJustifyH("LEFT")
 		text4:SetText(L.ORDERS_TRACK_CONCENTRATION)
 
 		local _, classFilename = UnitClass("player")
 		local _, _, _, classColor = GetClassColor(classFilename)
 
-		local checkbox = CreateFrame("CheckButton", nil, app.TrackOrdersSettings, "ChatConfigCheckButtonTemplate")
-		checkbox:SetPoint("TOPLEFT", text4, "BOTTOMLEFT", -3, -2)
-		checkbox.Text:SetText("|c" .. classColor .. UnitName("player") .. "-" .. GetNormalizedRealmName())
-		checkbox:SetChecked(ProfessionShoppingList_CharacterData.TrackConcentration)
-		checkbox:SetScript("OnClick", function(self)
+		local checkbox2 = CreateFrame("CheckButton", nil, app.TrackOrdersSettings, "ChatConfigCheckButtonTemplate")
+		checkbox2:SetPoint("TOPLEFT", text4, "BOTTOMLEFT", -3, -2)
+		checkbox2.Text:SetText("|c" .. classColor .. UnitName("player") .. "-" .. GetNormalizedRealmName())
+		checkbox2.Text:SetPoint("LEFT", checkbox2, "RIGHT")
+		checkbox2:SetChecked(ProfessionShoppingList_CharacterData.TrackConcentration)
+		checkbox2:SetScript("OnClick", function(self)
 			ProfessionShoppingList_CharacterData.TrackConcentration = self:GetChecked()
 		end)
 
@@ -472,7 +488,7 @@ function app:CreateProfessionsOrdersAssets()
 		app.TrackOrdersSettings:SetSize(text0:GetStringWidth() + 20, 235)
 		app.TrackOrdersSettings:SetScript("OnShow", function()
 			RunNextFrame(function()
-				app.TrackOrdersSettings:SetHeight(math.abs(checkbox:GetBottom() - app.TrackOrdersSettings:GetTop()) + 6)
+				app.TrackOrdersSettings:SetHeight(math.abs(checkbox2:GetBottom() - app.TrackOrdersSettings:GetTop()) + 6)
 			end)
 		end)
 	end
@@ -584,7 +600,6 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 	if not InCombatLockdown() then
 		if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
 			app:CreateProfessionsOrdersAssets()
-			app.OrderInfo = {}
 		end
 	end
 end)
@@ -606,8 +621,8 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 		app.OrderInfo = app.OrderInfo or {}
 
 		local function OnFrameInitialized(_, v, data)
-			app.OrderState = app.Enum.OrderState.Idle
 			if app.OrdersQueue:IsShown() then
+				app.OrderState = app.Enum.OrderState.Idle
 				app:UpdateOrdersQueue()
 			end
 
@@ -622,8 +637,10 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						view = v.option,
 						learned = C_TradeSkillUI.GetRecipeInfo(data.option.spellID).learned,
 						spellID = data.option.spellID,
+						skillLineID = C_TradeSkillUI.GetTradeSkillLineForRecipe(data.option.spellID),
 						orderID = data.option.orderID,
 						isRecraft = data.option.isRecraft,
+						expirationTime = data.option.expirationTime,
 						knowledge = 0,
 						artisan = 0,
 						payout = 0,
@@ -639,6 +656,9 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 					local providedReagents = {}
 					local concReagents = {}
 					for k, v in ipairs(data.option.reagents) do
+						if v.reagentInfo.dataSlotType == Enum.TradeskillSlotDataType.ModifiedReagent then
+							table.insert(concReagents, { reagent = v.reagentInfo.reagent, dataSlotIndex = v.reagentInfo.dataSlotIndex, quantity = v.reagentInfo.quantity })
+						end
 						if v.reagentInfo.reagent.itemID then
 							providedReagents[v.reagentInfo.reagent.itemID] = v.reagentInfo.quantity
 						end
@@ -649,9 +669,6 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						for _, j in ipairs(v.reagents) do
 							if providedReagents[j.itemID] then
 								provided = true
-								if v.dataSlotType == Enum.TradeskillSlotDataType.ModifiedReagent then
-									table.insert(concReagents, { reagent = { itemID = j.itemID }, dataSlotIndex = v.dataSlotIndex, quantity = providedReagents[j.itemID] })
-								end
 								break
 							end
 						end
