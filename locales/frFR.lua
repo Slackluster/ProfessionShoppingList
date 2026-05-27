@@ -155,7 +155,7 @@ L.ORDERS_COST_NEED =                     "Les paramètres de coût ne fonctionne
 L.ORDERS_MAX_COST_KNOWLEDGE =            "Coût maximal par point de connaissance :"
 L.ORDERS_MAX_COST_ARTISAN =              "Coût maximal par unité de monnaie d'artisan :" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
 L.ORDERS_MAX_COST_PAYOUT =               "Coût maximal par sac de récompense :" -- This refers to Artisan's Payout bag
--- L.ORDERS_TRACK_AFTER_RESET =             "Track orders available after weekly reset"
+L.ORDERS_TRACK_AFTER_RESET =             "Suivi des commandes disponible après la réinitialisation hebdomadaire"
 L.ORDERS_TRACK_CONCENTRATION =           "Suivre les commandes par coûts en concentration :"
 
 L.ORDERSQUEUE_QUEUE =                    "File d'attente"
@@ -168,11 +168,11 @@ L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete
 
 -- Chat feedback
 L.INVALID_PARAMETERS =                   "Paramètres non valides"
-L.INVALID_RECIPEQUANTITY =               L.INVALID_PARAMETERS .. " Veuillez saisir une quantité valide pour la recette."
-L.INVALID_RECIPEID =                     L.INVALID_PARAMETERS .. " Veuillez saisir un identifiant de recette (recipeID) mis en cache."
-L.INVALID_RECIPE_TRACKED =               L.INVALID_PARAMETERS .. " Veuillez saisir un identifiant de recette suivie (recipeID)"
-L.INVALID_ACHIEVEMENT =                  L.INVALID_PARAMETERS .. " Il ne s’agit pas d’un haut fait de métier. Aucune recette n’a été ajoutée."
-L.INVALID_RESET_ARG =                    L.INVALID_PARAMETERS .. " Vous pouvez utiliser les arguments suivants :"
+L.INVALID_RECIPEQUANTITY =               L.INVALID_PARAMETERS .. " : veuillez saisir une quantité valide pour la recette."
+L.INVALID_RECIPEID =                     L.INVALID_PARAMETERS .. " : veuillez saisir un identifiant de recette (recipeID) mis en cache."
+L.INVALID_RECIPE_TRACKED =               L.INVALID_PARAMETERS .. " : veuillez saisir un identifiant de recette suivie (recipeID)"
+L.INVALID_ACHIEVEMENT =                  L.INVALID_PARAMETERS .. " : il ne s’agit pas d’un haut fait de métier. Aucune recette n’a été ajoutée."
+L.INVALID_RESET_ARG =                    L.INVALID_PARAMETERS .. " : vous pouvez utiliser les arguments suivants :"
 L.INVALID_COMMAND =                      "Commande non valide. Voir " .. app:Colour("/psl settings") .. " pour plus d’informations."
 L.DEBUG_ENABLED =                        "Mode débogage activé"
 L.DEBUG_DISABLED =                       "Mode débogage désactivé"
@@ -199,7 +199,7 @@ L.SETTINGS_TOOLTIP =                     app.NameLong .. "\n|cffFFFFFF" ..
                                          app.IconRMB .. " : " .. L.WINDOW_BUTTON_SETTINGS
 
 L.SETTINGS_VERSION =                     GAME_VERSION_LABEL .. ":"    -- "Version"
-L.SETTINGS_SUPPORT_TEXTLONG =            "Le développement de cette extension demande beaucoup de temps et d’efforts.\nVeuillez envisager de soutenir financièrement le développeur."
+L.SETTINGS_SUPPORT_TEXTLONG =            "Le développement de ce module complémentaire demande beaucoup de temps et d’efforts.\nVeuillez envisager de soutenir financièrement le développeur."
 L.SETTINGS_SUPPORT_TEXT =                "Soutien"
 L.SETTINGS_SUPPORT_BUTTON =              "Buy Me a Coffee"    -- Brand name, if there isn't a localised version, keep it the way it is
 L.SETTINGS_SUPPORT_DESC =                "Merci !"
@@ -240,7 +240,7 @@ L.SETTINGS_INCLUDEHIGHER_DESC =          "Faut-il inclure ou non les réactifs d
 L.SETTINGS_COLLECTMODE_TITLE =           "Mode de collection"
 L.SETTINGS_COLLECTMODE_DESC =            "Définir les objets à inclure lors de l’utilisation du bouton " .. app:Colour(L.BUTTON_TRACKNEW) .. "."
 L.SETTINGS_SPENDTOPERK_TITLE =           "Dépenser jusqu’au prochain palier"
-L.SETTINGS_SPENDTOPERK_DESC =            "Maj + Clic sur une spécialisation de métier dépense tous les points de savoir jusqu’au prochain palier."
+L.SETTINGS_SPENDTOPERK_DESC =            "Maj + Clic sur une spécialisation de métier dépense tous les points de connaissance jusqu’au prochain palier."
 L.SETTINGS_ENHANCEDORDERS_TITLE =        "Commandes améliorées"
 L.SETTINGS_ENHANCEDORDERS_DESC =         "Améliore l’aperçu des récompenses et commissions de commande et ajoute des icônes pour les premières fabrications, les recettes non apprises et les recettes suivies.\n\n" .. L.REQUIRES_RELOAD
 L.SETTINGS_QUICKORDER_TITLE =            "Durée de la commande rapide"
