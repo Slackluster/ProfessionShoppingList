@@ -39,10 +39,12 @@ function app:CreateOrdersQueue()
 
 		app.OrdersQueue.Button = app:MakeButton(app.OrdersQueue, "", "PSLOrdersQueueButton")
 		app.OrdersQueue.Button:SetPoint("TOP", app.OrdersQueue, 0, -30)
+		app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_NEXT)
 
 		app.OrdersQueue.Status = app.OrdersQueue:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		app.OrdersQueue.Status:SetPoint("TOP", app.OrdersQueue.Button, 0, -30)
 		app.OrdersQueue.Status:SetJustifyH("CENTER")
+		app.OrdersQueue.Status:SetText(L.LOADING)
 
 		app.OrdersQueue:SetFlattensRenderLayers(true)
 		app.OrdersQueue:SetScript("OnShow", function()
@@ -70,79 +72,81 @@ end
 
 function app:UpdateOrdersQueue()
 	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(C_TradeSkillUI.GetProfessionChildSkillLineID()).profession
-
 	app.OrderState = app.OrderState or app.Enum.OrderState.Idle
-	if app.OrderState == app.Enum.OrderState.Idle then
-		local numOrders = 0
-		app.QueuedOrder = {}
-		for key, recipe in pairs(ProfessionShoppingList_Data.Recipes) do
-			if recipe and recipe.professionID == professionID and recipe.orderID and app.OrderInfo[key].view.orderType == Enum.CraftingOrderType.Npc then
-				if not app.QueuedOrder.key then
-					app.QueuedOrder.key = key
-					app.QueuedOrder.orderID = recipe.orderID
-					app.QueuedOrder.recipeID = recipe.recipeID
-				end
-				numOrders = numOrders + 1
-			end
-		end
 
-		app.OrdersQueue.Status:SetText(L.ORDERSQUEUE_QUEUED .. " " .. numOrders)
-		if numOrders == 0 then
-			app.OrdersQueue.Button:Disable()
-		else
-			app.OrdersQueue.Button:Enable()
-		end
-
-		app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_NEXT)
-		app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
-		app.OrdersQueue.Button:SetScript("OnClick", function()
-			ProfessionsFrame.OrdersPage:ViewOrder(app.OrderInfo[app.QueuedOrder.key].view)
-		end)
-	elseif app.OrderState == app.Enum.OrderState.Opened then
-		app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_CLAIM)
-		app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
-		app.OrdersQueue.Button:SetScript("OnClick", function()
-			C_CraftingOrders.ClaimOrder(app.QueuedOrder.orderID, professionID)
-		end)
-	elseif app.OrderState == app.Enum.OrderState.Claimed then
-		local oldText = app.OrdersQueue.Status:GetText()
-		app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_CRAFT)
-		app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
-		app.OrdersQueue.Button:SetScript("OnClick", function()
-			if not ProfessionsFrame.OrdersPage.OrderView.CreateButton:IsEnabled() then
-				local errorReason
-				if C_TradeSkillUI.GetRecipeCooldown(ProfessionsFrame.OrdersPage.OrderView.order.spellID) then
-					errorReason = PROFESSIONS_RECIPE_COOLDOWN
-				elseif not ProfessionsFrame.OrdersPage.OrderView.OrderDetails.SchematicForm.transaction:HasMetAllRequirements() then
-					errorReason = PROFESSIONS_INSUFFICIENT_REAGENTS
-				elseif ProfessionsFrame.OrdersPage.OrderView.order.minQuality then
-					local qualityInfo = ProfessionsFrame.OrdersPage.OrderView.OrderDetails.SchematicForm.Details:GetProjectedQualityInfo()
-					if qualityInfo and ProfessionsFrame.OrdersPage.OrderView.order.minQuality > qualityInfo.quality then
-						local requiredQualityInfo = C_TradeSkillUI.GetRecipeItemQualityInfo(ProfessionsFrame.OrdersPage.OrderView.order.spellID, ProfessionsFrame.OrdersPage.OrderView.order.minQuality)
-						errorReason = PROFESSIONS_CRAFTING_FORM_MIN_QUALITY .. Professions.GetChatIconMarkupForQuality(requiredQualityInfo, true)
+	C_Timer.After(0.2, function()
+		if app.OrderState == app.Enum.OrderState.Idle then
+			local numOrders = 0
+			app.QueuedOrder = {}
+			for key, recipe in pairs(ProfessionShoppingList_Data.Recipes) do
+				if recipe and recipe.professionID == professionID and recipe.orderID and app.OrderInfo[key].view.orderType == Enum.CraftingOrderType.Npc then
+					if not app.QueuedOrder.key then
+						app.QueuedOrder.key = key
+						app.QueuedOrder.orderID = recipe.orderID
+						app.QueuedOrder.recipeID = recipe.recipeID
 					end
-				else
-					errorReason = GUILD_RENAME_ERROR_UNKNOWN
+					numOrders = numOrders + 1
 				end
-				app.OrdersQueue.Status:SetText(errorReason)
-				app.OrdersQueue.Status:SetTextColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
-			else
-				app.OrdersQueue.Status:SetText(oldText)
-				app.OrdersQueue.Status:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
 			end
-			ProfessionsFrame.OrdersPage.OrderView.CreateButton:Click()
-		end)
-	elseif app.OrderState == app.Enum.OrderState.Crafting then
-		app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_CRAFTING)
-		app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
-		app.OrdersQueue.Button:SetScript("OnClick", function() end)
-	elseif app.OrderState == app.Enum.OrderState.Created then
-		app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_COMPLETE)
-		app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
-		app.OrdersQueue.Button:SetScript("OnClick", function()
-			C_CraftingOrders.FulfillOrder(app.QueuedOrder.orderID, "", professionID)
-		end)
-	end
+
+			app.OrdersQueue.Status:SetText(L.ORDERSQUEUE_QUEUED .. " " .. numOrders)
+			if numOrders == 0 then
+				app.OrdersQueue.Button:Disable()
+			else
+				app.OrdersQueue.Button:Enable()
+			end
+
+			app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_NEXT)
+			app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
+			app.OrdersQueue.Button:SetScript("OnClick", function()
+				ProfessionsFrame.OrdersPage:ViewOrder(app.OrderInfo[app.QueuedOrder.key].view)
+			end)
+		elseif app.OrderState == app.Enum.OrderState.Opened then
+			app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_CLAIM)
+			app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
+			app.OrdersQueue.Button:SetScript("OnClick", function()
+				C_CraftingOrders.ClaimOrder(app.QueuedOrder.orderID, professionID)
+			end)
+		elseif app.OrderState == app.Enum.OrderState.Claimed then
+			local oldText = app.OrdersQueue.Status:GetText()
+			app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_CRAFT)
+			app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
+			app.OrdersQueue.Button:SetScript("OnClick", function()
+				if not ProfessionsFrame.OrdersPage.OrderView.CreateButton:IsEnabled() then
+					local errorReason
+					if C_TradeSkillUI.GetRecipeCooldown(ProfessionsFrame.OrdersPage.OrderView.order.spellID) then
+						errorReason = PROFESSIONS_RECIPE_COOLDOWN
+					elseif not ProfessionsFrame.OrdersPage.OrderView.OrderDetails.SchematicForm.transaction:HasMetAllRequirements() then
+						errorReason = PROFESSIONS_INSUFFICIENT_REAGENTS
+					elseif ProfessionsFrame.OrdersPage.OrderView.order.minQuality then
+						local qualityInfo = ProfessionsFrame.OrdersPage.OrderView.OrderDetails.SchematicForm.Details:GetProjectedQualityInfo()
+						if qualityInfo and ProfessionsFrame.OrdersPage.OrderView.order.minQuality > qualityInfo.quality then
+							local requiredQualityInfo = C_TradeSkillUI.GetRecipeItemQualityInfo(ProfessionsFrame.OrdersPage.OrderView.order.spellID, ProfessionsFrame.OrdersPage.OrderView.order.minQuality)
+							errorReason = PROFESSIONS_CRAFTING_FORM_MIN_QUALITY .. Professions.GetChatIconMarkupForQuality(requiredQualityInfo, true)
+						end
+					else
+						errorReason = GUILD_RENAME_ERROR_UNKNOWN
+					end
+					app.OrdersQueue.Status:SetText(errorReason)
+					app.OrdersQueue.Status:SetTextColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
+				else
+					app.OrdersQueue.Status:SetText(oldText)
+					app.OrdersQueue.Status:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
+				end
+				ProfessionsFrame.OrdersPage.OrderView.CreateButton:Click()
+			end)
+		elseif app.OrderState == app.Enum.OrderState.Crafting then
+			app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_CRAFTING)
+			app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
+			app.OrdersQueue.Button:SetScript("OnClick", function() end)
+		elseif app.OrderState == app.Enum.OrderState.Created then
+			app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_COMPLETE)
+			app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
+			app.OrdersQueue.Button:SetScript("OnClick", function()
+				C_CraftingOrders.FulfillOrder(app.QueuedOrder.orderID, "", professionID)
+			end)
+		end
+	end)
 end
 
 app.Event:Register("TRADE_SKILL_CLOSE", function()
@@ -174,10 +178,14 @@ end)
 
 app.Event:Register("CRAFTINGORDERS_CLAIMED_ORDER_UPDATED", function(orderID)
 	if app.OrdersQueue and app.OrdersQueue:IsShown() then
-		if C_CraftingOrders.GetClaimedOrder() and app.OrderState ~= app.Enum.OrderState.Created then
-			app.OrderState = app.Enum.OrderState.Claimed
-		end
-		app:UpdateOrdersQueue()
+		RunNextFrame(function()
+			if ProfessionsFrame.OrdersPage.OrderView.CompleteOrderButton:IsShown() then
+				app.OrderState = app.Enum.OrderState.Created
+			elseif C_CraftingOrders.GetClaimedOrder() and app.OrderState ~= app.Enum.OrderState.Created then
+				app.OrderState = app.Enum.OrderState.Claimed
+			end
+			app:UpdateOrdersQueue()
+		end)
 	end
 end)
 

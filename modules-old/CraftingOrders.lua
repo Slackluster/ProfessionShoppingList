@@ -321,6 +321,7 @@ function app:CreateProfessionsOrdersAssets()
 			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration) -- Can't specify descending
 			C_Timer.After(0.5, function()
 				if not C_CraftingOrders.GetClaimedOrder() then
+					print("app.Enum.OrderState.Idle 4")
 					app.OrderState = app.Enum.OrderState.Idle
 				end
 
@@ -621,9 +622,11 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 		app.OrderInfo = app.OrderInfo or {}
 
 		local function OnFrameInitialized(_, v, data)
-			if app.OrdersQueue:IsShown() then
+			if app.OrderState ~= app.Enum.OrderState.Idle then
 				app.OrderState = app.Enum.OrderState.Idle
-				app:UpdateOrdersQueue()
+				if app.OrdersQueue:IsShown() then
+					app:UpdateOrdersQueue()
+				end
 			end
 
 			if v and data and v.cells then
