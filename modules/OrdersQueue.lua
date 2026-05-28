@@ -160,6 +160,7 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 			if not app.OrdersHook1 then
 				hooksecurefunc(ProfessionsFrame.OrdersPage, "ViewOrder", function(_, orderDetails)
 					app.OrderState = app.Enum.OrderState.Opened
+					app:Debug("app.Enum.OrderState.Opened 1")
 					if app.OrdersQueue:IsShown() then
 						app:UpdateOrdersQueue()
 					end
@@ -181,8 +182,10 @@ app.Event:Register("CRAFTINGORDERS_CLAIMED_ORDER_UPDATED", function(orderID)
 		RunNextFrame(function()
 			if ProfessionsFrame.OrdersPage.OrderView.CompleteOrderButton:IsShown() then
 				app.OrderState = app.Enum.OrderState.Created
+				app:Debug("app.Enum.OrderState.Created 1")
 			elseif C_CraftingOrders.GetClaimedOrder() and app.OrderState ~= app.Enum.OrderState.Created then
 				app.OrderState = app.Enum.OrderState.Claimed
+				app:Debug("app.Enum.OrderState.Claimed 1")
 			end
 			app:UpdateOrdersQueue()
 		end)
@@ -192,6 +195,7 @@ end)
 app.Event:Register("UNIT_SPELLCAST_START", function(unitTarget, castGUID, spellID, castBarID)
 	if unitTarget == "player" and app.OrdersQueue and app.OrdersQueue:IsShown() and spellID == app.QueuedOrder.recipeID and app.OrderState ~= app.Enum.OrderState.Created then
 		app.OrderState = app.Enum.OrderState.Crafting
+		app:Debug("app.Enum.OrderState.Crafting 1")
 		app:UpdateOrdersQueue()
 	end
 end)
@@ -200,6 +204,7 @@ app.Event:Register("UNIT_SPELLCAST_STOP", function(unitTarget, castGUID, spellID
 	C_Timer.After(1, function()
 		if unitTarget == "player" and app.OrdersQueue and app.OrdersQueue:IsShown() and spellID == app.QueuedOrder.recipeID and app.OrderState ~= app.Enum.OrderState.Created then
 			app.OrderState = app.Enum.OrderState.Claimed
+			app:Debug("app.Enum.OrderState.Claimed 2")
 			app:UpdateOrdersQueue()
 		end
 	end)
@@ -208,6 +213,7 @@ end)
 app.Event:Register("UNIT_SPELLCAST_INTERRUPTED", function(unitTarget, castGUID, spellID, castBarID)
 	if unitTarget == "player" and app.OrdersQueue and app.OrdersQueue:IsShown() and spellID == app.QueuedOrder.recipeID and app.OrderState ~= app.Enum.OrderState.Created then
 		app.OrderState = app.Enum.OrderState.Claimed
+		app:Debug("app.Enum.OrderState.Claimed 3")
 		app:UpdateOrdersQueue()
 	end
 end)
@@ -215,6 +221,7 @@ end)
 app.Event:Register("TRADE_SKILL_ITEM_CRAFTED_RESULT", function(data)
 	if app.OrdersQueue and app.OrdersQueue:IsShown() then
 		app.OrderState = app.Enum.OrderState.Created
+		app:Debug("app.Enum.OrderState.Created 2")
 		app:UpdateOrdersQueue()
 	end
 end)
@@ -222,6 +229,7 @@ end)
 app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, orderID)
 	if app.OrdersQueue and app.OrdersQueue:IsShown() and result == 0 then
 		app.OrderState = app.Enum.OrderState.Idle
+		app:Debug("app.Enum.OrderState.Idle 1")
 		app:UpdateOrdersQueue()
 	end
 end)
@@ -229,6 +237,7 @@ end)
 app.Event:Register("CRAFTINGORDERS_RELEASE_ORDER_RESPONSE", function(result, orderID)
 	if app.OrdersQueue and app.OrdersQueue:IsShown() then
 		app.OrderState = app.Enum.OrderState.Idle
+		app:Debug("app.Enum.OrderState.Idle 2")
 		app:UpdateOrdersQueue()
 	end
 end)

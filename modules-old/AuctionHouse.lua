@@ -58,8 +58,6 @@ function app:CreateShoppingList()
 					end
 
 					if not C_Item.IsItemDataCachedByID(reagentID) then
-						app:Debug("makeShoppingList(" .. reagentID .. ")")
-
 						C_Item.RequestLoadItemDataByID(reagentID)
 						local item = Item:CreateFromItemID(reagentID)
 

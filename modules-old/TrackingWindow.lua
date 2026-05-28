@@ -354,8 +354,6 @@ function app:UpdateNumbers()
 			app:CacheItem(reagentID)
 
 			if not C_Item.IsItemDataCachedByID(reagentID) then
-				app:Debug("app.UpdateNumbers(" .. reagentID .. ")")
-
 				C_Item.RequestLoadItemDataByID(reagentID)
 				local item = Item:CreateFromItemID(reagentID)
 
@@ -889,8 +887,6 @@ function app:UpdateRecipes()
 				app:CacheItem(k)
 
 				if not C_Item.IsItemDataCachedByID(k) then
-					app:Debug("app.UpdateRecipes(" .. k .. ")")
-
 					C_Item.RequestLoadItemDataByID(k)
 					local item = Item:CreateFromItemID(k)
 
@@ -1014,8 +1010,6 @@ function app:UpdateRecipes()
 							local function getInfo()
 								-- Cache item
 								if not C_Item.IsItemDataCachedByID(reagentID) then
-									app:Debug("getInfo(" .. reagentID .. ")")
-
 									C_Item.RequestLoadItemDataByID(reagentID)
 									local item = Item:CreateFromItemID(reagentID)
 
@@ -1069,8 +1063,6 @@ function app:UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app:Debug("getInfo(" .. reagentID .. ")")
-
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
 
@@ -1125,8 +1117,6 @@ function app:UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app:Debug("getInfo(" .. reagentID .. ")")
-
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
 
@@ -1181,8 +1171,6 @@ function app:UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app:Debug("getInfo(" .. reagentID .. ")")
-
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
 
@@ -1234,8 +1222,6 @@ function app:UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app:Debug("getInfo(" .. reagentID .. ")")
-
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
 
@@ -1287,8 +1273,6 @@ function app:UpdateRecipes()
 								local function getInfo()
 									-- Cache item
 									if not C_Item.IsItemDataCachedByID(reagentID) then
-										app:Debug("getInfo(" .. reagentID .. ")")
-
 										C_Item.RequestLoadItemDataByID(reagentID)
 										local item = Item:CreateFromItemID(reagentID)
 
@@ -1829,7 +1813,6 @@ end)
 function app:CacheItem(itemID)
 	-- Cache the item by asking the server to give us the info
 	local item = Item:CreateFromItemID(itemID)
-	app:Debug("app:CacheItem(" .. itemID .. ")")
 
 	-- And when the item is cached
 	item:ContinueOnItemLoad(function()
@@ -1925,8 +1908,6 @@ function app:GetReagents(reagentVariable, recipeID, recipeQuantity, recraft)
 				app:CacheItem(reagentID)
 
 				if not C_Item.IsItemDataCachedByID(reagentID) then
-					app:Debug("app:GetReagents(" .. reagentID .. ")")
-
 					C_Item.RequestLoadItemDataByID(reagentID)
 					local item = Item:CreateFromItemID(reagentID)
 
@@ -2087,8 +2068,6 @@ function api:TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 		if itemID ~= nil then
 			-- Cache item
 			if not C_Item.IsItemDataCachedByID(itemID) then
-				app:Debug("api:TrackRecipe(" .. itemID .. ")")
-
 				C_Item.RequestLoadItemDataByID(itemID)
 				local item = Item:CreateFromItemID(itemID)
 

@@ -322,6 +322,7 @@ function app:CreateProfessionsOrdersAssets()
 			C_Timer.After(0.5, function()
 				if not C_CraftingOrders.GetClaimedOrder() then
 					app.OrderState = app.Enum.OrderState.Idle
+					app:Debug("app.Enum.OrderState.Idle 3")
 				end
 
 				app.Flag.ReloadingOrders = app.Flag.ReloadingOrders + 1
@@ -623,6 +624,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 		local function OnFrameInitialized(_, v, data)
 			if app.OrderState ~= app.Enum.OrderState.Idle then
 				app.OrderState = app.Enum.OrderState.Idle
+				app:Debug("app.Enum.OrderState.Idle 4")
 				if app.OrdersQueue:IsShown() then
 					app:UpdateOrdersQueue()
 				end

@@ -183,8 +183,6 @@ function app:UpdateKnowledgeTracker()
 				if v.type == "vendor" then
 					-- Cache item
 					if not C_Item.IsItemDataCachedByID(v.item) then
-						app:Debug("kpTooltip1(" .. v.item .. ")")
-
 						C_Item.RequestLoadItemDataByID(v.item)
 						local item = Item:CreateFromItemID(v.item)
 
@@ -278,8 +276,6 @@ function app:UpdateKnowledgeTracker()
 					if v.item then
 						-- Cache item
 						if not C_Item.IsItemDataCachedByID(v.item) then
-							app:Debug("kpTooltip2(" .. v.item .. ")")
-
 							C_Item.RequestLoadItemDataByID(v.item)
 							local item = Item:CreateFromItemID(v.item)
 
