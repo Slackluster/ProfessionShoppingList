@@ -97,7 +97,7 @@ app.Event:Register("MERCHANT_SHOW", function()
 			end
 		end
 
-		app.MerchantButton = CreateFrame("Button", "pslMerchantButton", MerchantFrame, "UIPanelCloseButton")
+		app.MerchantButton = CreateFrame("Button", "ProfessionShoppingList_MerchantButton", MerchantFrame, "UIPanelCloseButton")
 		app.MerchantButton:SetPoint("TOPRIGHT", MerchantFrameCloseButton, "TOPLEFT", -2, 0)
 		app.MerchantButton:SetNormalTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 		app.MerchantButton:GetNormalTexture():SetTexCoord(219/256, 255/256, 1/128, 39/128)

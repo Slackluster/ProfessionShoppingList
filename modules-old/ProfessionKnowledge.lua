@@ -24,7 +24,7 @@ end)
 function app:CreateProfessionKnowledgeAssets()
 	-- Create Knowledge Point tracker
 	if not app.KnowledgePointTracker then
-		app.KnowledgePointTracker = CreateFrame("Frame", "KnowledgePointTracker", ProfessionsFrame.SpecPage, "TooltipBackdropTemplate")
+		app.KnowledgePointTracker = CreateFrame("Frame", nil, ProfessionsFrame.SpecPage, "TooltipBackdropTemplate")
 		app.KnowledgePointTracker:SetBackdropBorderColor(0.5, 0.5, 0.5)
 		app.KnowledgePointTracker:SetSize(470,25)
 		app.KnowledgePointTracker:SetPoint("TOPRIGHT", ProfessionsFrame.SpecPage, "TOPRIGHT", -5, -24)

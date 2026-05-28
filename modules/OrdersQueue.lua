@@ -29,7 +29,7 @@ end)
 
 function app:CreateOrdersQueue()
 	if not app.OrdersQueue then
-		app.OrdersQueue = CreateFrame("Frame", "", ProfessionsFrame.OrdersPage, "BasicFrameTemplate")
+		app.OrdersQueue = CreateFrame("Frame", nil, ProfessionsFrame.OrdersPage, "BasicFrameTemplate")
 		app.OrdersQueue:SetFrameStrata("DIALOG")
 		app.OrdersQueue:EnableMouse(true) -- Stop OnEnter for the frames below from triggering
 		app.OrdersQueue:SetSize(220, 100)
@@ -37,7 +37,7 @@ function app:CreateOrdersQueue()
 		app.OrdersQueue:Hide()
 		app.OrdersQueue.TitleText:SetText(app.NameLong)
 
-		app.OrdersQueue.Button = app:MakeButton(app.OrdersQueue, "", "PSLOrdersQueueButton")
+		app.OrdersQueue.Button = app:MakeButton(app.OrdersQueue, "", "ProfessionShoppingList_OrdersQueueButton")
 		app.OrdersQueue.Button:SetPoint("TOP", app.OrdersQueue, 0, -30)
 		app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_NEXT)
 

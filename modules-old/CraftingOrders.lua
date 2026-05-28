@@ -292,7 +292,7 @@ function app:CreateProfessionsOrdersAssets()
 		end)
 		app.TrackOrdersButton:Hide()
 
-		app.TrackOrdersSettingsButton = CreateFrame("Button", "", app.TrackOrdersButton, "")
+		app.TrackOrdersSettingsButton = CreateFrame("Button", nil, app.TrackOrdersButton)
 		app.TrackOrdersSettingsButton:SetPoint("LEFT", app.TrackOrdersButton, "RIGHT", 2, 0)
 		app.TrackOrdersSettingsButton:SetSize(24, 24)
 		local texture = app.TrackOrdersSettingsButton:CreateTexture(nil, "ARTWORK")
@@ -349,7 +349,7 @@ function app:CreateProfessionsOrdersAssets()
 			end
 		end)
 
-		app.TrackOrdersSettings = CreateFrame("Frame", "", ProfessionsFrame, "BasicFrameTemplate")
+		app.TrackOrdersSettings = CreateFrame("Frame", nil, ProfessionsFrame, "BasicFrameTemplate")
 		app.TrackOrdersSettings:SetFrameStrata("DIALOG")
 		app.TrackOrdersSettings:SetPoint("TOPLEFT", app.TrackOrdersSettingsButton, "TOPRIGHT", 6, 0)
 		app.TrackOrdersSettings:EnableMouse(true) -- Stop OnEnter for the frames below from triggering
@@ -386,7 +386,7 @@ function app:CreateProfessionsOrdersAssets()
 		end)
 		app:SetBorder(editbox1, -6, 1, 2, -1)
 
-		local gold2 = CreateFrame("Button", "", app.TrackOrdersSettings, "")
+		local gold2 = CreateFrame("Button", nil, app.TrackOrdersSettings)
 		gold2:SetPoint("LEFT", editbox1, "RIGHT", 6, 0)
 		gold2:SetSize(16, 16)
 		local texture = gold2:CreateTexture(nil, "ARTWORK")
@@ -418,7 +418,7 @@ function app:CreateProfessionsOrdersAssets()
 		end)
 		app:SetBorder(editbox2, -6, 1, 2, -1)
 
-		local gold2 = CreateFrame("Button", "", app.TrackOrdersSettings, "")
+		local gold2 = CreateFrame("Button", nil, app.TrackOrdersSettings)
 		gold2:SetPoint("LEFT", editbox2, "RIGHT", 6, 0)
 		gold2:SetSize(16, 16)
 		local texture = gold2:CreateTexture(nil, "ARTWORK")
@@ -450,7 +450,7 @@ function app:CreateProfessionsOrdersAssets()
 		end)
 		app:SetBorder(editbox3, -6, 1, 2, -1)
 
-		local gold3 = CreateFrame("Button", "", app.TrackOrdersSettings, "")
+		local gold3 = CreateFrame("Button", nil, app.TrackOrdersSettings)
 		gold3:SetPoint("LEFT", editbox3, "RIGHT", 6, 0)
 		gold3:SetSize(16, 16)
 		local texture = gold3:CreateTexture(nil, "ARTWORK")
@@ -695,7 +695,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 
 					for i, reagent in pairs(neededReagents) do
 						if not app.OrderAdjustments[v].reagent[i] then
-							app.OrderAdjustments[v].reagent[i] = CreateFrame("Button", "ReagentButton", v, "UIPanelButtonTemplate")
+							app.OrderAdjustments[v].reagent[i] = CreateFrame("Button", nil, v, "UIPanelButtonTemplate")
 							app.OrderAdjustments[v].reagent[i]:SetWidth(20)
 							app.OrderAdjustments[v].reagent[i]:SetHeight(20)
 							app.OrderAdjustments[v].reagent[i]:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
@@ -724,7 +724,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 
 					-- Concentration icon
 					if not app.OrderAdjustments[v].conc then
-						app.OrderAdjustments[v].conc = CreateFrame("Button", "ReagentButton", v, "UIPanelButtonTemplate")
+						app.OrderAdjustments[v].conc = CreateFrame("Button", nil, v, "UIPanelButtonTemplate")
 						app.OrderAdjustments[v].conc:SetWidth(20)
 						app.OrderAdjustments[v].conc:SetHeight(20)
 						app.OrderAdjustments[v].conc:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
@@ -942,7 +942,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 
 					for i, reward in ipairs(rewards) do
 						if not app.OrderAdjustments[v].reward[i] then
-							app.OrderAdjustments[v].reward[i] = CreateFrame("Button", "RewardButton", v, "UIPanelButtonTemplate")
+							app.OrderAdjustments[v].reward[i] = CreateFrame("Button", nil, v, "UIPanelButtonTemplate")
 							app.OrderAdjustments[v].reward[i]:SetWidth(20)
 							app.OrderAdjustments[v].reward[i]:SetHeight(20)
 							app.OrderAdjustments[v].reward[i]:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")

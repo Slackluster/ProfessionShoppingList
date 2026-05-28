@@ -169,7 +169,7 @@ function app:CreateTradeskillAssets()
 
 	-- Create Cooking Fire button
 	if not app.CookingFireButton then
-		app.CookingFireButton = CreateFrame("Button", "CookingFireButton", ProfessionsFrame.CraftingPage, "SecureActionButtonTemplate")
+		app.CookingFireButton = CreateFrame("Button", nil, ProfessionsFrame.CraftingPage, "SecureActionButtonTemplate")
 		app.CookingFireButton:SetWidth(40)
 		app.CookingFireButton:SetHeight(40)
 		app.CookingFireButton:SetNormalTexture(135805)
@@ -192,7 +192,7 @@ function app:CreateTradeskillAssets()
 		end)
 		app:SetBorder(app.CookingFireButton, -1, 2, 2, -1)
 
-		app.CookingFireCooldown = CreateFrame("Cooldown", "CookingFireCooldown", app.CookingFireButton, "CooldownFrameTemplate")
+		app.CookingFireCooldown = CreateFrame("Cooldown", nil, app.CookingFireButton, "CooldownFrameTemplate")
 		app.CookingFireCooldown:SetAllPoints(app.CookingFireButton)
 		app.CookingFireCooldown:SetSwipeColor(1, 1, 1)
 
@@ -200,7 +200,7 @@ function app:CreateTradeskillAssets()
 
 	-- Create Chef's Hat button
 	if not app.ChefsHatButton then
-		app.ChefsHatButton = CreateFrame("Button", "ChefsHatButton", ProfessionsFrame.CraftingPage, "SecureActionButtonTemplate")
+		app.ChefsHatButton = CreateFrame("Button", nil, ProfessionsFrame.CraftingPage, "SecureActionButtonTemplate")
 		app.ChefsHatButton:SetWidth(40)
 		app.ChefsHatButton:SetHeight(40)
 		app.ChefsHatButton:SetNormalTexture(236571)
@@ -221,14 +221,14 @@ function app:CreateTradeskillAssets()
 		end)
 		app:SetBorder(app.ChefsHatButton, -1, 2, 2, -1)
 
-		app.ChefsHatCooldown = CreateFrame("Cooldown", "ChefsHatCooldown", app.ChefsHatButton, "CooldownFrameTemplate")
+		app.ChefsHatCooldown = CreateFrame("Cooldown", nil, app.ChefsHatButton, "CooldownFrameTemplate")
 		app.ChefsHatCooldown:SetAllPoints(app.ChefsHatButton)
 		app.ChefsHatCooldown:SetSwipeColor(1, 1, 1)
 	end
 
 	-- Create Thermal Anvil button
 	if not app.ThermalAnvilButton then
-		app.ThermalAnvilButton = CreateFrame("Button", "ThermalAnvilButton", ProfessionsFrame.CraftingPage, "SecureActionButtonTemplate")
+		app.ThermalAnvilButton = CreateFrame("Button", nil, ProfessionsFrame.CraftingPage, "SecureActionButtonTemplate")
 		app.ThermalAnvilButton:SetWidth(40)
 		app.ThermalAnvilButton:SetHeight(40)
 		app.ThermalAnvilButton:SetNormalTexture(136241)
@@ -249,7 +249,7 @@ function app:CreateTradeskillAssets()
 		end)
 		app:SetBorder(app.ThermalAnvilButton, -1, 2, 2, -1)
 
-		app.ThermalAnvilCooldown = CreateFrame("Cooldown", "ThermalAnvilCooldown", app.ThermalAnvilButton, "CooldownFrameTemplate")
+		app.ThermalAnvilCooldown = CreateFrame("Cooldown", nil, app.ThermalAnvilButton, "CooldownFrameTemplate")
 		app.ThermalAnvilCooldown:SetAllPoints(app.ThermalAnvilButton)
 		app.ThermalAnvilCooldown:SetSwipeColor(1, 1, 1)
 
@@ -263,7 +263,7 @@ function app:CreateTradeskillAssets()
 
 	-- Create Alvin the Anvil button
 	if not app.AlvinButton then
-		app.AlvinButton = CreateFrame("Button", "AlvinButton", ProfessionsFrame.CraftingPage, "SecureActionButtonTemplate")
+		app.AlvinButton = CreateFrame("Button", nil, ProfessionsFrame.CraftingPage, "SecureActionButtonTemplate")
 		app.AlvinButton:SetWidth(40)
 		app.AlvinButton:SetHeight(40)
 		app.AlvinButton:SetNormalTexture(1020356)
@@ -282,14 +282,14 @@ function app:CreateTradeskillAssets()
 		end)
 		app:SetBorder(app.AlvinButton, -1, 2, 2, -1)
 
-		app.AlvinCooldown = CreateFrame("Cooldown", "AlvinCooldown", app.AlvinButton, "CooldownFrameTemplate")
+		app.AlvinCooldown = CreateFrame("Cooldown", nil, app.AlvinButton, "CooldownFrameTemplate")
 		app.AlvinCooldown:SetAllPoints(app.AlvinButton)
 		app.AlvinCooldown:SetSwipeColor(1, 1, 1)
 	end
 
 	-- Create Lil' Ragnaros button
 	if not app.RagnarosButton then
-		app.RagnarosButton = CreateFrame("Button", "RagnarosButton", ProfessionsFrame.CraftingPage, "SecureActionButtonTemplate")
+		app.RagnarosButton = CreateFrame("Button", nil, ProfessionsFrame.CraftingPage, "SecureActionButtonTemplate")
 		app.RagnarosButton:SetWidth(40)
 		app.RagnarosButton:SetHeight(40)
 		app.RagnarosButton:SetNormalTexture(254652)
@@ -308,14 +308,14 @@ function app:CreateTradeskillAssets()
 		end)
 		app:SetBorder(app.RagnarosButton, -1, 2, 2, -1)
 
-		app.RagnarosCooldown = CreateFrame("Cooldown", "RagnarosCooldown", app.RagnarosButton, "CooldownFrameTemplate")
+		app.RagnarosCooldown = CreateFrame("Cooldown", nil, app.RagnarosButton, "CooldownFrameTemplate")
 		app.RagnarosCooldown:SetAllPoints(app.RagnarosButton)
 		app.RagnarosCooldown:SetSwipeColor(1, 1, 1)
 	end
 
 	-- Create Pierre button
 	if not app.PierreButton then
-		app.PierreButton = CreateFrame("Button", "PierreButton", ProfessionsFrame.CraftingPage, "SecureActionButtonTemplate")
+		app.PierreButton = CreateFrame("Button", nil, ProfessionsFrame.CraftingPage, "SecureActionButtonTemplate")
 		app.PierreButton:SetWidth(40)
 		app.PierreButton:SetHeight(40)
 		app.PierreButton:SetNormalTexture(798062)
@@ -334,14 +334,14 @@ function app:CreateTradeskillAssets()
 		end)
 		app:SetBorder(app.PierreButton, -1, 2, 2, -1)
 
-		app.PierreCooldown = CreateFrame("Cooldown", "PierreCooldown", app.PierreButton, "CooldownFrameTemplate")
+		app.PierreCooldown = CreateFrame("Cooldown", nil, app.PierreButton, "CooldownFrameTemplate")
 		app.PierreCooldown:SetAllPoints(app.PierreButton)
 		app.PierreCooldown:SetSwipeColor(1, 1, 1)
 	end
 
 	-- Create Lightforged Draenei Lightforge button
 	if not app.LightforgeButton then
-		app.LightforgeButton = CreateFrame("Button", "LightforgeButton", ProfessionsFrame.CraftingPage, "SecureActionButtonTemplate")
+		app.LightforgeButton = CreateFrame("Button", nil, ProfessionsFrame.CraftingPage, "SecureActionButtonTemplate")
 		app.LightforgeButton:SetWidth(40)
 		app.LightforgeButton:SetHeight(40)
 		app.LightforgeButton:SetNormalTexture(1723995)
@@ -362,7 +362,7 @@ function app:CreateTradeskillAssets()
 		end)
 		app:SetBorder(app.LightforgeButton, -1, 2, 2, -1)
 
-		app.LightforgeCooldown = CreateFrame("Cooldown", "LightforgeCooldown", app.LightforgeButton, "CooldownFrameTemplate")
+		app.LightforgeCooldown = CreateFrame("Cooldown", nil, app.LightforgeButton, "CooldownFrameTemplate")
 		app.LightforgeCooldown:SetAllPoints(app.LightforgeButton)
 		app.LightforgeCooldown:SetSwipeColor(1, 1, 1)
 	end

@@ -116,7 +116,7 @@ function app:CreateWindow()
 	end)
 
 	-- Close button
-	app.CloseButton = CreateFrame("Button", "", app.Window, "UIPanelCloseButton")
+	app.CloseButton = CreateFrame("Button", nil, app.Window, "UIPanelCloseButton")
 	app.CloseButton:SetPoint("TOPRIGHT", app.Window, "TOPRIGHT", 2, 2)
 	app.CloseButton:SetScript("OnClick", function()
 		app.Window:Hide()
@@ -136,7 +136,7 @@ function app:CreateWindow()
 		app.Settings["windowLocked"] = true
 	end
 
-	app.LockButton = CreateFrame("Button", "", app.Window, "UIPanelCloseButton")
+	app.LockButton = CreateFrame("Button", nil, app.Window, "UIPanelCloseButton")
 	app.LockButton:SetPoint("TOPRIGHT", app.CloseButton, "TOPLEFT", -2, 0)
 	app.LockButton:SetNormalTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.LockButton:GetNormalTexture():SetTexCoord(183/256, 219/256, 1/128, 39/128)
@@ -160,7 +160,7 @@ function app:CreateWindow()
 		app.Settings["windowLocked"] = false
 	end
 
-	app.UnlockButton = CreateFrame("Button", "", app.Window, "UIPanelCloseButton")
+	app.UnlockButton = CreateFrame("Button", nil, app.Window, "UIPanelCloseButton")
 	app.UnlockButton:SetPoint("TOPRIGHT", app.CloseButton, "TOPLEFT", -2, 0)
 	app.UnlockButton:SetNormalTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.UnlockButton:GetNormalTexture():SetTexCoord(148/256, 184/256, 1/128, 39/128)
@@ -183,7 +183,7 @@ function app:CreateWindow()
 	end
 
 	-- Settings button
-	app.SettingsButton = CreateFrame("Button", "", app.Window, "UIPanelCloseButton")
+	app.SettingsButton = CreateFrame("Button", nil, app.Window, "UIPanelCloseButton")
 	app.SettingsButton:SetPoint("TOPRIGHT", app.LockButton, "TOPLEFT", -2, 0)
 	app.SettingsButton:SetNormalTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.SettingsButton:GetNormalTexture():SetTexCoord(112/256, 148/256, 1/128, 39/128)
@@ -202,7 +202,7 @@ function app:CreateWindow()
 	end)
 
 	-- Clear button
-	app.ClearButton = CreateFrame("Button", "", app.Window, "UIPanelCloseButton")
+	app.ClearButton = CreateFrame("Button", nil, app.Window, "UIPanelCloseButton")
 	app.ClearButton:SetPoint("TOPRIGHT", app.SettingsButton, "TOPLEFT", -2, 0)
 	app.ClearButton:SetNormalTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.ClearButton:GetNormalTexture():SetTexCoord(1/256, 37/256, 1/128, 39/128)
@@ -233,7 +233,7 @@ function app:CreateWindow()
 	end)
 
 	-- Auctionator button
-	app.AuctionatorButton = CreateFrame("Button", "pslOptionAuctionatorButton", app.Window, "UIPanelCloseButton")
+	app.AuctionatorButton = CreateFrame("Button", nil, app.Window, "UIPanelCloseButton")
 	app.AuctionatorButton:SetPoint("TOPRIGHT", app.ClearButton, "TOPLEFT", -2, 0)
 	app.AuctionatorButton:SetNormalTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 	app.AuctionatorButton:GetNormalTexture():SetTexCoord(219/256, 255/256, 1/128, 39/128)
@@ -903,7 +903,7 @@ function app:UpdateRecipes()
 		for _, reagentInfo in ipairs(reagentsSorted) do
 			rowNo2 = rowNo2 + 1
 
-			local row = CreateFrame("Button", nil, app.Window.Reagents, "", reagentInfo.reagentID)
+			local row = CreateFrame("Button", nil, app.Window.Reagents, nil, reagentInfo.reagentID)
 			row:SetSize(0,16)
 			row:SetHighlightAtlas("Options_List_Active", "ADD")
 			row:RegisterForDrag("LeftButton")
@@ -1424,7 +1424,7 @@ function app:UpdateRecipes()
 		for _, cooldownInfo in pairs(cooldownsSorted) do
 			rowNo3 = rowNo3 + 1
 
-			local row = CreateFrame("Button", nil, app.Window.Cooldowns, "", cooldownInfo.id)
+			local row = CreateFrame("Button", nil, app.Window.Cooldowns, nil, cooldownInfo.id)
 			row:SetSize(0,16)
 			row:SetHighlightAtlas("Options_List_Active", "ADD")
 			row:RegisterForDrag("LeftButton")
@@ -1724,7 +1724,7 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 
 	if ProfessionsFrame then
 		if not ProfessionsFrameTabSideBar then
-			ProfessionsFrameTabSideBar = CreateFrame("Frame", nil, ProfessionsFrame, "")
+			ProfessionsFrameTabSideBar = CreateFrame("Frame", nil, ProfessionsFrame)
 			ProfessionsFrameTabSideBar:SetWidth(1)
 			ProfessionsFrameTabSideBar:SetPoint("TOPLEFT", ProfessionsFrame, "TOPRIGHT")
 			ProfessionsFrameTabSideBar:SetPoint("BOTTOMLEFT", ProfessionsFrame, "BOTTOMRIGHT")
@@ -1744,7 +1744,7 @@ end)
 
 app.Event:Register("AUCTION_HOUSE_SHOW", function()
 	if not AuctionHouseFrameTabSideBar then
-		AuctionHouseFrameTabSideBar = CreateFrame("Frame", nil, AuctionHouseFrame, "")
+		AuctionHouseFrameTabSideBar = CreateFrame("Frame", nil, AuctionHouseFrame)
 		AuctionHouseFrameTabSideBar:SetWidth(1)
 		AuctionHouseFrameTabSideBar:SetPoint("TOPLEFT", AuctionHouseFrame, "TOPRIGHT")
 		AuctionHouseFrameTabSideBar:SetPoint("BOTTOMLEFT", AuctionHouseFrame, "BOTTOMRIGHT")
@@ -1757,7 +1757,7 @@ end)
 
 app.Event:Register("CRAFTINGORDERS_SHOW_CUSTOMER", function()
 	if not ProfessionsCustomerOrdersFrameTabSideBar then
-		ProfessionsCustomerOrdersFrameTabSideBar = CreateFrame("Frame", nil, ProfessionsCustomerOrdersFrame, "")
+		ProfessionsCustomerOrdersFrameTabSideBar = CreateFrame("Frame", nil, ProfessionsCustomerOrdersFrame)
 		ProfessionsCustomerOrdersFrameTabSideBar:SetWidth(1)
 		ProfessionsCustomerOrdersFrameTabSideBar:SetPoint("TOPLEFT", ProfessionsCustomerOrdersFrame, "TOPRIGHT")
 		ProfessionsCustomerOrdersFrameTabSideBar:SetPoint("BOTTOMLEFT", ProfessionsCustomerOrdersFrame, "BOTTOMRIGHT")
