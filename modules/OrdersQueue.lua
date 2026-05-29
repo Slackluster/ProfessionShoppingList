@@ -159,10 +159,12 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 			app:CreateOrdersQueue()
 			if not app.OrdersHook1 then
 				hooksecurefunc(ProfessionsFrame.OrdersPage, "ViewOrder", function(_, orderDetails)
-					app.OrderState = app.Enum.OrderState.Opened
-					app:Debug("app.Enum.OrderState.Opened 1")
-					if app.OrdersQueue:IsShown() then
-						app:UpdateOrdersQueue()
+					if app.OrderState == app.Enum.OrderState.Idle then
+						app.OrderState = app.Enum.OrderState.Opened
+						app:Debug("app.Enum.OrderState.Opened 1")
+						if app.OrdersQueue:IsShown() then
+							app:UpdateOrdersQueue()
+						end
 					end
 				end)
 				ProfessionsFrame.OrdersPage.OrderView.CreateButton:HookScript("OnClick", function()
