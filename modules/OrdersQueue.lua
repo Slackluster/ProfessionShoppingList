@@ -144,6 +144,7 @@ function app:UpdateOrdersQueue()
 			app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
 			app.OrdersQueue.Button:SetScript("OnClick", function()
 				C_CraftingOrders.FulfillOrder(app.QueuedOrder.orderID, "", professionID)
+				app:Debug("Fulfill")
 			end)
 		end
 	end)
@@ -204,7 +205,7 @@ end)
 
 app.Event:Register("UNIT_SPELLCAST_STOP", function(unitTarget, castGUID, spellID, castBarID)
 	C_Timer.After(1, function()
-		if unitTarget == "player" and app.OrdersQueue and app.OrdersQueue:IsShown() and spellID == app.QueuedOrder.recipeID and app.OrderState ~= app.Enum.OrderState.Created then
+		if unitTarget == "player" and app.OrdersQueue and app.OrdersQueue:IsShown() and spellID == app.QueuedOrder.recipeID and app.OrderState ~= app.Enum.OrderState.Created and app.OrderState ~= app.Enum.OrderState.Idle and C_CraftingOrders.GetClaimedOrder() then
 			app.OrderState = app.Enum.OrderState.Claimed
 			app:Debug("app.Enum.OrderState.Claimed 2")
 			app:UpdateOrdersQueue()
@@ -213,7 +214,7 @@ app.Event:Register("UNIT_SPELLCAST_STOP", function(unitTarget, castGUID, spellID
 end)
 
 app.Event:Register("UNIT_SPELLCAST_INTERRUPTED", function(unitTarget, castGUID, spellID, castBarID)
-	if unitTarget == "player" and app.OrdersQueue and app.OrdersQueue:IsShown() and spellID == app.QueuedOrder.recipeID and app.OrderState ~= app.Enum.OrderState.Created then
+	if unitTarget == "player" and app.OrdersQueue and app.OrdersQueue:IsShown() and spellID == app.QueuedOrder.recipeID and app.OrderState ~= app.Enum.OrderState.Created and app.OrderState ~= app.Enum.OrderState.Idle and C_CraftingOrders.GetClaimedOrder() then
 		app.OrderState = app.Enum.OrderState.Claimed
 		app:Debug("app.Enum.OrderState.Claimed 3")
 		app:UpdateOrdersQueue()
@@ -229,9 +230,14 @@ app.Event:Register("TRADE_SKILL_ITEM_CRAFTED_RESULT", function(data)
 end)
 
 app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, orderID)
-	if app.OrdersQueue and app.OrdersQueue:IsShown() and result == 0 then
+	app:Debug(result)
+	if app.OrdersQueue and app.OrdersQueue:IsShown() and (result == 0 or result == 36) then
 		app.OrderState = app.Enum.OrderState.Idle
 		app:Debug("app.Enum.OrderState.Idle 1")
+		app:UpdateOrdersQueue()
+	elseif app.OrdersQueue and app.OrdersQueue:IsShown() and result == 37 then
+		app.OrderState = app.Enum.OrderState.Claimed
+		app:Debug("app.Enum.OrderState.Claimed (not crafted)")
 		app:UpdateOrdersQueue()
 	end
 end)
