@@ -320,7 +320,7 @@ function app:CreateProfessionsOrdersAssets()
 			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration)
 			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration) -- Can't specify descending
 			C_Timer.After(0.5, function()
-				if not C_CraftingOrders.GetClaimedOrder() then
+				if app.OrderState ~= app.Enum.OrderState.Idle and not C_CraftingOrders.GetClaimedOrder() then
 					app.OrderState = app.Enum.OrderState.Idle
 					app:Debug("app.Enum.OrderState.Idle 3")
 				end
