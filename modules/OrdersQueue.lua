@@ -20,6 +20,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 			Crafting = 3,
 			Created = 4,
 		}
+		app.QueuedOrders = {}
 	end
 end)
 
@@ -192,7 +193,7 @@ app.Event:Register("CRAFTINGORDERS_CLAIMED_ORDER_UPDATED", function(orderID)
 end)
 
 app.Event:Register("UNIT_SPELLCAST_START", function(unitTarget, castGUID, spellID, castBarID)
-	if unitTarget == "player" and app.OrdersQueue and app.OrdersQueue:IsShown() and spellID == app.QueuedOrders[1].recipeID and app.OrderState ~= app.Enum.OrderState.Created then
+	if unitTarget == "player" and #app.QueuedOrders > 0 and spellID == app.QueuedOrders[1].recipeID and app.OrderState ~= app.Enum.OrderState.Created then
 		app.OrderState = app.Enum.OrderState.Crafting
 		app:Debug("app.Enum.OrderState.Crafting 1")
 		app:UpdateOrdersQueue()
@@ -201,7 +202,7 @@ end)
 
 app.Event:Register("UNIT_SPELLCAST_STOP", function(unitTarget, castGUID, spellID, castBarID)
 	C_Timer.After(1, function()
-		if unitTarget == "player" and app.OrdersQueue and app.OrdersQueue:IsShown() and spellID == app.QueuedOrders[1].recipeID and app.OrderState ~= app.Enum.OrderState.Created and app.OrderState ~= app.Enum.OrderState.Idle and C_CraftingOrders.GetClaimedOrder() then
+		if unitTarget == "player" and #app.QueuedOrders > 0 and spellID == app.QueuedOrders[1].recipeID and app.OrderState ~= app.Enum.OrderState.Created and app.OrderState ~= app.Enum.OrderState.Idle and C_CraftingOrders.GetClaimedOrder() then
 			app.OrderState = app.Enum.OrderState.Claimed
 			app:Debug("app.Enum.OrderState.Claimed 2")
 			app:UpdateOrdersQueue()
@@ -210,7 +211,7 @@ app.Event:Register("UNIT_SPELLCAST_STOP", function(unitTarget, castGUID, spellID
 end)
 
 app.Event:Register("UNIT_SPELLCAST_INTERRUPTED", function(unitTarget, castGUID, spellID, castBarID)
-	if unitTarget == "player" and app.OrdersQueue and app.OrdersQueue:IsShown() and spellID == app.QueuedOrders[1].recipeID and app.OrderState ~= app.Enum.OrderState.Created and app.OrderState ~= app.Enum.OrderState.Idle and C_CraftingOrders.GetClaimedOrder() then
+	if unitTarget == "player" and #app.QueuedOrders > 0 and spellID == app.QueuedOrders[1].recipeID and app.OrderState ~= app.Enum.OrderState.Created and app.OrderState ~= app.Enum.OrderState.Idle and C_CraftingOrders.GetClaimedOrder() then
 		app.OrderState = app.Enum.OrderState.Claimed
 		app:Debug("app.Enum.OrderState.Claimed 3")
 		app:UpdateOrdersQueue()
