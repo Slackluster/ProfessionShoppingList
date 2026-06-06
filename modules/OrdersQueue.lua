@@ -76,7 +76,9 @@ function app:CreateOrdersQueue()
 end
 
 function app:UpdateOrdersQueue()
-	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(C_TradeSkillUI.GetProfessionChildSkillLineID()).profession
+	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
+	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
+	local concID = C_TradeSkillUI.GetConcentrationCurrencyID(skillLineID)
 	app.OrderState = app.OrderState or app.Enum.OrderState.Idle
 
 	app.OrdersQueue.Button:SetScript("OnClick", function() end)
@@ -84,7 +86,7 @@ function app:UpdateOrdersQueue()
 		if app.OrderState == app.Enum.OrderState.Idle then
 			app.QueuedOrders = {}
 			for key, recipe in pairs(ProfessionShoppingList_Data.Recipes) do
-				if recipe and recipe.professionID == professionID and recipe.orderID and app.OrderInfo[key].view.orderType == Enum.CraftingOrderType.Npc then
+				if recipe and recipe.professionID == professionID and recipe.orderID and app.OrderInfo[key].view.orderType == Enum.CraftingOrderType.Npc and C_CurrencyInfo.GetCurrencyInfo(concID).quantity > app.OrderInfo[key].concentrationCost then
 					table.insert(app.QueuedOrders, app.OrderInfo[key])
 				end
 			end
