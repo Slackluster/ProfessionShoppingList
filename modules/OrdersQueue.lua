@@ -86,7 +86,7 @@ function app:UpdateOrdersQueue()
 		if app.OrderState == app.Enum.OrderState.Idle then
 			app.QueuedOrders = {}
 			for key, recipe in pairs(ProfessionShoppingList_Data.Recipes) do
-				if recipe and recipe.professionID == professionID and recipe.orderID and app.OrderInfo[key].view.orderType == Enum.CraftingOrderType.Npc and C_CurrencyInfo.GetCurrencyInfo(concID).quantity > app.OrderInfo[key].concentrationCost then
+				if recipe and recipe.professionID == professionID and recipe.orderID and app.OrderInfo[key] and app.OrderInfo[key].view.orderType == Enum.CraftingOrderType.Npc and C_CurrencyInfo.GetCurrencyInfo(concID).quantity > app.OrderInfo[key].concentrationCost then
 					table.insert(app.QueuedOrders, app.OrderInfo[key])
 				end
 			end
