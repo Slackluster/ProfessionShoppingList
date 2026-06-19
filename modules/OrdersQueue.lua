@@ -30,13 +30,18 @@ end)
 
 function app:CreateOrdersQueue()
 	if not app.OrdersQueue then
-		app.OrdersQueue = CreateFrame("Frame", nil, ProfessionsFrame.OrdersPage, "BasicFrameTemplate")
+		app.OrdersQueue = CreateFrame("Frame", nil, ProfessionsFrame.OrdersPage, "DefaultPanelTemplate")
 		app.OrdersQueue:SetFrameStrata("DIALOG")
 		app.OrdersQueue:EnableMouse(true) -- Stop OnEnter for the frames below from triggering
 		app.OrdersQueue:SetSize(220, 100)
 		app.OrdersQueue:SetPoint("CENTER", ProfessionsFrame.OrdersPage.BrowseFrame.OrderList)
 		app.OrdersQueue:Hide()
-		app.OrdersQueue.TitleText:SetText(app.NameLong)
+		app.OrdersQueue.TitleContainer.TitleText:SetText(app.NameLong)
+		app.OrdersQueue.CloseButton = CreateFrame("Button", nil, app.OrdersQueue, "UIPanelCloseButton")
+		app.OrdersQueue.CloseButton:SetPoint("TOPRIGHT", app.OrdersQueue)
+		app.OrdersQueue.CloseButton:SetScript("OnClick", function()
+			app.OrdersQueue:Hide()
+		end)
 
 		app.OrdersQueue.Button = app:MakeButton(app.OrdersQueue, "", "ProfessionShoppingList_OrdersQueueButton")
 		app.OrdersQueue.Button:SetPoint("TOP", app.OrdersQueue, 0, -30)
