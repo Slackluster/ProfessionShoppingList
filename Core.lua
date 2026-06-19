@@ -58,16 +58,21 @@ end)
 function app:SendAddonMessage(message)
 	if IsInRaid(2) or IsInGroup(2) then
 		ChatThrottleLib:SendAddonMessage("NORMAL", app.NamePrefix, message, "INSTANCE_CHAT")
-	elseif IsInRaid() then
+	elseif IsInGroup() or IsInRaid() then
 		ChatThrottleLib:SendAddonMessage("NORMAL", app.NamePrefix, message, "RAID")
-	elseif IsInGroup() then
-		ChatThrottleLib:SendAddonMessage("NORMAL", app.NamePrefix, message, "PARTY")
+	elseif IsInGuild() then
+		ChatThrottleLib:SendAddonMessage("NORMAL", app.NamePrefix, message, "GUILD")
 	end
 end
 
 app.Event:Register("GROUP_ROSTER_UPDATE", function(category, partyGUID)
-	local message = "version:" .. C_AddOns.GetAddOnMetadata(appName, "Version")
-	app:SendAddonMessage(message)
+	app:SendAddonMessage("version:" .. C_AddOns.GetAddOnMetadata(appName, "Version"))
+end)
+
+app.Event:Register("PLAYER_ENTERING_WORLD", function(isInitialLogin, isReloadingUi)
+	if isInitialLogin or isReloadingUi then
+		app:SendAddonMessage("version:" .. C_AddOns.GetAddOnMetadata(appName, "Version"))
+	end
 end)
 
 app.Event:Register("CHAT_MSG_ADDON", function(prefix, text, channel, sender, target, zoneChannelID, localID, name, instanceID)
