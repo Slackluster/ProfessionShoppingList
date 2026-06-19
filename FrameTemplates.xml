@@ -29,8 +29,6 @@
 	<Frame name="ProfessionShoppingList_Tab" virtual="true" inherits="QuestLogTabButtonTemplate">
 		<KeyValues>
 			<KeyValue key="displayMode" value="QuestLogDisplayMode.Quests" type="global" />
-			<KeyValue key="activeAtlas" value="poi-workorders" type="string" />
-			<KeyValue key="inactiveAtlas" value="poi-workorders" type="string" />
 			<KeyValue key="tooltipText" value="|cff3FC7EBProfession Shopping List" type="string" />
 		</KeyValues>
 	</Frame>

@@ -13,7 +13,7 @@ _G["BINDING_NAME_PROFESSIONSHOPPINGLIST"] = app.Name
 _G["BINDING_NAME_SLACKWARE"] = "Slackware"
 
 -- Textures
-app.Icon = "Interface\\AddOns\\ProfessionShoppingList\\assets\\icon.png"
+app.Icon = "Interface\\Icons\\inv_enchant_formulasuperior_01"
 app.IconPSL = "|T" .. app.Icon .. ":0|t"
 app.IconWaiting = "|TInterface\\RaidFrame\\ReadyCheck-Waiting:0|t"
 app.IconReady = "|TInterface\\RaidFrame\\ReadyCheck-Ready:0|t"

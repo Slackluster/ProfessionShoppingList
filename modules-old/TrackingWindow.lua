@@ -1643,8 +1643,13 @@ function app:CreateTab(frame, tabFrame)
 	app.Tab[frame]:SetPoint("TOPLEFT", tabFrame, "TOPRIGHT", -2, -114)
 	tabFrame.Tabs[2] = app.Tab[frame]
 
+	local function setIcon(tabFrame)
+		tabFrame.Icon:SetTexture(app.Icon)
+		tabFrame.Icon:SetSize(24, 24)
+	end
 
 	local function showWindow()
+		setIcon(app.Tab[frame])
 		app:ShowWindow()
 		app.Window:ClearAllPoints()
 		app.Window:SetPoint("TOPLEFT", frame, "TOPRIGHT", 0, -1)
@@ -1664,6 +1669,7 @@ function app:CreateTab(frame, tabFrame)
 		app.Tab.IsShown[frame] = true
 		app.Tab.IsShown[0] = true
 		app.Tab[frame]:SetChecked(true)
+		setIcon(app.Tab[frame])
 
 		locked = app.Settings["windowLocked"]
 		app.CloseButton:Disable()
@@ -1680,6 +1686,7 @@ function app:CreateTab(frame, tabFrame)
 		app.Tab.IsShown[0] = false
 		api:ToggleWindow()
 		app.Tab[frame]:SetChecked(false)
+		setIcon(app.Tab[frame])
 		tabFrame.selTab = 0
 
 		app.CloseButton:Enable()
@@ -1696,6 +1703,7 @@ function app:CreateTab(frame, tabFrame)
 	end
 
 	app.Tab[frame]:SetChecked(false)
+	setIcon(app.Tab[frame])
 	app.Tab[frame]:SetCustomOnMouseUpHandler(toggleWindow)
 
 	frame:HookScript("OnShow", function()
