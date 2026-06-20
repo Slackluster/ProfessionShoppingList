@@ -38,7 +38,7 @@ function app:CreateProfessionKnowledgeAssets()
 		app.KnowledgePointTracker.Bar.Fill:SetAllPoints(app.KnowledgePointTracker.Bar)
 
 		app.KnowledgePointTracker.Text = app.KnowledgePointTracker.Bar:CreateFontString(nil, "OVERLAY", "GameFontNormalOutline")
-		app.KnowledgePointTracker.Text:SetPoint("CENTER", app.KnowledgePointTracker, "CENTER", 0, 0)
+		app.KnowledgePointTracker.Text:SetPoint("CENTER", app.KnowledgePointTracker, "CENTER")
 		app.KnowledgePointTracker.Text:SetTextColor(1, 1, 1, 1)
 	end
 

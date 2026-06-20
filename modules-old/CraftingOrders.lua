@@ -86,7 +86,7 @@ function app:CreateCraftingOrdersAssets()
 	if not app.QuickOrderTargetBox then
 		app.QuickOrderTargetBox = CreateFrame("EditBox", nil, ProfessionsCustomerOrdersFrame.Form, "InputBoxTemplate")
 		app.QuickOrderTargetBox:SetSize(80,20)
-		app.QuickOrderTargetBox:SetPoint("CENTER", app.TrackPlaceOrderButton, "CENTER", 0, 0)
+		app.QuickOrderTargetBox:SetPoint("CENTER", app.TrackPlaceOrderButton, "CENTER")
 		app.QuickOrderTargetBox:SetPoint("LEFT", app.TrackPlaceOrderButton, "LEFT", 415, 0)
 		app.QuickOrderTargetBox:SetAutoFocus(false)
 		app.QuickOrderTargetBox:SetCursorPosition(0)
@@ -178,7 +178,7 @@ function app:CreateCraftingOrdersAssets()
 	-- Create the place crafting orders personal order button
 	if not app.QuickOrderButton then
 		app.QuickOrderButton = app:MakeButton(ProfessionsCustomerOrdersFrame.Form, L.QUICKORDER)
-		app.QuickOrderButton:SetPoint("CENTER", app.QuickOrderTargetBox, "CENTER", 0, 0)
+		app.QuickOrderButton:SetPoint("CENTER", app.QuickOrderTargetBox, "CENTER")
 		app.QuickOrderButton:SetPoint("RIGHT", app.QuickOrderTargetBox, "LEFT", -8, 0)
 		app.QuickOrderButton:SetScript("OnClick", function()
 			quickOrder(app.SelectedRecipe.PlaceOrder.recipeID)
@@ -204,7 +204,7 @@ function app:CreateCraftingOrdersAssets()
 	if not app.LocalReagentsCheckbox then
 		-- Temporary checkbox until Blizz fixes their shit
 		app.LocalReagentsCheckbox = CreateFrame("CheckButton", nil, ProfessionsCustomerOrdersFrame.Form, "ChatConfigCheckButtonTemplate")
-		app.LocalReagentsCheckbox:SetPoint("BOTTOMLEFT", app.QuickOrderButton, "TOPLEFT", 0, 0)
+		app.LocalReagentsCheckbox:SetPoint("BOTTOMLEFT", app.QuickOrderButton, "TOPLEFT")
 		app.LocalReagentsCheckbox.Text:SetText(L.LOCALREAGENTS_LABEL)
 		app.LocalReagentsCheckbox.tooltip = L.LOCALREAGENTS_TOOLTIP
 		app.LocalReagentsCheckbox:SetScript("OnClick", function(self)
@@ -717,7 +717,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							GameTooltip:Hide()
 						end)
 						app.OrderAdjustments[v].reagent[i]:SetNormalTexture(reagent.icon)
-						app.OrderAdjustments[v].reagent[i].Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].reagent[i], "BOTTOMRIGHT", 0, 0)
+						app.OrderAdjustments[v].reagent[i].Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].reagent[i], "BOTTOMRIGHT")
 						if reagent.count and reagent.count > 1 then
 							app.OrderAdjustments[v].reagent[i].Text:SetText("|cffFFFFFF" .. reagent.count)
 						else
@@ -968,7 +968,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							GameTooltip:Hide()
 						end)
 						app.OrderAdjustments[v].reward[i]:SetNormalTexture(reward.icon)
-						app.OrderAdjustments[v].reward[i].Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].reward[i], "BOTTOMRIGHT", 0, 0)
+						app.OrderAdjustments[v].reward[i].Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].reward[i], "BOTTOMRIGHT")
 						if reward.count and reward.count > 1 then
 							app.OrderAdjustments[v].reward[i].Text:SetText("|cffFFFFFF" .. reward.count)
 						else

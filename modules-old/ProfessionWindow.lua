@@ -54,7 +54,7 @@ function app:CreateTradeskillAssets()
 	if not app.RecipeQuantityBox then
 		app.RecipeQuantityBox = CreateFrame("EditBox", nil, ProfessionsFrame.CraftingPage, "InputBoxTemplate")
 		app.RecipeQuantityBox:SetSize(25,20)
-		app.RecipeQuantityBox:SetPoint("CENTER", app.TrackProfessionButton, "CENTER", 0, 0)
+		app.RecipeQuantityBox:SetPoint("CENTER", app.TrackProfessionButton, "CENTER")
 		app.RecipeQuantityBox:SetPoint("RIGHT", app.TrackProfessionButton, "LEFT", -4, 0)
 		app.RecipeQuantityBox:SetAutoFocus(false)
 		app.RecipeQuantityBox:SetText(0)
@@ -89,7 +89,7 @@ function app:CreateTradeskillAssets()
 	-- Create the profession UI untrack button
 	if not app.UntrackProfessionButton then
 		app.UntrackProfessionButton = app:MakeButton(ProfessionsFrame.CraftingPage, L.UNTRACK)
-		app.UntrackProfessionButton:SetPoint("TOP", app.TrackProfessionButton, "TOP", 0, 0)
+		app.UntrackProfessionButton:SetPoint("TOP", app.TrackProfessionButton, "TOP")
 		app.UntrackProfessionButton:SetPoint("RIGHT", app.RecipeQuantityBox, "LEFT", -8, 0)
 		app.UntrackProfessionButton:SetFrameStrata("HIGH")
 		app.UntrackProfessionButton:SetScript("OnClick", function()
@@ -104,7 +104,7 @@ function app:CreateTradeskillAssets()
 	if not app.ShadowlandsRankBox then
 		app.ShadowlandsRankBox = CreateFrame("EditBox", nil, ProfessionsFrame.CraftingPage, "InputBoxTemplate")
 		app.ShadowlandsRankBox:SetSize(25,20)
-		app.ShadowlandsRankBox:SetPoint("CENTER", app.RecipeQuantityBox, "CENTER", 0, 0)
+		app.ShadowlandsRankBox:SetPoint("CENTER", app.RecipeQuantityBox, "CENTER")
 		app.ShadowlandsRankBox:SetPoint("TOP", app.RecipeQuantityBox, "BOTTOM", 0, -4)
 		app.ShadowlandsRankBox:SetAutoFocus(false)
 		app.ShadowlandsRankBox:SetCursorPosition(0)
@@ -162,7 +162,7 @@ function app:CreateTradeskillAssets()
 		(C_AddOns.IsAddOnLoaded("TestFlight") and (C_AddOns.IsAddOnLoaded("TradeSkillMaster") or C_AddOns.IsAddOnLoaded("Auctionator") or C_AddOns.IsAddOnLoaded("RECrystallize") or C_AddOns.IsAddOnLoaded("OribosExchange") or C_AddOns.IsAddOnLoaded("Auctioneer"))) or
 		C_AddOns.IsAddOnLoaded("Mass_Salvage_Assist") then
 			app.TrackNewMogsButton:ClearAllPoints()
-			app.TrackNewMogsButton:SetPoint("CENTER", app.UntrackProfessionButton, "CENTER", 0, 0)
+			app.TrackNewMogsButton:SetPoint("CENTER", app.UntrackProfessionButton, "CENTER")
 			app.TrackNewMogsButton:SetPoint("RIGHT", app.UntrackProfessionButton, "LEFT", -3, 0)
 		end
 	end
@@ -254,7 +254,7 @@ function app:CreateTradeskillAssets()
 		app.ThermalAnvilCooldown:SetSwipeColor(1, 1, 1)
 
 		app.ThermalAnvilCharges = app.ThermalAnvilButton:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		app.ThermalAnvilCharges:SetPoint("BOTTOMRIGHT", app.ThermalAnvilButton, "BOTTOMRIGHT", 0, 0)
+		app.ThermalAnvilCharges:SetPoint("BOTTOMRIGHT", app.ThermalAnvilButton, "BOTTOMRIGHT")
 		app.ThermalAnvilCharges:SetJustifyH("RIGHT")
 		if not C_Item.IsItemDataCachedByID(87216) then local item = Item:CreateFromItemID(87216) end
 		local anvilCharges = C_Item.GetItemCount(87216, false, true, false, false)
@@ -544,7 +544,7 @@ function app:CreateTradeskillAssets()
 		ProfessionsFrame.CraftingPage.ConcentrationDisplay.Amount:SetPoint("TOPLEFT", ProfessionsFrame.CraftingPage.ConcentrationDisplay.Icon, "TOPRIGHT", 6, 0)
 
 		app.Concentration1 = ProfessionsFrame.CraftingPage.ConcentrationDisplay:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		app.Concentration1:SetPoint("TOPLEFT", ProfessionsFrame.CraftingPage.ConcentrationDisplay.Amount, "BOTTOMLEFT", 0, 0)
+		app.Concentration1:SetPoint("TOPLEFT", ProfessionsFrame.CraftingPage.ConcentrationDisplay.Amount, "BOTTOMLEFT")
 		app.Concentration1:SetJustifyH("LEFT")
 	end
 
@@ -552,7 +552,7 @@ function app:CreateTradeskillAssets()
 		ProfessionsFrame.OrdersPage.OrderView.ConcentrationDisplay.Amount:SetPoint("TOPLEFT", ProfessionsFrame.OrdersPage.OrderView.ConcentrationDisplay.Icon, "TOPRIGHT", 6, 0)
 
 		app.Concentration2 = ProfessionsFrame.OrdersPage.OrderView.ConcentrationDisplay:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		app.Concentration2:SetPoint("TOPLEFT", ProfessionsFrame.OrdersPage.OrderView.ConcentrationDisplay.Amount, "BOTTOMLEFT", 0, 0)
+		app.Concentration2:SetPoint("TOPLEFT", ProfessionsFrame.OrdersPage.OrderView.ConcentrationDisplay.Amount, "BOTTOMLEFT")
 		app.Concentration2:SetJustifyH("LEFT")
 	end
 

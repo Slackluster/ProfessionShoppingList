@@ -77,8 +77,8 @@ function app:CreateSettings()
 	app.LinkCopiedFrame:Hide()
 
 	local text = app.LinkCopiedFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	text:SetPoint("CENTER", app.LinkCopiedFrame, "CENTER", 0, 0)
-	text:SetPoint("TOP", app.LinkCopiedFrame, "TOP", 0, 0)
+	text:SetPoint("CENTER", app.LinkCopiedFrame, "CENTER")
+	text:SetPoint("TOP", app.LinkCopiedFrame, "TOP")
 	text:SetJustifyH("CENTER")
 	text:SetText(app.IconReady .. " " .. L.SETTINGS_URL_COPIED)
 

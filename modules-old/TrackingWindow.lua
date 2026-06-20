@@ -320,22 +320,22 @@ function app:ShowWindowTooltip(text, hyperlink, secondary, position)
 	end
 
 	if position and position == "top" then
-		GameTooltip:SetPoint("BOTTOM", app.Window, "TOP", 0, 0)
+		GameTooltip:SetPoint("BOTTOM", app.Window, "TOP")
 	elseif position and position == "bottom" then
-		GameTooltip:SetPoint("TOP", app.Window, "BOTTOM", 0, 0)
+		GameTooltip:SetPoint("TOP", app.Window, "BOTTOM")
 	elseif (app.Tab and app.Tab.IsShown[0]) or GetScreenWidth()/2-app.Settings["windowPosition"].width/2-app.Window:GetLeft() >= 0 then
-		GameTooltip:SetPoint("LEFT", app.Window, "RIGHT", 0, 0)
+		GameTooltip:SetPoint("LEFT", app.Window, "RIGHT")
 	else
-		GameTooltip:SetPoint("RIGHT", app.Window, "LEFT", 0, 0)
+		GameTooltip:SetPoint("RIGHT", app.Window, "LEFT")
 	end
 	GameTooltip:Show()
 
 	if secondary and app.Settings["helpTooltips"] then
 		ShoppingTooltip1:SetOwner(UIParent, "ANCHOR_NONE")
 		if (app.Tab and app.Tab.IsShown[0]) or GetScreenWidth()/2-app.Settings["windowPosition"].width/2-app.Window:GetLeft() >= 0 then
-			ShoppingTooltip1:SetPoint("TOPLEFT", GameTooltip, "BOTTOMLEFT", 0, 0)
+			ShoppingTooltip1:SetPoint("TOPLEFT", GameTooltip, "BOTTOMLEFT")
 		else
-			ShoppingTooltip1:SetPoint("TOPRIGHT", GameTooltip, "BOTTOMRIGHT", 0, 0)
+			ShoppingTooltip1:SetPoint("TOPRIGHT", GameTooltip, "BOTTOMRIGHT")
 		end
 		ShoppingTooltip1:SetText(secondary)
 		ShoppingTooltip1:SetScale(0.9)
@@ -987,7 +987,7 @@ function app:UpdateRecipes()
 
 						-- Text
 						local pslOptionText = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-						pslOptionText:SetPoint("CENTER", f, "CENTER", 0, 0)
+						pslOptionText:SetPoint("CENTER", f, "CENTER")
 						pslOptionText:SetPoint("TOP", f, "TOP", 0, -10)
 						pslOptionText:SetJustifyH("CENTER")
 						pslOptionText:SetText("|cffFFFFFF" .. L.SUBREAGENTS1 .. ":\n" .. reagentInfo.link .. "\n\n" .. L.SUBREAGENTS2 .. ":")
@@ -1032,7 +1032,7 @@ function app:UpdateRecipes()
 						-- Button #1
 						local pslOptionButton1 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[1], false).name)
 						pslOptionButton1:SetPoint("BOTTOM", pslOption1, "TOP", 0, 5)
-						pslOptionButton1:SetPoint("CENTER", pslOption1, "CENTER", 0, 0)
+						pslOptionButton1:SetPoint("CENTER", pslOption1, "CENTER")
 						pslOptionButton1:SetScript("OnClick", function()
 							trackSubreagent(recipeIDs[1], itemID)
 
@@ -1048,7 +1048,7 @@ function app:UpdateRecipes()
 							-- Text
 							local pslOption2 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 							pslOption2:SetPoint("LEFT", pslOption1, "RIGHT", 10, 0)
-							pslOption2:SetPoint("TOP", pslOption1, "TOP", 0, 0)
+							pslOption2:SetPoint("TOP", pslOption1, "TOP")
 							pslOption2:SetWidth(200)
 							pslOption2:SetJustifyH("LEFT")
 							pslOption2:SetText("|cffFFFFFF")
@@ -1085,7 +1085,7 @@ function app:UpdateRecipes()
 							-- Button #2
 							local pslOptionButton2 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[2], false).name)
 							pslOptionButton2:SetPoint("BOTTOM", pslOption2, "TOP", 0, 5)
-							pslOptionButton2:SetPoint("CENTER", pslOption2, "CENTER", 0, 0)
+							pslOptionButton2:SetPoint("CENTER", pslOption2, "CENTER")
 							pslOptionButton2:SetScript("OnClick", function()
 								trackSubreagent(recipeIDs[2], itemID)
 
@@ -1102,7 +1102,7 @@ function app:UpdateRecipes()
 							-- Text
 							local pslOption3 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 							pslOption3:SetPoint("LEFT", pslOption1, "RIGHT", 220, 0)
-							pslOption3:SetPoint("TOP", pslOption1, "TOP", 0, 0)
+							pslOption3:SetPoint("TOP", pslOption1, "TOP")
 							pslOption3:SetWidth(200)
 							pslOption3:SetJustifyH("LEFT")
 							pslOption3:SetText("|cffFFFFFF")
@@ -1139,7 +1139,7 @@ function app:UpdateRecipes()
 							-- Button #3
 							local pslOptionButton3 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[3], false).name)
 							pslOptionButton3:SetPoint("BOTTOM", pslOption3, "TOP", 0, 5)
-							pslOptionButton3:SetPoint("CENTER", pslOption3, "CENTER", 0, 0)
+							pslOptionButton3:SetPoint("CENTER", pslOption3, "CENTER")
 							pslOptionButton3:SetScript("OnClick", function()
 								trackSubreagent(recipeIDs[3], itemID)
 
@@ -1155,7 +1155,7 @@ function app:UpdateRecipes()
 
 							-- Text
 							local pslOption4 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-							pslOption4:SetPoint("LEFT", pslOption1, "LEFT", 0, 0)
+							pslOption4:SetPoint("LEFT", pslOption1, "LEFT")
 							pslOption4:SetPoint("TOP", pslOption1, "TOP", 0, -130)
 							pslOption4:SetWidth(200)
 							pslOption4:SetJustifyH("LEFT")
@@ -1193,7 +1193,7 @@ function app:UpdateRecipes()
 							-- Button #4
 							local pslOptionButton4 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[4], false).name)
 							pslOptionButton4:SetPoint("BOTTOM", pslOption4, "TOP", 0, 5)
-							pslOptionButton4:SetPoint("CENTER", pslOption4, "CENTER", 0, 0)
+							pslOptionButton4:SetPoint("CENTER", pslOption4, "CENTER")
 							pslOptionButton4:SetScript("OnClick", function()
 								trackSubreagent(recipeIDs[4], itemID)
 
@@ -1244,7 +1244,7 @@ function app:UpdateRecipes()
 							-- Button #5
 							local pslOptionButton5 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[5], false).name)
 							pslOptionButton5:SetPoint("BOTTOM", pslOption5, "TOP", 0, 5)
-							pslOptionButton5:SetPoint("CENTER", pslOption5, "CENTER", 0, 0)
+							pslOptionButton5:SetPoint("CENTER", pslOption5, "CENTER")
 							pslOptionButton5:SetScript("OnClick", function()
 								trackSubreagent(recipeIDs[5], itemID)
 
@@ -1295,7 +1295,7 @@ function app:UpdateRecipes()
 							-- Button #6
 							local pslOptionButton6 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[6], false).name)
 							pslOptionButton6:SetPoint("BOTTOM", pslOption6, "TOP", 0, 5)
-							pslOptionButton6:SetPoint("CENTER", pslOption6, "CENTER", 0, 0)
+							pslOptionButton6:SetPoint("CENTER", pslOption6, "CENTER")
 							pslOptionButton6:SetScript("OnClick", function()
 								trackSubreagent(recipeIDs[6], itemID)
 
@@ -1653,7 +1653,7 @@ function app:CreateTab(frame, tabFrame)
 		app:ShowWindow()
 		app.Window:ClearAllPoints()
 		app.Window:SetPoint("TOPLEFT", frame, "TOPRIGHT", 0, -1)
-		app.Window:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 0, 0)
+		app.Window:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT")
 
 		for i = 1, #tabFrame.Tabs do
 			if tabFrame.selTab == i and i ~= 2 then
