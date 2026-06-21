@@ -3,7 +3,7 @@ A World of Warcraft addon. Download locations: [CurseForge](https://www.cursefor
 
 [![](https://media.forgecdn.net/attachments/1439/398/buymeacoffee-png.png)](https://www.buymeacoffee.com/Slackluster)
 
-**Profession Shopping List** allows you to track recipes, and it shows you the materials you need to craft them. It also tracks recipe cooldowns.
+**Profession Shopping List (PSL)** allows you to track recipes, and it shows you the materials you need to craft them. It also tracks recipe cooldowns.
 
 ![](https://media.forgecdn.net/attachments/description/498475/description_2221bf7d-a25f-455c-be98-a583840ca8eb.png)
 
