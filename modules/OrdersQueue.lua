@@ -242,6 +242,7 @@ end)
 
 app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, orderID)
 	app:Debug(result)
+	if orderID ~= app.QueuedOrders[1].orderID then return end
 	if app.OrdersQueue and app.OrdersQueue:IsShown() and result == 37 then
 		app.OrderState = app.Enum.OrderState.Claimed
 		app:Debug("app.Enum.OrderState.Claimed (not crafted)")
