@@ -501,22 +501,12 @@ function app:CreateTradeskillAssets()
 			local key = "order:" .. app.SelectedRecipe.MakeOrder.orderID .. ":" .. app.SelectedRecipe.MakeOrder.spellID
 
 			if ProfessionShoppingList_Data.Recipes[key] then
-				-- Untrack the recipe
 				api:UntrackRecipe(key, 1)
-
-				-- Change button text
-				app.TrackMakeOrderButton:SetText(L.TRACK)
-				app.TrackMakeOrderButton:SetWidth(app.TrackMakeOrderButton:GetTextWidth()+20)
-
-				-- Show window
+				app:UpdateButton(app.TrackMakeOrderButton, L.TRACK)
 				app:ShowWindow()
 			else
-				-- Track the recipe
 				api:TrackRecipe(app.SelectedRecipe.MakeOrder.spellID, 1, app.SelectedRecipe.MakeOrder.isRecraft, app.SelectedRecipe.MakeOrder.orderID)
-
-				-- Change button text
-				app.TrackMakeOrderButton:SetText(L.UNTRACK)
-				app.TrackMakeOrderButton:SetWidth(app.TrackMakeOrderButton:GetTextWidth()+20)
+				app:UpdateButton(app.TrackMakeOrderButton, L.UNTRACK)
 			end
 		end)
 	end
@@ -604,11 +594,9 @@ function app:UpdateAssets()
 				-- Set the Make Order button to Track or Untrack depending on if the recipe is tracked or not
 				local key = "order:" .. app.SelectedRecipe.MakeOrder.orderID .. ":" .. app.SelectedRecipe.MakeOrder.spellID
 				if ProfessionShoppingList_Data.Recipes[key] then
-					app.TrackMakeOrderButton:SetText(L.UNTRACK)
-					app.TrackMakeOrderButton:SetWidth(app.TrackMakeOrderButton:GetTextWidth()+20)
+					app:UpdateButton(app.TrackMakeOrderButton, L.UNTRACK)
 				else
-					app.TrackMakeOrderButton:SetText(L.TRACK)
-					app.TrackMakeOrderButton:SetWidth(app.TrackMakeOrderButton:GetTextWidth()+20)
+					app:UpdateButton(app.TrackMakeOrderButton, L.TRACK)
 				end
 			end
 

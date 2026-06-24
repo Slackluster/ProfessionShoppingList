@@ -45,8 +45,7 @@ function app:CreateOrdersQueue()
 
 		app.OrdersQueue.Button = app:MakeButton(app.OrdersQueue, "", "ProfessionShoppingList_OrdersQueueButton")
 		app.OrdersQueue.Button:SetPoint("TOP", app.OrdersQueue, 0, -30)
-		app.OrdersQueue.Button:SetText(AUCTION_HOUSE_REFRESH_BUTTON_TOOLTIP)
-		app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
+		app:UpdateButton(app.OrdersQueue.Button, AUCTION_HOUSE_REFRESH_BUTTON_TOOLTIP)
 		app.OrdersQueue.Button:SetScript("OnClick", function()
 			app:UpdateOrdersQueue()
 		end)
@@ -105,21 +104,18 @@ function app:UpdateOrdersQueue()
 				app.OrdersQueue.Button:Enable()
 			end
 
-			app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_NEXT)
-			app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
+			app:UpdateButton(app.OrdersQueue.Button, L.ORDERSQUEUE_NEXT)
 			app.OrdersQueue.Button:SetScript("OnClick", function()
 				ProfessionsFrame.OrdersPage:ViewOrder(app.QueuedOrders[1].view)
 			end)
 		elseif app.OrderState == app.Enum.OrderState.Opened then
-			app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_CLAIM)
-			app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
+			app:UpdateButton(app.OrdersQueue.Button, L.ORDERSQUEUE_CLAIM)
 			app.OrdersQueue.Button:SetScript("OnClick", function()
 				C_CraftingOrders.ClaimOrder(app.QueuedOrders[1].orderID, professionID)
 			end)
 		elseif app.OrderState == app.Enum.OrderState.Claimed then
 			local oldText = app.OrdersQueue.Status:GetText()
-			app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_CRAFT)
-			app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
+			app:UpdateButton(app.OrdersQueue.Button, L.ORDERSQUEUE_CRAFT)
 			app.OrdersQueue.Button:SetScript("OnClick", function()
 				if not ProfessionsFrame.OrdersPage.OrderView.CreateButton:IsEnabled() then
 					local errorReason
@@ -145,8 +141,7 @@ function app:UpdateOrdersQueue()
 				ProfessionsFrame.OrdersPage.OrderView.CreateButton:Click()
 			end)
 		elseif app.OrderState == app.Enum.OrderState.Crafting then
-			app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_CRAFTING)
-			app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
+			app:UpdateButton(app.OrdersQueue.Button, L.ORDERSQUEUE_CRAFTING)
 			app.OrdersQueue.Button:SetScript("OnClick", function() end)
 		elseif app.OrderState == app.Enum.OrderState.Created then
 			if not C_CraftingOrders.GetClaimedOrder() then
@@ -155,8 +150,7 @@ function app:UpdateOrdersQueue()
 				return
 			end
 			C_Timer.After(0.1, function()
-				app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_COMPLETE)
-				app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
+				app:UpdateButton(app.OrdersQueue.Button, L.ORDERSQUEUE_COMPLETE)
 				app.OrdersQueue.Button:SetScript("OnClick", function()
 					C_CraftingOrders.FulfillOrder(app.QueuedOrders[1].orderID, "", professionID)
 					app:Debug("Fulfill")

@@ -246,8 +246,7 @@ function app:CreateCraftingOrdersAssets()
 		if ProfessionShoppingList_CharacterData.Orders["last"] ~= nil and ProfessionShoppingList_CharacterData.Orders["last"] ~= 0 then
 			recipeName = C_TradeSkillUI.GetRecipeSchematic(ProfessionShoppingList_CharacterData.Orders["last"], false).name
 		end
-		app.RepeatQuickOrderButton:SetText(recipeName)
-		app.RepeatQuickOrderButton:SetWidth(app.RepeatQuickOrderButton:GetTextWidth()+20)
+		app:UpdateButton(app.RepeatQuickOrderButton, recipeName)
 	end
 
 	-- Create the repeat last crafting order button text
@@ -585,8 +584,7 @@ app.Event:Register("CRAFTINGORDERS_ORDER_PLACEMENT_RESPONSE", function(result)
 			app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP .. "\n" .. L.RECIPIENT .. ": " .. ProfessionShoppingList_CharacterData.Orders[ProfessionShoppingList_CharacterData.Orders["last"]] .. "\n" .. L.LOCALREAGENTS_LABEL .. ": " .. app.RepeatQuickOrderTooltip.Reagents
 			recipeName = C_TradeSkillUI.GetRecipeSchematic(ProfessionShoppingList_CharacterData.Orders["last"], false).name
 		end
-		app.RepeatQuickOrderButton:SetText(recipeName)
-		app.RepeatQuickOrderButton:SetWidth(app.RepeatQuickOrderButton:GetTextWidth()+20)
+		app:UpdateButton(app.RepeatQuickOrderButton, recipeName)
 
 		if app.Flag.QuickOrder > 0 then
 			app.Flag.QuickOrder = 0

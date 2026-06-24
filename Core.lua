@@ -319,6 +319,11 @@ function app:MakeButton(parent, text, name)
 	return frame
 end
 
+function app:UpdateButton(button, text)
+	button:SetText(text)
+	button:SetWidth(button:GetTextWidth()+20)
+end
+
 function app:FixTable(table)
 	local fixedTable = {}
 	local index = 1
