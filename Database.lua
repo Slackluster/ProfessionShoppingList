@@ -14,33 +14,31 @@ _G["BINDING_NAME_SLACKWARE"] = "Slackware"
 
 -- Textures
 app.Icon = "Interface\\Icons\\inv_enchant_formulasuperior_01"
-app.IconPSL = "|T" .. app.Icon .. ":0|t"
-app.IconWaiting = "|TInterface\\RaidFrame\\ReadyCheck-Waiting:0|t"
-app.IconReady = "|TInterface\\RaidFrame\\ReadyCheck-Ready:0|t"
-app.IconNotReady = "|TInterface\\RaidFrame\\ReadyCheck-NotReady:0|t"
-app.IconArrow = "|TInterface\\AddOns\\ProfessionShoppingList\\assets\\UI-RaidFrame-Arrow-Cropped:0|t"
-app.IconLMB = "|TInterface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:228:283|t"
-app.IconRMB = "|TInterface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:330:385|t"
-app.IconNew = "|A:UI-Journeys-GreatVault-Tag-new:33:49|a"
+app.IconReady = CreateSimpleTextureMarkup("Interface\\RaidFrame\\ReadyCheck-Ready")
+app.IconNotReady = CreateSimpleTextureMarkup("Interface\\RaidFrame\\ReadyCheck-NotReady")
+app.IconLMB = CreateAtlasMarkup("housing-hotkey-icon-leftclick")
+app.IconRMB = CreateAtlasMarkup("housing-hotkey-icon-rightclick")
+app.IconNew = CreateAtlasMarkup("UI-Journeys-GreatVault-Tag-new")
+app.IconArrow = CreateSimpleTextureMarkup("Interface\\AddOns\\ProfessionShoppingList\\assets\\UI-RaidFrame-Arrow-Cropped")
 app.IconProfession = {
-	[0] = "|TInterface\\MoneyFrame\\UI-GoldIcon:0|t", -- Vendor
-	[1] = "|TInterface\\AddOns\\ProfessionShoppingList\\assets\\hammer-32:0|t", -- Crafting order
-	[164] = "|TInterface\\Icons\\ui_profession_blacksmithing:0|t",
-	[165] = "|TInterface\\Icons\\ui_profession_leatherworking:0|t",
-	[171] = "|TInterface\\Icons\\ui_profession_alchemy:0|t",
-	[182] = "|TInterface\\Icons\\ui_profession_herbalism:0|t",
-	[185] = "|TInterface\\Icons\\ui_profession_cooking:0|t",
-	[186] = "|TInterface\\Icons\\ui_profession_mining:0|t",
-	[197] = "|TInterface\\Icons\\ui_profession_tailoring:0|t",
-	[202] = "|TInterface\\Icons\\ui_profession_engineering:0|t",
-	[333] = "|TInterface\\Icons\\ui_profession_enchanting:0|t",
-	[356] = "|TInterface\\Icons\\ui_profession_fishing:0|t",
-	[393] = "|TInterface\\Icons\\ui_profession_skinning:0|t",
-	[755] = "|TInterface\\Icons\\ui_profession_jewelcrafting:0|t",
-	[773] = "|TInterface\\Icons\\ui_profession_inscription:0|t",
-	[2984] = "|TInterface\\Icons\\housing-dye-bonewhite:0|t",
-	[2950] = "|TInterface\\Icons\\ui_profession_alchemy:0|t",
-	[999] = "|TInterface\\Icons\\inv_misc_questionmark:0|t",
+	[0] = CreateSimpleTextureMarkup("Interface\\MoneyFrame\\UI-GoldIcon"), -- Vendor
+	[1] = CreateSimpleTextureMarkup("Interface\\AddOns\\ProfessionShoppingList\\assets\\hammer-32"), -- Crafting order
+	[164] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_blacksmithing"),
+	[165] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_leatherworking"),
+	[171] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_alchemy"),
+	[182] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_herbalism"),
+	[185] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_cooking"),
+	[186] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_mining"),
+	[197] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_tailoring"),
+	[202] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_engineering"),
+	[333] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_enchanting"),
+	[356] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_fishing"),
+	[393] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_skinning"),
+	[755] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_jewelcrafting"),
+	[773] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_inscription"),
+	[2984] = CreateSimpleTextureMarkup("Interface\\Icons\\housing-dye-bonewhite"),
+	[2950] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_alchemy"),
+	[999] = CreateSimpleTextureMarkup("Interface\\Icons\\inv_misc_questionmark"),
 }
 
 -- Shadowlands Legendary craft SpellIDs

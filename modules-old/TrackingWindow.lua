@@ -370,7 +370,7 @@ function app:UpdateNumbers()
 		end
 
 		local itemAmount = ""
-		local itemIcon = "|T"..ProfessionShoppingList_Cache.Reagents[reagentID].icon..":0|t"
+		local itemIcon = CreateSimpleTextureMarkup(ProfessionShoppingList_Cache.Reagents[reagentID].icon)
 
 		if type(reagentID) == "number" then
 			-- Get needed/owned number of reagents
@@ -1316,7 +1316,7 @@ function app:UpdateRecipes()
 			local icon1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 			icon1:SetPoint("LEFT", row)
 			icon1:SetScale(1.2)
-			icon1:SetText("|T"..reagentInfo.icon..":0|t")
+			icon1:SetText(CreateSimpleTextureMarkup(reagentInfo.icon))
 			row.icon = icon1
 
 			local text2 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")

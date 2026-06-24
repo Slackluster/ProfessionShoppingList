@@ -474,11 +474,11 @@ function app:CreateTradeskillAssets()
 			local key = "order:" .. ownerRegion.rowData.option.orderID .. ":" .. ownerRegion.rowData.option.spellID
 
 			if ProfessionShoppingList_Data.Recipes[key] then
-				rootDescription:CreateButton(app.IconPSL .. " " .. app:Colour(L.UNTRACK), function()
+				rootDescription:CreateButton(CreateSimpleTextureMarkup(app.Icon) .. " " .. app:Colour(L.UNTRACK), function()
 					api:UntrackRecipe(key, 1)
 				end)
 			else
-				rootDescription:CreateButton(app.IconPSL .. " " .. app:Colour(L.TRACK), function()
+				rootDescription:CreateButton(CreateSimpleTextureMarkup(app.Icon) .. " " .. app:Colour(L.TRACK), function()
 					api:TrackRecipe(ownerRegion.rowData.option.spellID, 1, ownerRegion.rowData.option.isRecraft, ownerRegion.rowData.option.orderID)
 				end)
 			end

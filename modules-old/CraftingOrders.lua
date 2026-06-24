@@ -885,16 +885,16 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							else
 								-- Header
 								if commissionResult >= 0 then
-									GameTooltip:AddDoubleLine(app.IconPSL .. " " .. TOTAL, C_CurrencyInfo.GetCoinTextureString(commissionResult))
+									GameTooltip:AddDoubleLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. TOTAL, C_CurrencyInfo.GetCoinTextureString(commissionResult))
 								else
-									GameTooltip:AddDoubleLine(app.IconPSL .. " " .. TOTAL, "|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(-commissionResult))
+									GameTooltip:AddDoubleLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. TOTAL, "|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(-commissionResult))
 								end
 								GameTooltip:AddLine(" ")
 
 								-- Costs
 								for _, entry in ipairs(calculations) do
 									if entry.type == "cost" then
-										GameTooltip:AddDoubleLine("|T"..entry.icon..":0|t " .. entry.link .. " ×" .. entry.quantity , "|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(entry.amount))
+										GameTooltip:AddDoubleLine(CreateSimpleTextureMarkup(entry.icon) .. " " .. entry.link .. " ×" .. entry.quantity , "|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(entry.amount))
 									end
 								end
 								GameTooltip:AddLine(" ")
@@ -902,9 +902,9 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 								-- Rewards
 								for _, entry in ipairs(calculations) do
 									if entry.type == "reward" and entry.amount then
-										GameTooltip:AddDoubleLine("|T"..entry.icon..":0|t " .. entry.link, C_CurrencyInfo.GetCoinTextureString(entry.amount))
+										GameTooltip:AddDoubleLine(CreateSimpleTextureMarkup(entry.icon) .. " " .. entry.link, C_CurrencyInfo.GetCoinTextureString(entry.amount))
 									elseif entry.type == "reward" then
-										GameTooltip:AddDoubleLine("|T"..entry.icon..":0|t " .. entry.link, "-")
+										GameTooltip:AddDoubleLine(CreateSimpleTextureMarkup(entry.icon) .. " " .. entry.link, "-")
 									end
 								end
 							end
