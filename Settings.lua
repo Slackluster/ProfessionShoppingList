@@ -144,7 +144,7 @@ function app:CreateSettings()
 		self.MiddleText:SetTextToFit(data.middleText)
 		self.RightText:SetTextToFit(data.rightText)
 
-		SettingsPanel.Container.SettingsList.Header.Title:SetText(CreateSimpleTextureMarkup(app.Icon) .. " " .. app.NameLong)
+		SettingsPanel.Container.SettingsList.Header.Title:SetText(CreateSimpleTextureMarkup(app.Icon, 16, 16) .. " " .. app.NameLong)
 	end
 
 	ProfessionShoppingList_SettingsExpandMixin = CreateFromMixins(SettingsExpandableSectionMixin)
