@@ -149,6 +149,11 @@ function app:UpdateOrdersQueue()
 			app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
 			app.OrdersQueue.Button:SetScript("OnClick", function() end)
 		elseif app.OrderState == app.Enum.OrderState.Created then
+			if not C_CraftingOrders.GetClaimedOrder() then
+				app.OrderState = app.Enum.OrderState.Idle
+				app:UpdateOrdersQueue()
+				return
+			end
 			C_Timer.After(0.1, function()
 				app.OrdersQueue.Button:SetText(L.ORDERSQUEUE_COMPLETE)
 				app.OrdersQueue.Button:SetWidth(app.OrdersQueue.Button:GetTextWidth()+20)
@@ -242,11 +247,11 @@ end)
 
 app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, orderID)
 	app:Debug(result)
-	if orderID ~= app.QueuedOrders[1].orderID then return end
+	if app.QueuedOrders[1] and orderID ~= app.QueuedOrders[1].orderID then return end
 	if app.OrdersQueue and app.OrdersQueue:IsShown() and result == 37 then
 		app.OrderState = app.Enum.OrderState.Claimed
 		app:Debug("app.Enum.OrderState.Claimed (not crafted)")
-	elseif app.OrdersQueue and app.OrdersQueue:IsShown() and result == 36 then
+	elseif app.OrdersQueue and app.OrdersQueue:IsShown() and result == 0 then
 		app.OrderState = app.Enum.OrderState.Idle
 		app:Debug("app.Enum.OrderState.Idle (fulfilled)")
 	elseif app.OrdersQueue and app.OrdersQueue:IsShown() and result ~= 0 then

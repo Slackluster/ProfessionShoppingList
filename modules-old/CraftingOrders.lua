@@ -532,6 +532,7 @@ end)
 
 -- When fulfilling an order
 app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, orderID)
+	if result ~= 0 then return end
 	for k, v in pairs(ProfessionShoppingList_Data.Recipes) do
 		if tonumber(string.match(k, ":(%d+):")) == orderID then
 			if app.OrderInfo and app.OrderInfo[k] then
