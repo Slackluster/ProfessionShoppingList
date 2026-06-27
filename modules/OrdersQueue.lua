@@ -205,6 +205,15 @@ app.Event:Register("CRAFTINGORDERS_CLAIMED_ORDER_UPDATED", function(orderID)
 	end
 end)
 
+app.Event:Register("CRAFTINGORDERS_CLAIM_ORDER_RESPONSE", function(result, orderID)
+	if app.OrdersQueue and app.OrdersQueue:IsShown() and result == Enum.CraftingOrderResult.MissingOrder then
+		local key = "order:" .. orderID .. ":" .. app.QueuedOrders[1].spellID
+		app.OrderInfo[key] = nil
+		table.remove(app.OrdersQueue, 1)
+		app:UpdateOrdersQueue()
+	end
+end)
+
 app.Event:Register("UNIT_SPELLCAST_START", function(unitTarget, castGUID, spellID, castBarID)
 	if unitTarget == "player" and #app.QueuedOrders > 0 and spellID == app.QueuedOrders[1].spellID and app.OrderState ~= app.Enum.OrderState.Created then
 		app.OrderState = app.Enum.OrderState.Crafting
