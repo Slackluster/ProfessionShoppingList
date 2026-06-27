@@ -22,7 +22,14 @@ end)
 
 app.Event:Register("AUCTION_HOUSE_SHOW", function(addOnName, containsBindings)
 	app.Flag.AuctionHouseIsOpen = true
-	app:CreateShoppingList() -- Also update our shopping list whenever we open the AH
+	C_Timer.After(1, function()
+		if not app.Flag.AuctionatorHook and C_AddOns.IsAddOnLoaded("Auctionator") and AuctionatorShoppingFrame then
+			AuctionatorShoppingFrame:HookScript("OnShow", function()
+				app:CreateShoppingList()
+			end)
+			app.Flag.AuctionatorHook = true
+		end
+	end)
 end)
 
 app.Event:Register("AUCTION_HOUSE_CLOSED", function(addOnName, containsBindings)
@@ -41,8 +48,7 @@ end
 ------------------------
 
 function app:CreateShoppingList()
-	local loaded, finished = C_AddOns.IsAddOnLoaded("Auctionator")
-	if finished then
+	if C_AddOns.IsAddOnLoaded("Auctionator") then
 		C_Timer.After(0.5, function() -- Add a delay because I have no idea how to optimise my addon
 			local searchStrings = {}
 
