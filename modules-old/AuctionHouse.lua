@@ -22,7 +22,7 @@ end)
 
 app.Event:Register("AUCTION_HOUSE_SHOW", function(addOnName, containsBindings)
 	app.Flag.AuctionHouseIsOpen = true
-	C_Timer.After(1, function()
+	C_Timer.After(0.5, function()
 		if not app.Flag.AuctionatorHook and C_AddOns.IsAddOnLoaded("Auctionator") and AuctionatorShoppingFrame then
 			AuctionatorShoppingFrame:HookScript("OnShow", function()
 				app:CreateShoppingList()
@@ -34,6 +34,9 @@ end)
 
 app.Event:Register("AUCTION_HOUSE_CLOSED", function(addOnName, containsBindings)
 	app.Flag.AuctionHouseIsOpen = false
+	if C_AddOns.IsAddOnLoaded("Auctionator") and Auctionator.Shopping.ListManager:GetIndexForName("PSL") then
+		Auctionator.Shopping.ListManager:Delete("PSL")
+	end
 end)
 
 function app:SearchAH(itemLink)
