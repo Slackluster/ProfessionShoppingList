@@ -157,6 +157,7 @@ L.ORDERS_MAX_COST_ARTISAN =              "Maximum cost per artisan currency:" --
 L.ORDERS_MAX_COST_PAYOUT =               "Maximum cost per reward bag:" -- This refers to Artisan's Payout bag
 L.ORDERS_TRACK_AFTER_RESET =             "Track orders available after weekly reset"
 L.ORDERS_TRACK_CONCENTRATION =           "Track orders costing concentration:"
+L.ORDERS_TRACK_ON =                      "Track on %s"-- %s becomes a character name
 
 L.ORDERSQUEUE_QUEUE =                    "Queue"
 L.ORDERSQUEUE_QUEUED =                   "Orders in queue:"

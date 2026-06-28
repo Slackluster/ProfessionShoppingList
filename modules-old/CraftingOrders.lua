@@ -19,9 +19,16 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 			payoutCost = 50,
 		}
 		if app.Settings["craftingOrders"].trackReset == nil then app.Settings["craftingOrders"].trackReset = true end
-		if ProfessionShoppingList_CharacterData.TrackConcentration == nil then
-			ProfessionShoppingList_CharacterData.TrackConcentration = true
+
+		ProfessionShoppingList_CharacterData.Queue = ProfessionShoppingList_CharacterData.Queue or {}
+		if ProfessionShoppingList_CharacterData.TrackConcentration ~= nil then
+			ProfessionShoppingList_CharacterData.Queue.TrackConcentration = ProfessionShoppingList_CharacterData.TrackConcentration
+			ProfessionShoppingList_CharacterData.TrackConcentration = nil
 		end
+		if ProfessionShoppingList_CharacterData.Queue.TrackConcentration == nil then
+			ProfessionShoppingList_CharacterData.Queue.TrackConcentration = true
+		end
+		ProfessionShoppingList_CharacterData.Queue.Knowledge = ProfessionShoppingList_CharacterData.Queue.Knowledge or {}
 
 		app.Flag.CraftingOrderAssets = false
 		app.Flag.QuickOrder = 0
@@ -275,12 +282,16 @@ function app:CreateProfessionsOrdersAssets()
 					local profit = 1
 					if C_AddOns.IsAddOnLoaded("Auctionator") then
 						profit = orderInfo.profit
-						profit = profit + (orderInfo.knowledge * (app.Settings["craftingOrders"].knowledgeCost * 10000))
+						for expansion, knowledge in pairs(orderInfo.knowledge) do
+							if ProfessionShoppingList_CharacterData.Queue.Knowledge[expansion] then
+								profit = profit + (knowledge * (app.Settings["craftingOrders"].knowledgeCost * 10000))
+							end
+						end
 						profit = profit + (orderInfo.artisan * (app.Settings["craftingOrders"].artisanCost * 10000))
 						profit = profit + (orderInfo.payout * (app.Settings["craftingOrders"].payoutCost * 10000))
 					end
 
-					if profit >= 0 and (ProfessionShoppingList_CharacterData.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings["craftingOrders"].trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) then
+					if profit >= 0 and (ProfessionShoppingList_CharacterData.Queue.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings["craftingOrders"].trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) then
 						api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
 					end
 				end
@@ -348,6 +359,10 @@ function app:CreateProfessionsOrdersAssets()
 			end
 		end)
 
+		local _, classFilename = UnitClass("player")
+		local _, _, _, classColor = GetClassColor(classFilename)
+		local charName = "|c" .. classColor .. UnitName("player") .. "-" .. GetNormalizedRealmName()
+
 		app.TrackOrdersSettings = CreateFrame("Frame", nil, ProfessionsFrame, "BasicFrameTemplate")
 		app.TrackOrdersSettings:SetFrameStrata("DIALOG")
 		app.TrackOrdersSettings:SetPoint("TOPLEFT", app.TrackOrdersSettingsButton, "TOPRIGHT", 6, 0)
@@ -385,12 +400,33 @@ function app:CreateProfessionsOrdersAssets()
 		end)
 		app:SetBorder(editbox1, -6, 1, 2, -1)
 
-		local gold2 = CreateFrame("Button", nil, app.TrackOrdersSettings)
-		gold2:SetPoint("LEFT", editbox1, "RIGHT", 6, 0)
-		gold2:SetSize(16, 16)
-		local texture = gold2:CreateTexture(nil, "ARTWORK")
-		texture:SetAllPoints(gold2)
+		local gold1 = CreateFrame("Button", nil, app.TrackOrdersSettings)
+		gold1:SetPoint("LEFT", editbox1, "RIGHT", 6, 0)
+		gold1:SetSize(16, 16)
+		local texture = gold1:CreateTexture(nil, "ARTWORK")
+		texture:SetAllPoints(gold1)
 		texture:SetAtlas("auctionhouse-icon-coin-gold", true)
+
+		local function isSelected(index)
+			if ProfessionShoppingList_CharacterData.Queue.Knowledge[index] == nil then
+				ProfessionShoppingList_CharacterData.Queue.Knowledge[index] = true
+			end
+			return ProfessionShoppingList_CharacterData.Queue.Knowledge[index]
+		end
+		local function setSelected(index)
+			ProfessionShoppingList_CharacterData.Queue.Knowledge[index] = not ProfessionShoppingList_CharacterData.Queue.Knowledge[index]
+		end
+		function listStyleGenerator(owner, rootDescription)
+			rootDescription:CreateTitle(string.format("Track on %s", charName))
+			rootDescription:CreateCheckbox(EXPANSION_NAME11, isSelected, setSelected, 11)
+			rootDescription:CreateCheckbox(EXPANSION_NAME10, isSelected, setSelected, 10)
+		end
+		app.TrackOrdersSettings.KnowledgeDropdown = CreateFrame("DropdownButton", nil, app.TrackOrdersSettings, "WowStyle1DropdownTemplate")
+		app.TrackOrdersSettings.KnowledgeDropdown:SetWidth(120)
+		app.TrackOrdersSettings.KnowledgeDropdown:SetPoint("LEFT", gold1, "RIGHT", 10, 0)
+		app.TrackOrdersSettings.KnowledgeDropdown:SetupMenu(listStyleGenerator)
+		app.TrackOrdersSettings.KnowledgeDropdown:OverrideText(EXPANSION_FILTER_TEXT)
+		app:SetBorder(app.TrackOrdersSettings.KnowledgeDropdown, -1, 1, 1, -1)
 
 		local text2 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		text2:SetPoint("TOPLEFT", text1, "BOTTOMLEFT", 0, -30)
@@ -472,16 +508,13 @@ function app:CreateProfessionsOrdersAssets()
 		text4:SetJustifyH("LEFT")
 		text4:SetText(L.ORDERS_TRACK_CONCENTRATION)
 
-		local _, classFilename = UnitClass("player")
-		local _, _, _, classColor = GetClassColor(classFilename)
-
 		local checkbox2 = CreateFrame("CheckButton", nil, app.TrackOrdersSettings, "ChatConfigCheckButtonTemplate")
 		checkbox2:SetPoint("TOPLEFT", text4, "BOTTOMLEFT", -3, -2)
-		checkbox2.Text:SetText("|c" .. classColor .. UnitName("player") .. "-" .. GetNormalizedRealmName())
+		checkbox2.Text:SetText(charName)
 		checkbox2.Text:SetPoint("LEFT", checkbox2, "RIGHT")
-		checkbox2:SetChecked(ProfessionShoppingList_CharacterData.TrackConcentration)
+		checkbox2:SetChecked(ProfessionShoppingList_CharacterData.Queue.TrackConcentration)
 		checkbox2:SetScript("OnClick", function(self)
-			ProfessionShoppingList_CharacterData.TrackConcentration = self:GetChecked()
+			ProfessionShoppingList_CharacterData.Queue.TrackConcentration = self:GetChecked()
 		end)
 
 		app.TrackOrdersSettings:SetFlattensRenderLayers(true)
@@ -644,7 +677,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						orderID = data.option.orderID,
 						isRecraft = data.option.isRecraft,
 						expirationTime = data.option.expirationTime,
-						knowledge = 0,
+						knowledge = {},
 						artisan = 0,
 						payout = 0,
 						profit = 0,
@@ -795,6 +828,21 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							end
 						end
 
+						local function addRewards(rewardItemOrCurrency, reward)
+							if rewardItemOrCurrency then
+								if rewardItemOrCurrency.type == "payout" then
+									app.OrderInfo[key].payout = app.OrderInfo[key].payout + 1
+								elseif rewardItemOrCurrency.type == "artisan" then
+									app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + reward.count
+								elseif rewardItemOrCurrency.type == "knowledge1" then
+									app.OrderInfo[key].knowledge[rewardItemOrCurrency.expansion] = (app.OrderInfo[key].knowledge[rewardItemOrCurrency.expansion] or 0) + 1
+									app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 5
+								elseif rewardItemOrCurrency.type == "knowledge2" then
+									app.OrderInfo[key].knowledge[rewardItemOrCurrency.expansion] = (app.OrderInfo[key].knowledge[rewardItemOrCurrency.expansion] or 0) + 2
+									app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 10
+								end
+							end
+						end
 						-- Grab the rewards for crafting this order
 						table.insert(calculations, {type = "reward", icon = 133785, link = PROFESSIONS_COLUMN_HEADER_TIP, quantity = 0, amount = math.floor((data.option.tipAmount - data.option.consortiumCut) / 100 + 0.5) * 100})
 						for _, reward in pairs(data.option.npcOrderRewards) do
@@ -808,37 +856,13 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 								end
 								table.insert(calculations, {type = "reward", icon = fileID, link = itemLink, quantity = 0, amount = Auctionator.API.v1.GetAuctionPriceByItemLink(app.Name, itemLink)})
 								local rewardItem = app.CraftingOrderRewards.items[itemID]
-								if rewardItem then
-									if rewardItem.type == "payout" then
-										app.OrderInfo[key].payout = app.OrderInfo[key].payout + 1
-									elseif rewardItem.type == "artisan" then
-										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + reward.count
-									elseif rewardItem.type == "knowledge1" then
-										app.OrderInfo[key].knowledge = app.OrderInfo[key].knowledge + 1
-										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 5
-									elseif rewardItem.type == "knowledge2" then
-										app.OrderInfo[key].knowledge = app.OrderInfo[key].knowledge + 2
-										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 10
-									end
-								end
+								addRewards(rewardItem, reward)
 							elseif reward.currencyType then
 								local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(reward.currencyType)
 								local currencyLink = C_CurrencyInfo.GetCurrencyLink(reward.currencyType, reward.count)
 								table.insert(calculations, {type = "reward", icon = currencyInfo.iconFileID, link = currencyLink, quantity = 0})
 								local rewardCurrency = app.CraftingOrderRewards.currency[reward.currencyType]
-								if rewardCurrency then
-									if rewardCurrency.type == "payout" then
-										app.OrderInfo[key].payout = app.OrderInfo[key].payout + 1
-									elseif rewardCurrency.type == "artisan" then
-										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + reward.count
-									elseif rewardCurrency.type == "knowledge1" then
-										app.OrderInfo[key].knowledge = app.OrderInfo[key].knowledge + 1
-										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 5
-									elseif rewardCurrency.type == "knowledge2" then
-										app.OrderInfo[key].knowledge = app.OrderInfo[key].knowledge + 2
-										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 10
-									end
-								end
+								addRewards(rewardCurrency, reward)
 							end
 						end
 
