@@ -249,54 +249,55 @@ app.nyiRecipes = {
 
 app.CraftingOrderRewards = {
 	items = {
-		[210814] = "artisan",
-		[227713] = "payout",
-		[228724] = "knowledge1",
-		[228725] = "knowledge2",
-		[228726] = "knowledge1",
-		[228727] = "knowledge2",
-		[228728] = "knowledge1",
-		[228729] = "knowledge2",
-		[228730] = "knowledge1",
-		[228731] = "knowledge2",
-		[228732] = "knowledge1",
-		[228733] = "knowledge2",
-		[228734] = "knowledge1",
-		[228735] = "knowledge2",
-		[228736] = "knowledge1",
-		[228737] = "knowledge2",
-		[228738] = "knowledge1",
-		[228739] = "knowledge2",
-		[246320] = "knowledge1",
-		[246321] = "knowledge2",
-		[246322] = "knowledge1",
-		[246323] = "knowledge2",
-		[246324] = "knowledge1",
-		[246325] = "knowledge2",
-		[246326] = "knowledge1",
-		[246327] = "knowledge2",
-		[246328] = "knowledge1",
-		[246329] = "knowledge2",
-		[246330] = "knowledge1",
-		[246331] = "knowledge2",
-		[246332] = "knowledge1",
-		[246333] = "knowledge2",
-		[246334] = "knowledge1",
-		[246335] = "knowledge2",
-		[246585] = "payout",
+		[210814] = { type = "artisan", expansion = "TWW" }
+		[227713] = { type = "payout", expansion = "TWW" }
+		[228724] = { type = "knowledge1", expansion = "TWW" }
+		[228725] = { type = "knowledge2", expansion = "TWW" }
+		[228726] = { type = "knowledge1", expansion = "TWW" }
+		[228727] = { type = "knowledge2", expansion = "TWW" }
+		[228728] = { type = "knowledge1", expansion = "TWW" }
+		[228729] = { type = "knowledge2", expansion = "TWW" }
+		[228730] = { type = "knowledge1", expansion = "TWW" }
+		[228731] = { type = "knowledge2", expansion = "TWW" }
+		[228732] = { type = "knowledge1", expansion = "TWW" }
+		[228733] = { type = "knowledge2", expansion = "TWW" }
+		[228734] = { type = "knowledge1", expansion = "TWW" }
+		[228735] = { type = "knowledge2", expansion = "TWW" }
+		[228736] = { type = "knowledge1", expansion = "TWW" }
+		[228737] = { type = "knowledge2", expansion = "TWW" }
+		[228738] = { type = "knowledge1", expansion = "TWW" }
+		[228739] = { type = "knowledge2", expansion = "TWW" }
+
+		[246585] = { type = "payout", expansion = "MID" }
+		[246320] = { type = "knowledge1", expansion = "MID" }
+		[246321] = { type = "knowledge2", expansion = "MID" }
+		[246322] = { type = "knowledge1", expansion = "MID" }
+		[246323] = { type = "knowledge2", expansion = "MID" }
+		[246324] = { type = "knowledge1", expansion = "MID" }
+		[246325] = { type = "knowledge2", expansion = "MID" }
+		[246326] = { type = "knowledge1", expansion = "MID" }
+		[246327] = { type = "knowledge2", expansion = "MID" }
+		[246328] = { type = "knowledge1", expansion = "MID" }
+		[246329] = { type = "knowledge2", expansion = "MID" }
+		[246330] = { type = "knowledge1", expansion = "MID" }
+		[246331] = { type = "knowledge2", expansion = "MID" }
+		[246332] = { type = "knowledge1", expansion = "MID" }
+		[246333] = { type = "knowledge2", expansion = "MID" }
+		[246334] = { type = "knowledge1", expansion = "MID" }
+		[246335] = { type = "knowledge2", expansion = "MID" }
 	},
 	currency = {
-		[3256] = "artisan",
-		[3257] = "artisan",
-		[3258] = "artisan",
-		[3259] = "artisan",
-		[3260] = "artisan",
-		[3261] = "artisan",
-		[3262] = "artisan",
-		[3263] = "artisan",
-		[3264] = "artisan",
-		[3265] = "artisan",
-		[3266] = "artisan",
+		[3256] = { type = "artisan", expansion = "MID" }
+		[3257] = { type = "artisan", expansion = "MID" }
+		[3258] = { type = "artisan", expansion = "MID" }
+		[3259] = { type = "artisan", expansion = "MID" }
+		[3260] = { type = "artisan", expansion = "MID" }
+		[3261] = { type = "artisan", expansion = "MID" }
+		[3262] = { type = "artisan", expansion = "MID" }
+		[3263] = { type = "artisan", expansion = "MID" }
+		[3264] = { type = "artisan", expansion = "MID" }
+		[3265] = { type = "artisan", expansion = "MID" }
+		[3266] = { type = "artisan", expansion = "MID" }
 	},
 }
 

@@ -807,16 +807,16 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 									return
 								end
 								table.insert(calculations, {type = "reward", icon = fileID, link = itemLink, quantity = 0, amount = Auctionator.API.v1.GetAuctionPriceByItemLink(app.Name, itemLink)})
-								local rewardType = app.CraftingOrderRewards.items[itemID]
-								if rewardType then
-									if rewardType == "payout" then
+								local rewardItem = app.CraftingOrderRewards.items[itemID]
+								if rewardItem then
+									if rewardItem.type == "payout" then
 										app.OrderInfo[key].payout = app.OrderInfo[key].payout + 1
-									elseif rewardType == "artisan" then
+									elseif rewardItem.type == "artisan" then
 										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + reward.count
-									elseif rewardType == "knowledge1" then
+									elseif rewardItem.type == "knowledge1" then
 										app.OrderInfo[key].knowledge = app.OrderInfo[key].knowledge + 1
 										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 5
-									elseif rewardType == "knowledge2" then
+									elseif rewardItem.type == "knowledge2" then
 										app.OrderInfo[key].knowledge = app.OrderInfo[key].knowledge + 2
 										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 10
 									end
@@ -825,16 +825,16 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 								local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(reward.currencyType)
 								local currencyLink = C_CurrencyInfo.GetCurrencyLink(reward.currencyType, reward.count)
 								table.insert(calculations, {type = "reward", icon = currencyInfo.iconFileID, link = currencyLink, quantity = 0})
-								local rewardType = app.CraftingOrderRewards.currency[reward.currencyType]
-								if rewardType then
-									if rewardType == "payout" then
+								local rewardCurrency = app.CraftingOrderRewards.currency[reward.currencyType]
+								if rewardCurrency then
+									if rewardCurrency.type == "payout" then
 										app.OrderInfo[key].payout = app.OrderInfo[key].payout + 1
-									elseif rewardType == "artisan" then
+									elseif rewardCurrency.type == "artisan" then
 										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + reward.count
-									elseif rewardType == "knowledge1" then
+									elseif rewardCurrency.type == "knowledge1" then
 										app.OrderInfo[key].knowledge = app.OrderInfo[key].knowledge + 1
 										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 5
-									elseif rewardType == "knowledge2" then
+									elseif rewardCurrency.type == "knowledge2" then
 										app.OrderInfo[key].knowledge = app.OrderInfo[key].knowledge + 2
 										app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 10
 									end
