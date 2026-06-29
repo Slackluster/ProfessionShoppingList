@@ -157,7 +157,7 @@ L.ORDERS_MAX_COST_ARTISAN =              "每份工匠货币的最大成本：" 
 L.ORDERS_MAX_COST_PAYOUT =               "每个奖励袋的最大成本：" -- This refers to Artisan's Payout bag
 -- L.ORDERS_TRACK_AFTER_RESET =             "Track orders available after weekly reset"
 L.ORDERS_TRACK_CONCENTRATION =           "追踪消耗专注度的订单："
--- L.ORDERS_TRACK_ON =                      "Track on %s"  -- %s becomes a character name
+-- L.ORDERS_TRACK_ON =                      "Track on %s:"  -- %s becomes a character name
 
 L.ORDERSQUEUE_QUEUE =                    "队列"
 L.ORDERSQUEUE_QUEUE =                    "队列中的订单："

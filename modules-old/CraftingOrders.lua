@@ -282,8 +282,8 @@ function app:CreateProfessionsOrdersAssets()
 					local profit = 1
 					if C_AddOns.IsAddOnLoaded("Auctionator") then
 						profit = orderInfo.profit
-						for expansion, knowledge in pairs(orderInfo.knowledge) do
-							if ProfessionShoppingList_CharacterData.Queue.Knowledge[expansion] then
+						for tradeSkillLineID, knowledge in pairs(orderInfo.knowledge) do
+							if ProfessionShoppingList_CharacterData.Queue.Knowledge[tradeSkillLineID] then
 								profit = profit + (knowledge * (app.Settings["craftingOrders"].knowledgeCost * 10000))
 							end
 						end
@@ -361,7 +361,7 @@ function app:CreateProfessionsOrdersAssets()
 
 		local _, classFilename = UnitClass("player")
 		local _, _, _, classColor = GetClassColor(classFilename)
-		local charName = "|c" .. classColor .. UnitName("player") .. "-" .. GetNormalizedRealmName()
+		local charName = "|c" .. classColor .. UnitName("player") .. "-" .. GetNormalizedRealmName() .. "|R"
 
 		app.TrackOrdersSettings = CreateFrame("Frame", nil, ProfessionsFrame, "BasicFrameTemplate")
 		app.TrackOrdersSettings:SetFrameStrata("DIALOG")
@@ -417,15 +417,24 @@ function app:CreateProfessionsOrdersAssets()
 			ProfessionShoppingList_CharacterData.Queue.Knowledge[index] = not ProfessionShoppingList_CharacterData.Queue.Knowledge[index]
 		end
 		function listStyleGenerator(owner, rootDescription)
-			rootDescription:CreateTitle(string.format("Track on %s", charName))
-			rootDescription:CreateCheckbox(EXPANSION_NAME11, isSelected, setSelected, 11)
-			rootDescription:CreateCheckbox(EXPANSION_NAME10, isSelected, setSelected, 10)
+			rootDescription:CreateTitle(string.format(L.ORDERS_TRACK_ON, charName))
+			local professions = {}
+			for tradeSkillLineID, _ in pairs(app.ProfessionKnowledge) do
+				local professionInfo = C_TradeSkillUI.GetProfessionInfoBySkillLineID(tradeSkillLineID)
+				if professionInfo.skillLevel > 0 then
+					table.insert(professions, { tradeSkillLineID = tradeSkillLineID, professionName = professionInfo.professionName })
+				end
+			end
+			table.sort(professions, function(a, b) return a.tradeSkillLineID < b.tradeSkillLineID end)
+			for _, profession in ipairs(professions) do
+				rootDescription:CreateCheckbox(profession.professionName, isSelected, setSelected, profession.tradeSkillLineID)
+			end
 		end
 		app.TrackOrdersSettings.KnowledgeDropdown = CreateFrame("DropdownButton", nil, app.TrackOrdersSettings, "WowStyle1DropdownTemplate")
 		app.TrackOrdersSettings.KnowledgeDropdown:SetWidth(120)
 		app.TrackOrdersSettings.KnowledgeDropdown:SetPoint("LEFT", gold1, "RIGHT", 10, 0)
 		app.TrackOrdersSettings.KnowledgeDropdown:SetupMenu(listStyleGenerator)
-		app.TrackOrdersSettings.KnowledgeDropdown:OverrideText(EXPANSION_FILTER_TEXT)
+		app.TrackOrdersSettings.KnowledgeDropdown:OverrideText(TRADE_SKILLS)
 		app:SetBorder(app.TrackOrdersSettings.KnowledgeDropdown, -1, 1, 1, -1)
 
 		local text2 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -836,10 +845,10 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 								elseif rewardItemOrCurrency.type == "artisan" then
 									app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + reward.count
 								elseif rewardItemOrCurrency.type == "knowledge1" then
-									app.OrderInfo[key].knowledge[rewardItemOrCurrency.expansion] = (app.OrderInfo[key].knowledge[rewardItemOrCurrency.expansion] or 0) + 1
+									app.OrderInfo[key].knowledge[app.OrderInfo[key].skillLineID] = (app.OrderInfo[key].knowledge[app.OrderInfo[key].skillLineID] or 0) + 1
 									app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 5
 								elseif rewardItemOrCurrency.type == "knowledge2" then
-									app.OrderInfo[key].knowledge[rewardItemOrCurrency.expansion] = (app.OrderInfo[key].knowledge[rewardItemOrCurrency.expansion] or 0) + 2
+									app.OrderInfo[key].knowledge[app.OrderInfo[key].skillLineID] = (app.OrderInfo[key].knowledge[app.OrderInfo[key].skillLineID] or 0) + 2
 									app.OrderInfo[key].artisan = app.OrderInfo[key].artisan + 10
 								end
 							end
@@ -1032,7 +1041,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						app.OrderAdjustments[v].unlearned:Show()
 					elseif recipeInfo.firstCraft then
 						app.OrderAdjustments[v].firstCraft:Show()
-						app.OrderInfo[key].knowledge[app.ProfessionKnowledge[app.OrderInfo[key].skillLineID].expansion] = (app.OrderInfo[key].knowledge[app.ProfessionKnowledge[app.OrderInfo[key].skillLineID].expansion] or 0) + 1
+						app.OrderInfo[key].knowledge[app.OrderInfo[key].skillLineID] = (app.OrderInfo[key].knowledge[app.OrderInfo[key].skillLineID] or 0) + 1
 					end
 				end
 				RunNextFrame(doTheThing)
