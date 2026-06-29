@@ -304,6 +304,7 @@ app.CraftingOrderRewards = {
 -- Profession Knowledge
 app.ProfessionKnowledge = {
 	[2823] = { -- Dragonflight Alchemy
+		expansion = 9,
 		-- Vendors
 		{ quest = 71893, type = "vendor", item = 200974, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 71904, type = "vendor", item = 201270, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -335,6 +336,7 @@ app.ProfessionKnowledge = {
 		{ quest = 78275, type = "world", item = 210190, zone = 2200 }, -- Blazeroot
 	},
 	[2822] = { -- Dragonflight Blacksmithing
+		expansion = 9,
 		-- Vendors
 		{ quest = 71894, type = "vendor", item = 200972, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 71905, type = "vendor", item = 201268, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -368,6 +370,7 @@ app.ProfessionKnowledge = {
 		{ quest = 78419, type = "world", item = 210466, zone = 2200 }, -- Flamesworn Render
 	},
 	[2825] = { -- Dragonflight Enchanting
+		expansion = 9,
 		-- Vendors
 		{ quest = 71895, type = "vendor", item = 200976, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 71906, type = "vendor", item = 201272, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -400,6 +403,7 @@ app.ProfessionKnowledge = {
 		{ quest = 78310, type = "world", item = 210234, zone = 2200 }, -- Essence of Dreams
 	},
 	[2827] = { -- Dragonflight Engineering
+		expansion = 9,
 		-- Vendors
 		{ quest = 71896, type = "vendor", item = 200977, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 71907, type = "vendor", item = 201273, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -431,6 +435,7 @@ app.ProfessionKnowledge = {
 		{ quest = 78281, type = "world", item = 210197, zone = 2200 }, -- Unhatched Battery
 	},
 	[2832] = { -- Dragonflight Herbalism
+		expansion = 9,
 		-- Vendors
 		{ quest = 71897, type = "vendor", item = 200980, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 71908, type = "vendor", item = 201276, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -449,6 +454,7 @@ app.ProfessionKnowledge = {
 		{ quest = 70253, type = "world", zone = 2023 }, -- Hidden Master
 	},
 	[2828] = { -- Dragonflight Inscription
+		expansion = 9,
 		-- Vendors
 		{ quest = 71898, type = "vendor", item = 200973, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 71909, type = "vendor", item = 201269, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -481,6 +487,7 @@ app.ProfessionKnowledge = {
 		{ quest = 78413, type = "world", item = 210460, zone = 2200 }, -- Primalist Shadowbinding Rune
 	},
 	[2829] = { -- Dragonflight Jewelcrafting
+		expansion = 9,
 		-- Vendors
 		{ quest = 71899, type = "vendor", item = 200978, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 71910, type = "vendor", item = 201274, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -513,6 +520,7 @@ app.ProfessionKnowledge = {
 		{ quest = 78285, type = "world", item = 210202, zone = 2200 }, -- Coalesced Dreamstone
 	},
 	[2830] = { -- Dragonflight Leatherworking
+		expansion = 9,
 		-- Vendors
 		{ quest = 71900, type = "vendor", item = 200979, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 71911, type = "vendor", item = 201275, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -544,6 +552,7 @@ app.ProfessionKnowledge = {
 		{ quest = 78305, type = "world", item = 210215, zone = 2200 }, -- Dreamtalon Claw
 	},
 	[2833] = { -- Dragonflight Mining
+		expansion = 9,
 		-- Vendors
 		{ quest = 71901, type = "vendor", item = 200981, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 71912, type = "vendor", item = 201277, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -562,6 +571,7 @@ app.ProfessionKnowledge = {
 		{ quest = 70258, type = "world", zone = 2025 }, -- Hidden Master
 	},
 	[2834] = { -- Dragonflight Skinning
+		expansion = 9,
 		-- Vendors
 		{ quest = 71902, type = "vendor", item = 200982, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 71913, type = "vendor", item = 201278, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -580,6 +590,7 @@ app.ProfessionKnowledge = {
 		{ quest = 70259, type = "world", zone = 2022 }, -- Hidden Master
 	},
 	[2831] = { -- Dragonflight Tailoring
+		expansion = 9,
 		-- Vendors
 		{ quest = 71903, type = "vendor", item = 200975, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 71914, type = "vendor", item = 201271, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -612,6 +623,7 @@ app.ProfessionKnowledge = {
 		{ quest = 78416, type = "world", item = 210463, zone = 2200 }, -- Snuggle Buddy
 	},
 	[2871] = { -- The War Within Alchemy
+		expansion = 10,
 		-- Vendors
 		{ quest = 81146, type = "vendor", item = 227409, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 81147, type = "vendor", item = 227420, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -635,6 +647,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3057 },
 	},
 	[2872] = { -- The War Within Blacksmithing
+		expansion = 10,
 		-- Vendors
 		{ quest = 84226, type = "vendor", item = 227407, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 84227, type = "vendor", item = 227418, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -658,6 +671,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3058 },
 	},
 	[2874] = { -- The War Within Enchanting
+		expansion = 10,
 		-- Vendors
 		{ quest = 81076, type = "vendor", item = 227411, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 81077, type = "vendor", item = 227422, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -681,6 +695,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3059 },
 	},
 	[2875] = { -- The War Within Engineering
+		expansion = 10,
 		-- Vendors
 		{ quest = 84229, type = "vendor", item = 227412, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 84230, type = "vendor", item = 227423, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -704,6 +719,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3060 },
 	},
 	[2877] = { -- The War Within Herbalism
+		expansion = 10,
 		-- Vendors
 		{ quest = 81422, type = "vendor", item = 227415, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 81423, type = "vendor", item = 227426, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -727,6 +743,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3061 },
 	},
 	[2878] = { -- The War Within Inscription
+		expansion = 10,
 		-- Vendors
 		{ quest = 80749, type = "vendor", item = 227408, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 80750, type = "vendor", item = 227419, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -750,6 +767,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3062 },
 	},
 	[2879] = { -- The War Within Jewelcrafting
+		expansion = 10,
 		-- Vendors
 		{ quest = 81259, type = "vendor", item = 227413, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 81260, type = "vendor", item = 227424, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -773,6 +791,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3063 },
 	},
 	[2880] = { -- The War Within Leatherworking
+		expansion = 10,
 		-- Vendors
 		{ quest = 80978, type = "vendor", item = 227414, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 80979, type = "vendor", item = 227425, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -796,6 +815,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3064 },
 	},
 	[2881] = { -- The War Within Mining
+		expansion = 10,
 		-- Vendors
 		{ quest = 81390, type = "vendor", item = 227416, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 81391, type = "vendor", item = 227427, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -819,6 +839,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3065 },
 	},
 	[2882] = { -- The War Within Skinning
+		expansion = 10,
 		-- Vendors
 		{ quest = 84232, type = "vendor", item = 227417, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 84233, type = "vendor", item = 227428, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -843,6 +864,7 @@ app.ProfessionKnowledge = {
 
 	},
 	[2883] = { -- The War Within Tailoring
+		expansion = 10,
 		-- Vendors
 		{ quest = 80871, type = "vendor", item = 227410, source = ARTISANS_CONSORTIUM, sourceType = "static" },
 		{ quest = 80872, type = "vendor", item = 227421, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -866,6 +888,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3067 },
 	},
 	[2906] = { -- Midnight Alchemy
+		expansion = 11,
 		-- Vendors
 		{ quest = 93794, type = "vendor", item = 262645, source = 2699, renown = 9 }, -- Beyond the Event Horizon: Alchemy
 
@@ -883,6 +906,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3189 },
 	},
 	[2907] = { -- Midnight Blacksmithing
+		expansion = 11,
 		-- Vendors
 		{ quest = 93795, type = "vendor", item = 262644, source = 2699, renown = 9 }, -- Beyond the Event Horizon: Blacksmithing
 
@@ -900,6 +924,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3199 },
 	},
 	[2909] = { -- Midnight Enchanting
+		expansion = 11,
 		-- Vendors
 		{ quest = 92374, type = "vendor", item = 257600, source = 2710, renown = 6 }, -- Skill Issue: Enchanting
 		{ quest = 92186, type = "vendor", item = 250445, source = 3377, sourceType = "currency" }, -- Echo of Abundance: Enchanting
@@ -918,6 +943,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3198 },
 	},
 	[2910] = { -- Midnight Engineering
+		expansion = 11,
 		-- Vendors
 		{ quest = 93796, type = "vendor", item = 262646, source = 2699, renown = 9 }, -- Beyond the Event Horizon: Engineering
 
@@ -935,6 +961,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3197 },
 	},
 	[2912] = { -- Midnight Herbalism
+		expansion = 11,
 		-- Vendors
 		{ quest = 93411, type = "vendor", item = 258410, source = 2704, renown = 5 }, -- Traditions of the Haranir: Herbalism
 		{ quest = 92174, type = "vendor", item = 250443, source = 3377, sourceType = "currency" }, -- Echo of Abundance: Herbalism
@@ -952,6 +979,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3196 },
 	},
 	[2913] = { -- Midnight Inscription
+		expansion = 11,
 		-- Vendors
 		{ quest = 93412, type = "vendor", item = 258411, source = 2704, renown = 5 }, -- Traditions of the Haranir: Inscription
 
@@ -969,6 +997,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3195 },
 	},
 	[2914] = { -- Midnight Jewelcrafting
+		expansion = 11,
 		-- Vendors
 		{ quest = 93222, type = "vendor", item = 257599, source = 2710, renown = 6 }, -- Skill Issue: Jewelcrafting
 
@@ -986,6 +1015,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3194 },
 	},
 	[2915] = { -- Midnight Leatherworking
+		expansion = 11,
 		-- Vendors
 		{ quest = 92371, type = "vendor", item = 250922, source = 2696, renown = 6 }, -- Whisper of the Loa: Leatherworking
 
@@ -1003,6 +1033,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3193 },
 	},
 	[2916] = { -- Midnight Mining
+		expansion = 11,
 		-- Vendors
 		{ quest = 92372, type = "vendor", item = 250924, source = 2696, renown = 6 }, -- Whisper of the Loa: Mining
 		{ quest = 92187, type = "vendor", item = 250444, source = 3377, sourceType = "currency" }, -- Echo of Abundance: Mining
@@ -1021,6 +1052,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3192 },
 	},
 	[2917] = { -- Midnight Skinning
+		expansion = 11,
 		-- Vendors
 		{ quest = 92373, type = "vendor", item = 250923, source = 2696, renown = 6 }, -- Whisper of the Loa: Skinning
 		{ quest = 92188, type = "vendor", item = 250360, source = 3377, sourceType = "currency" }, -- Echo of Abundance: Skinning
@@ -1039,6 +1071,7 @@ app.ProfessionKnowledge = {
 		{ quest = 0, type = "catchup", currency = 3191 },
 	},
 	[2918] = { -- Midnight Tailoring
+		expansion = 11,
 		-- Vendors
 		{ quest = 93201, type = "vendor", item = 257601, source = 2710, renown = 6 }, -- Skill Issue: Tailoring
 

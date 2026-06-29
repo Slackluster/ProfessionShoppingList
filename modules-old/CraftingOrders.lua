@@ -669,11 +669,12 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 				local key = "order:" .. data.option.orderID .. ":" .. data.option.spellID
 
 				local function doTheThing()
+					local recipeInfo = C_TradeSkillUI.GetRecipeInfo(data.option.spellID)
 					app.OrderInfo[key] = {
 						view = v.option,
-						learned = C_TradeSkillUI.GetRecipeInfo(data.option.spellID).learned,
+						learned = recipeInfo.learned,
 						spellID = data.option.spellID,
-						skillLineID = C_TradeSkillUI.GetTradeSkillLineForRecipe(data.option.spellID),
+						skillLineID = C_TradeSkillUI.GetProfessionInfoByRecipeID(data.option.spellID).professionID,
 						orderID = data.option.orderID,
 						isRecraft = data.option.isRecraft,
 						expirationTime = data.option.expirationTime,
@@ -1027,11 +1028,11 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 
 					if ProfessionShoppingList_Data.Recipes[key] then
 						app.OrderAdjustments[v].tracked:Show()
-					elseif not C_TradeSkillUI.GetRecipeInfo(data.option.spellID).learned then
+					elseif not recipeInfo.learned then
 						app.OrderAdjustments[v].unlearned:Show()
-					elseif C_TradeSkillUI.GetRecipeInfo(data.option.spellID).firstCraft then
+					elseif recipeInfo.firstCraft then
 						app.OrderAdjustments[v].firstCraft:Show()
-						app.OrderInfo[key].knowledge = app.OrderInfo[key].knowledge + 1
+						app.OrderInfo[key].knowledge[app.ProfessionKnowledge[app.OrderInfo[key].skillLineID].expansion] = (app.OrderInfo[key].knowledge[app.ProfessionKnowledge[app.OrderInfo[key].skillLineID].expansion] or 0) + 1
 					end
 				end
 				RunNextFrame(doTheThing)
