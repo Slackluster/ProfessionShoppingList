@@ -419,9 +419,9 @@ function app:CreateProfessionsOrdersAssets()
 		function listStyleGenerator(owner, rootDescription)
 			rootDescription:CreateTitle(string.format(L.ORDERS_TRACK_ON, charName))
 			local professions = {}
-			for tradeSkillLineID, _ in pairs(app.ProfessionKnowledge) do
+			for tradeSkillLineID, info in pairs(app.ProfessionKnowledge) do
 				local professionInfo = C_TradeSkillUI.GetProfessionInfoBySkillLineID(tradeSkillLineID)
-				if professionInfo.skillLevel > 0 then
+				if professionInfo.skillLevel > 0 and not info.gathering then
 					table.insert(professions, { tradeSkillLineID = tradeSkillLineID, professionName = professionInfo.professionName })
 				end
 			end
