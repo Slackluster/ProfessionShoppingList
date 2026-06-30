@@ -157,7 +157,7 @@ L.ORDERS_MAX_COST_ARTISAN =              "Макс. стоимость за ре
 L.ORDERS_MAX_COST_PAYOUT =               "Макс. стоимость за сумку с наградой:" -- This refers to Artisan's Payout bag
 L.ORDERS_TRACK_AFTER_RESET =             "Отслеживать заказы, доступные после еженедельного сброса"
 L.ORDERS_TRACK_CONCENTRATION =           "Отслеживать заказы, требующие концентрации:"
--- L.ORDERS_TRACK_ON =                      "Track on %s:"  -- %s becomes a character name
+L.ORDERS_TRACK_ON =                      "Отслеживать на %s:"  -- %s becomes a character name
 
 L.ORDERSQUEUE_QUEUE =                    "Очередь"
 L.ORDERSQUEUE_QUEUE =                    "Заказов в очереди:"
