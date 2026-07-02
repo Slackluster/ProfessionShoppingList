@@ -27,6 +27,7 @@ app.Event:Register("AUCTION_HOUSE_SHOW", function(addOnName, containsBindings)
 			AuctionatorShoppingFrame:HookScript("OnShow", function()
 				app:CreateShoppingList()
 			end)
+			app:CreateShoppingList()
 			app.Flag.AuctionatorHook = true
 		end
 	end)
