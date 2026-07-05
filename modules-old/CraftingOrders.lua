@@ -777,7 +777,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						app.OrderAdjustments[v].conc.Text:SetJustifyH("RIGHT")
 						app.OrderAdjustments[v].conc.Text:SetTextScale(0.7)
 						app.OrderAdjustments[v].conc.Text:SetPoint("BOTTOMRIGHT", app.OrderAdjustments[v].conc, "BOTTOMRIGHT", 2, 0)
-						app.OrderAdjustments[v].conc:SetNormalTexture(5747318)
+						app.OrderAdjustments[v].conc:SetNormalTexture(5747318) -- ui_concentration
 					end
 					app.OrderAdjustments[v].conc:SetPoint("BOTTOMLEFT", v.cells[4], "BOTTOMLEFT", -26, 0)
 					app.OrderAdjustments[v].conc:Hide()
