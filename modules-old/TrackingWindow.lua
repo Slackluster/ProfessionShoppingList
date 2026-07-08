@@ -2066,6 +2066,12 @@ function api:TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 		end
 	end
 
+	if type(ProfessionShoppingList_Library[recipeID]) ~= "table" then
+		ProfessionShoppingListLibrary[recipeID] = {}
+	end
+	local baseSkillLine, _, skillLine = C_TradeSkillUI.GetTradeSkillLineForRecipe(recipeID)
+	ProfessionShoppingList_Library[recipeID].tradeskillID = skillLine or baseSkillLine
+
 	-- Get some basic info
 	local recipeType = C_TradeSkillUI.GetRecipeSchematic(recipeID,false).recipeType
 	local recipeMin = C_TradeSkillUI.GetRecipeSchematic(recipeID,false).quantityMin
