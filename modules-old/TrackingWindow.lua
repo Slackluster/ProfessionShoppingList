@@ -56,6 +56,10 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	end
 end)
 
+function app:FireTrackedRecipesChanged(recipeID, newQuantity) -- Thank you, Vamoose!
+	EventRegistry:TriggerEvent("ProfessionShoppingList.OnTrackedRecipesChanged", recipeID, newQuantity)
+end
+
 ---------------------
 -- TRACKING WINDOW --
 ---------------------
@@ -2226,6 +2230,7 @@ function api:TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 	ProfessionShoppingList_Data.Recipes[recipeID].orderID = orderID
 
 	app:ShowWindow()
+	app:FireTrackedRecipesChanged(recipeID, ProfessionShoppingList_Data.Recipes[recipeID].quantity)
 end
 
 -- Untrack recipe
@@ -2250,6 +2255,8 @@ function api:UntrackRecipe(recipeID, recipeQuantity)
 
 	-- Update numbers
 	app:UpdateRecipes()
+	local entry = ProfessionShoppingList_Data.Recipes[recipeID]
+	app:FireTrackedRecipesChanged(recipeID, entry and entry.quantity or 0)
 end
 
 -- Clear everything except the recipe cache
@@ -2260,6 +2267,7 @@ function app:Clear()
 	ProfessionShoppingList_Cache.SimulatedRecipes = {}
 	app:UpdateRecipes()
 	app.Window.ScrollFrame:SetVerticalScroll(0)
+	app:FireTrackedRecipesChanged(nil, nil)
 end
 
 -- Replace the in-game tracking of shift+clicking a recipe with PSL's
