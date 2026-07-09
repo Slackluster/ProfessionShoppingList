@@ -291,7 +291,7 @@ function app:CreateProfessionsOrdersAssets()
 						profit = profit + (orderInfo.payout * (app.Settings["craftingOrders"].payoutCost * 10000))
 					end
 
-					if profit >= 0 and (ProfessionShoppingList_CharacterData.Queue.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings["craftingOrders"].trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) then
+					if profit >= 0 and (ProfessionShoppingList_CharacterData.Queue.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings["craftingOrders"].trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) and orderInfo.expirationTime > GetServerTime() then
 						api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
 					end
 				end
