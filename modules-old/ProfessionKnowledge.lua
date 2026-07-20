@@ -164,24 +164,19 @@ function app:UpdateKnowledgeTracker()
 		app.KnowledgePointTracker:Hide()
 	end
 
-	-- Knowledge point tooltip
 	local function kpTooltip()
-		-- Populate the profession knowledge tooltip
 		if app.ProfessionKnowledge[skillLineID] then
 			local renownCount = 0
 
-			-- Vendors
 			app.KnowledgePointTooltip = L.VENDORS
 
 			for k, v in ipairs(app.ProfessionKnowledge[skillLineID]) do
-				-- Completion status
-				local icon = app.IconNotReady
-				if C_QuestLog.IsQuestFlaggedCompleted(v.quest) then
-					icon = app.IconReady
-				end
-
 				if v.type == "vendor" then
-					-- Cache item
+					local icon = app.IconNotReady
+					if C_QuestLog.IsQuestFlaggedCompleted(v.quest) then
+						icon = app.IconReady
+					end
+
 					if not C_Item.IsItemDataCachedByID(v.item) then
 						C_Item.RequestLoadItemDataByID(v.item)
 						local item = Item:CreateFromItemID(v.item)
@@ -193,11 +188,9 @@ function app:UpdateKnowledgeTracker()
 						return
 					end
 
-					-- Item link
 					local _, itemLink = C_Item.GetItemInfo(v.item)
-
-					-- Grab faction name if applicable
 					local factionName, status, zoneName, currencyName
+
 					if v.renown then
 						factionName = C_Reputation.GetFactionDataByID(v.source).name
 						if C_MajorFactions.GetRenownLevels(v.source)[v.renown].locked then
@@ -211,7 +204,6 @@ function app:UpdateKnowledgeTracker()
 						currencyName = C_CurrencyInfo.GetCurrencyInfo(v.source).name or ""
 					end
 
-					-- Add text
 					if v.renown then
 						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffffffff (" .. factionName .. " - " .. status .. L.RENOWN .. " " .. v.renown .. "|r)|r"
 					elseif v.sourceType == "zone" then
@@ -223,25 +215,21 @@ function app:UpdateKnowledgeTracker()
 					end
 				end
 
-				-- Count Renown
 				if v.type == "renown" then
 					renownCount = renownCount + 1
 				end
 			end
 
-			-- Renown
 			if renownCount > 0 then
 				app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n\n" .. L.RENOWN
 
 				for k, v in ipairs(app.ProfessionKnowledge[skillLineID]) do
-					-- Completion status
-					local icon = app.IconNotReady
-					if C_QuestLog.IsQuestFlaggedCompleted(v.quest) then
-						icon = app.IconReady
-					end
-
 					if v.type == "renown" then
-						-- Quest and faction info
+						local icon = app.IconNotReady
+						if C_QuestLog.IsQuestFlaggedCompleted(v.quest) then
+							icon = app.IconReady
+						end
+
 						local questTitle = C_QuestLog.GetTitleForQuestID(v.quest) or ""
 						local factionTitle = C_Reputation.GetFactionDataByID(v.faction).name or ""
 						local status
@@ -251,30 +239,24 @@ function app:UpdateKnowledgeTracker()
 							status = "|cff238823"
 						end
 
-						-- Add text
 						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. "|cffffff00|Hquest:" .. v.quest .. "62|h[" .. questTitle .. "]|h|r" .. "|cffffffff (" .. factionTitle .. " - " .. status .. L.RENOWN .. " " .. v.renown .. "|r)|r"
 					end
 				end
 			end
 
-			-- World
 			app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n\n" .. L.WORLD
 
 			for k, v in ipairs(app.ProfessionKnowledge[skillLineID]) do
-				-- Completion status
-				local icon = app.IconNotReady
-				if C_QuestLog.IsQuestFlaggedCompleted(v.quest) then
-					icon = app.IconReady
-				end
-
 				if v.type == "world" then
-					-- Zone name
-					local zone = C_Map.GetMapInfo(v.zone).name or ""
+					local icon = app.IconNotReady
+					if C_QuestLog.IsQuestFlaggedCompleted(v.quest) then
+						icon = app.IconReady
+					end
 
-					-- Item link
+					local zone = C_Map.GetMapInfo(v.zone).name or ""
 					local _, itemLink
+
 					if v.item then
-						-- Cache item
 						if not C_Item.IsItemDataCachedByID(v.item) then
 							C_Item.RequestLoadItemDataByID(v.item)
 							local item = Item:CreateFromItemID(v.item)
@@ -286,64 +268,160 @@ function app:UpdateKnowledgeTracker()
 							return
 						end
 
-						-- Item link
 						_, itemLink = C_Item.GetItemInfo(v.item)
 					else
 						itemLink = L.HIDDEN_PROFESSION_MASTER
 					end
 
-					-- Add text
 					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " |cffffffff" .. itemLink .. " (" .. zone .. ")|r"
 				end
 			end
 
-			-- Weekly Treasures
-			local hasWeeklyTreasureTooltipTextBeenAdded = false
+			app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n\n" .. L.WEEKLY
 
 			for k, v in ipairs(app.ProfessionKnowledge[skillLineID]) do
-				-- Completion status
-				local icon = app.IconNotReady
-				if C_QuestLog.IsQuestFlaggedCompleted(v.quest) then
-					icon = app.IconReady
-				end
+				if v.type == "weeklyQuest" then
+					local icon = app.IconNotReady
+					local name = ""
+					if type(v.quest) == "number" then
+						local questName = C_QuestLog.GetTitleForQuestID(v.quest)
+						if questName then
+							name = questName
+						end
+						if C_QuestLog.IsQuestFlaggedCompleted(v.quest) then
+							icon = app.IconReady
+						end
+					else
+						for _, quest in pairs(v.quest) do
+							local questDone = C_QuestLog.IsQuestFlaggedCompleted(quest)
+							local questName = C_QuestLog.GetTitleForQuestID(quest)
+							if questName then
+								name = questName
+							end
 
-				if v.type == "weekly" then
-					if not hasWeeklyTreasureTooltipTextBeenAdded then
-						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n\n" .. L.WEEKLY_TREASURES
-						hasWeeklyTreasureTooltipTextBeenAdded = true
+							if C_QuestLog.IsOnQuest(quest) or questDone then
+								name = questName
+								if questDone then
+									icon = app.IconReady
+								end
+								break
+							end
+						end
 					end
 
-					-- Item link
-					local _, itemLink
-					if v.item then
-						-- Cache item
-						if not C_Item.IsItemDataCachedByID(v.item) then
-							C_Item.RequestLoadItemDataByID(v.item)
-							local item = Item:CreateFromItemID(v.item)
+					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. ("|Hquest:0|h[%s]|h"):format(name)
+				end
+			end
 
-							item:ContinueOnItemLoad(function()
-								kpTooltip()
-							end)
+			for k, v in ipairs(app.ProfessionKnowledge[skillLineID]) do
+				if v.type == "weeklyGather" then
+					if not C_Item.IsItemDataCachedByID(v.item) then
+						C_Item.RequestLoadItemDataByID(v.item)
+						local item = Item:CreateFromItemID(v.item)
 
-							return
+						item:ContinueOnItemLoad(function()
+							kpTooltip()
+						end)
+
+						return
+					end
+					local _, itemLink = C_Item.GetItemInfo(v.item)
+
+					local icon = app.IconNotReady
+					local completed = 0
+					if type(v.quest) == "number" then
+						if C_QuestLog.IsQuestFlaggedCompleted(v.quest) then
+							icon = app.IconReady
 						end
 
-						-- Item link
-						_, itemLink = C_Item.GetItemInfo(v.item)
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. itemLink
 					else
-						itemLink = L.HIDDEN_PROFESSION_MASTER
+						for _, quest in pairs(v.quest) do
+							if C_QuestLog.IsQuestFlaggedCompleted(quest) then
+								completed = completed + 1
+							end
+						end
+
+						if completed == 5 then
+							icon = app.IconReady
+						end
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. itemLink .. " |cffFFFFFF(" .. completed .. "/5)|R"
+					end
+				end
+			end
+
+			for k, v in ipairs(app.ProfessionKnowledge[skillLineID]) do
+				if v.type == "weeklyTreatise" then
+					local icon = app.IconNotReady
+					if C_QuestLog.IsQuestFlaggedCompleted(v.quest) then
+						icon = app.IconReady
 					end
 
-					-- Add text
+					if not C_Item.IsItemDataCachedByID(v.item) then
+						C_Item.RequestLoadItemDataByID(v.item)
+						local item = Item:CreateFromItemID(v.item)
+
+						item:ContinueOnItemLoad(function()
+							kpTooltip()
+						end)
+
+						return
+					end
+
+					local _, itemLink = C_Item.GetItemInfo(v.item)
 					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. itemLink
 				end
 			end
 
-			-- Catchup knowledge
+			for k, v in ipairs(app.ProfessionKnowledge[skillLineID]) do
+				if v.type == "weeklyTreasure" then
+					local icon = app.IconNotReady
+					if C_QuestLog.IsQuestFlaggedCompleted(v.quest) then
+						icon = app.IconReady
+					end
+
+					if not C_Item.IsItemDataCachedByID(v.item) then
+						C_Item.RequestLoadItemDataByID(v.item)
+						local item = Item:CreateFromItemID(v.item)
+
+						item:ContinueOnItemLoad(function()
+							kpTooltip()
+						end)
+
+						return
+					end
+
+					local _, itemLink = C_Item.GetItemInfo(v.item)
+					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. itemLink .. "|cffFFFFFF (" .. L.TREASURE .. ")|R"
+				end
+			end
+
+			for k, v in ipairs(app.ProfessionKnowledge[skillLineID]) do
+				if v.type == "weeklyDrop" then
+					local icon = app.IconNotReady
+					if C_QuestLog.IsQuestFlaggedCompleted(v.quest) then
+						icon = app.IconReady
+					end
+
+					if not C_Item.IsItemDataCachedByID(v.item) then
+						C_Item.RequestLoadItemDataByID(v.item)
+						local item = Item:CreateFromItemID(v.item)
+
+						item:ContinueOnItemLoad(function()
+							kpTooltip()
+						end)
+
+						return
+					end
+
+					local _, itemLink = C_Item.GetItemInfo(v.item)
+					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. itemLink .. "|cffFFFFFF (" .. (v.source or (L.TREASURE .. " / " .. L.DROP)) .. ")|R"
+				end
+			end
+
 			for k, v in ipairs(app.ProfessionKnowledge[skillLineID]) do
 				if v.type == "catchup" then
 					local catchupKnowledge = C_CurrencyInfo.GetCurrencyInfo(v.currency).maxQuantity-C_CurrencyInfo.GetCurrencyInfo(v.currency).quantity
-					-- Add text
 					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n\n|r" .. L.CATCHUP_KNOWLEDGE .. "|cffffffff " .. catchupKnowledge
 				end
 			end

@@ -333,6 +333,16 @@ app.ProfessionKnowledge = {
 		{ quest = 78264, type = "world", item = 210184, zone = 2200 }, -- Half-Filled Dreamless Sleep Potion
 		{ quest = 78269, type = "world", item = 210185, zone = 2200 }, -- Splash Potion of Narcolepsy
 		{ quest = 78275, type = "world", item = 210190, zone = 2200 }, -- Blazeroot
+
+		-- Weekly
+		{ quest = { 70530, 70531, 70532, 70533 }, type = "weeklyQuest" },
+		{ quest = { 66937, 66938, 66940, 72427, 75363, 75371, 77932, 77933 }, type = "weeklyQuest" },
+		{ quest = 74108, type = "weeklyTreatise", item = 194697 },
+		{ quest = 66373, type = "weeklyTreasure", item = 193891 }, -- Experimental Substance
+		{ quest = 66374, type = "weeklyTreasure", item = 193897 }, -- Reawakened Catalyst
+		{ quest = 70504, type = "weeklyDrop", item = 198963, source = "Mobs: Decay" }, -- Decaying Phlegm
+		{ quest = 70511, type = "weeklyDrop", item = 198964, source = "Mobs: Elementals" }, -- Elementious Splinter
+		{ quest = 74331, type = "weeklyDrop", item = 204226, source = "Forbidden Reach: Agni Blazehoof" }, -- Blazehoof Ashes
 	},
 	[2822] = { -- Dragonflight Blacksmithing
 		-- Vendors
@@ -366,6 +376,17 @@ app.ProfessionKnowledge = {
 		{ quest = 78417, type = "world", item = 210464, zone = 2200 }, -- Amirdrassil Defender's Shield
 		{ quest = 78418, type = "world", item = 210465, zone = 2200 }, -- Deathstalker Chassis
 		{ quest = 78419, type = "world", item = 210466, zone = 2200 }, -- Flamesworn Render
+
+		-- Weekly
+		{ quest = 70589, type = "weeklyQuest" },
+		{ quest = { 70211, 70233, 70234, 70235 }, type = "weeklyQuest" },
+		{ quest = { 66517, 66897, 66941, 72398, 75148, 75569, 77935, 77936 }, type = "weeklyQuest" },
+		{ quest = 74109, type = "weeklyTreatise", item = 198454 },
+		{ quest = 66381, type = "weeklyTreasure", item = 192131 }, -- Valdrakken Weapon Chain
+		{ quest = 66382, type = "weeklyTreasure", item = 192132 }, -- Draconium Blade Sharpener
+		{ quest = 70512, type = "weeklyDrop", item = 198965, source = "Mobs: Earth" }, -- Primeval Earth Fragment
+		{ quest = 70513, type = "weeklyDrop", item = 198966, source = "Mobs: Fire" }, -- Molten Globule
+		{ quest = 74325, type = "weeklyDrop", item = 204230, source = "Forbidden Reach: Tidesmith Zarviss" }, -- Dense Seaforged Javelin
 	},
 	[2825] = { -- Dragonflight Enchanting
 		-- Vendors
@@ -398,6 +419,16 @@ app.ProfessionKnowledge = {
 		{ quest = 78308, type = "world", item = 210228, zone = 2200 }, -- Pure Dream Water
 		{ quest = 78309, type = "world", item = 210231, zone = 2200 }, -- Everburning Core
 		{ quest = 78310, type = "world", item = 210234, zone = 2200 }, -- Essence of Dreams
+
+		-- Weekly
+		{ quest = { 72155, 72172, 72173, 72175 }, type = "weeklyQuest" },
+		{ quest = { 66884, 66900, 66935, 72423, 75150, 75865, 77910, 77937 }, type = "weeklyQuest" },
+		{ quest = 74110, type = "weeklyTreatise", item = 194702 },
+		{ quest = 66377, type = "weeklyTreasure", item = 193900 }, -- Prismatic Focusing Shard
+		{ quest = 66378, type = "weeklyTreasure", item = 193901 }, -- Primal Dust
+		{ quest = 70514, type = "weeklyDrop", item = 198967, source = "Mobs: Arcane" }, -- Primordial Aether
+		{ quest = 70515, type = "weeklyDrop", item = 198968, source = "Mobs: Primalists" }, -- Primalist Charm
+		{ quest = 74306, type = "weeklyDrop", item = 204224, source = "Forbidden Reach: Manathema" }, -- Speck of Arcane Awareness
 	},
 	[2827] = { -- Dragonflight Engineering
 		-- Vendors
@@ -429,6 +460,17 @@ app.ProfessionKnowledge = {
 		{ quest = 78278, type = "world", item = 210193, zone = 2200 }, -- Experimental Dreamcatcher
 		{ quest = 78279, type = "world", item = 210194, zone = 2200 }, -- Insomniotron
 		{ quest = 78281, type = "world", item = 210197, zone = 2200 }, -- Unhatched Battery
+
+		-- Weekly
+		{ quest = 70591, type = "weeklyQuest" },
+		{ quest = { 70539, 70540, 70545, 70557 }, type = "weeklyQuest" },
+		{ quest = { 66890, 66891, 66942, 72396, 75575, 75608, 77891, 77938 }, type = "weeklyQuest" },
+		{ quest = 74111, type = "weeklyTreatise", item = 198510 },
+		{ quest = 66379, type = "weeklyTreasure", item = 193902 }, -- Eroded Titan Gizmo
+		{ quest = 66380, type = "weeklyTreasure", item = 193903 }, -- Watcher Power Core
+		{ quest = 70516, type = "weeklyDrop", item = 198969, source = "Mobs: Keepers" }, -- Keeper's Mark
+		{ quest = 70517, type = "weeklyDrop", item = 198970, source = "Mobs: Dragonkin" }, -- Infinitely Attachable Pair o' Docks
+		{ quest = 74330, type = "weeklyDrop", item = 204227, source = "Forbidden Reach: Fimbol" }, -- Everflowing Antifreeze
 	},
 	[2832] = { -- Dragonflight Herbalism
 		gathering = true,
@@ -448,6 +490,12 @@ app.ProfessionKnowledge = {
 
 		-- Treasures
 		{ quest = 70253, type = "world", zone = 2023 }, -- Hidden Master
+
+		-- Weekly
+		{ quest = { 70613, 70614, 70615, 70616 }, type = "weeklyQuest" },
+		{ quest = { 71857, 71858, 71859, 71860, 71861 }, type = "weeklyGather", item = 200677 }, -- Dreambloom Petal
+		{ quest = 71864, type = "weeklyGather", item = 200678 }, -- Dreambloom
+		{ quest = 74107, type = "weeklyTreatise", item = 194704 },
 	},
 	[2828] = { -- Dragonflight Inscription
 		-- Vendors
@@ -480,6 +528,17 @@ app.ProfessionKnowledge = {
 		{ quest = 78411, type = "world", item = 210458, zone = 2200 }, -- Winnie's Notes on Flora and Fauna
 		{ quest = 78412, type = "world", item = 210459, zone = 2200 }, -- Grove Keeper's Pillar
 		{ quest = 78413, type = "world", item = 210460, zone = 2200 }, -- Primalist Shadowbinding Rune
+
+		-- Weekly
+		{ quest = 70592, type = "weeklyQuest" },
+		{ quest = { 70558, 70559, 70560, 70561 }, type = "weeklyQuest" },
+		{ quest = { 66943, 66944, 66945, 72438, 75149, 75573, 77889, 77914 }, type = "weeklyQuest" },
+		{ quest = 74105, type = "weeklyTreatise", item = 194699 },
+		{ quest = 66375, type = "weeklyTreasure", item = 193904 }, -- Phoenix Feather Quill
+		{ quest = 66376, type = "weeklyTreasure", item = 193905 }, -- Iskaaran Trading Ledger
+		{ quest = 70518, type = "weeklyDrop", item = 198971, source = "Mobs: Djaradin" }, -- Curious Djaradin Rune
+		{ quest = 70519, type = "weeklyDrop", item = 198972, source = "Mobs: Dragonkin" }, -- Draconic Glamour
+		{ quest = 74328, type = "weeklyDrop", item = 204229, source = "Forbidden Reach: Arcantrix" }, -- Glimmering Rune of Arcantrix
 	},
 	[2829] = { -- Dragonflight Jewelcrafting
 		-- Vendors
@@ -512,6 +571,17 @@ app.ProfessionKnowledge = {
 		{ quest = 78282, type = "world", item = 210200, zone = 2200 }, -- Petrified Hope
 		{ quest = 78283, type = "world", item = 210201, zone = 2200 }, -- Handful of Pebbles
 		{ quest = 78285, type = "world", item = 210202, zone = 2200 }, -- Coalesced Dreamstone
+
+		-- Weekly
+		{ quest = 70593, type = "weeklyQuest" },
+		{ quest = { 70562, 70563, 70564, 70565 }, type = "weeklyQuest" },
+		{ quest = { 66516, 66949, 66950, 72428, 75362, 75602, 77892, 77912 }, type = "weeklyQuest" },
+		{ quest = 74112, type = "weeklyTreatise", item = 194703 },
+		{ quest = 66388, type = "weeklyTreasure", item = 193909 }, -- Ancient Gem Fragments
+		{ quest = 66389, type = "weeklyTreasure", item = 193907 }, -- Chipped Tyrstone
+		{ quest = 70520, type = "weeklyDrop", item = 198973, source = "Mobs: Elementals" }, -- Incandescent Curio
+		{ quest = 70521, type = "weeklyDrop", item = 198974, source = "Mobs: Dragonkin" }, -- Elegantly Engrabed Embellishment
+		{ quest = 74333, type = "weeklyDrop", item = 204222, source = "Forbidden Reach: Amephyst" }, -- Conductive Ametrine Shard
 	},
 	[2830] = { -- Dragonflight Leatherworking
 		-- Vendors
@@ -543,6 +613,17 @@ app.ProfessionKnowledge = {
 		{ quest = 78298, type = "world", item = 210208, zone = 2200 }, -- Tuft of Dreamsaber Fur
 		{ quest = 78299, type = "world", item = 210211, zone = 2200 }, -- Molted Fearie Dragon Scales
 		{ quest = 78305, type = "world", item = 210215, zone = 2200 }, -- Dreamtalon Claw
+
+		-- Weekly
+		{ quest = 70594, type = "weeklyQuest" },
+		{ quest = { 70567, 70568, 70569, 70571 }, type = "weeklyQuest" },
+		{ quest = { 66363, 66364, 66951, 72407, 75354, 75368, 77945, 77946 }, type = "weeklyQuest" },
+		{ quest = 74113, type = "weeklyTreatise", item = 194700 },
+		{ quest = 66384, type = "weeklyTreasure", item = 193910 }, -- Molted Dragon Scales
+		{ quest = 66385, type = "weeklyTreasure", item = 193913 }, -- Preserved Animal Parts
+		{ quest = 70522, type = "weeklyDrop", item = 198975, source = "Mobs: Proto-Drakes" }, -- Ossified Hide
+		{ quest = 70523, type = "weeklyDrop", item = 198976, source = "Mobs: Slyvern & Vorquin" }, -- Extremely Soft Skin
+		{ quest = 74307, type = "weeklyDrop", item = 204232, source = "Forbidden Reach: Snarfang" }, -- Slyvern Alpha Claw
 	},
 	[2833] = { -- Dragonflight Mining
 		gathering = true,
@@ -562,6 +643,12 @@ app.ProfessionKnowledge = {
 
 		-- Treasures
 		{ quest = 70258, type = "world", zone = 2025 }, -- Hidden Master
+
+		-- Weekly
+		{ quest = { 70617, 70618, 72156, 72157 }, type = "weeklyQuest" },
+		{ quest = { 72160, 72161, 72162, 72163, 72164 }, type = "weeklyGather", item = 201300 }, -- Iridescent Ore Fragment
+		{ quest = 72165, type = "weeklyGather", item = 201301 }, -- Iridescent Ore
+		{ quest = 74106, type = "weeklyTreatise", item = 194708 },
 	},
 	[2834] = { -- Dragonflight Skinning
 		gathering = true,
@@ -581,6 +668,12 @@ app.ProfessionKnowledge = {
 
 		-- Treasures
 		{ quest = 70259, type = "world", zone = 2022 }, -- Hidden Master
+
+		-- Weekly
+		{ quest = { 70619, 70620, 72158, 72159 }, type = "weeklyQuest" },
+		{ quest = { 70381, 70383, 70384, 70385, 70386 }, type = "weeklyGather", item = 198837 }, -- Curious Hide Scraps
+		{ quest = 70389, type = "weeklyGather", item = 198841 }, -- Large Sample of Curious Hide
+		{ quest = 74114, type = "weeklyTreatise", item = 201023 },
 	},
 	[2831] = { -- Dragonflight Tailoring
 		-- Vendors
@@ -613,7 +706,19 @@ app.ProfessionKnowledge = {
 		{ quest = 78414, type = "world", item = 210461, zone = 2200 }, -- Exceedingly Soft Wildercloth
 		{ quest = 78415, type = "world", item = 210462, zone = 2200 }, -- Plush Pillow
 		{ quest = 78416, type = "world", item = 210463, zone = 2200 }, -- Snuggle Buddy
+
+		-- Weekly
+		{ quest = 70595, type = "weeklyQuest" },
+		{ quest = { 70572, 70582, 70586, 70587 }, type = "weeklyQuest" },
+		{ quest = { 66899, 66952, 66953, 72410, 75407, 75600, 77947, 77949 }, type = "weeklyQuest" },
+		{ quest = 74115, type = "weeklyTreatise", item = 194698 },
+		{ quest = 66386, type = "weeklyTreasure", item = 193898 }, -- Umbral Bone Needle
+		{ quest = 66387, type = "weeklyTreasure", item = 193899 }, -- Primalweave Spindle
+		{ quest = 70524, type = "weeklyDrop", item = 198977, source = "Mobs: Centaur" }, -- Ohn'ahran Weave
+		{ quest = 70525, type = "weeklyDrop", item = 198978, source = "Mobs: Gnoll" }, -- Stupidly Effective Stitchery
+		{ quest = 74321, type = "weeklyDrop", item = 204225, source = "Forbidden Reach: Gareed" }, -- Perfect Windfeather
 	},
+
 	[2871] = { -- The War Within Alchemy
 		-- Vendors
 		{ quest = 81146, type = "vendor", item = 227409, source = ARTISANS_CONSORTIUM, sourceType = "static" },
@@ -634,8 +739,14 @@ app.ProfessionKnowledge = {
 		{ quest = 83847, type = "world", item = 226272, zone = 2255 }, -- Dark Apothecary's Vial
 		{ quest = 83846, type = "world", item = 226271, zone = 2213 }, -- Nerubian Mixing Salts
 
+		-- Weekly
+		{ quest = 84133, type = "weeklyQuest" },
+		{ quest = 83725, type = "weeklyTreatise", item = 222546 },
+		{ quest = 83253, type = "weeklyDrop", item = 225234 }, -- Alchemical Sediment
+		{ quest = 83255, type = "weeklyDrop", item = 225235 }, -- Deepstone Crucible
+
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3057 },
+		{ type = "catchup", currency = 3057 },
 	},
 	[2872] = { -- The War Within Blacksmithing
 		-- Vendors
@@ -657,8 +768,14 @@ app.ProfessionKnowledge = {
 		{ quest = 83855, type = "world", item = 226283, zone = 2255 }, -- Spiderling's Wire Brush
 		{ quest = 83854, type = "world", item = 226282, zone = 2213 }, -- Nerubian Smith's Kit
 
+		-- Weekly
+		{ quest = 84127, type = "weeklyQuest" },
+		{ quest = 83726, type = "weeklyTreatise", item = 222554 },
+		{ quest = 83257, type = "weeklyDrop", item = 225232 }, -- Coreway Billet
+		{ quest = 83256, type = "weeklyDrop", item = 225233 }, -- Dense Bladestone
+
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3058 },
+		{ type = "catchup", currency = 3058 },
 	},
 	[2874] = { -- The War Within Enchanting
 		-- Vendors
@@ -680,8 +797,16 @@ app.ProfessionKnowledge = {
 		{ quest = 83865, type = "world", item = 226291, zone = 2255 }, -- Void Shard
 		{ quest = 83864, type = "world", item = 226290, zone = 2213 }, -- Book of Dark Magic
 
+		-- Weekly
+		{ quest = { 84084, 84085, 84086 }, type = "weeklyQuest" },
+		{ quest = { 84290, 84291, 84292, 84293, 84294, 84295 }, type = "weeklyGather", item = 227659 }, -- Fleeting Arcane Manifestation
+		{ quest = 84295, type = "weeklyGather", item = 227661 }, -- Gleaming Telluric Crystal
+		{ quest = 83727, type = "weeklyTreatise", item = 222550 },
+		{ quest = 83259, type = "weeklyDrop", item = 225230 }, -- Crystalline Repository
+		{ quest = 83258, type = "weeklyDrop", item = 225231 }, -- Powdered Fulgurance
+
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3059 },
+		{ type = "catchup", currency = 3059 },
 	},
 	[2875] = { -- The War Within Engineering
 		-- Vendors
@@ -703,8 +828,14 @@ app.ProfessionKnowledge = {
 		{ quest = 83872, type = "world", item = 226298, zone = 2255 }, -- Puppeted Mechanical Spider
 		{ quest = 83873, type = "world", item = 226299, zone = 2213 }, -- Emptied Venom Canister
 
+		-- Weekly
+		{ quest = 84128, type = "weeklyQuest" },
+		{ quest = 83728, type = "weeklyTreatise", item = 222621 },
+		{ quest = 83261, type = "weeklyDrop", item = 225229 }, -- Earthen Induction Coil
+		{ quest = 83260, type = "weeklyDrop", item = 225228 }, -- Rust-Locked Mechanism
+
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3060 },
+		{ type = "catchup", currency = 3060 },
 	},
 	[2877] = { -- The War Within Herbalism
 		gathering = true,
@@ -727,8 +858,14 @@ app.ProfessionKnowledge = {
 		{ quest = 83880, type = "world", item = 226306, zone = 2213 }, -- Web-Entangled Lotus
 		{ quest = 83881, type = "world", item = 226307, zone = 2213 }, -- Tunneler's Shovel
 
+		-- Weekly
+		{ quest = { 82916, 82958, 82962, 82965, 82970, }, type = "weeklyQuest" },
+		{ quest = { 81416, 81417, 81418, 81419, 81420, 81421 }, type = "weeklyGather", item = 224264 }, -- Deepgrove Rose Petal
+		{ quest = 81421, type = "weeklyGather", item = 224265 }, -- Deepgrove Rose
+		{ quest = 83729, type = "weeklyTreatise", item = 222552 },
+
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3061 },
+		{ type = "catchup", currency = 3061 },
 	},
 	[2878] = { -- The War Within Inscription
 		-- Vendors
@@ -750,8 +887,14 @@ app.ProfessionKnowledge = {
 		{ quest = 83888, type = "world", item = 226314, zone = 2255 }, -- Nerubian Texts
 		{ quest = 83889, type = "world", item = 226315, zone = 2213 }, -- Venomancer's Ink Well
 
+		-- Weekly
+		{ quest = 84129, type = "weeklyQuest" },
+		{ quest = 83730, type = "weeklyTreatise", item = 222548 },
+		{ quest = 83264, type = "weeklyDrop", item = 225226 }, -- Striated Inkstone
+		{ quest = 83262, type = "weeklyDrop", item = 225227 }, -- Wax-Sealed Records
+
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3062 },
+		{ type = "catchup", currency = 3062 },
 	},
 	[2879] = { -- The War Within Jewelcrafting
 		-- Vendors
@@ -773,8 +916,14 @@ app.ProfessionKnowledge = {
 		{ quest = 83897, type = "world", item = 226323, zone = 2255 }, -- Hardened Jewel Setter's Vise
 		{ quest = 83896, type = "world", item = 226322, zone = 2213 }, -- Heavy Gem Sorting Gloves
 
+		-- Weekly
+		{ quest = 84130, type = "weeklyQuest" },
+		{ quest = 83731, type = "weeklyTreatise", item = 222551 },
+		{ quest = 83266, type = "weeklyDrop", item = 225225 }, -- Deepstone Fragment
+		{ quest = 83265, type = "weeklyDrop", item = 225224 }, -- Diaphanous Gem Shards
+
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3063 },
+		{ type = "catchup", currency = 3063 },
 	},
 	[2880] = { -- The War Within Leatherworking
 		-- Vendors
@@ -796,8 +945,14 @@ app.ProfessionKnowledge = {
 		{ quest = 83905, type = "world", item = 226331, zone = 2255 }, -- Preserved Bug-Skinner Gloves
 		{ quest = 83904, type = "world", item = 226330, zone = 2213 }, -- Nerubian Hide Preserver
 
+		-- Weekly
+		{ quest = 84131, type = "weeklyQuest" },
+		{ quest = 83732, type = "weeklyTreatise", item = 222549 },
+		{ quest = 83268, type = "weeklyDrop", item = 225222 }, -- Stone-Leather Swatch
+		{ quest = 83267, type = "weeklyDrop", item = 225223 }, -- Sturdy Nerubian Carapace
+
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3064 },
+		{ type = "catchup", currency = 3064 },
 	},
 	[2881] = { -- The War Within Mining
 		gathering = true,
@@ -820,8 +975,14 @@ app.ProfessionKnowledge = {
 		{ quest = 83913, type = "world", item = 226339, zone = 2255 }, -- Dark Bug-Filled Ore
 		{ quest = 83912, type = "world", item = 226338, zone = 2213 }, -- Nerubian Shale Fragments
 
+		-- Weekly
+		{ quest = { 83102, 83103, 83104, 83105, 83106 }, type = "weeklyQuest" },
+		{ quest = { 83050, 83051, 83052, 83053, 83054 }, type = "weeklyGather", item = 224583 }, -- Slab of Slate
+		{ quest = 83049, type = "weeklyGather", item = 224584 }, -- Erosion Polished Slate
+		{ quest = 83733, type = "weeklyTreatise", item = 222553 },
+
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3065 },
+		{ type = "catchup", currency = 3065 },
 	},
 	[2882] = { -- The War Within Skinning
 		gathering = true,
@@ -844,8 +1005,14 @@ app.ProfessionKnowledge = {
 		{ quest = 83921, type = "world", item = 226347, zone = 2255 }, -- Silk-Lined Shell Slicer
 		{ quest = 83920, type = "world", item = 226346, zone = 2213 }, -- Nerubian Hide Pouch
 
+		-- Weekly
+		{ quest = { 82992, 82993, 83097, 83098, 83100 }, type = "weeklyQuest" },
+		{ quest = { 81459, 81460, 81461, 81462, 81463 }, type = "weeklyGather", item = 224780 }, -- Toughened Tempest Pelt
+		{ quest = 81464, type = "weeklyGather", item = 224781 }, -- Abyssal Fur
+		{ quest = 83734, type = "weeklyTreatise", item = 222649 },
+
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3066 },
+		{ type = "catchup", currency = 3066 },
 
 	},
 	[2883] = { -- The War Within Tailoring
@@ -868,9 +1035,16 @@ app.ProfessionKnowledge = {
 		{ quest = 83928, type = "world", item = 226354, zone = 2255 }, -- Nerubian Quilt
 		{ quest = 83929, type = "world", item = 226355, zone = 2213 }, -- Nerubian's Pincushion
 
+		-- Weekly
+		{ quest = 84132, type = "weeklyQuest" },
+		{ quest = 83735, type = "weeklyTreatise", item = 222547 },
+		{ quest = 83270, type = "weeklyDrop", item = 225220 }, -- Chitin Needle
+		{ quest = 83269, type = "weeklyDrop", item = 225221 }, -- Spool of Webweave
+
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3067 },
+		{ type = "catchup", currency = 3067 },
 	},
+
 	[2906] = { -- Midnight Alchemy
 		-- Vendors
 		{ quest = 93794, type = "vendor", item = 262645, source = 2699, renown = 9 }, -- Beyond the Event Horizon: Alchemy
@@ -885,12 +1059,14 @@ app.ProfessionKnowledge = {
 		{ quest = 89112, type = "world", item = 238533, zone = 2444 }, -- Vial of Voidstorm Oddities
 		{ quest = 89114, type = "world", item = 238535, zone = 2437 }, -- Vial of Zul'Aman Oddities
 
-		-- Weekly treasures
-		{ quest = 93528, type = "weekly", item = 259188 }, -- Lightbloomed Spore Sample
-		{ quest = 93529, type = "weekly", item = 259189 }, -- Aged Cruor
+		-- Weekly
+		{ quest = 93690, type = "weeklyQuest" },
+		{ quest = 95127, type = "weeklyTreatise", item = 245755 },
+		{ quest = 93528, type = "weeklyTreasure", item = 259188 }, -- Lightbloomed Spore Sample
+		{ quest = 93529, type = "weeklyTreasure", item = 259189 }, -- Aged Cruor
 
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3189 },
+		{ type = "catchup", currency = 3189 },
 	},
 	[2907] = { -- Midnight Blacksmithing
 		-- Vendors
@@ -906,12 +1082,14 @@ app.ProfessionKnowledge = {
 		{ quest = 89183, type = "world", item = 238546, zone = 2393 }, -- Sin'dorei Master's Forgemace
 		{ quest = 89181, type = "world", item = 238544, zone = 2444 }, -- Voidstorm Defense Spear
 
-		-- Weekly treasures
-		{ quest = 93530, type = "weekly", item = 259190 }, -- Thalassian Whetstone
-		{ quest = 93531, type = "weekly", item = 259191 }, -- Infused Quenching Oil
+		-- Weekly
+		{ quest = 93691, type = "weeklyQuest" },
+		{ quest = 95128, type = "weeklyTreatise", item = 245763 },
+		{ quest = 93530, type = "weeklyTreasure", item = 259190 }, -- Thalassian Whetstone
+		{ quest = 93531, type = "weeklyTreasure", item = 259191 }, -- Infused Quenching Oil
 
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3199 },
+		{ type = "catchup", currency = 3199 },
 	},
 	[2909] = { -- Midnight Enchanting
 		-- Vendors
@@ -927,13 +1105,17 @@ app.ProfessionKnowledge = {
 		{ quest = 89105, type = "world", item = 238553, zone = 2413 }, -- Primal Essence Orb
 		{ quest = 89102, type = "world", item = 238550, zone = 2405 }, -- Pure Void Crystal
 		{ quest = 89107, type = "world", item = 238555, zone = 2395 }, -- Sin'dorei Enchanting Rod
-		
-		-- Weekly treasures
-		{ quest = 93532, type = "weekly", item = 259192 }, -- Voidstorm Ashes
-		{ quest = 93533, type = "weekly", item = 259193 }, -- Lost Thalassian Vellum
+
+		-- Weekly
+		{ quest = { 93697, 93698, 93699 }, type = "weeklyQuest" },
+		{ quest = { 95048, 95049, 95050, 95051, 95052 }, type = "weeklyGather", item = 267654 }, -- Swirling Arcane Essence
+		{ quest = 95053, type = "weeklyGather", item = 267655 }, -- Brimming Mana Shard
+		{ quest = 95129, type = "weeklyTreatise", item = 245759 },
+		{ quest = 93532, type = "weeklyTreasure", item = 259192 }, -- Voidstorm Ashes
+		{ quest = 93533, type = "weeklyTreasure", item = 259193 }, -- Lost Thalassian Vellum
 
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3198 },
+		{ type = "catchup", currency = 3198 },
 	},
 	[2910] = { -- Midnight Engineering
 		-- Vendors
@@ -949,12 +1131,14 @@ app.ProfessionKnowledge = {
 		{ quest = 89133, type = "world", item = 238556, zone = 2393 }, -- One Engineer's Junk
 		{ quest = 89139, type = "world", item = 238562, zone = 2393 }, -- What To Do When Nothing Works
 
-		-- Weekly treasures
-		{ quest = 93534, type = "weekly", item = 259194 }, -- Dance Gear
-		{ quest = 93535, type = "weekly", item = 259195 }, -- Dawn Capacitor
+		-- Weekly
+		{ quest = 93692, type = "weeklyQuest" },
+		{ quest = 95138, type = "weeklyTreatise", item = 245809 },
+		{ quest = 93534, type = "weeklyTreasure", item = 259194 }, -- Dance Gear
+		{ quest = 93535, type = "weeklyTreasure", item = 259195 }, -- Dawn Capacitor
 
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3197 },
+		{ type = "catchup", currency = 3197 },
 	},
 	[2912] = { -- Midnight Herbalism
 		gathering = true,
@@ -971,8 +1155,14 @@ app.ProfessionKnowledge = {
 		{ quest = 89160, type = "world", item = 238470, zone = 2393 }, -- Simple Leaf Pruners
 		{ quest = 89161, type = "world", item = 238469, zone = 2437 }, -- Sweeping Harvester's Scythe
 
+		-- Weekly
+		{ quest = { 93700, 93701, 93702, 93703, 93704 }, type = "weeklyQuest" },
+		{ quest = { 81425, 81426, 81427, 81428, 81429 }, type = "weeklyGather", item = 238465 }, -- Thalassian Phoenix Plume
+		{ quest = 81430, type = "weeklyGather", item = 238466 }, -- Thalassian Phoenix Tail
+		{ quest = 95130, type = "weeklyTreatise", item = 245761 },
+
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3196 },
+		{ type = "catchup", currency = 3196 },
 	},
 	[2913] = { -- Midnight Inscription
 		-- Vendors
@@ -988,12 +1178,14 @@ app.ProfessionKnowledge = {
 		{ quest = 89069, type = "world", item = 238574, zone = 2395 }, -- Spare Ink
 		{ quest = 89067, type = "world", item = 238572, zone = 2444 }, -- Void-Touched Quill
 
-		-- Weekly treasures
-		{ quest = 93536, type = "weekly", item = 259196 }, -- Brilliant Phoenix Ink
-		{ quest = 93537, type = "weekly", item = 259197 }, -- Loa-Blessed Rune
+		-- Weekly
+		{ quest = 93693, type = "weeklyQuest" },
+		{ quest = 95131, type = "weeklyTreatise", item = 245757 },
+		{ quest = 93536, type = "weeklyTreasure", item = 259196 }, -- Brilliant Phoenix Ink
+		{ quest = 93537, type = "weeklyTreasure", item = 259197 }, -- Loa-Blessed Rune
 
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3195 },
+		{ type = "catchup", currency = 3195 },
 	},
 	[2914] = { -- Midnight Jewelcrafting
 		-- Vendors
@@ -1009,12 +1201,14 @@ app.ProfessionKnowledge = {
 		{ quest = 89123, type = "world", item = 238581, zone = 2444 }, -- Speculative Voidstorm Crystal
 		{ quest = 89127, type = "world", item = 238585, zone = 2393 }, -- Vintage Soul Gem
 
-		-- Weekly treasures
-		{ quest = 93538, type = "weekly", item = 259198 }, -- Void-Touched Eversong Diamond Fragments
-		{ quest = 93539, type = "weekly", item = 259199 }, -- Harandar Stone Sample
+		-- Weekly
+		{ quest = 93694, type = "weeklyQuest" },
+		{ quest = 95133, type = "weeklyTreatise", item = 245760 },
+		{ quest = 93538, type = "weeklyTreasure", item = 259198 }, -- Void-Touched Eversong Diamond Fragments
+		{ quest = 93539, type = "weeklyTreasure", item = 259199 }, -- Harandar Stone Sample
 
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3194 },
+		{ type = "catchup", currency = 3194 },
 	},
 	[2915] = { -- Midnight Leatherworking
 		-- Vendors
@@ -1030,11 +1224,14 @@ app.ProfessionKnowledge = {
 		{ quest = 89093, type = "world", item = 238592, zone = 2444 }, -- Patterns: Beyond the Void
 		{ quest = 89091, type = "world", item = 238590, zone = 2437 }, -- Prestigiously Racked Hide
 
-		{ quest = 93540, type = "weekly", item = 259200 }, -- Amani Tanning Oil
-		{ quest = 93541, type = "weekly", item = 259201 }, -- Thalassian Mana Oil
+		-- Weekly
+		{ quest = 93695, type = "weeklyQuest" },
+		{ quest = 95134, type = "weeklyTreatise", item = 245758 },
+		{ quest = 93540, type = "weeklyTreasure", item = 259200 }, -- Amani Tanning Oil
+		{ quest = 93541, type = "weeklyTreasure", item = 259201 }, -- Thalassian Mana Oil
 
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3193 },
+		{ type = "catchup", currency = 3193 },
 	},
 	[2916] = { -- Midnight Mining
 		gathering = true,
@@ -1052,8 +1249,14 @@ app.ProfessionKnowledge = {
 		{ quest = 89145, type = "world", item = 238597, zone = 2437 }, -- Spelunker's Lucky Charm
 		{ quest = 89150, type = "world", item = 238602, zone = 2405 }, -- Star Metal Deposit
 
+		-- Weekly
+		{ quest = { 93705, 93706, 93707, 93708, 93709 }, type = "weeklyQuest" },
+		{ quest = { 88673, 88674, 88675, 88676, 88677 }, type = "weeklyGather", item = 237496 }, -- Igneous Rock Specimen
+		{ quest = 88678, type = "weeklyGather", item = 237506 }, -- Septarian Nodule
+		{ quest = 95135, type = "weeklyTreatise", item = 245762 },
+
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3192 },
+		{ type = "catchup", currency = 3192 },
 	},
 	[2917] = { -- Midnight Skinning
 		gathering = true,
@@ -1071,8 +1274,14 @@ app.ProfessionKnowledge = {
 		{ quest = 89173, type = "world", item = 238635, zone = 2395 }, -- Thalassian Skinning Knife
 		{ quest = 89169, type = "world", item = 238631, zone = 2444 }, -- Voidstorm Leather Sample
 
+		-- Weekly
+		{ quest = { 93710, 93711, 93712, 93713, 93714 }, type = "weeklyQuest" },
+		{ quest = { 88530, 88534, 88536, 88537, 88549 }, type = "weeklyGather", item = 238625 }, -- Fine Void-Tempered Hide
+		{ quest = 88529, type = "weeklyGather", item = 238626 }, -- Mana-Infused Bone
+		{ quest = 95136, type = "weeklyTreatise", item = 245828 },
+
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3191 },
+		{ type = "catchup", currency = 3191 },
 	},
 	[2918] = { -- Midnight Tailoring
 		-- Vendors
@@ -1088,10 +1297,13 @@ app.ProfessionKnowledge = {
 		{ quest = 89080, type = "world", item = 238614, zone = 2395 }, -- Sin'dorei Outfitter's Ruler
 		{ quest = 89081, type = "world", item = 238615, zone = 2413 }, -- Wooden Weaving Sword
 
-		{ quest = 93542, type = "weekly", item = 259202 }, -- Embroidered Memenro
-		{ quest = 93543, type = "weekly", item = 259203 }, -- Finely Woven Lynx Collar
+		-- Weekly
+		{ quest = 93696, type = "weeklyQuest" },
+		{ quest = 95137, type = "weeklyTreatise", item = 245756 },
+		{ quest = 93542, type = "weeklyTreasure", item = 259202 }, -- Embroidered Memenro
+		{ quest = 93543, type = "weeklyTreasure", item = 259203 }, -- Finely Woven Lynx Collar
 
 		-- Catchup knowledge
-		{ quest = 0, type = "catchup", currency = 3190 },
+		{ type = "catchup", currency = 3190 },
 	},
 }

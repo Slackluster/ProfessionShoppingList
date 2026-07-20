@@ -144,6 +144,9 @@ local L = app.locales
 -- L.RENOWN =                               COVENANT_SANCTUM_TAB_RENOWN -- "Renown "
 -- L.WORLD =                                "World"
 -- L.HIDDEN_PROFESSION_MASTER =             "Hidden Profession Master"
+-- L.WEEKLY =                               WEEKLY -- "Weekly"
+-- L.TREASURE =                             "Treasure"
+-- L.DROP =                                 BATTLE_PET_SOURCE_1 -- "Drop"
 -- L.CATCHUP_KNOWLEDGE =                    "Available catch-up knowledge:"
 -- L.LOADING =                              SEARCH_LOADING_TEXT -- "Loading..."
 
