@@ -297,6 +297,48 @@ function app:UpdateKnowledgeTracker()
 				end
 			end
 
+			-- Weekly Treasures
+			local hasWeeklyTreasureTooltipTextBeenAdded = false
+
+			for k, v in ipairs(app.ProfessionKnowledge[skillLineID]) do
+				-- Completion status
+				local icon = app.IconNotReady
+				if C_QuestLog.IsQuestFlaggedCompleted(v.quest) then
+					icon = app.IconReady
+				end
+
+				if v.type == "weekly" then
+					if not hasWeeklyTreasureTooltipTextBeenAdded then
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n\n" .. L.WEEKLY_TREASURES
+						hasWeeklyTreasureTooltipTextBeenAdded = true
+					end
+
+					-- Item link
+					local _, itemLink
+					if v.item then
+						-- Cache item
+						if not C_Item.IsItemDataCachedByID(v.item) then
+							C_Item.RequestLoadItemDataByID(v.item)
+							local item = Item:CreateFromItemID(v.item)
+
+							item:ContinueOnItemLoad(function()
+								kpTooltip()
+							end)
+
+							return
+						end
+
+						-- Item link
+						_, itemLink = C_Item.GetItemInfo(v.item)
+					else
+						itemLink = L.HIDDEN_PROFESSION_MASTER
+					end
+
+					-- Add text
+					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. itemLink
+				end
+			end
+
 			-- Catchup knowledge
 			for k, v in ipairs(app.ProfessionKnowledge[skillLineID]) do
 				if v.type == "catchup" then
