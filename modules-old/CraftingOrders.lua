@@ -783,7 +783,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 					app.OrderAdjustments[v].conc:Hide()
 
 					local concInfo = C_TradeSkillUI.GetCraftingOperationInfo(app.OrderInfo[key].spellID, concReagents, nil, false)
-					if concInfo.craftingQuality < data.option.minQuality then
+					if concInfo and concInfo.craftingQuality < data.option.minQuality then
 						app.OrderInfo[key].concentrationCost = concInfo.concentrationCost
 
 						app.OrderAdjustments[v].conc.Text:SetText(concInfo.concentrationCost)
