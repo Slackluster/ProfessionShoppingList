@@ -885,6 +885,10 @@ app.ProfessionKnowledge = {
 		{ quest = 89112, type = "world", item = 238533, zone = 2444 }, -- Vial of Voidstorm Oddities
 		{ quest = 89114, type = "world", item = 238535, zone = 2437 }, -- Vial of Zul'Aman Oddities
 
+		-- Weekly treasures
+		{ quest = 93528, type = "weekly", item = 259188 }, -- Lightbloomed Spore Sample
+		{ quest = 93529, type = "weekly", item = 259189 }, -- Aged Cruor
+
 		-- Catchup knowledge
 		{ quest = 0, type = "catchup", currency = 3189 },
 	},
@@ -901,6 +905,10 @@ app.ProfessionKnowledge = {
 		{ quest = 89178, type = "world", item = 238541, zone = 2395 }, -- Silvermoon Smithing Kit
 		{ quest = 89183, type = "world", item = 238546, zone = 2393 }, -- Sin'dorei Master's Forgemace
 		{ quest = 89181, type = "world", item = 238544, zone = 2444 }, -- Voidstorm Defense Spear
+
+		-- Weekly treasures
+		{ quest = 93530, type = "weekly", item = 259190 }, -- Thalassian Whetstone
+		{ quest = 93531, type = "weekly", item = 259191 }, -- Infused Quenching Oil
 
 		-- Catchup knowledge
 		{ quest = 0, type = "catchup", currency = 3199 },
@@ -919,6 +927,10 @@ app.ProfessionKnowledge = {
 		{ quest = 89105, type = "world", item = 238553, zone = 2413 }, -- Primal Essence Orb
 		{ quest = 89102, type = "world", item = 238550, zone = 2405 }, -- Pure Void Crystal
 		{ quest = 89107, type = "world", item = 238555, zone = 2395 }, -- Sin'dorei Enchanting Rod
+		
+		-- Weekly treasures
+		{ quest = 93532, type = "weekly", item = 259192 }, -- Voidstorm Ashes
+		{ quest = 93533, type = "weekly", item = 259193 }, -- Lost Thalassian Vellum
 
 		-- Catchup knowledge
 		{ quest = 0, type = "catchup", currency = 3198 },
@@ -936,6 +948,10 @@ app.ProfessionKnowledge = {
 		{ quest = 89138, type = "world", item = 238561, zone = 2536 }, -- Offline Helper Bot
 		{ quest = 89133, type = "world", item = 238556, zone = 2393 }, -- One Engineer's Junk
 		{ quest = 89139, type = "world", item = 238562, zone = 2393 }, -- What To Do When Nothing Works
+
+		-- Weekly treasures
+		{ quest = 93534, type = "weekly", item = 259194 }, -- Dance Gear
+		{ quest = 93535, type = "weekly", item = 259195 }, -- Dawn Capacitor
 
 		-- Catchup knowledge
 		{ quest = 0, type = "catchup", currency = 3197 },
@@ -972,6 +988,10 @@ app.ProfessionKnowledge = {
 		{ quest = 89069, type = "world", item = 238574, zone = 2395 }, -- Spare Ink
 		{ quest = 89067, type = "world", item = 238572, zone = 2444 }, -- Void-Touched Quill
 
+		-- Weekly treasures
+		{ quest = 93536, type = "weekly", item = 259196 }, -- Brilliant Phoenix Ink
+		{ quest = 93537, type = "weekly", item = 259197 }, -- Loa-Blessed Rune
+
 		-- Catchup knowledge
 		{ quest = 0, type = "catchup", currency = 3195 },
 	},
@@ -989,6 +1009,10 @@ app.ProfessionKnowledge = {
 		{ quest = 89123, type = "world", item = 238581, zone = 2444 }, -- Speculative Voidstorm Crystal
 		{ quest = 89127, type = "world", item = 238585, zone = 2393 }, -- Vintage Soul Gem
 
+		-- Weekly treasures
+		{ quest = 93538, type = "weekly", item = 259198 }, -- Void-Touched Eversong Diamond Fragments
+		{ quest = 93539, type = "weekly", item = 259199 }, -- Harandar Stone Sample
+
 		-- Catchup knowledge
 		{ quest = 0, type = "catchup", currency = 3194 },
 	},
@@ -1005,6 +1029,9 @@ app.ProfessionKnowledge = {
 		{ quest = 89094, type = "world", item = 238593, zone = 2413 }, -- Haranir Leatherworking Mallet
 		{ quest = 89093, type = "world", item = 238592, zone = 2444 }, -- Patterns: Beyond the Void
 		{ quest = 89091, type = "world", item = 238590, zone = 2437 }, -- Prestigiously Racked Hide
+
+		{ quest = 93540, type = "weekly", item = 259200 }, -- Amani Tanning Oil
+		{ quest = 93541, type = "weekly", item = 259201 }, -- Thalassian Mana Oil
 
 		-- Catchup knowledge
 		{ quest = 0, type = "catchup", currency = 3193 },
@@ -1060,6 +1087,9 @@ app.ProfessionKnowledge = {
 		{ quest = 89083, type = "world", item = 238617, zone = 2444 }, -- Satin Throw Pillow
 		{ quest = 89080, type = "world", item = 238614, zone = 2395 }, -- Sin'dorei Outfitter's Ruler
 		{ quest = 89081, type = "world", item = 238615, zone = 2413 }, -- Wooden Weaving Sword
+
+		{ quest = 93542, type = "weekly", item = 259202 }, -- Embroidered Memenro
+		{ quest = 93543, type = "weekly", item = 259203 }, -- Finely Woven Lynx Collar
 
 		-- Catchup knowledge
 		{ quest = 0, type = "catchup", currency = 3190 },
