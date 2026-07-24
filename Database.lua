@@ -799,7 +799,7 @@ app.ProfessionKnowledge = {
 
 		-- Weekly
 		{ quest = { 84084, 84085, 84086 }, type = "weeklyQuest" },
-		{ quest = { 84290, 84291, 84292, 84293, 84294, 84295 }, type = "weeklyGather", item = 227659 }, -- Fleeting Arcane Manifestation
+		{ quest = { 84290, 84291, 84292, 84293, 84294 }, type = "weeklyGather", item = 227659 }, -- Fleeting Arcane Manifestation
 		{ quest = 84295, type = "weeklyGather", item = 227661 }, -- Gleaming Telluric Crystal
 		{ quest = 83727, type = "weeklyTreatise", item = 222550 },
 		{ quest = 83259, type = "weeklyDrop", item = 225230 }, -- Crystalline Repository
@@ -860,7 +860,7 @@ app.ProfessionKnowledge = {
 
 		-- Weekly
 		{ quest = { 82916, 82958, 82962, 82965, 82970, }, type = "weeklyQuest" },
-		{ quest = { 81416, 81417, 81418, 81419, 81420, 81421 }, type = "weeklyGather", item = 224264 }, -- Deepgrove Rose Petal
+		{ quest = { 81416, 81417, 81418, 81419, 81420 }, type = "weeklyGather", item = 224264 }, -- Deepgrove Rose Petal
 		{ quest = 81421, type = "weeklyGather", item = 224265 }, -- Deepgrove Rose
 		{ quest = 83729, type = "weeklyTreatise", item = 222552 },
 
