@@ -25,6 +25,9 @@ app.Event:Register("MERCHANT_SHOW", function()
 	local function TrackMerchantItem()
 		if IsAltKeyDown() then
 			local merchant = MerchantFrameTitleText:GetText()
+			if issecretvalue(merchant) then
+				merchant = "secret"
+			end
 			local itemID = app.TooltipItemID
 
 			local vendorIndex = 0
