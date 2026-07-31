@@ -40,10 +40,13 @@ app.Event:Register("AUCTION_HOUSE_CLOSED", function(addOnName, containsBindings)
 	end
 end)
 
-function app:SearchAH(itemLink)
+function app:SendLinkToSearch(itemLink)
 	if app.Flag.AuctionHouseIsOpen then
 		local query = { sorts = { sortOrder = Enum.AuctionHouseSortOrder.Price, reverseSort = false }, filters = {}, searchString = C_Item.GetItemInfo(itemLink) }
 		C_AuctionHouse.SendBrowseQuery(query)
+	elseif ProfessionsCustomerOrdersFrame and ProfessionsCustomerOrdersFrame:IsShown() then
+		ProfessionsCustomerOrdersFrame.BrowseOrders.SearchBar.SearchBox:SetText(C_Item.GetItemInfo(itemLink))
+		ProfessionsCustomerOrdersFrame.BrowseOrders:StartSearch(false)
 	end
 end
 
