@@ -89,8 +89,16 @@ function app:UpdateOrdersQueue()
 	C_Timer.After(0.2, function()
 		if app.OrderState == app.Enum.OrderState.Idle then
 			app.QueuedOrders = {}
+
+			local trackedType = 9
+			if ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
+				trackedType = Enum.CraftingOrderType.Npc
+			elseif ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected then
+				trackedType = Enum.CraftingOrderType.Personal
+			end
+
 			for key, recipe in pairs(ProfessionShoppingList_Data.Recipes) do
-				if recipe and recipe.professionID == professionID and recipe.orderID and app.OrderInfo[key] and app.OrderInfo[key].view.orderType == Enum.CraftingOrderType.Npc and C_CurrencyInfo.GetCurrencyInfo(concID).quantity > app.OrderInfo[key].concentrationCost then
+				if recipe and recipe.professionID == professionID and recipe.orderID and app.OrderInfo[key] and app.OrderInfo[key].view.orderType == trackedType and C_CurrencyInfo.GetCurrencyInfo(concID).quantity > app.OrderInfo[key].concentrationCost then
 					table.insert(app.QueuedOrders, app.OrderInfo[key])
 				end
 			end

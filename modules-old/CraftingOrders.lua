@@ -277,27 +277,35 @@ function app:CreateProfessionsOrdersAssets()
 		app.TrackOrdersButton:SetPoint("LEFT", ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "RIGHT", 6, 0)
 		app.TrackOrdersButton:SetScript("OnClick", function()
 			local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
-			for key, orderInfo in pairs(app.OrderInfo) do
-				if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] and skillLineID == orderInfo.skillLineID and orderInfo.view.orderType == Enum.CraftingOrderType.Npc then
-					local profit = 1
-					if C_AddOns.IsAddOnLoaded("Auctionator") then
-						profit = orderInfo.profit
-						for tradeSkillLineID, knowledge in pairs(orderInfo.knowledge) do
-							if ProfessionShoppingList_CharacterData.Queue.Knowledge[tradeSkillLineID] then
-								profit = profit + (knowledge * (app.Settings["craftingOrders"].knowledgeCost * 10000))
+			if ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
+				for key, orderInfo in pairs(app.OrderInfo) do
+					if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] and skillLineID == orderInfo.skillLineID and orderInfo.view.orderType == Enum.CraftingOrderType.Npc then
+						local profit = 1
+						if C_AddOns.IsAddOnLoaded("Auctionator") then
+							profit = orderInfo.profit
+							for tradeSkillLineID, knowledge in pairs(orderInfo.knowledge) do
+								if ProfessionShoppingList_CharacterData.Queue.Knowledge[tradeSkillLineID] then
+									profit = profit + (knowledge * (app.Settings["craftingOrders"].knowledgeCost * 10000))
+								end
 							end
+							profit = profit + (orderInfo.artisan * (app.Settings["craftingOrders"].artisanCost * 10000))
+							profit = profit + (orderInfo.payout * (app.Settings["craftingOrders"].payoutCost * 10000))
 						end
-						profit = profit + (orderInfo.artisan * (app.Settings["craftingOrders"].artisanCost * 10000))
-						profit = profit + (orderInfo.payout * (app.Settings["craftingOrders"].payoutCost * 10000))
-					end
 
-					if profit >= 0 and (ProfessionShoppingList_CharacterData.Queue.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings["craftingOrders"].trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) and orderInfo.expirationTime > GetServerTime() then
+						if profit >= 0 and (ProfessionShoppingList_CharacterData.Queue.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings["craftingOrders"].trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) and orderInfo.expirationTime > GetServerTime() then
+							api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
+						end
+					end
+				end
+				if app.OrdersQueue and app.OrdersQueue:IsShown() then
+					app:UpdateOrdersQueue()
+				end
+			elseif ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected then
+				for key, orderInfo in pairs(app.OrderInfo) do
+					if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] and orderInfo.view.orderType == Enum.CraftingOrderType.Personal then
 						api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
 					end
 				end
-			end
-			if app.OrdersQueue and app.OrdersQueue:IsShown() then
-				app:UpdateOrdersQueue()
 			end
 		end)
 		app.TrackOrdersButton:Hide()
@@ -345,7 +353,7 @@ function app:CreateProfessionsOrdersAssets()
 		end
 
 		hooksecurefunc(ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton, "SetTabSelected", function()
-			if app.Settings["enhancedOrders"] and ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
+			if app.Settings["enhancedOrders"] and (ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected or ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected) then
 				app.TrackOrdersButton:Show()
 				sortOrders()
 			else
@@ -356,6 +364,14 @@ function app:CreateProfessionsOrdersAssets()
 		ProfessionsFrame.OrdersPage:HookScript("OnShow", function()
 			if app.Settings["enhancedOrders"] and ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
 				sortOrders()
+			end
+		end)
+
+		hooksecurefunc(ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "SetTabSelected", function()
+			if app.Settings["enhancedOrders"] and (ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected or ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected) then
+				app.TrackOrdersButton:Show()
+			else
+				app.TrackOrdersButton:Hide()
 			end
 		end)
 
