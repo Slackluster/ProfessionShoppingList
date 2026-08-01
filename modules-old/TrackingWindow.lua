@@ -1983,7 +1983,16 @@ function app:GetReagentCount(reagentID)
 	local simulatedReagents = {}
 	for k, v in pairs(ProfessionShoppingList_Cache.SimulatedRecipes) do
 		for k2, v2 in pairs(v) do
-			simulatedReagents[k2] = v2
+			simulatedReagents[k2] = simulatedReagents[k2] or 0
+			simulatedReagents[k2] = simulatedReagents[k2] + v2
+		end
+	end
+	for k, v in pairs(ProfessionShoppingList_Cache.FakeRecipes) do
+		if v.costItems then
+			for k2, v2 in pairs(v.costItems) do
+				simulatedReagents[k2] = simulatedReagents[k2] or 0
+				simulatedReagents[k2] = simulatedReagents[k2] + v2
+			end
 		end
 	end
 
