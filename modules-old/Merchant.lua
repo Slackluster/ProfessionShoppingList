@@ -170,7 +170,7 @@ app.Event:Register("CHAT_MSG_LOOT", function(text, playerName, languageName, cha
 	if issecretvalue(text) then return end
 	local trackingVendorRecipes = false
 	for key, _ in pairs(ProfessionShoppingList_Data.Recipes) do
-		if key:match("^vendor:") then
+		if type(key) == "string" and key:match("^vendor:") then
 			trackingVendorRecipes = true
 			break
 		end
