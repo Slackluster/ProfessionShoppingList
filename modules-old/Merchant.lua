@@ -22,6 +22,7 @@ end)
 -----------------------
 
 app.Event:Register("MERCHANT_SHOW", function()
+	app.Flag.MerchantOpen = true
 	local function TrackMerchantItem()
 		if IsAltKeyDown() then
 			local merchant = MerchantFrameTitleText:GetText()
@@ -159,3 +160,36 @@ function app:MoveTSMButton()
 		end
 	end)
 end
+
+app.Event:Register("MERCHANT_CLOSED", function()
+	app.Flag.MerchantOpen = false
+end)
+
+app.Event:Register("CHAT_MSG_LOOT", function(text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons)
+	if not app.Flag.MerchantOpen then return end
+	if issecretvalue(text) then return end
+	local trackingVendorRecipes = false
+	for key, _ in pairs(ProfessionShoppingList_Data.Recipes) do
+		if key:match("^vendor:") then
+			trackingVendorRecipes = true
+			break
+		end
+	end
+	if not trackingVendorRecipes then return end
+
+	local itemString = string.match(text, "(|cnIQ.-|h%[.-%]|h)")
+	local quantity = tonumber(text:match("|h|rx(%d+)$")) or 1
+	if itemString then
+		local itemID = C_Item.GetItemInfoInstant(itemString)
+
+		for key, itemInfo in pairs(ProfessionShoppingList_Data.Recipes) do
+			if type(key) == "string" and key:match("^vendor:") then
+				local trackedItemID = C_Item.GetItemInfoInstant(itemInfo.link)
+				if itemID == trackedItemID then
+					api:UntrackRecipe(key, quantity)
+					break
+				end
+			end
+		end
+	end
+end)
