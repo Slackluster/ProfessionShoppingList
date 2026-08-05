@@ -276,6 +276,7 @@ function app:CreateProfessionsOrdersAssets()
 		app.TrackOrdersButton = app:MakeButton(ProfessionsFrame.OrdersPage.BrowseFrame, L.TRACK)
 		app.TrackOrdersButton:SetPoint("LEFT", ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "RIGHT", 6, 0)
 		app.TrackOrdersButton:SetScript("OnClick", function()
+			if not app.OrderInfo then return end
 			local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 			if ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
 				for key, orderInfo in pairs(app.OrderInfo) do
