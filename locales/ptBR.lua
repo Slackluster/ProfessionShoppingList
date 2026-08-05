@@ -169,6 +169,7 @@ local L = app.locales
 -- L.ORDERSQUEUE_CRAFT =                    "Craft Order"
 -- L.ORDERSQUEUE_CRAFTING =                 "Crafting..."
 -- L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
+-- L.ORDERSQUEUE_WARNING_QUEST =            "You have not picked up %s" -- %s becomes a quest name
 
 -- Chat feedback
 -- L.INVALID_PARAMETERS =                   "Invalid parameters."

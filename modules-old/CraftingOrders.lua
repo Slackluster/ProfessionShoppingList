@@ -298,7 +298,7 @@ function app:CreateProfessionsOrdersAssets()
 						end
 					end
 				end
-				if app.OrdersQueue and app.OrdersQueue:IsShown() then
+				if app.OrdersQueueFrame and app.OrdersQueueFrame:IsShown() then
 					app:UpdateOrdersQueue()
 				end
 			elseif ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected then
@@ -683,7 +683,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 			if app.OrderState ~= app.Enum.OrderState.Idle then
 				app.OrderState = app.Enum.OrderState.Idle
 				app:Debug("app.Enum.OrderState.Idle 4")
-				if app.OrdersQueue and app.OrdersQueue:IsShown() then
+				if app.OrdersQueueFrame and app.OrdersQueueFrame:IsShown() then
 					app:UpdateOrdersQueue()
 				end
 			end
