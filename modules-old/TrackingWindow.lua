@@ -349,6 +349,7 @@ end
 
 -- Update numbers tracked
 function app:UpdateNumbers()
+	app.Flag.HaveAllReagents = true
 	-- Update reagents tracked
 	for reagentID, amount in pairs(app.ReagentQuantities) do
 		local itemLink, fileID, icon
@@ -393,6 +394,7 @@ function app:UpdateNumbers()
 				itemLink = string.gsub(itemLink, "cnIQ6", "cnIQ0") -- Artifact
 			-- Make the icon an arrow if it is a subreagent, but not at 0 needed
 			else
+				app.Flag.HaveAllReagents = false
 				for k, v in pairs(ProfessionShoppingList_Data.Recipes) do
 					local lookupReagentID = reagentID
 					if ProfessionShoppingList_Cache.ReagentTiers[reagentID] then lookupReagentID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].one end
@@ -420,6 +422,8 @@ function app:UpdateNumbers()
 				itemIcon = app.IconReady
 				colour = "|cff9d9d9d"
 				itemLink = colour .. itemLink
+			else
+				app.Flag.HaveAllReagents = false
 			end
 
 			-- Set the displayed amount based on settings
@@ -443,6 +447,8 @@ function app:UpdateNumbers()
 				itemLink = string.gsub(itemLink, "cnIQ4", "cnIQ0") -- Epic
 				itemLink = string.gsub(itemLink, "cnIQ5", "cnIQ0") -- Legendary
 				itemLink = string.gsub(itemLink, "cnIQ6", "cnIQ0") -- Artifact
+			else
+				app.Flag.HaveAllReagents = false
 			end
 
 			-- Set the displayed amount based on settings
