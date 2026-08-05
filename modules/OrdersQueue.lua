@@ -115,6 +115,9 @@ function app:UpdateOrdersQueue()
 	local concID = C_TradeSkillUI.GetConcentrationCurrencyID(skillLineID)
 	app.OrderState = app.OrderState or app.Enum.OrderState.Idle
 
+	app.OrdersQueueFrame.Warning:Hide()
+	app.OrdersQueueFrame.Warning.Animation:Stop()
+
 	app.OrdersQueueFrame.Button:SetScript("OnClick", function() end)
 	C_Timer.After(0.2, function()
 		local questID
@@ -134,10 +137,6 @@ function app:UpdateOrdersQueue()
 			app.OrdersQueueFrame.Warning.Text = L.ORDERSQUEUE_WARNING_REAGENTS
 			app.OrdersQueueFrame.Warning:Show()
 			app.OrdersQueueFrame.Warning.Animation:Play()
-		else
-			app.OrdersQueueFrame.Warning.Text = ""
-			app.OrdersQueueFrame.Warning:Hide()
-			app.OrdersQueueFrame.Warning.Animation:Stop()
 		end
 
 		if app.OrderState == app.Enum.OrderState.Idle then
