@@ -127,7 +127,7 @@ function app:UpdateOrdersQueue()
 			end
 		end
 		if questID and not C_QuestLog.IsQuestFlaggedCompleted(questID) and not C_QuestLog.IsOnQuest(questID) then
-			app.OrdersQueueFrame.Warning.Text = "|cffFFFFFF" .. string.format(L.ORDERSQUEUE_WARNING_QUEST, ("|R|Hquest:0|h[%s]|h"):format(C_QuestLog.GetTitleForQuestID(questID)))
+			app.OrdersQueueFrame.Warning.Text = "|cffFFFFFF" .. string.format(L.ORDERSQUEUE_WARNING_QUEST, ("|R|Hquest:0|h[%s]|h|cffFFFFFF"):format(C_QuestLog.GetTitleForQuestID(questID)))
 			app.OrdersQueueFrame.Warning:Show()
 			app.OrdersQueueFrame.Warning.Animation:Play()
 		elseif not app.Flag.HaveAllReagents then

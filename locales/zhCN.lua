@@ -169,7 +169,7 @@ L.ORDERSQUEUE_CLAIM =                    "开始接单"
 L.ORDERSQUEUE_CRAFT =                    "制作订单"
 L.ORDERSQUEUE_CRAFTING =                 "制作中..."
 L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
--- L.ORDERSQUEUE_WARNING_QUEST =            "You have not picked up %s" -- %s becomes a quest name
+-- L.ORDERSQUEUE_WARNING_QUEST =            "You have not picked up %s." -- %s becomes a quest name
 -- L.ORDERSQUEUE_WARNING_REAGENTS =         "You do not have enough reagents for all tracked recipes."
 
 -- Chat feedback
