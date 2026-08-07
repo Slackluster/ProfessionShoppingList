@@ -151,10 +151,11 @@ local L = app.locales
 -- L.LOADING =                              SEARCH_LOADING_TEXT -- "Loading..."
 
 -- Order adjustments
--- L.ORDERS_SCAN_NEEDED =                   "Scan needed"
--- L.ORDERS_DO_SCAN =                       "Do a full scan with Auctionator for profit calculations."
+-- L.AUCTION_ADDONS =                       "Auctionator, Oribos Exchange, or TradeSkillMaster"
+-- L.ORDERS_PRICING_MISSING =               "Missing"
+-- L.ORDERS_PRICING_UPDATE =                "Update or scan with %s." -- %s becomes a list of addon names
 -- L.ORDERS_SET_CRITERIA =                  "Set the criteria to track orders."
--- L.ORDERS_COST_NEED =                     "Cost settings only work with Auctionator enabled."
+-- L.ORDERS_COST_NEED =                     "Cost settings only work with: %s." -- %s becomes a list of addon names
 -- L.ORDERS_MAX_COST_KNOWLEDGE =            "Maximum cost per knowledge point:"
 -- L.ORDERS_MAX_COST_ARTISAN =              "Maximum cost per artisan currency:" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
 -- L.ORDERS_MAX_COST_PAYOUT =               "Maximum cost per reward bag:" -- This refers to Artisan's Payout bag

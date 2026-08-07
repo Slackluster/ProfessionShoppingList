@@ -151,10 +151,11 @@ L.CATCHUP_KNOWLEDGE =                    "可用追赶知识："
 L.LOADING =                              SEARCH_LOADING_TEXT -- "Loading..."
 
 -- Order adjustments
-L.ORDERS_SCAN_NEEDED =                   "需要扫描"
-L.ORDERS_DO_SCAN =                       "使用 Auctionator 进行完整扫描以计算利润。"
+-- L.AUCTION_ADDONS =                       "Auctionator, Oribos Exchange, or TradeSkillMaster"
+-- L.ORDERS_PRICING_MISSING =               "Missing"
+-- L.ORDERS_PRICING_UPDATE =                "Update or scan with %s." -- %s becomes a list of addon names
 L.ORDERS_SET_CRITERIA =                  "设置追踪订单的标准。"
-L.ORDERS_COST_NEED =                     "成本设置仅在启用 Auctionator 时有效。"
+-- L.ORDERS_COST_NEED =                     "Cost settings only work with: %s." -- %s becomes a list of addon names
 L.ORDERS_MAX_COST_KNOWLEDGE =            "每个知识点的最大成本："
 L.ORDERS_MAX_COST_ARTISAN =              "每份工匠货币的最大成本：" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
 L.ORDERS_MAX_COST_PAYOUT =               "每个奖励袋的最大成本：" -- This refers to Artisan's Payout bag

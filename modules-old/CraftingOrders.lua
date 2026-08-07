@@ -282,7 +282,7 @@ function app:CreateProfessionsOrdersAssets()
 				for key, orderInfo in pairs(app.OrderInfo) do
 					if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] and skillLineID == orderInfo.skillLineID and orderInfo.view.orderType == Enum.CraftingOrderType.Npc then
 						local profit = 1
-						if C_AddOns.IsAddOnLoaded("Auctionator") then
+						if app.Flag.IsAuctionAddonLoaded then
 							profit = orderInfo.profit
 							for tradeSkillLineID, knowledge in pairs(orderInfo.knowledge) do
 								if ProfessionShoppingList_CharacterData.Queue.Knowledge[tradeSkillLineID] then
@@ -390,7 +390,7 @@ function app:CreateProfessionsOrdersAssets()
 		local text0 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		text0:SetPoint("TOPLEFT", app.TrackOrdersSettings, "TOPLEFT", 10, -30)
 		text0:SetJustifyH("LEFT")
-		text0:SetText(L.ORDERS_SET_CRITERIA .. "\n" .. L.ORDERS_COST_NEED)
+		text0:SetText(L.ORDERS_SET_CRITERIA .. " " .. string.format(L.ORDERS_COST_NEED, "\n" .. L.AUCTION_ADDONS))
 
 		local text1 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		text1:SetPoint("TOPLEFT", text0, "BOTTOMLEFT", 0, -10)
@@ -658,6 +658,7 @@ end)
 app.Event:Register("TRADE_SKILL_SHOW", function()
 	if not InCombatLockdown() then
 		if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
+			app:IsAuctionAddonLoaded()
 			app:CreateProfessionsOrdersAssets()
 		end
 	end
@@ -819,7 +820,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 					v.cells[5].Text:SetPoint("BOTTOMRIGHT", v.cells[5], -15, 0)
 
 					-- Order profit
-					if C_AddOns.IsAddOnLoaded("Auctionator") then -- Requires Auctionator
+					if app.Flag.IsAuctionAddonLoaded then
 						v.cells[3].TipMoneyDisplayFrame:Hide()
 
 						local calculations = {}
@@ -829,20 +830,20 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						for _, reagent in pairs(neededReagents) do
 							if reagent.count > 0 then
 								local prices = {}
-								table.insert(prices, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, reagent.itemID))
+								table.insert(prices, app:ItemValue(reagent.itemID))
 								if ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID] and ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].one then
-									table.insert(prices, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].one))
+									table.insert(prices, app:ItemValue(ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].one))
 								end
 								if ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID] and ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].two then
-									table.insert(prices, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].two))
+									table.insert(prices, app:ItemValue(ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].two))
 								end
 								if ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID] and ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].three then
-									table.insert(prices, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].three))
+									table.insert(prices, app:ItemValue(ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].three))
 								end
 
 								local min = 10000000000
 								for _, value in ipairs(prices) do
-									if value < min then
+									if value < min and value ~= 0 then
 										min = value
 									end
 								end
@@ -881,7 +882,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 									C_Timer.After(0.1, doTheThing)
 									return
 								end
-								table.insert(calculations, {type = "reward", icon = fileID, link = itemLink, quantity = 0, amount = Auctionator.API.v1.GetAuctionPriceByItemLink(app.Name, itemLink)})
+								table.insert(calculations, {type = "reward", icon = fileID, link = itemLink, quantity = 0, amount = app:ItemValue(itemID)})
 								local rewardItem = app.CraftingOrderRewards.items[itemID]
 								addRewards(rewardItem, reward)
 							elseif reward.currencyType then
@@ -917,7 +918,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						app.OrderAdjustments[v].rewardText:SetPoint("BOTTOMRIGHT", v.cells[3], -10, 0)
 
 						if needScan then
-							app.OrderAdjustments[v].rewardText:SetText(app:Colour(L.ORDERS_SCAN_NEEDED))
+							app.OrderAdjustments[v].rewardText:SetText(app:Colour(L.ORDERS_PRICING_MISSING))
 						elseif roundedCommissionResult < 0 then
 							app.OrderAdjustments[v].rewardText:SetText("|cffFF0000- " .. C_CurrencyInfo.GetCoinTextureString(-roundedCommissionResult))
 						elseif allProvided then
@@ -930,7 +931,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							GameTooltip:ClearLines()
 
 							if needScan then
-								GameTooltip:AddLine(L.ORDERS_DO_SCAN)
+								GameTooltip:AddLine(string.format(app:Colour(L.ORDERS_PRICING_UPDATE), L.AUCTION_ADDONS))
 							else
 								-- Header
 								if commissionResult >= 0 then
@@ -1088,3 +1089,43 @@ end)
 app.Event:Register("TRADE_SKILL_CLOSE", function()
 	if app.TrackOrdersSettings then app.TrackOrdersSettings:Hide() end
 end)
+
+----------------------
+-- HELPER FUNCTIONS --
+----------------------
+
+function app:IsAuctionAddonLoaded()
+	if app.Flag.IsAuctionAddonLoaded ~= nil then return end
+	if C_AddOns.IsAddOnLoaded("Auctionator") or C_AddOns.IsAddOnLoaded("OribosExchange") or C_AddOns.IsAddOnLoaded("TradeSkillMaster") then
+		app.Flag.IsAuctionAddonLoaded = true
+	else
+		app.Flag.IsAuctionAddonLoaded = false
+	end
+end
+
+function app:ItemValue(itemID)
+	if not itemID or itemID == 0 then return 0 end
+
+	local price = {}
+	if C_AddOns.IsAddOnLoaded("TradeSkillMaster") then
+		local itemString = "i:" .. itemID
+		table.insert(price, TSM_API.GetCustomPriceValue("dbregionmarketavg", itemString) or 0)
+		table.insert(price, TSM_API.GetCustomPriceValue("dbmarket", itemString) or 0)
+	end
+	if C_AddOns.IsAddOnLoaded("Auctionator") then
+		table.insert(price, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, itemID) or 0)
+	end
+	if C_AddOns.IsAddOnLoaded("OribosExchange") then
+		local oeData = {}
+		OEMarketInfo(itemID, oeData)
+		table.insert(price, oeData.region or 0)
+		table.insert(price, oeData.market or 0)
+	end
+
+	for _, value in ipairs(price) do
+		if value > 0 then
+			return value
+		end
+	end
+	return 0
+end

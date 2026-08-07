@@ -151,10 +151,11 @@ L.CATCHUP_KNOWLEDGE =                    "Connaissances de rattrapage disponible
 L.LOADING =                              SEARCH_LOADING_TEXT -- "Loading..."
 
 -- Order adjustments
-L.ORDERS_SCAN_NEEDED =                   "Analyse nécessaire"
-L.ORDERS_DO_SCAN =                       "Effectuez une analyse complète avec Auctionator pour calculer les profits."
+-- L.AUCTION_ADDONS =                       "Auctionator, Oribos Exchange, or TradeSkillMaster"
+-- L.ORDERS_PRICING_MISSING =               "Missing"
+-- L.ORDERS_PRICING_UPDATE =                "Update or scan with %s." -- %s becomes a list of addon names
 L.ORDERS_SET_CRITERIA =                  "Définir les critères de suivi des commandes."
-L.ORDERS_COST_NEED =                     "Les paramètres de coût ne fonctionnent que si Auctionator est activé."
+-- L.ORDERS_COST_NEED =                     "Cost settings only work with: %s." -- %s becomes a list of addon names
 L.ORDERS_MAX_COST_KNOWLEDGE =            "Coût maximal par point de connaissance :"
 L.ORDERS_MAX_COST_ARTISAN =              "Coût maximal par unité de monnaie d'artisan :" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
 L.ORDERS_MAX_COST_PAYOUT =               "Coût maximal par sac de récompense :" -- This refers to Artisan's Payout bag
