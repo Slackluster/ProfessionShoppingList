@@ -151,11 +151,11 @@ L.CATCHUP_KNOWLEDGE =                    "Доступные дополните�
 L.LOADING =                              SEARCH_LOADING_TEXT -- "Loading..."
 
 -- Order adjustments
--- L.AUCTION_ADDONS =                       "Auctionator, Oribos Exchange, or TradeSkillMaster"
--- L.ORDERS_PRICING_MISSING =               "Missing"
--- L.ORDERS_PRICING_UPDATE =                "Update or scan with %s." -- %s becomes a list of addon names
+L.AUCTION_ADDONS =                       "Auctionator, Oribos Exchange или TradeSkillMaster"
+L.ORDERS_PRICING_MISSING =               "Отсутствует"
+L.ORDERS_PRICING_UPDATE =                "Обновите или просканируйте с помощью %s." -- %s becomes a list of addon names
 L.ORDERS_SET_CRITERIA =                  "Задайте критерии для отслеживания заказов."
--- L.ORDERS_COST_NEED =                     "Cost settings only work with: %s." -- %s becomes a list of addon names
+L.ORDERS_COST_NEED =                     "Настройки стоимости работают только с: %s." -- %s becomes a list of addon names
 L.ORDERS_MAX_COST_KNOWLEDGE =            "Макс. стоимость за одно очко знаний:"
 L.ORDERS_MAX_COST_ARTISAN =              "Макс. стоимость за ремесленную валюту:" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
 L.ORDERS_MAX_COST_PAYOUT =               "Макс. стоимость за сумку с наградой:" -- This refers to Artisan's Payout bag
@@ -170,8 +170,8 @@ L.ORDERSQUEUE_CLAIM =                    "Принять заказ"
 L.ORDERSQUEUE_CRAFT =                    "Изготовить"
 L.ORDERSQUEUE_CRAFTING =                 "Изготовление..."
 L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
--- L.ORDERSQUEUE_WARNING_QUEST =            "You have not picked up %s." -- %s becomes a quest name
--- L.ORDERSQUEUE_WARNING_REAGENTS =         "You do not have enough reagents for all tracked recipes."
+L.ORDERSQUEUE_WARNING_QUEST =            "Вы не взяли %s." -- %s becomes a quest name
+L.ORDERSQUEUE_WARNING_REAGENTS =         "У вас недостаточно реагентов для всех отслеживаемых рецептов."
 
 -- Chat feedback
 L.INVALID_PARAMETERS =                   "Неверные параметры."
