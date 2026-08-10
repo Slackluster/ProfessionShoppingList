@@ -157,10 +157,8 @@ function app:CreateTradeskillAssets()
 			GameTooltip:Hide()
 		end)
 
-		-- Move the button if CraftScan or TestFlight + a price source is enabled, because we're nice
-		if C_AddOns.IsAddOnLoaded("CraftScan") or
-		(C_AddOns.IsAddOnLoaded("TestFlight") and (C_AddOns.IsAddOnLoaded("TradeSkillMaster") or C_AddOns.IsAddOnLoaded("Auctionator") or C_AddOns.IsAddOnLoaded("RECrystallize") or C_AddOns.IsAddOnLoaded("OribosExchange") or C_AddOns.IsAddOnLoaded("Auctioneer"))) or
-		C_AddOns.IsAddOnLoaded("Mass_Salvage_Assist") then
+		if ((C_AddOns.IsAddOnLoaded("CraftScan") or C_AddOns.IsAddOnLoaded("TestFlight")) and app.Flag.IsAuctionAddonLoaded)
+		or C_AddOns.IsAddOnLoaded("Mass_Salvage_Assist") then
 			app.TrackNewMogsButton:ClearAllPoints()
 			app.TrackNewMogsButton:SetPoint("CENTER", app.UntrackProfessionButton, "CENTER")
 			app.TrackNewMogsButton:SetPoint("RIGHT", app.UntrackProfessionButton, "LEFT", -3, 0)

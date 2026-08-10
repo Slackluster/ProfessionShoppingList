@@ -48,6 +48,11 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 
 		C_ChatInfo.RegisterAddonMessagePrefix(app.NamePrefix)
 		app:CreateSlashCommands()
+	end
+end)
+
+app.Event:Register("PLAYER_ENTERING_WORLD", function(isInitialLogin, isReloadingUi)
+	if isInitialLogin or isReloadingUi then
 		app:IsAuctionAddonLoaded()
 	end
 end)
@@ -346,7 +351,6 @@ function app:IsAuctionAddonLoaded()
 	else
 		app.Flag.IsAuctionAddonLoaded = false
 	end
-	print(app.Flag.IsAuctionAddonLoaded )
 end
 
 function app:ItemValue(itemID)
