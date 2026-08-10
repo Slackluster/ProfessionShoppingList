@@ -1575,7 +1575,7 @@ end
 
 -- Show window and update numbers
 function app:ShowWindow()
-	if not app.Window:IsShown() then
+	if not app.Window:IsVisible() then
 		app.Window:ClearAllPoints()
 		if app.Settings["pcWindows"] then
 			app.Window:SetSize(app.Settings["pcWindowPosition"].width, app.Settings["pcWindowPosition"].height)
@@ -1597,7 +1597,7 @@ function api:ToggleWindow()
 	assert(self == api, "Call ProfessionShoppingList:ToggleWindow(), not ProfessionShoppingList.ToggleWindow()")
 
 	if app.Tab and app.Tab.IsShown[0] then return end
-	if app.Window:IsShown() then
+	if app.Window:IsVisible() then
 		app.Window:Hide()
 	else
 		app:ShowWindow()
@@ -2217,11 +2217,11 @@ function api:TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 			end
 		elseif C_AddOns.IsAddOnLoaded("TestFlight") and TestFlight.enabled then
 			local allocationTable
-			if ProfessionsCustomerOrdersFrame and ProfessionsCustomerOrdersFrame:IsShown() then
+			if ProfessionsCustomerOrdersFrame and ProfessionsCustomerOrdersFrame:IsVisible() then
 				allocationTable = ProfessionsCustomerOrdersFrame.Form.transaction.allocationTbls
-			elseif ProfessionsFrame and ProfessionsFrame:IsShown() and orderID then
+			elseif ProfessionsFrame and ProfessionsFrame:IsVisible() and orderID then
 				allocationTable = ProfessionsFrame.OrdersPage.OrderView.OrderDetails.SchematicForm.transaction.allocationTbls
-			elseif ProfessionsFrame and ProfessionsFrame:IsShown() then
+			elseif ProfessionsFrame and ProfessionsFrame:IsVisible() then
 				allocationTable = ProfessionsFrame.CraftingPage.SchematicForm.transaction.allocationTbls
 			end
 

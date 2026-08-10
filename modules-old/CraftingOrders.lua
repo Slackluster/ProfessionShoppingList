@@ -298,7 +298,7 @@ function app:CreateProfessionsOrdersAssets()
 						end
 					end
 				end
-				if app.OrdersQueueFrame and app.OrdersQueueFrame:IsShown() then
+				if app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() then
 					app:UpdateOrdersQueue()
 				end
 			elseif ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected then
@@ -325,7 +325,7 @@ function app:CreateProfessionsOrdersAssets()
 			app.TrackOrdersSettingsButton:SetPoint("LEFT", app.TrackOrdersButton, "RIGHT", 2, 0)
 		end)
 		app.TrackOrdersSettingsButton:SetScript("OnClick", function()
-			if not app.TrackOrdersSettings:IsShown() then
+			if not app.TrackOrdersSettings:IsVisible() then
 				app.TrackOrdersSettings:Show()
 				app.TrackOrdersSettings:SetToplevel(true)
 			else
@@ -345,7 +345,7 @@ function app:CreateProfessionsOrdersAssets()
 				end
 
 				app.Flag.ReloadingOrders = app.Flag.ReloadingOrders + 1
-				if (ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.LoadingSpinner:IsShown() or ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ResultsText:IsShown()) and app.Flag.ReloadingOrders < 6 then
+				if (ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.LoadingSpinner:IsVisible() or ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ResultsText:IsVisible()) and app.Flag.ReloadingOrders < 6 then
 					sortOrders()
 				else
 					app.Flag.ReloadingOrders = 0
@@ -665,7 +665,7 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 end)
 
 app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numOrders)
-	if ProfessionsFrame.OrdersPage:IsShown() then
+	if ProfessionsFrame.OrdersPage:IsVisible() then
 		local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 		if skillLineID and not app.ProfessionKnowledge[skillLineID] then
 			local profInfo = C_TradeSkillUI.GetChildProfessionInfos()
@@ -684,7 +684,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 			if app.OrderState ~= app.Enum.OrderState.Idle then
 				app.OrderState = app.Enum.OrderState.Idle
 				app:Debug("app.Enum.OrderState.Idle 4")
-				if app.OrdersQueueFrame and app.OrdersQueueFrame:IsShown() then
+				if app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() then
 					app:UpdateOrdersQueue()
 				end
 			end

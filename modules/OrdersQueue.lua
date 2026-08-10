@@ -96,7 +96,7 @@ function app:CreateOrdersQueueFrame()
 		app.QueueOrdersButton = app:MakeButton(app.TrackOrdersButton, L.ORDERSQUEUE_QUEUE)
 		app.QueueOrdersButton:SetPoint("LEFT", app.TrackOrdersButton, "RIGHT", 28, 0)
 		app.QueueOrdersButton:SetScript("OnClick", function()
-			if not app.OrdersQueueFrame:IsShown() then
+			if not app.OrdersQueueFrame:IsVisible() then
 				app.OrdersQueueFrame:Show()
 			else
 				app.OrdersQueueFrame:Hide()
@@ -234,13 +234,13 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 					if app.OrderState == app.Enum.OrderState.Idle then
 						app.OrderState = app.Enum.OrderState.Opened
 						app:Debug("app.Enum.OrderState.Opened 1")
-						if app.OrdersQueueFrame:IsShown() then
+						if app.OrdersQueueFrame:IsVisible() then
 							app:UpdateOrdersQueue()
 						end
 					end
 				end)
 				ProfessionsFrame.OrdersPage.OrderView.CreateButton:HookScript("OnClick", function()
-					if StaticPopup1:IsShown() then
+					if StaticPopup1:IsVisible() then
 						StaticPopup1Button1:Click()
 						app:UpdateOrdersQueue()
 					end
@@ -252,9 +252,9 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 end)
 
 app.Event:Register("CRAFTINGORDERS_CLAIMED_ORDER_UPDATED", function(orderID)
-	if app.OrdersQueueFrame and app.OrdersQueueFrame:IsShown() then
+	if app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() then
 		C_Timer.After(0.2, function()
-			if ProfessionsFrame.OrdersPage.OrderView.CompleteOrderButton:IsShown() then
+			if ProfessionsFrame.OrdersPage.OrderView.CompleteOrderButton:IsVisible() then
 				app.OrderState = app.Enum.OrderState.Created
 				app:Debug("app.Enum.OrderState.Created 1")
 			elseif app.OrderState ~= app.Enum.OrderState.Created then
@@ -267,7 +267,7 @@ app.Event:Register("CRAFTINGORDERS_CLAIMED_ORDER_UPDATED", function(orderID)
 end)
 
 app.Event:Register("CRAFTINGORDERS_CLAIM_ORDER_RESPONSE", function(result, orderID)
-	if app.OrdersQueueFrame and app.OrdersQueueFrame:IsShown() and result == Enum.CraftingOrderResult.MissingOrder then
+	if app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() and result == Enum.CraftingOrderResult.MissingOrder then
 		local key = "order:" .. orderID .. ":" .. app.QueuedOrders[1].spellID
 		app.OrderInfo[key] = nil
 		ProfessionShoppingList_Data.Recipes[key] = nil
@@ -304,7 +304,7 @@ app.Event:Register("UNIT_SPELLCAST_INTERRUPTED", function(unitTarget, castGUID, 
 end)
 
 app.Event:Register("TRADE_SKILL_ITEM_CRAFTED_RESULT", function(data)
-	if app.OrdersQueueFrame and app.OrdersQueueFrame:IsShown() then
+	if app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() then
 		app.OrderState = app.Enum.OrderState.Created
 		app:Debug("app.Enum.OrderState.Created 2")
 		app:UpdateOrdersQueue()
@@ -314,13 +314,13 @@ end)
 app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, orderID)
 	app:Debug(result)
 	if app.QueuedOrders[1] and orderID ~= app.QueuedOrders[1].orderID then return end
-	if app.OrdersQueueFrame and app.OrdersQueueFrame:IsShown() and result == Enum.CraftingOrderResult.NotCrafted then
+	if app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() and result == Enum.CraftingOrderResult.NotCrafted then
 		app.OrderState = app.Enum.OrderState.Claimed
 		app:Debug("app.Enum.OrderState.Claimed (not crafted)")
-	elseif app.OrdersQueueFrame and app.OrdersQueueFrame:IsShown() and result == Enum.CraftingOrderResult.Ok then
+	elseif app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() and result == Enum.CraftingOrderResult.Ok then
 		app.OrderState = app.Enum.OrderState.Idle
 		app:Debug("app.Enum.OrderState.Idle (fulfilled)")
-	elseif app.OrdersQueueFrame and app.OrdersQueueFrame:IsShown() and result ~= Enum.CraftingOrderResult.Ok then
+	elseif app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() and result ~= Enum.CraftingOrderResult.Ok then
 		app.OrderState = app.Enum.OrderState.Created
 		app:Debug("app.Enum.OrderState.Created (not fulfilled)")
 	end
@@ -328,7 +328,7 @@ app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, ord
 end)
 
 app.Event:Register("CRAFTINGORDERS_RELEASE_ORDER_RESPONSE", function(result, orderID)
-	if app.OrdersQueueFrame and app.OrdersQueueFrame:IsShown() then
+	if app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() then
 		app.OrderState = app.Enum.OrderState.Idle
 		app:Debug("app.Enum.OrderState.Idle 2")
 		app:UpdateOrdersQueue()
