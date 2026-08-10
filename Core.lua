@@ -53,7 +53,11 @@ end)
 
 app.Event:Register("PLAYER_ENTERING_WORLD", function(isInitialLogin, isReloadingUi)
 	if isInitialLogin or isReloadingUi then
-		app:IsAuctionAddonLoaded()
+		if C_AddOns.IsAddOnLoaded("Auctionator") or C_AddOns.IsAddOnLoaded("OribosExchange") or C_AddOns.IsAddOnLoaded("TradeSkillMaster") then
+			app.Flag.IsAuctionAddonLoaded = true
+		else
+			app.Flag.IsAuctionAddonLoaded = false
+		end
 	end
 end)
 
@@ -344,15 +348,6 @@ function app:FixTable(table)
 	return fixedTable
 end
 
-function app:IsAuctionAddonLoaded()
-	if app.Flag.IsAuctionAddonLoaded ~= nil then return end
-	if C_AddOns.IsAddOnLoaded("Auctionator") or C_AddOns.IsAddOnLoaded("OribosExchange") or C_AddOns.IsAddOnLoaded("TradeSkillMaster") then
-		app.Flag.IsAuctionAddonLoaded = true
-	else
-		app.Flag.IsAuctionAddonLoaded = false
-	end
-end
-
 function app:ItemValue(itemID)
 	if not itemID or itemID == 0 then return 0 end
 
@@ -362,13 +357,13 @@ function app:ItemValue(itemID)
 		table.insert(price, { price = TSM_API.GetCustomPriceValue("dbmarket", "i:" .. itemID) or 0, age = -2 })
 	end
 	if C_AddOns.IsAddOnLoaded("Auctionator") then
-		table.insert(price, { price = Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, itemID) or 0, age = Auctionator.API.v1.GetAuctionAgeByItemID(app.Name, itemID) })
+		table.insert(price, { price = Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, itemID) or 0, age = Auctionator.API.v1.GetAuctionAgeByItemID(app.Name, itemID) or 99 })
 	end
 	if C_AddOns.IsAddOnLoaded("OribosExchange") then
 		local oeData = {}
 		OEMarketInfo(itemID, oeData)
-		table.insert(price, { price = oeData.region or 0, age = oeData.age / 60 / 60 / 24 })
-		table.insert(price, { price = oeData.market or 0, age = oeData.age / 60 / 60 / 24 })
+		table.insert(price, { price = oeData.region or 0, age = (oeData.age and oeData.age / 60 / 60 / 24) or 99 })
+		table.insert(price, { price = oeData.market or 0, age = (oeData.age and oeData.age / 60 / 60 / 24) or 99 })
 	end
 
 	table.sort(price, function(a, b) return a.age < b.age end)
