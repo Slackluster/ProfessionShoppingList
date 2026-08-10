@@ -23,26 +23,8 @@ end)
 -- Tooltip information
 function app:AddTooltipInfo()
 	local function OnTooltipSetItem(tooltip, itemData)
-		local recipe = false
-		if tooltip and tooltip.lines then
-			for _, line in ipairs(tooltip.lines) do
-				if line.type == Enum.TooltipDataLineType.ItemSpellTriggerLearn then
-					recipe = true
-				end
-			end
-		end
-
-		local _, itemLink, itemID
-		if recipe and itemData and itemData.id then
-			itemID = itemData.id
-			_, itemLink = C_Item.GetItemInfo(itemID)
-		elseif tooltip.GetItem then
-			_, itemLink, itemID = tooltip:GetItem()
-		else
-			_, itemLink, itemID = TooltipUtil.GetDisplayedItem(GameTooltip)
-		end
-
-		if not itemLink and itemID then return end
+		local itemID = app:GetTooltipItem(tooltip, itemData)
+		if not itemID then return end
 		app.TooltipItemID = itemID
 
 		if app.Settings["showTooltip"] then
