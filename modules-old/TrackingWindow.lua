@@ -1813,6 +1813,22 @@ function app:RegisterRecipe(recipeID)
 	if not C_TradeSkillUI.IsTradeSkillLinked() and not C_TradeSkillUI.IsTradeSkillGuild() and recipeLearned then
 		ProfessionShoppingList_Library[recipeID].learned = recipeLearned
 	end
+
+	local reagentsTable
+	if app.slLegendaryRecipeIDs[recipeID] then
+		reagentsTable = C_TradeSkillUI.GetRecipeSchematic(recipeID, false, app.slLegendaryRecipeIDs[recipeID].rank).reagentSlotSchematics
+	else
+		reagentsTable = C_TradeSkillUI.GetRecipeSchematic(recipeID, false).reagentSlotSchematics
+	end
+
+	if reagentsTable then
+		ProfessionShoppingList_Library[recipeID].reagents = {}
+		for _, reagentInfo in pairs(reagentsTable) do
+			if reagentInfo.required then
+				table.insert(ProfessionShoppingList_Library[recipeID].reagents, { quantityRequired = reagentInfo.quantityRequired, reagents = reagentInfo.reagents })
+			end
+		end
+	end
 end
 
 -- When a tradeskill window is opened

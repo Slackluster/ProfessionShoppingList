@@ -136,6 +136,7 @@ local L = app.locales
 -- L.MADE_WITH =                            "Made with" -- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
 -- L.RECIPE_LEARNED =                       "recipe learned"
 -- L.RECIPE_UNLEARNED =                     "recipe not learned"
+-- L.CRAFTING_COST =                        "Crafting Cost"
 
 -- Profession knowledge
 -- L.PERKS_UNLOCKED =                       "perks unlocked"
@@ -240,6 +241,8 @@ local L = app.locales
 -- L.SETTINGS_TOOLTIP_DESC =                "Show how many of a reagent you have/need on the item's tooltip."
 -- L.SETTINGS_CRAFTTOOLTIP_TITLE =          "Show Crafting Information"
 -- L.SETTINGS_CRAFTTOOLTIP_DESC =           "Show with which profession a piece of gear is made, and if the recipe is known on your account."
+-- L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE =      "Show Crafting Cost"
+-- L.SETTINGS_CRAFTCOSTTOOLTIP_DESC =       "Show how much an item costs to craft, if that information is available."
 -- L.SETTINGS_REAGENTQUALITY_TITLE =        "Minimum Reagent Quality"
 -- L.SETTINGS_REAGENTQUALITY_DESC =         "Set the minimum quality reagents need to be before " .. app.NameShort .. " includes them in the item count. Simulated results will still override this."
 -- L.SETTINGS_INCLUDEHIGHER_TITLE =         "Include Higher Quality"

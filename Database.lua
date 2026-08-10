@@ -300,8 +300,9 @@ app.CraftingOrderRewards = {
 		[3266] = { type = "artisan", expansion = 11 },
 	},
 }
+-- L.CRAFTING_COST =                        "Crafting Cost"
 
--- Profession Knowledge
+-- Profession knowledge
 app.ProfessionKnowledge = {
 	[2823] = { -- Dragonflight Alchemy
 		-- Vendors

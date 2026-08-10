@@ -136,6 +136,7 @@ L.MORE_NEEDED =                          "个仍需" -- Preceded by a number
 L.MADE_WITH =                            "制造专业：" -- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
 L.RECIPE_LEARNED =                       "配方已学会"
 L.RECIPE_UNLEARNED =                     "配方未学会"
+-- L.CRAFTING_COST =                        "Crafting Cost"
 
 -- Profession knowledge
 L.PERKS_UNLOCKED =                       "特长已解锁"
@@ -240,6 +241,8 @@ L.SETTINGS_TOOLTIP_TITLE =               "显示提示信息"
 L.SETTINGS_TOOLTIP_DESC =                "在物品提示中显示拥有/需要的材料数量。"
 L.SETTINGS_CRAFTTOOLTIP_TITLE =          "显示制造信息"
 L.SETTINGS_CRAFTTOOLTIP_DESC =           "在装备提示中显示制造专业及配方是否学会。"
+-- L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE =      "Show Crafting Cost"
+-- L.SETTINGS_CRAFTCOSTTOOLTIP_DESC =       "Show how much an item costs to craft, if that information is available."
 L.SETTINGS_REAGENTQUALITY_TITLE =        "最低材料品质"
 L.SETTINGS_REAGENTQUALITY_DESC =         "设置材料所需的最低品质，" .. app.NameShort .. "才会将其计入物品数量统计。模拟结果仍会覆盖此设置。"
 L.SETTINGS_INCLUDEHIGHER_TITLE =         "包含更高品质"

@@ -48,6 +48,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 
 		C_ChatInfo.RegisterAddonMessagePrefix(app.NamePrefix)
 		app:CreateSlashCommands()
+		app:IsAuctionAddonLoaded()
 	end
 end)
 
@@ -336,4 +337,41 @@ function app:FixTable(table)
 	end
 
 	return fixedTable
+end
+
+function app:IsAuctionAddonLoaded()
+	if app.Flag.IsAuctionAddonLoaded ~= nil then return end
+	if C_AddOns.IsAddOnLoaded("Auctionator") or C_AddOns.IsAddOnLoaded("OribosExchange") or C_AddOns.IsAddOnLoaded("TradeSkillMaster") then
+		app.Flag.IsAuctionAddonLoaded = true
+	else
+		app.Flag.IsAuctionAddonLoaded = false
+	end
+	print(app.Flag.IsAuctionAddonLoaded )
+end
+
+function app:ItemValue(itemID)
+	if not itemID or itemID == 0 then return 0 end
+
+	local price = {}
+	if C_AddOns.IsAddOnLoaded("TradeSkillMaster") then
+		local itemString = "i:" .. itemID
+		table.insert(price, TSM_API.GetCustomPriceValue("dbregionmarketavg", itemString) or 0)
+		table.insert(price, TSM_API.GetCustomPriceValue("dbmarket", itemString) or 0)
+	end
+	if C_AddOns.IsAddOnLoaded("Auctionator") then
+		table.insert(price, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, itemID) or 0)
+	end
+	if C_AddOns.IsAddOnLoaded("OribosExchange") then
+		local oeData = {}
+		OEMarketInfo(itemID, oeData)
+		table.insert(price, oeData.region or 0)
+		table.insert(price, oeData.market or 0)
+	end
+
+	for _, value in ipairs(price) do
+		if value > 0 then
+			return value
+		end
+	end
+	return 0
 end

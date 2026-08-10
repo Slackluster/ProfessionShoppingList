@@ -136,6 +136,7 @@ L.MORE_NEEDED =                          "de plus sont nécessaires" -- Preceded
 L.MADE_WITH =                            "Fabriqué par" -- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
 L.RECIPE_LEARNED =                       "recette apprise"
 L.RECIPE_UNLEARNED =                     "recette non apprise"
+-- L.CRAFTING_COST =                        "Crafting Cost"
 
 -- Profession knowledge
 L.PERKS_UNLOCKED =                       "avantages débloqués"
@@ -240,6 +241,8 @@ L.SETTINGS_TOOLTIP_TITLE =               "Afficher les informations de l’infob
 L.SETTINGS_TOOLTIP_DESC =                "Afficher la quantité de composants que vous possédez / avez besoin dans l’infobulle de l’objet."
 L.SETTINGS_CRAFTTOOLTIP_TITLE =          "Afficher les informations d’artisanat"
 L.SETTINGS_CRAFTTOOLTIP_DESC =           "Afficher avec quel métier une pièce d’équipement est fabriquée et si la recette est connue sur votre compte."
+-- L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE =      "Show Crafting Cost"
+-- L.SETTINGS_CRAFTCOSTTOOLTIP_DESC =       "Show how much an item costs to craft, if that information is available."
 L.SETTINGS_REAGENTQUALITY_TITLE =        "Qualité minimale de composant"
 L.SETTINGS_REAGENTQUALITY_DESC =         "Définissez la qualité minimale requise pour les réactifs avant que " .. app.NameShort .. " ne les inclue dans le décompte des objets. Les résultats simulés prévaudront toutefois sur cette valeur."
 L.SETTINGS_INCLUDEHIGHER_TITLE =         "Inclure une qualité supérieure"

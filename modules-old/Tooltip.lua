@@ -85,20 +85,56 @@ function app:AddTooltipInfo()
 				tooltip:AddLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. reagentAmountHave .. "/" .. reagentAmountNeed .. " (" .. math.max(0,reagentAmountNeed-reagentAmountHave) .. " " .. L.MORE_NEEDED .. ")")
 			end
 
-			if app.Settings["showCraftTooltip"] then
+			if app.Settings["showCraftTooltip"] or app.Settings["showCraftCostTooltip"] then
+				local recipeID
 				for k, v in pairs(ProfessionShoppingList_Library) do
 					if type(v) ~= "number" and v.itemID == itemID then -- No clue why these non-table values are here, tbh
-						if emptyLine == false then
+						recipeID = k
+						break
+					end
+				end
+
+				if recipeID then
+					local totalCost = 0
+					if app.Settings["showCraftCostTooltip"] and app.Flag.IsAuctionAddonLoaded and ProfessionShoppingList_Library[recipeID].reagents then
+						for _, reagent in ipairs(ProfessionShoppingList_Library[recipeID].reagents) do
+							local reagentCost = {}
+							for _, reagentVar in ipairs(reagent.reagents) do
+								if reagentVar.itemID then
+									local cost = app:ItemValue(reagentVar.itemID)
+									if cost > 0 then
+										table.insert(reagentCost, cost)
+									end
+								end
+							end
+							totalCost = totalCost + (((#reagentCost > 0 and math.min(unpack(reagentCost))) or 0) * reagent.quantityRequired)
+						end
+						totalCost = math.ceil(totalCost / 10000) * 10000
+					end
+
+					local tradeskillID, learned
+					if app.Settings["showCraftTooltip"] then
+						tradeskillID = ProfessionShoppingList_Library[recipeID].tradeskillID
+						learned = ProfessionShoppingList_Library[recipeID].learned
+					end
+
+					if app.Settings["showCraftTooltip"] then
+						if not emptyLine then
 							tooltip:AddLine(" ")
 						end
-						local tradeskillID = v.tradeskillID
-						if not app.IconProfession[v.tradeskillID] then tradeskillID = 999 end
-						if v.learned and v.tradeskillID then
-							tooltip:AddLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.MADE_WITH .. "  " .. app.IconProfession[tradeskillID] .. " " .. C_TradeSkillUI.GetTradeSkillDisplayName(v.tradeskillID) .. " (" .. L.RECIPE_LEARNED .. ")")
-						elseif v.tradeskillID then
-							tooltip:AddLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.MADE_WITH .. "  " .. app.IconProfession[tradeskillID] .. " " .. C_TradeSkillUI.GetTradeSkillDisplayName(v.tradeskillID) .. " (" .. L.RECIPE_UNLEARNED .. ")")
+						local learnedString = learned and L.RECIPE_LEARNED or L.RECIPE_UNLEARNED
+						local icon = app.IconProfession[tradeskillID] or app.IconProfession[999]
+						local name = C_TradeSkillUI.GetTradeSkillDisplayName(tradeskillID)
+						if app.Settings["showCraftCostTooltip"] and totalCost > 0 then
+							tooltip:AddDoubleLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.MADE_WITH .. "  " .. icon .. " " .. name .. " (" .. learnedString .. ")", GetMoneyString(totalCost))
+						else
+							tooltip:AddLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.MADE_WITH .. "  " .. icon .. " " .. name .. " (" .. learnedString .. ")")
 						end
-						break
+					elseif app.Settings["showCraftCostTooltip"] and totalCost > 0 then
+						if not emptyLine then
+							tooltip:AddLine(" ")
+						end
+						tooltip:AddDoubleLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.CRAFTING_COST, GetMoneyString(totalCost))
 					end
 				end
 			end

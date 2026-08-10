@@ -322,6 +322,8 @@ function app:CreateSettings()
 
 	checkbox("showCraftTooltip", L.SETTINGS_CRAFTTOOLTIP_TITLE, L.SETTINGS_CRAFTTOOLTIP_DESC, true, nil, parentSetting, parentCheckbox)
 
+	checkbox("showCraftCostTooltip", L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE .. app.IconNew, L.SETTINGS_CRAFTCOSTTOOLTIP_DESC, true, nil, parentSetting, parentCheckbox)
+
 	dropdown("reagentQuality", L.SETTINGS_REAGENTQUALITY_TITLE, L.SETTINGS_REAGENTQUALITY_DESC, 1, {
 		{ value = 1, name = "|A:Professions-ChatIcon-Quality-12-Tier1:24:24::1|a|A:Professions-ChatIcon-Quality-Tier1:20:18::1|a  " .. L.LOW, description = nil },
 		{ value = 2, name = "|A:Professions-ChatIcon-Quality-12-Tier2:24:24::1|a|A:Professions-ChatIcon-Quality-Tier3:20:18::1|a  " .. L.HIGH, description = nil },
