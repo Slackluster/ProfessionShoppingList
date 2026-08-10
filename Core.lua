@@ -354,23 +354,23 @@ function app:ItemValue(itemID)
 
 	local price = {}
 	if C_AddOns.IsAddOnLoaded("TradeSkillMaster") then
-		local itemString = "i:" .. itemID
-		table.insert(price, TSM_API.GetCustomPriceValue("dbregionmarketavg", itemString) or 0)
-		table.insert(price, TSM_API.GetCustomPriceValue("dbmarket", itemString) or 0)
+		table.insert(price, { price = TSM_API.GetCustomPriceValue("dbregionmarketavg", "i:" .. itemID) or 0, age = -1 })
+		table.insert(price, { price = TSM_API.GetCustomPriceValue("dbmarket", "i:" .. itemID) or 0, age = -2 })
 	end
 	if C_AddOns.IsAddOnLoaded("Auctionator") then
-		table.insert(price, Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, itemID) or 0)
+		table.insert(price, { price = Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, itemID) or 0, age = Auctionator.API.v1.GetAuctionAgeByItemID(app.Name, itemID) })
 	end
 	if C_AddOns.IsAddOnLoaded("OribosExchange") then
 		local oeData = {}
 		OEMarketInfo(itemID, oeData)
-		table.insert(price, oeData.region or 0)
-		table.insert(price, oeData.market or 0)
+		table.insert(price, { price = oeData.region or 0, age = oeData.age / 60 / 60 / 24 })
+		table.insert(price, { price = oeData.market or 0, age = oeData.age / 60 / 60 / 24 })
 	end
 
+	table.sort(price, function(a, b) return a.age < b.age end)
 	for _, value in ipairs(price) do
-		if value > 0 then
-			return value
+		if value.price > 0 then
+			return value.price
 		end
 	end
 	return 0
