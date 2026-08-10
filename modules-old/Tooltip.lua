@@ -126,7 +126,7 @@ function app:AddTooltipInfo()
 						local icon = app.IconProfession[tradeskillID] or app.IconProfession[999]
 						local name = C_TradeSkillUI.GetTradeSkillDisplayName(tradeskillID)
 						if app.Settings["showCraftCostTooltip"] and totalCost > 0 then
-							tooltip:AddDoubleLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.MADE_WITH .. "  " .. icon .. " " .. name .. " (" .. learnedString .. ")", GetMoneyString(totalCost))
+							tooltip:AddDoubleLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.MADE_WITH .. "  " .. icon .. " " .. name .. " (" .. learnedString .. ")", GetMoneyString(totalCost, true))
 						else
 							tooltip:AddLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.MADE_WITH .. "  " .. icon .. " " .. name .. " (" .. learnedString .. ")")
 						end
@@ -134,7 +134,7 @@ function app:AddTooltipInfo()
 						if not emptyLine then
 							tooltip:AddLine(" ")
 						end
-						tooltip:AddDoubleLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.CRAFTING_COST, GetMoneyString(totalCost))
+						tooltip:AddDoubleLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.CRAFTING_COST, GetMoneyString(totalCost, true))
 					end
 				end
 			end
