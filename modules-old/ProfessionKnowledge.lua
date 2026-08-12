@@ -309,7 +309,7 @@ function app:UpdateKnowledgeTracker()
 						end
 					end
 
-					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. ("|Hquest:0|h[%s]|h"):format(name)
+					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. ("|Hquest:0|h[%s]|h"):format(name or "Quest")
 				end
 			end
 
