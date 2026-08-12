@@ -76,7 +76,7 @@ function app:AddTooltipInfo()
 					end
 				end
 
-				if recipeID then
+				if recipeID and ProfessionShoppingList_Library[recipeID] then
 					local totalCost = 0
 					if app.Settings["showCraftCostTooltip"] and app.Flag.IsAuctionAddonLoaded and ProfessionShoppingList_Library[recipeID].reagents then
 						for _, reagent in ipairs(ProfessionShoppingList_Library[recipeID].reagents) do
@@ -99,7 +99,6 @@ function app:AddTooltipInfo()
 						tradeskillID = ProfessionShoppingList_Library[recipeID].tradeskillID
 						learned = ProfessionShoppingList_Library[recipeID].learned
 					end
-					if not tradeskillID then return end
 
 					if app.Settings["showCraftTooltip"] then
 						if not emptyLine then
@@ -107,7 +106,7 @@ function app:AddTooltipInfo()
 						end
 						local learnedString = learned and L.RECIPE_LEARNED or L.RECIPE_UNLEARNED
 						local icon = app.IconProfession[tradeskillID] or app.IconProfession[999]
-						local name = C_TradeSkillUI.GetTradeSkillDisplayName(tradeskillID)
+						local name = (tradeskillID and C_TradeSkillUI.GetTradeSkillDisplayName(tradeskillID)) or UNKNOWN
 						if app.Settings["showCraftCostTooltip"] and totalCost > 0 then
 							tooltip:AddDoubleLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.MADE_WITH .. "  " .. icon .. " " .. name .. " (" .. learnedString .. ")", GetMoneyString(totalCost, true))
 						else
