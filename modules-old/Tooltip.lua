@@ -99,6 +99,7 @@ function app:AddTooltipInfo()
 						tradeskillID = ProfessionShoppingList_Library[recipeID].tradeskillID
 						learned = ProfessionShoppingList_Library[recipeID].learned
 					end
+					if not tradeskillID then return end
 
 					if app.Settings["showCraftTooltip"] then
 						if not emptyLine then
