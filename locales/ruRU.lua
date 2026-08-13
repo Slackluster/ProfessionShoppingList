@@ -136,7 +136,7 @@ L.MORE_NEEDED =                          "нужно больше" -- Preceded b
 L.MADE_WITH =                            "Сделано" -- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
 L.RECIPE_LEARNED =                       "рецепт изучен"
 L.RECIPE_UNLEARNED =                     "рецепт не изучен"
--- L.CRAFTING_COST =                        "Crafting Cost"
+L.CRAFTING_COST =                        "Стоимость создания"
 
 -- Profession knowledge
 L.PERKS_UNLOCKED =                       "перки разблокированы"
@@ -241,8 +241,8 @@ L.SETTINGS_TOOLTIP_TITLE =               "Показывать информац�
 L.SETTINGS_TOOLTIP_DESC =                "Показывать, сколько реагентов у вас есть/нужно, на подсказке к предмету."
 L.SETTINGS_CRAFTTOOLTIP_TITLE =          "Показать информацию о изготовлении"
 L.SETTINGS_CRAFTTOOLTIP_DESC =           "Показывать, с помощью какой профессии сделана экипировка, и известен ли рецепт на вашем аккаунте."
--- L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE =      "Show Crafting Cost"
--- L.SETTINGS_CRAFTCOSTTOOLTIP_DESC =       "Show how much an item costs to craft, if that information is available."
+L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE =      "Показывать стоимость создания"
+L.SETTINGS_CRAFTCOSTTOOLTIP_DESC =       "Показывать, сколько стоит изготовление предмета, если эта информация доступна."
 L.SETTINGS_REAGENTQUALITY_TITLE =        "Минимальное качество реагента"
 L.SETTINGS_REAGENTQUALITY_DESC =         "Установите минимальное качество реагентов, при котором " .. app.NameShort .. " будет учитывать их в общем количестве предметов. Результаты симуляции по-прежнему будут иметь приоритет над этой настройкой."
 L.SETTINGS_INCLUDEHIGHER_TITLE =         "Включить более высокое качество"
