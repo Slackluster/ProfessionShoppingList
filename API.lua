@@ -27,5 +27,4 @@ ProfessionShoppingList:TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 ProfessionShoppingList:UntrackRecipe(recipeID, recipeQuantity)
 
 -- Event that fires when tracked recipes are changed; returns recipeID and new quantity (nil for both if all recipes are cleared)
-EventRegistry:RegisterCallback("ProfessionShoppingList.OnTrackedRecipesChanged",
-	function(_, recipeID, newQuantity) ... end, owner)
+EventRegistry:RegisterCallback("ProfessionShoppingList.OnTrackedRecipesChanged", function(_, recipeID, newQuantity) ... end, owner)
