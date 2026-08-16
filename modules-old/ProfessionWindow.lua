@@ -709,6 +709,25 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 	if not InCombatLockdown() then
 		if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
 			app:CreateTradeskillAssets()
+
+			if app.Settings["filterOptionalReagents"] then
+				function Professions.GenerateItemsFromEligibleItemSlots(reagents, filterAvailable)
+					local items = {}
+					local maxFindCount = 1
+					for index, reagent in ipairs(Professions.FilterReagentsByItemID(reagents)) do
+						local itemID = reagent.itemID
+						local foundItems = Professions.FindItemsInInventorySlots(itemID, maxFindCount)
+						if not app.Settings["filterOptionalReagents"] or not filterAvailable or (itemID ~= 247719 and itemID ~= 247725 and itemID ~= 260630) then
+							tAppendAll(items, foundItems)
+						end
+
+						if not filterAvailable and #foundItems == 0 then
+							table.insert(items, Item:CreateFromItemID(itemID))
+						end
+					end
+					return items
+				end
+			end
 		end
 
 		local function getGUID(id, name)

@@ -247,10 +247,14 @@ L.SETTINGS_REAGENTQUALITY_TITLE =        "Минимальное качеств�
 L.SETTINGS_REAGENTQUALITY_DESC =         "Установите минимальное качество реагентов, при котором " .. app.NameShort .. " будет учитывать их в общем количестве предметов. Результаты симуляции по-прежнему будут иметь приоритет над этой настройкой."
 L.SETTINGS_INCLUDEHIGHER_TITLE =         "Включить более высокое качество"
 L.SETTINGS_INCLUDEHIGHER_DESC =          "Учитывать ли реагенты более высокого качества. (Например, включать имеющиеся реагенты 2-го уровня при подсчете реагентов 1-го уровня.)"
-L.SETTINGS_SPENDTOPERK_TITLE =           "Тратить до ближайшего таланта"
-L.SETTINGS_SPENDTOPERK_DESC =            "Shift+клик по узлу специализации профессии тратит очки до достижения следующего бонуса."
 L.SETTINGS_COLLECTMODE_TITLE =           "Режим сбора"
 L.SETTINGS_COLLECTMODE_DESC =            "Установите, какие предметы будут включены при использовании " .. app:Colour(L.BUTTON_TRACKNEW) .. " кнопки."
+
+-- L.PROFESSION_WINDOW =                    "Profession Window"
+-- L.SETTINGS_FILTER_OPTREAGENTS =          "Filter Optional Reagents"
+-- L.SETTINGS_FILTER_OPTREAGENTS_DESC =     "When %s is checked for optional reagents, hide combinable items." -- %s becomes "Hide Unavailable"
+L.SETTINGS_SPENDTOPERK_TITLE =           "Тратить до ближайшего таланта"
+L.SETTINGS_SPENDTOPERK_DESC =            "Shift+клик по узлу специализации профессии тратит очки до достижения следующего бонуса."
 L.SETTINGS_ENHANCEDORDERS_TITLE =        "Улучшенные заказы"
 L.SETTINGS_ENHANCEDORDERS_DESC =         "Улучшите предварительный просмотр наград за заказы и комиссионных, а также добавьте значки для первых созданных, неизученных рецептов и отслеживаемых рецептов.\n\n" .. L.REQUIRES_RELOAD
 L.SETTINGS_QUICKORDER_TITLE =            "Продолжительность быстрого заказа"

@@ -249,6 +249,10 @@ local L = app.locales
 -- L.SETTINGS_INCLUDEHIGHER_DESC =          "Whether or not to count higher quality reagents. (I.e. include owned tier 2 reagents when counting tier 1 reagents.)"
 -- L.SETTINGS_COLLECTMODE_TITLE =           "Collection Mode"
 -- L.SETTINGS_COLLECTMODE_DESC =            "Set which items are included when using the " .. app:Colour(L.BUTTON_TRACKNEW) .. " button."
+
+-- L.PROFESSION_WINDOW =                    "Profession Window"
+-- L.SETTINGS_FILTER_OPTREAGENTS =          "Filter Optional Reagents"
+-- L.SETTINGS_FILTER_OPTREAGENTS_DESC =     "When %s is checked for optional reagents, hide combinable items." -- %s becomes "Hide Unavailable"
 -- L.SETTINGS_SPENDTOPERK_TITLE =           "Spend to Next Perk"
 -- L.SETTINGS_SPENDTOPERK_DESC =            "Shift+clicking a profession knowledge node spends points until the next perk."
 -- L.SETTINGS_ENHANCEDORDERS_TITLE =        "Enhanced Orders"

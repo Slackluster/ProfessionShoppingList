@@ -339,6 +339,10 @@ function app:CreateSettings()
 		{ value = 2, name = L.SETTINGS_SOURCES_TITLE, description = L.SETTINGS_SOURCES_TEXT },
 	})
 
+	header(L.PROFESSION_WINDOW)
+
+	checkbox("filterOptionalReagents", L.SETTINGS_FILTER_OPTREAGENTS .. app.IconNew, string.format(L.SETTINGS_FILTER_OPTREAGENTS_DESC, "\"" .. PROFESSIONS_HIDE_UNOWNED_REAGENTS .. "\""), true)
+
 	checkbox("spendToNextPerk", L.SETTINGS_SPENDTOPERK_TITLE, L.SETTINGS_SPENDTOPERK_DESC, true)
 
 	checkbox("enhancedOrders", L.SETTINGS_ENHANCEDORDERS_TITLE, L.SETTINGS_ENHANCEDORDERS_DESC, true)
