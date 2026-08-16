@@ -1075,9 +1075,6 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						originalOnClick(self, button, down)
 					end
 				end)
-
-				-- Fix "attempted to iterate a forbidden table" error when PlayerCastingBarFrame:IsAttachedToPlayerFrame() is enabled (thank you AcidWeb and Foxlit!)
-				function ProfessionsFrame.OrdersPage.OrderView:SetOverrideCastBarActive() end
 			end
 		end
 
