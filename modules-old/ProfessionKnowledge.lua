@@ -284,7 +284,7 @@ function app:UpdateKnowledgeTracker()
 					local icon = app.IconNotReady
 					local name = ""
 					if type(v.quest) == "number" then
-						local questName = C_QuestLog.GetTitleForQuestID(v.quest)
+						local questName = C_QuestLog.GetTitleForQuestID(v.quest) or ""
 						if questName then
 							name = questName
 						end
@@ -294,7 +294,7 @@ function app:UpdateKnowledgeTracker()
 					else
 						for _, quest in pairs(v.quest) do
 							local questDone = C_QuestLog.IsQuestFlaggedCompleted(quest)
-							local questName = C_QuestLog.GetTitleForQuestID(quest)
+							local questName = C_QuestLog.GetTitleForQuestID(quest) or ""
 							if questName then
 								name = questName
 							end
