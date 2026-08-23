@@ -125,11 +125,7 @@ L.BUTTON_TRACKNEW =                      "追踪新外观"
 L.CURRENT_SETTING =                      "当前设置："
 L.MODE_APPEARANCES =                     "新外观"
 L.MODE_SOURCES =                         "新外观及来源"
-L.TRACK_NEW1 =                           "即将扫描" -- Followed by a number
-L.TRACK_NEW2 =                           "个可见配方中的" -- Preceded by a number, followed by L.MODE_APPEARANCES or L.MODE_SOURCES
-L.TRACK_NEW3 =                           "游戏可能会卡顿数秒。"
-L.ADDED_RECIPES1 =                       "已添加" -- Followed by a number
-L.ADDED_RECIPES2 =                       "个符合条件的配方" -- Preceded by a number
+-- L.ADDED_RECIPES =                        "Checked %d visible recipes for %s. Tracked %d recipes." -- %d becomes a number, %s becomes L.MODE_APPEARANCES or L.MODE_SOURCES
 
 -- Tooltip info
 L.MORE_NEEDED =                          "个仍需" -- Preceded by a number

@@ -125,11 +125,7 @@ L.BUTTON_TRACKNEW =                      "Отслеживать новые об
 L.CURRENT_SETTING =                      "Текущая настройка:"
 L.MODE_APPEARANCES =                     "новые внешние виды"
 L.MODE_SOURCES =                         "новые внешние виды и источники"
-L.TRACK_NEW1 =                           "Это позволит проверить" -- Followed by a number
-L.TRACK_NEW2 =                           "видимые рецепты для" -- Preceded by a number, followed by L.MODE_APPEARANCES or L.MODE_SOURCES
-L.TRACK_NEW3 =                           "Ваша игра может зависнуть на несколько секунд."
-L.ADDED_RECIPES1 =                       "Добавлен" -- Followed by a number
-L.ADDED_RECIPES2 =                       "подходящие рецепты" -- Preceded by a number
+-- L.ADDED_RECIPES =                        "Checked %d visible recipes for %s. Tracked %d recipes." -- %d becomes a number, %s becomes L.MODE_APPEARANCES or L.MODE_SOURCES
 
 -- Tooltip info
 L.MORE_NEEDED =                          "нужно больше" -- Preceded by a number

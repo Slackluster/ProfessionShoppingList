@@ -125,11 +125,7 @@ L.BUTTON_TRACKNEW =                      "Suivre les apparences inconnues"
 L.CURRENT_SETTING =                      "Paramètre actuel :"
 L.MODE_APPEARANCES =                     "nouvelles apparences"
 L.MODE_SOURCES =                         "nouvelles apparences et sources"
-L.TRACK_NEW1 =                           "Cela va vérifier" -- Followed by a number
-L.TRACK_NEW2 =                           "recettes visibles pour les" -- Preceded by a number, followed by L.MODE_APPEARANCES or L.MODE_SOURCES
-L.TRACK_NEW3 =                           "Le jeu peut se bloquer pendant quelques secondes."
-L.ADDED_RECIPES1 =                       "Ajout de" -- Followed by a number
-L.ADDED_RECIPES2 =                       "recettes éligibles" -- Preceded by a number
+-- L.ADDED_RECIPES =                        "Checked %d visible recipes for %s. Tracked %d recipes." -- %d becomes a number, %s becomes L.MODE_APPEARANCES or L.MODE_SOURCES
 
 -- Tooltip info
 L.MORE_NEEDED =                          "de plus sont nécessaires" -- Preceded by a number

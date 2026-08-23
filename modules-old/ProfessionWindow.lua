@@ -121,36 +121,15 @@ function app:CreateTradeskillAssets()
 
 	-- Create the Track Unlearned Mogs button
 	if not app.TrackNewMogsButton then
-		local modeText = ""
-		if app.Settings["collectMode"] == 1 then
-			modeText = L.MODE_APPEARANCES
-		elseif app.Settings["collectMode"] == 2 then
-			modeText = L.MODE_SOURCES
-		end
-
 		app.TrackNewMogsButton = app:MakeButton(ProfessionsFrame.CraftingPage, L.BUTTON_TRACKNEW)
 		app.TrackNewMogsButton:SetPoint("TOPLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 0, -4)
 		app.TrackNewMogsButton:SetFrameStrata("HIGH")
 		app.TrackNewMogsButton:SetScript("OnClick", function()
-			local recipes = app:GetVisibleRecipes()
-
-			StaticPopupDialogs["PSL_TRACK_NEW_MOGS"] = {
-				text = app.NameLong .. "\n\n" .. L.TRACK_NEW1 .. " " .. #recipes .. " " .. L.TRACK_NEW2 .. "\n" .. modeText .. ".\n\n" .. L.TRACK_NEW3 .. "\n" .. L.CONFIRMATION,
-				button1 = YES,
-				button2 = NO,
-				OnAccept = function()
-					app:TrackUnlearnedMogs()
-				end,
-				timeout = 0,
-				whileDead = true,
-				hideOnEscape = true,
-				showAlert = true,
-			}
-			StaticPopup_Show("PSL_TRACK_NEW_MOGS")
+			app:TrackUnlearnedMogs()
 		end)
 		app.TrackNewMogsButton:SetScript("OnEnter", function(self)
 			GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
-			GameTooltip:SetText(L.CURRENT_SETTING .. " " .. modeText)
+			GameTooltip:SetText(L.CURRENT_SETTING .. " " .. (app.Settings["collectMode"] == 1 and L.MODE_APPEARANCES or L.MODE_SOURCES))
 			GameTooltip:Show()
 		end)
 		app.TrackNewMogsButton:SetScript("OnLeave", function()

@@ -40,8 +40,8 @@ modules-old\ProfessionKnowledge.lua
 modules-old\ProfessionWindow.lua
 modules-old\Tooltip.lua
 modules-old\TrackingWindow.lua
-modules-old\TrackNewMogs.lua
 modules\OrdersQueue.lua
+modules\TrackNewMogs.lua
 locales\enUS.lua
 locales\deDE.lua
 locales\esES.lua

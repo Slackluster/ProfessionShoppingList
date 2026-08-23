@@ -125,11 +125,7 @@ L.BUTTON_TRACKNEW =                      "Track New Mogs"
 L.CURRENT_SETTING =                      "Current setting:"
 L.MODE_APPEARANCES =                     "new appearances"
 L.MODE_SOURCES =                         "new appearances and sources"
-L.TRACK_NEW1 =                           "This will check the" -- Followed by a number
-L.TRACK_NEW2 =                           "visible recipes for" -- Preceded by a number, followed by L.MODE_APPEARANCES or L.MODE_SOURCES
-L.TRACK_NEW3 =                           "Your game may freeze for a few seconds."
-L.ADDED_RECIPES1 =                       "Added" -- Followed by a number
-L.ADDED_RECIPES2 =                       "eligible recipes" -- Preceded by a number
+L.ADDED_RECIPES =                        "Checked %d visible recipes for %s. Tracked %d recipes." -- %d becomes a number, %s becomes L.MODE_APPEARANCES or L.MODE_SOURCES
 
 -- Tooltip info
 L.MORE_NEEDED =                          "more needed" -- Preceded by a number
