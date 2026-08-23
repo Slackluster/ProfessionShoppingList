@@ -595,426 +595,478 @@ end
 
 -- Update recipes and reagents tracked
 function app:UpdateRecipes()
-	-- Set personal recipes to be the same as global recipes
+	if app.Flag.ChangingRecipes then return end
+
 	ProfessionShoppingList_CharacterData.Recipes = ProfessionShoppingList_Data.Recipes
 
-	-- Recalculate reagents tracked
-	if app.Flag.ChangingRecipes == false then
-		app.ReagentQuantities = {}
+	app.ReagentQuantities = {}
 
-		for recipeID, recipeInfo in pairs(ProfessionShoppingList_Data.Recipes) do
-			-- Normal recipes
-			if type(recipeID) == "number" then
-				app:GetReagents(app.ReagentQuantities, recipeID, recipeInfo.quantity, recipeInfo.recraft)
-			-- Patron orders
-			elseif ProfessionShoppingList_Cache.FakeRecipes[recipeID] and string.sub(recipeID, 1, 6) == "order:" then
-				app:GetReagents(app.ReagentQuantities, recipeID, recipeInfo.quantity, recipeInfo.recraft)
-			-- Guild/Personal orders
-			elseif string.sub(recipeID, 1, 6) == "order:" then
-				app:GetReagents(app.ReagentQuantities, recipeID, recipeInfo.quantity, recipeInfo.recraft)
-			-- Vendor items
-			elseif ProfessionShoppingList_Cache.FakeRecipes[recipeID] and string.sub(recipeID, 1, 7) == "vendor:" then
-				-- Add gold costs
-				if ProfessionShoppingList_Cache.FakeRecipes[recipeID].costCopper > 0 then
-					if app.ReagentQuantities["gold"] == nil then app.ReagentQuantities["gold"] = 0 end
-					app.ReagentQuantities["gold"] = app.ReagentQuantities["gold"] + ( ProfessionShoppingList_Cache.FakeRecipes[recipeID].costCopper * ProfessionShoppingList_Data.Recipes[recipeID].quantity )
+	for recipeID, recipeInfo in pairs(ProfessionShoppingList_Data.Recipes) do
+		-- Normal recipes
+		if type(recipeID) == "number" then
+			app:GetReagents(app.ReagentQuantities, recipeID, recipeInfo.quantity, recipeInfo.recraft)
+		-- Patron orders
+		elseif ProfessionShoppingList_Cache.FakeRecipes[recipeID] and string.sub(recipeID, 1, 6) == "order:" then
+			app:GetReagents(app.ReagentQuantities, recipeID, recipeInfo.quantity, recipeInfo.recraft)
+		-- Guild/Personal orders
+		elseif string.sub(recipeID, 1, 6) == "order:" then
+			app:GetReagents(app.ReagentQuantities, recipeID, recipeInfo.quantity, recipeInfo.recraft)
+		-- Vendor items
+		elseif ProfessionShoppingList_Cache.FakeRecipes[recipeID] and string.sub(recipeID, 1, 7) == "vendor:" then
+			-- Add gold costs
+			if ProfessionShoppingList_Cache.FakeRecipes[recipeID].costCopper > 0 then
+				if app.ReagentQuantities["gold"] == nil then app.ReagentQuantities["gold"] = 0 end
+				app.ReagentQuantities["gold"] = app.ReagentQuantities["gold"] + ( ProfessionShoppingList_Cache.FakeRecipes[recipeID].costCopper * ProfessionShoppingList_Data.Recipes[recipeID].quantity )
+			end
+			-- Add item costs
+			for reagentID, reagentAmount in pairs(ProfessionShoppingList_Cache.FakeRecipes[recipeID].costItems) do
+				if app.ReagentQuantities[reagentID] == nil then app.ReagentQuantities[reagentID] = 0 end
+				app.ReagentQuantities[reagentID] = app.ReagentQuantities[reagentID] + ( reagentAmount * ProfessionShoppingList_Data.Recipes[recipeID].quantity )
+			end
+			-- Add currency costs
+			for currencyID, currencyAmount in pairs(ProfessionShoppingList_Cache.FakeRecipes[recipeID].costCurrency) do
+				local key = "currency:" .. currencyID
+				if app.ReagentQuantities[key] == nil then app.ReagentQuantities[key] = 0 end
+				app.ReagentQuantities[key] = app.ReagentQuantities[key] + ( currencyAmount * ProfessionShoppingList_Data.Recipes[recipeID].quantity )
+			end
+		end
+	end
+
+	local rowNo = 0
+	local showRecipes = true
+	local maxLength1 = 0
+	local maxLength2 = 0
+	local maxLength3 = 0
+
+	-- Move the existing rows to the Nether
+	if app.Rows.Recipe then
+		for i, row in pairs(app.Rows.Recipe) do
+			row:SetParent(app.Hidden)
+			row:Hide()
+		end
+	end
+	if app.Rows.Reagent then
+		for i, row in pairs(app.Rows.Reagent) do
+			row:SetParent(app.Hidden)
+			row:Hide()
+		end
+	end
+	if app.Rows.Cooldown then
+		for i, row in pairs(app.Rows.Cooldown) do
+			row:SetParent(app.Hidden)
+			row:Hide()
+		end
+	end
+
+	-- And clear our rows entirely
+	app.Rows.Recipe = {}
+	app.Rows.Reagent = {}
+	app.Rows.Cooldown = {}
+
+	if not app.Window.Recipes then
+		app.Window.Recipes = CreateFrame("Button", nil, app.Window.Child)
+		app.Window.Recipes:SetSize(0,16)
+		app.Window.Recipes:SetPoint("TOPLEFT", app.Window.Child, -1, 0)
+		app.Window.Recipes:SetPoint("RIGHT", app.Window.Child)
+		app.Window.Recipes:RegisterForDrag("LeftButton")
+		app.Window.Recipes:SetHighlightAtlas("Options_List_Active", "ADD")
+		app.Window.Recipes:SetScript("OnDragStart", function()
+			if app.Tab and app.Tab.IsShown[0] then return end
+			app:MoveWindow()
+		end)
+		app.Window.Recipes:SetScript("OnDragStop", function()
+			if app.Tab and app.Tab.IsShown[0] then return end
+			app:SaveWindow()
+		end)
+
+		local recipes1 = app.Window.Recipes:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		recipes1:SetPoint("LEFT", app.Window.Recipes)
+		recipes1:SetScale(1.1)
+		app.RecipeHeader = recipes1
+	end
+
+	app.Window.Recipes:SetScript("OnClick", function(self)
+		local children = {self:GetChildren()}
+
+		if showRecipes then
+			for _, child in ipairs(children) do child:Hide() end
+			app.Window.Reagents:SetPoint("TOPLEFT", app.Window.Recipes, "BOTTOMLEFT", 0, -2)
+			showRecipes = false
+		else
+			for _, child in ipairs(children) do child:Show() end
+			local offset = -2
+			if #app.Rows.Recipe >= 1 then offset = -16*#app.Rows.Recipe end
+			app.Window.Reagents:SetPoint("TOPLEFT", app.Window.Recipes, "BOTTOMLEFT", 0, offset)
+			showRecipes = true
+		end
+	end)
+
+	local customSortList = {
+		"|cnIQ6", -- Artifact
+		"|cnIQ5", -- Legendary
+		"|cnIQ4", -- Epic
+		"|cnIQ3", -- Rare
+		"|cnIQ2", -- Uncommon
+		"|cnIQ1", -- Common
+		"|cnIQ0", -- Poor (quantity 0)
+	}
+
+	-- Custom comparison function based on the beginning of the string
+	local function customSort(a, b)
+		for _, v in ipairs(customSortList) do
+			local indexA = string.find(a.link, v, 1, true)
+			local indexB = string.find(b.link, v, 1, true)
+
+			if indexA == 1 and indexB ~= 1 then
+				return true
+			elseif indexA ~= 1 and indexB == 1 then
+				return false
+			end
+		end
+
+		-- If custom sort index is the same, compare alphabetically
+		return string.gsub(a.link, ".-(:%|h)", "") < string.gsub(b.link, ".-(:%|h)", "")
+	end
+
+	-- Group and sort recipes and vendor items
+	local recipesSorted1 = {}
+	local recipesSorted2 = {}
+
+	for k, v in pairs(ProfessionShoppingList_Data.Recipes) do
+		if type(k) == "number" then
+			recipesSorted1[#recipesSorted1+1] = {recipeID = k, recraft = v.recraft, quantity = v.quantity, link = v.link}
+		else
+			recipesSorted2[#recipesSorted2+1] = {recipeID = k, recraft = v.recraft, quantity = v.quantity, link = v.link}
+		end
+	end
+
+	table.sort(recipesSorted1, customSort)
+	table.sort(recipesSorted2, customSort)
+
+	-- Combine the sorted entries into a combined table
+	local recipesSorted = {}
+
+	for _, key in ipairs(recipesSorted1) do
+		table.insert(recipesSorted, key)
+	end
+	for _, key in ipairs(recipesSorted2) do
+		table.insert(recipesSorted, key)
+	end
+
+	for _, recipeInfo in ipairs(recipesSorted) do
+		rowNo = rowNo + 1
+
+		local row = CreateFrame("Button", nil, app.Window.Recipes)
+		row:SetSize(0,16)
+		row:SetHighlightAtlas("Options_List_Active", "ADD")
+		row:RegisterForDrag("LeftButton")
+		row:RegisterForClicks("AnyUp")
+		row:SetScript("OnDragStart", function()
+			if app.Tab and app.Tab.IsShown[0] then return end
+			app:MoveWindow()
+		end)
+		row:SetScript("OnDragStop", function()
+			if app.Tab and app.Tab.IsShown[0] then return end
+			app:SaveWindow()
+		end)
+		row:SetScript("OnEnter", function()
+			app:ShowWindowTooltip(recipeInfo.link, true, L.WINDOW_TOOLTIP_RECIPES)
+		end)
+		row:SetScript("OnLeave", function()
+			GameTooltip:ClearLines()
+			GameTooltip:Hide()
+			ShoppingTooltip1:ClearLines()
+			ShoppingTooltip1:Hide()
+		end)
+		row:SetScript("OnClick", function(self, button)
+			-- Right-click on recipe amount
+			if button == "RightButton" then
+				-- Untrack the recipe
+				if IsControlKeyDown() then
+					api:UntrackRecipe(recipeInfo.recipeID, 0)
+				else
+					api:UntrackRecipe(recipeInfo.recipeID, 1)
 				end
-				-- Add item costs
-				for reagentID, reagentAmount in pairs(ProfessionShoppingList_Cache.FakeRecipes[recipeID].costItems) do
-					if app.ReagentQuantities[reagentID] == nil then app.ReagentQuantities[reagentID] = 0 end
-					app.ReagentQuantities[reagentID] = app.ReagentQuantities[reagentID] + ( reagentAmount * ProfessionShoppingList_Data.Recipes[recipeID].quantity )
+			-- Left-click on recipe
+			elseif button == "LeftButton" then
+				-- If Shift is held also
+				if IsShiftKeyDown() then
+					-- Try write link to chat
+					ChatFrameUtil.InsertLink(recipeInfo.link)
+					app:SendLinkToSearch(recipeInfo.link)
+				-- If Control is held also
+				elseif IsControlKeyDown() and type(recipeInfo.recipeID) == "number" then
+					C_TradeSkillUI.SetRecipeItemNameFilter("") -- Clear search filter, which can interfere
+					C_TradeSkillUI.OpenRecipe(recipeInfo.recipeID)
+				elseif IsControlKeyDown() and app.OrderInfo and app.OrderInfo[recipeInfo.recipeID] then
+					ProfessionsFrame.OrdersPage:ViewOrder(app.OrderInfo[recipeInfo.recipeID].view)
+				-- If Alt is held also
+				elseif IsAltKeyDown() and type(recipeInfo.recipeID) == "number" then
+					C_TradeSkillUI.SetRecipeItemNameFilter("") -- Clear search filter, which can interfere
+					C_TradeSkillUI.OpenRecipe(recipeInfo.recipeID)
+					-- Make sure the tradeskill frame is loaded
+					if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
+						C_TradeSkillUI.CraftRecipe(recipeInfo.recipeID, ProfessionShoppingList_Data.Recipes[recipeInfo.recipeID].quantity)
+					end
 				end
-				-- Add currency costs
-				for currencyID, currencyAmount in pairs(ProfessionShoppingList_Cache.FakeRecipes[recipeID].costCurrency) do
-					local key = "currency:" .. currencyID
-					if app.ReagentQuantities[key] == nil then app.ReagentQuantities[key] = 0 end
-					app.ReagentQuantities[key] = app.ReagentQuantities[key] + ( currencyAmount * ProfessionShoppingList_Data.Recipes[recipeID].quantity )
-				end
-			end
-		end
-
-		local rowNo = 0
-		local showRecipes = true
-		local maxLength1 = 0
-		local maxLength2 = 0
-		local maxLength3 = 0
-
-		-- Move the existing rows to the Nether
-		if app.Rows.Recipe then
-			for i, row in pairs(app.Rows.Recipe) do
-				row:SetParent(app.Hidden)
-				row:Hide()
-			end
-		end
-		if app.Rows.Reagent then
-			for i, row in pairs(app.Rows.Reagent) do
-				row:SetParent(app.Hidden)
-				row:Hide()
-			end
-		end
-		if app.Rows.Cooldown then
-			for i, row in pairs(app.Rows.Cooldown) do
-				row:SetParent(app.Hidden)
-				row:Hide()
-			end
-		end
-
-		-- And clear our rows entirely
-		app.Rows.Recipe = {}
-		app.Rows.Reagent = {}
-		app.Rows.Cooldown = {}
-
-		if not app.Window.Recipes then
-			app.Window.Recipes = CreateFrame("Button", nil, app.Window.Child)
-			app.Window.Recipes:SetSize(0,16)
-			app.Window.Recipes:SetPoint("TOPLEFT", app.Window.Child, -1, 0)
-			app.Window.Recipes:SetPoint("RIGHT", app.Window.Child)
-			app.Window.Recipes:RegisterForDrag("LeftButton")
-			app.Window.Recipes:SetHighlightAtlas("Options_List_Active", "ADD")
-			app.Window.Recipes:SetScript("OnDragStart", function()
-				if app.Tab and app.Tab.IsShown[0] then return end
-				app:MoveWindow()
-			end)
-			app.Window.Recipes:SetScript("OnDragStop", function()
-				if app.Tab and app.Tab.IsShown[0] then return end
-				app:SaveWindow()
-			end)
-
-			local recipes1 = app.Window.Recipes:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-			recipes1:SetPoint("LEFT", app.Window.Recipes)
-			recipes1:SetScale(1.1)
-			app.RecipeHeader = recipes1
-		end
-
-		app.Window.Recipes:SetScript("OnClick", function(self)
-			local children = {self:GetChildren()}
-
-			if showRecipes then
-				for _, child in ipairs(children) do child:Hide() end
-				app.Window.Reagents:SetPoint("TOPLEFT", app.Window.Recipes, "BOTTOMLEFT", 0, -2)
-				showRecipes = false
-			else
-				for _, child in ipairs(children) do child:Show() end
-				local offset = -2
-				if #app.Rows.Recipe >= 1 then offset = -16*#app.Rows.Recipe end
-				app.Window.Reagents:SetPoint("TOPLEFT", app.Window.Recipes, "BOTTOMLEFT", 0, offset)
-				showRecipes = true
 			end
 		end)
 
-		local customSortList = {
-			"|cnIQ6", -- Artifact
-			"|cnIQ5", -- Legendary
-			"|cnIQ4", -- Epic
-			"|cnIQ3", -- Rare
-			"|cnIQ2", -- Uncommon
-			"|cnIQ1", -- Common
-			"|cnIQ0", -- Poor (quantity 0)
-		}
+		app.Rows.Recipe[rowNo] = row
 
-		-- Custom comparison function based on the beginning of the string
-		local function customSort(a, b)
-			for _, v in ipairs(customSortList) do
-				local indexA = string.find(a.link, v, 1, true)
-				local indexB = string.find(b.link, v, 1, true)
+		local tradeskill = 999
+		if ProfessionShoppingList_Cache.FakeRecipes[recipeInfo.recipeID] then
+			tradeskill = ProfessionShoppingList_Cache.FakeRecipes[recipeInfo.recipeID].tradeskillID
+		elseif ProfessionShoppingList_Library[recipeInfo.recipeID] then
+			tradeskill = ProfessionShoppingList_Library[recipeInfo.recipeID].tradeskillID or 999
+		end
 
-				if indexA == 1 and indexB ~= 1 then
-					return true
-				elseif indexA ~= 1 and indexB == 1 then
-					return false
-				end
+		local icon1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		icon1:SetPoint("LEFT", row)
+		icon1:SetScale(1.2)
+		icon1:SetText(app.IconProfession[tradeskill])
+
+		local text2 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		text2:SetPoint("CENTER", icon1)
+		text2:SetPoint("RIGHT", app.Window.Child)
+		text2:SetJustifyH("RIGHT")
+		text2:SetTextColor(1, 1, 1)
+		text2:SetText(recipeInfo.quantity)
+
+		local text1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		text1:SetPoint("LEFT", icon1, "RIGHT", 3, 0)
+		text1:SetPoint("RIGHT", text2, "LEFT")
+		text1:SetTextColor(1, 1, 1)
+		text1:SetText(recipeInfo.link)
+		text1:SetJustifyH("LEFT")
+		text1:SetWordWrap(false)
+
+		maxLength1 = math.max(icon1:GetStringWidth()+text1:GetStringWidth()+text2:GetStringWidth(), maxLength1)
+	end
+
+	local rowNo2 = 0
+	local showReagents = true
+
+	if not app.Window.Reagents then
+		app.Window.Reagents = CreateFrame("Button", nil, app.Window.Child)
+		app.Window.Reagents:SetSize(0,16)
+		app.Window.Reagents:SetPoint("RIGHT", app.Window.Child)
+		app.Window.Reagents:RegisterForDrag("LeftButton")
+		app.Window.Reagents:SetHighlightAtlas("Options_List_Active", "ADD")
+		app.Window.Reagents:SetScript("OnDragStart", function()
+			if app.Tab and app.Tab.IsShown[0] then return end
+			app:MoveWindow()
+		end)
+		app.Window.Reagents:SetScript("OnDragStop", function()
+			if app.Tab and app.Tab.IsShown[0] then return end
+			app:SaveWindow()
+		end)
+
+		local reagents1 = app.Window.Reagents:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		reagents1:SetPoint("LEFT", app.Window.Reagents)
+		reagents1:SetText(L.WINDOW_HEADER_REAGENTS)
+		reagents1:SetScale(1.1)
+		app.ReagentHeader = reagents1
+	end
+	if rowNo == 0 then
+		app.Window.Reagents:SetPoint("TOPLEFT", app.Window.Recipes, "BOTTOMLEFT", 0, -2)
+	else
+		app.Window.Reagents:SetPoint("TOPLEFT", app.Window.Recipes, "BOTTOMLEFT", 0, rowNo*-16)
+	end
+	app.Window.Reagents:SetScript("OnClick", function(self)
+		local children = {self:GetChildren()}
+
+		if showReagents then
+			for _, child in ipairs(children) do child:Hide() end
+			app.Window.Cooldowns:SetPoint("TOPLEFT", app.Window.Reagents, "BOTTOMLEFT", 0, -2)
+			showReagents = false
+		else
+			for _, child in ipairs(children) do child:Show() end
+			local offset = -2
+			if #app.Rows.Reagent >= 1 then offset = -16*#app.Rows.Reagent end
+			app.Window.Cooldowns:SetPoint("TOPLEFT", app.Window.Reagents, "BOTTOMLEFT", 0, offset)
+			showReagents = true
+		end
+	end)
+
+	local reagentsSorted = {}
+	for k, v in pairs(app.ReagentQuantities) do
+		if not ProfessionShoppingList_Cache.Reagents[k] and type(k) == "number" then
+			-- Cache item
+			app:CacheItem(k)
+
+			if not C_Item.IsItemDataCachedByID(k) then
+				C_Item.RequestLoadItemDataByID(k)
+				local item = Item:CreateFromItemID(k)
+
+				item:ContinueOnItemLoad(function()
+					app:UpdateRecipes()
+				end)
+
+				return
+			end
+		end
+		reagentsSorted[#reagentsSorted+1] = {reagentID = k, quantity = v, icon = ProfessionShoppingList_Cache.Reagents[k].icon, link = ProfessionShoppingList_Cache.Reagents[k].link}
+	end
+
+	for _, reagentInfo in ipairs(reagentsSorted) do
+		rowNo2 = rowNo2 + 1
+
+		local row = CreateFrame("Button", nil, app.Window.Reagents, nil, reagentInfo.reagentID)
+		row:SetSize(0,16)
+		row:SetHighlightAtlas("Options_List_Active", "ADD")
+		row:RegisterForDrag("LeftButton")
+		row:SetScript("OnDragStart", function()
+			if app.Tab and app.Tab.IsShown[0] then return end
+			app:MoveWindow()
+		end)
+		row:SetScript("OnDragStop", function()
+			if app.Tab and app.Tab.IsShown[0] then return end
+			app:SaveWindow()
+		end)
+		row:SetScript("OnEnter", function()
+			app:ShowWindowTooltip(reagentInfo.link, true, L.WINDOW_TOOLTIP_REAGENTS)
+		end)
+		row:SetScript("OnLeave", function()
+			GameTooltip:ClearLines()
+			GameTooltip:Hide()
+			ShoppingTooltip1:ClearLines()
+			ShoppingTooltip1:Hide()
+		end)
+		row:SetScript("OnClick", function(self, button)
+			local function trackSubreagent(recipeID, itemID)
+				-- Define the amount of recipes to be tracked
+				local quantityMade = C_TradeSkillUI.GetRecipeSchematic(recipeID, false).quantityMin
+				local amount = math.max(0, math.ceil((app.ReagentQuantities[itemID] - app:GetReagentCount(itemID)) / quantityMade))
+				if ProfessionShoppingList_Data.Recipes[recipeID] then amount = math.max(0, (amount - ProfessionShoppingList_Data.Recipes[recipeID].quantity)) end
+
+				-- Track the recipe (don't track if 0)
+				if amount > 0 then api:TrackRecipe(recipeID, amount) end
 			end
 
-			-- If custom sort index is the same, compare alphabetically
-			return string.gsub(a.link, ".-(:%|h)", "") < string.gsub(b.link, ".-(:%|h)", "")
-		end
+			-- Control+click on reagent
+			if button == "LeftButton" and IsControlKeyDown() then
+				-- Get itemIDs
+				local itemID = reagentInfo.reagentID
 
-		-- Group and sort recipes and vendor items
-		local recipesSorted1 = {}
-		local recipesSorted2 = {}
+				-- Get possible recipeIDs
+				local recipeIDs = {}
+				local no = 0
 
-		for k, v in pairs(ProfessionShoppingList_Data.Recipes) do
-			if type(k) == "number" then
-				recipesSorted1[#recipesSorted1+1] = {recipeID = k, recraft = v.recraft, quantity = v.quantity, link = v.link}
-			else
-				recipesSorted2[#recipesSorted2+1] = {recipeID = k, recraft = v.recraft, quantity = v.quantity, link = v.link}
-			end
-		end
+				for recipe, recipeInfo in pairs(ProfessionShoppingList_Library) do
+					if type(recipeInfo) ~= "number" then -- Because of old ProfessionShoppingList_Library
+						local lookupItemID = itemID
+						if ProfessionShoppingList_Cache.ReagentTiers[itemID] then lookupItemID = ProfessionShoppingList_Cache.ReagentTiers[itemID].one end
 
-		table.sort(recipesSorted1, customSort)
-		table.sort(recipesSorted2, customSort)
-
-		-- Combine the sorted entries into a combined table
-		local recipesSorted = {}
-
-		for _, key in ipairs(recipesSorted1) do
-			table.insert(recipesSorted, key)
-		end
-		for _, key in ipairs(recipesSorted2) do
-			table.insert(recipesSorted, key)
-		end
-
-		for _, recipeInfo in ipairs(recipesSorted) do
-			rowNo = rowNo + 1
-
-			local row = CreateFrame("Button", nil, app.Window.Recipes)
-			row:SetSize(0,16)
-			row:SetHighlightAtlas("Options_List_Active", "ADD")
-			row:RegisterForDrag("LeftButton")
-			row:RegisterForClicks("AnyUp")
-			row:SetScript("OnDragStart", function()
-				if app.Tab and app.Tab.IsShown[0] then return end
-				app:MoveWindow()
-			end)
-			row:SetScript("OnDragStop", function()
-				if app.Tab and app.Tab.IsShown[0] then return end
-				app:SaveWindow()
-			end)
-			row:SetScript("OnEnter", function()
-				app:ShowWindowTooltip(recipeInfo.link, true, L.WINDOW_TOOLTIP_RECIPES)
-			end)
-			row:SetScript("OnLeave", function()
-				GameTooltip:ClearLines()
-				GameTooltip:Hide()
-				ShoppingTooltip1:ClearLines()
-				ShoppingTooltip1:Hide()
-			end)
-			row:SetScript("OnClick", function(self, button)
-				-- Right-click on recipe amount
-				if button == "RightButton" then
-					-- Untrack the recipe
-					if IsControlKeyDown() then
-						api:UntrackRecipe(recipeInfo.recipeID, 0)
-					else
-						api:UntrackRecipe(recipeInfo.recipeID, 1)
-					end
-				-- Left-click on recipe
-				elseif button == "LeftButton" then
-					-- If Shift is held also
-					if IsShiftKeyDown() then
-						-- Try write link to chat
-						ChatFrameUtil.InsertLink(recipeInfo.link)
-						app:SendLinkToSearch(recipeInfo.link)
-					-- If Control is held also
-					elseif IsControlKeyDown() and type(recipeInfo.recipeID) == "number" then
-						C_TradeSkillUI.SetRecipeItemNameFilter("") -- Clear search filter, which can interfere
-						C_TradeSkillUI.OpenRecipe(recipeInfo.recipeID)
-					elseif IsControlKeyDown() and app.OrderInfo and app.OrderInfo[recipeInfo.recipeID] then
-						ProfessionsFrame.OrdersPage:ViewOrder(app.OrderInfo[recipeInfo.recipeID].view)
-					-- If Alt is held also
-					elseif IsAltKeyDown() and type(recipeInfo.recipeID) == "number" then
-						C_TradeSkillUI.SetRecipeItemNameFilter("") -- Clear search filter, which can interfere
-						C_TradeSkillUI.OpenRecipe(recipeInfo.recipeID)
-						-- Make sure the tradeskill frame is loaded
-						if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
-							C_TradeSkillUI.CraftRecipe(recipeInfo.recipeID, ProfessionShoppingList_Data.Recipes[recipeInfo.recipeID].quantity)
+						if recipeInfo.itemID == lookupItemID and not app.nyiRecipes[recipe] then
+							no = no + 1
+							recipeIDs[no] = recipe
 						end
 					end
 				end
-			end)
 
-			app.Rows.Recipe[rowNo] = row
+				-- If there is only one possible recipe, use that
+				if no == 1 then
+					trackSubreagent(recipeIDs[1], itemID)
+				-- If there is more than one possible recipe, provide options
+				elseif no > 1 then
+					-- Create popup frame
+					local f = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
+					f:SetPoint("CENTER")
+					f:SetBackdrop({
+						bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+						edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+						edgeSize = 16,
+						insets = { left = 4, right = 4, top = 4, bottom = 4 },
+					})
+					f:SetBackdropColor(0, 0, 0, 1)
+					f:EnableMouse(true)
+					f:SetMovable(true)
+					f:RegisterForDrag("LeftButton")
+					f:SetScript("OnDragStart", function(self, button) self:StartMoving() end)
+					f:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
+					f:Show()
 
-			local tradeskill = 999
-			if ProfessionShoppingList_Cache.FakeRecipes[recipeInfo.recipeID] then
-				tradeskill = ProfessionShoppingList_Cache.FakeRecipes[recipeInfo.recipeID].tradeskillID
-			elseif ProfessionShoppingList_Library[recipeInfo.recipeID] then
-				tradeskill = ProfessionShoppingList_Library[recipeInfo.recipeID].tradeskillID or 999
-			end
-
-			local icon1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-			icon1:SetPoint("LEFT", row)
-			icon1:SetScale(1.2)
-			icon1:SetText(app.IconProfession[tradeskill])
-
-			local text2 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-			text2:SetPoint("CENTER", icon1)
-			text2:SetPoint("RIGHT", app.Window.Child)
-			text2:SetJustifyH("RIGHT")
-			text2:SetTextColor(1, 1, 1)
-			text2:SetText(recipeInfo.quantity)
-
-			local text1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-			text1:SetPoint("LEFT", icon1, "RIGHT", 3, 0)
-			text1:SetPoint("RIGHT", text2, "LEFT")
-			text1:SetTextColor(1, 1, 1)
-			text1:SetText(recipeInfo.link)
-			text1:SetJustifyH("LEFT")
-			text1:SetWordWrap(false)
-
-			maxLength1 = math.max(icon1:GetStringWidth()+text1:GetStringWidth()+text2:GetStringWidth(), maxLength1)
-		end
-
-		local rowNo2 = 0
-		local showReagents = true
-
-		if not app.Window.Reagents then
-			app.Window.Reagents = CreateFrame("Button", nil, app.Window.Child)
-			app.Window.Reagents:SetSize(0,16)
-			app.Window.Reagents:SetPoint("RIGHT", app.Window.Child)
-			app.Window.Reagents:RegisterForDrag("LeftButton")
-			app.Window.Reagents:SetHighlightAtlas("Options_List_Active", "ADD")
-			app.Window.Reagents:SetScript("OnDragStart", function()
-				if app.Tab and app.Tab.IsShown[0] then return end
-				app:MoveWindow()
-			end)
-			app.Window.Reagents:SetScript("OnDragStop", function()
-				if app.Tab and app.Tab.IsShown[0] then return end
-				app:SaveWindow()
-			end)
-
-			local reagents1 = app.Window.Reagents:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-			reagents1:SetPoint("LEFT", app.Window.Reagents)
-			reagents1:SetText(L.WINDOW_HEADER_REAGENTS)
-			reagents1:SetScale(1.1)
-			app.ReagentHeader = reagents1
-		end
-		if rowNo == 0 then
-			app.Window.Reagents:SetPoint("TOPLEFT", app.Window.Recipes, "BOTTOMLEFT", 0, -2)
-		else
-			app.Window.Reagents:SetPoint("TOPLEFT", app.Window.Recipes, "BOTTOMLEFT", 0, rowNo*-16)
-		end
-		app.Window.Reagents:SetScript("OnClick", function(self)
-			local children = {self:GetChildren()}
-
-			if showReagents then
-				for _, child in ipairs(children) do child:Hide() end
-				app.Window.Cooldowns:SetPoint("TOPLEFT", app.Window.Reagents, "BOTTOMLEFT", 0, -2)
-				showReagents = false
-			else
-				for _, child in ipairs(children) do child:Show() end
-				local offset = -2
-				if #app.Rows.Reagent >= 1 then offset = -16*#app.Rows.Reagent end
-				app.Window.Cooldowns:SetPoint("TOPLEFT", app.Window.Reagents, "BOTTOMLEFT", 0, offset)
-				showReagents = true
-			end
-		end)
-
-		local reagentsSorted = {}
-		for k, v in pairs(app.ReagentQuantities) do
-			if not ProfessionShoppingList_Cache.Reagents[k] and type(k) == "number" then
-				-- Cache item
-				app:CacheItem(k)
-
-				if not C_Item.IsItemDataCachedByID(k) then
-					C_Item.RequestLoadItemDataByID(k)
-					local item = Item:CreateFromItemID(k)
-
-					item:ContinueOnItemLoad(function()
-						app:UpdateRecipes()
+					-- Close button
+					local close = CreateFrame("Button", "pslOptionCloseButton", f, "UIPanelCloseButton")
+					close:SetPoint("TOPRIGHT", f, "TOPRIGHT", -1, -1)
+					close:SetScript("OnClick", function()
+						f:Hide()
 					end)
 
-					return
-				end
-			end
-			reagentsSorted[#reagentsSorted+1] = {reagentID = k, quantity = v, icon = ProfessionShoppingList_Cache.Reagents[k].icon, link = ProfessionShoppingList_Cache.Reagents[k].link}
-		end
+					-- Text
+					local pslOptionText = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+					pslOptionText:SetPoint("CENTER", f, "CENTER")
+					pslOptionText:SetPoint("TOP", f, "TOP", 0, -10)
+					pslOptionText:SetJustifyH("CENTER")
+					pslOptionText:SetText("|cffFFFFFF" .. L.SUBREAGENTS1 .. ":\n" .. reagentInfo.link .. "\n\n" .. L.SUBREAGENTS2 .. ":")
 
-		for _, reagentInfo in ipairs(reagentsSorted) do
-			rowNo2 = rowNo2 + 1
+					-- Text
+					local pslOption1 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+					pslOption1:SetPoint("LEFT", f, "LEFT", 10, 0)
+					pslOption1:SetPoint("TOP", pslOptionText, "BOTTOM", 0, -40)
+					pslOption1:SetWidth(200)
+					pslOption1:SetJustifyH("LEFT")
+					pslOption1:SetText("|cffFFFFFF")
 
-			local row = CreateFrame("Button", nil, app.Window.Reagents, nil, reagentInfo.reagentID)
-			row:SetSize(0,16)
-			row:SetHighlightAtlas("Options_List_Active", "ADD")
-			row:RegisterForDrag("LeftButton")
-			row:SetScript("OnDragStart", function()
-				if app.Tab and app.Tab.IsShown[0] then return end
-				app:MoveWindow()
-			end)
-			row:SetScript("OnDragStop", function()
-				if app.Tab and app.Tab.IsShown[0] then return end
-				app:SaveWindow()
-			end)
-			row:SetScript("OnEnter", function()
-				app:ShowWindowTooltip(reagentInfo.link, true, L.WINDOW_TOOLTIP_REAGENTS)
-			end)
-			row:SetScript("OnLeave", function()
-				GameTooltip:ClearLines()
-				GameTooltip:Hide()
-				ShoppingTooltip1:ClearLines()
-				ShoppingTooltip1:Hide()
-			end)
-			row:SetScript("OnClick", function(self, button)
-				local function trackSubreagent(recipeID, itemID)
-					-- Define the amount of recipes to be tracked
-					local quantityMade = C_TradeSkillUI.GetRecipeSchematic(recipeID, false).quantityMin
-					local amount = math.max(0, math.ceil((app.ReagentQuantities[itemID] - app:GetReagentCount(itemID)) / quantityMade))
-					if ProfessionShoppingList_Data.Recipes[recipeID] then amount = math.max(0, (amount - ProfessionShoppingList_Data.Recipes[recipeID].quantity)) end
+					-- Get reagents #1
+					local reagentsTable = {}
+					app:GetReagents(reagentsTable, recipeIDs[1], 1, false)
 
-					-- Track the recipe (don't track if 0)
-					if amount > 0 then api:TrackRecipe(recipeID, amount) end
-				end
+					-- Create text #1
+					for reagentID, reagentAmount in pairs(reagentsTable) do
+						-- Get info
+						local function getInfo()
+							-- Cache item
+							if not C_Item.IsItemDataCachedByID(reagentID) then
+								C_Item.RequestLoadItemDataByID(reagentID)
+								local item = Item:CreateFromItemID(reagentID)
 
-				-- Control+click on reagent
-				if button == "LeftButton" and IsControlKeyDown() then
-					-- Get itemIDs
-					local itemID = reagentInfo.reagentID
+								item:ContinueOnItemLoad(function()
+									getInfo()
+								end)
 
-					-- Get possible recipeIDs
-					local recipeIDs = {}
-					local no = 0
-
-					for recipe, recipeInfo in pairs(ProfessionShoppingList_Library) do
-						if type(recipeInfo) ~= "number" then -- Because of old ProfessionShoppingList_Library
-							local lookupItemID = itemID
-							if ProfessionShoppingList_Cache.ReagentTiers[itemID] then lookupItemID = ProfessionShoppingList_Cache.ReagentTiers[itemID].one end
-
-							if recipeInfo.itemID == lookupItemID and not app.nyiRecipes[recipe] then
-								no = no + 1
-								recipeIDs[no] = recipe
+								return
 							end
+
+							-- Get item info
+							local itemName, itemLink = C_Item.GetItemInfo(reagentID)
+
+							-- Add text
+							pslOption1:SetText(pslOption1:GetText() .. reagentAmount .. "× " .. itemLink .. "\n")
 						end
+						getInfo()
 					end
 
-					-- If there is only one possible recipe, use that
-					if no == 1 then
+					-- Button #1
+					local pslOptionButton1 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[1], false).name)
+					pslOptionButton1:SetPoint("BOTTOM", pslOption1, "TOP", 0, 5)
+					pslOptionButton1:SetPoint("CENTER", pslOption1, "CENTER")
+					pslOptionButton1:SetScript("OnClick", function()
 						trackSubreagent(recipeIDs[1], itemID)
-					-- If there is more than one possible recipe, provide options
-					elseif no > 1 then
-						-- Create popup frame
-						local f = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
-						f:SetPoint("CENTER")
-						f:SetBackdrop({
-							bgFile = "Interface/Tooltips/UI-Tooltip-Background",
-							edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-							edgeSize = 16,
-							insets = { left = 4, right = 4, top = 4, bottom = 4 },
-						})
-						f:SetBackdropColor(0, 0, 0, 1)
-						f:EnableMouse(true)
-						f:SetMovable(true)
-						f:RegisterForDrag("LeftButton")
-						f:SetScript("OnDragStart", function(self, button) self:StartMoving() end)
-						f:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
-						f:Show()
 
-						-- Close button
-						local close = CreateFrame("Button", "pslOptionCloseButton", f, "UIPanelCloseButton")
-						close:SetPoint("TOPRIGHT", f, "TOPRIGHT", -1, -1)
-						close:SetScript("OnClick", function()
-							f:Hide()
-						end)
+						-- Hide the subreagents window
+						f:Hide()
+					end)
+
+					-- If two options
+					if no >= 2 then
+						-- Adjust popup frame
+						f:SetSize(430, 205)
 
 						-- Text
-						local pslOptionText = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-						pslOptionText:SetPoint("CENTER", f, "CENTER")
-						pslOptionText:SetPoint("TOP", f, "TOP", 0, -10)
-						pslOptionText:SetJustifyH("CENTER")
-						pslOptionText:SetText("|cffFFFFFF" .. L.SUBREAGENTS1 .. ":\n" .. reagentInfo.link .. "\n\n" .. L.SUBREAGENTS2 .. ":")
+						local pslOption2 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+						pslOption2:SetPoint("LEFT", pslOption1, "RIGHT", 10, 0)
+						pslOption2:SetPoint("TOP", pslOption1, "TOP")
+						pslOption2:SetWidth(200)
+						pslOption2:SetJustifyH("LEFT")
+						pslOption2:SetText("|cffFFFFFF")
 
-						-- Text
-						local pslOption1 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-						pslOption1:SetPoint("LEFT", f, "LEFT", 10, 0)
-						pslOption1:SetPoint("TOP", pslOptionText, "BOTTOM", 0, -40)
-						pslOption1:SetWidth(200)
-						pslOption1:SetJustifyH("LEFT")
-						pslOption1:SetText("|cffFFFFFF")
-
-						-- Get reagents #1
+						-- Get reagents #2
 						local reagentsTable = {}
-						app:GetReagents(reagentsTable, recipeIDs[1], 1, false)
+						app:GetReagents(reagentsTable, recipeIDs[2], 1, false)
 
-						-- Create text #1
+						-- Create text #2
 						for reagentID, reagentAmount in pairs(reagentsTable) do
 							-- Get info
 							local function getInfo()
@@ -1034,543 +1086,489 @@ function app:UpdateRecipes()
 								local itemName, itemLink = C_Item.GetItemInfo(reagentID)
 
 								-- Add text
-								pslOption1:SetText(pslOption1:GetText() .. reagentAmount .. "× " .. itemLink .. "\n")
+								pslOption2:SetText(pslOption2:GetText() .. reagentAmount .. "× " .. itemLink .. "\n")
 							end
 							getInfo()
 						end
 
-						-- Button #1
-						local pslOptionButton1 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[1], false).name)
-						pslOptionButton1:SetPoint("BOTTOM", pslOption1, "TOP", 0, 5)
-						pslOptionButton1:SetPoint("CENTER", pslOption1, "CENTER")
-						pslOptionButton1:SetScript("OnClick", function()
-							trackSubreagent(recipeIDs[1], itemID)
+						-- Button #2
+						local pslOptionButton2 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[2], false).name)
+						pslOptionButton2:SetPoint("BOTTOM", pslOption2, "TOP", 0, 5)
+						pslOptionButton2:SetPoint("CENTER", pslOption2, "CENTER")
+						pslOptionButton2:SetScript("OnClick", function()
+							trackSubreagent(recipeIDs[2], itemID)
 
 							-- Hide the subreagents window
 							f:Hide()
 						end)
-
-						-- If two options
-						if no >= 2 then
-							-- Adjust popup frame
-							f:SetSize(430, 205)
-
-							-- Text
-							local pslOption2 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-							pslOption2:SetPoint("LEFT", pslOption1, "RIGHT", 10, 0)
-							pslOption2:SetPoint("TOP", pslOption1, "TOP")
-							pslOption2:SetWidth(200)
-							pslOption2:SetJustifyH("LEFT")
-							pslOption2:SetText("|cffFFFFFF")
-
-							-- Get reagents #2
-							local reagentsTable = {}
-							app:GetReagents(reagentsTable, recipeIDs[2], 1, false)
-
-							-- Create text #2
-							for reagentID, reagentAmount in pairs(reagentsTable) do
-								-- Get info
-								local function getInfo()
-									-- Cache item
-									if not C_Item.IsItemDataCachedByID(reagentID) then
-										C_Item.RequestLoadItemDataByID(reagentID)
-										local item = Item:CreateFromItemID(reagentID)
-
-										item:ContinueOnItemLoad(function()
-											getInfo()
-										end)
-
-										return
-									end
-
-									-- Get item info
-									local itemName, itemLink = C_Item.GetItemInfo(reagentID)
-
-									-- Add text
-									pslOption2:SetText(pslOption2:GetText() .. reagentAmount .. "× " .. itemLink .. "\n")
-								end
-								getInfo()
-							end
-
-							-- Button #2
-							local pslOptionButton2 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[2], false).name)
-							pslOptionButton2:SetPoint("BOTTOM", pslOption2, "TOP", 0, 5)
-							pslOptionButton2:SetPoint("CENTER", pslOption2, "CENTER")
-							pslOptionButton2:SetScript("OnClick", function()
-								trackSubreagent(recipeIDs[2], itemID)
-
-								-- Hide the subreagents window
-								f:Hide()
-							end)
-						end
-
-						-- If three options
-						if no >= 3 then
-							-- Adjust popup frame
-							f:SetSize(640, 200)
-
-							-- Text
-							local pslOption3 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-							pslOption3:SetPoint("LEFT", pslOption1, "RIGHT", 220, 0)
-							pslOption3:SetPoint("TOP", pslOption1, "TOP")
-							pslOption3:SetWidth(200)
-							pslOption3:SetJustifyH("LEFT")
-							pslOption3:SetText("|cffFFFFFF")
-
-							-- Get reagents #3
-							local reagentsTable = {}
-							app:GetReagents(reagentsTable, recipeIDs[3], 1, false)
-
-							-- Create text #3
-							for reagentID, reagentAmount in pairs(reagentsTable) do
-								-- Get info
-								local function getInfo()
-									-- Cache item
-									if not C_Item.IsItemDataCachedByID(reagentID) then
-										C_Item.RequestLoadItemDataByID(reagentID)
-										local item = Item:CreateFromItemID(reagentID)
-
-										item:ContinueOnItemLoad(function()
-											getInfo()
-										end)
-
-										return
-									end
-
-									-- Get item info
-									local itemName, itemLink = C_Item.GetItemInfo(reagentID)
-
-									-- Add text
-									pslOption3:SetText(pslOption3:GetText() .. reagentAmount .. "× " .. itemLink .. "\n")
-								end
-								getInfo()
-							end
-
-							-- Button #3
-							local pslOptionButton3 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[3], false).name)
-							pslOptionButton3:SetPoint("BOTTOM", pslOption3, "TOP", 0, 5)
-							pslOptionButton3:SetPoint("CENTER", pslOption3, "CENTER")
-							pslOptionButton3:SetScript("OnClick", function()
-								trackSubreagent(recipeIDs[3], itemID)
-
-								-- Hide the subreagents window
-								f:Hide()
-							end)
-						end
-
-						-- If four options
-						if no >= 4 then
-							-- Adjust popup frame
-							f:SetSize(640, 335)
-
-							-- Text
-							local pslOption4 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-							pslOption4:SetPoint("LEFT", pslOption1, "LEFT")
-							pslOption4:SetPoint("TOP", pslOption1, "TOP", 0, -130)
-							pslOption4:SetWidth(200)
-							pslOption4:SetJustifyH("LEFT")
-							pslOption4:SetText("|cffFFFFFF")
-
-							-- Get reagents #4
-							local reagentsTable = {}
-							app:GetReagents(reagentsTable, recipeIDs[4], 1, false)
-
-							-- Create text #4
-							for reagentID, reagentAmount in pairs(reagentsTable) do
-								-- Get info
-								local function getInfo()
-									-- Cache item
-									if not C_Item.IsItemDataCachedByID(reagentID) then
-										C_Item.RequestLoadItemDataByID(reagentID)
-										local item = Item:CreateFromItemID(reagentID)
-
-										item:ContinueOnItemLoad(function()
-											getInfo()
-										end)
-
-										return
-									end
-
-									-- Get item info
-									local itemName, itemLink = C_Item.GetItemInfo(reagentID)
-
-									-- Add text
-									pslOption4:SetText(pslOption4:GetText() .. reagentAmount .. "× " .. itemLink .. "\n")
-								end
-								getInfo()
-							end
-
-							-- Button #4
-							local pslOptionButton4 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[4], false).name)
-							pslOptionButton4:SetPoint("BOTTOM", pslOption4, "TOP", 0, 5)
-							pslOptionButton4:SetPoint("CENTER", pslOption4, "CENTER")
-							pslOptionButton4:SetScript("OnClick", function()
-								trackSubreagent(recipeIDs[4], itemID)
-
-								-- Hide the subreagents window
-								f:Hide()
-							end)
-						end
-
-						-- If five options
-						if no >= 5 then
-							-- Text
-							local pslOption5 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-							pslOption5:SetPoint("LEFT", pslOption1, "RIGHT", 10, 0)
-							pslOption5:SetPoint("TOP", pslOption1, "TOP", 0, -130)
-							pslOption5:SetWidth(200)
-							pslOption5:SetJustifyH("LEFT")
-							pslOption5:SetText("|cffFFFFFF")
-
-							-- Get reagents #5
-							local reagentsTable = {}
-							app:GetReagents(reagentsTable, recipeIDs[5], 1, false)
-
-							-- Create text #5
-							for reagentID, reagentAmount in pairs(reagentsTable) do
-								-- Get info
-								local function getInfo()
-									-- Cache item
-									if not C_Item.IsItemDataCachedByID(reagentID) then
-										C_Item.RequestLoadItemDataByID(reagentID)
-										local item = Item:CreateFromItemID(reagentID)
-
-										item:ContinueOnItemLoad(function()
-											getInfo()
-										end)
-
-										return
-									end
-
-									-- Get item info
-									local itemName, itemLink = C_Item.GetItemInfo(reagentID)
-
-									-- Add text
-									pslOption5:SetText(pslOption5:GetText() .. reagentAmount .. "× " .. itemLink .. "\n")
-								end
-								getInfo()
-							end
-
-							-- Button #5
-							local pslOptionButton5 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[5], false).name)
-							pslOptionButton5:SetPoint("BOTTOM", pslOption5, "TOP", 0, 5)
-							pslOptionButton5:SetPoint("CENTER", pslOption5, "CENTER")
-							pslOptionButton5:SetScript("OnClick", function()
-								trackSubreagent(recipeIDs[5], itemID)
-
-								-- Hide the subreagents window
-								f:Hide()
-							end)
-						end
-
-						-- If six options
-						if no >= 6 then
-							-- Text
-							local pslOption6 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-							pslOption6:SetPoint("LEFT", pslOption1, "RIGHT", 220, 0)
-							pslOption6:SetPoint("TOP", pslOption1, "TOP", 0, -130)
-							pslOption6:SetWidth(200)
-							pslOption6:SetJustifyH("LEFT")
-							pslOption6:SetText("|cffFFFFFF")
-
-							-- Get reagents #6
-							local reagentsTable = {}
-							app:GetReagents(reagentsTable, recipeIDs[6], 1, false)
-
-							-- Create text #6
-							for reagentID, reagentAmount in pairs(reagentsTable) do
-								-- Get info
-								local function getInfo()
-									-- Cache item
-									if not C_Item.IsItemDataCachedByID(reagentID) then
-										C_Item.RequestLoadItemDataByID(reagentID)
-										local item = Item:CreateFromItemID(reagentID)
-
-										item:ContinueOnItemLoad(function()
-											getInfo()
-										end)
-
-										return
-									end
-
-									-- Get item info
-									local itemName, itemLink = C_Item.GetItemInfo(reagentID)
-
-									-- Add text
-									pslOption6:SetText(pslOption6:GetText() .. reagentAmount .. "× " .. itemLink .. "\n")
-								end
-								getInfo()
-							end
-
-							-- Button #6
-							local pslOptionButton6 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[6], false).name)
-							pslOptionButton6:SetPoint("BOTTOM", pslOption6, "TOP", 0, 5)
-							pslOptionButton6:SetPoint("CENTER", pslOption6, "CENTER")
-							pslOptionButton6:SetScript("OnClick", function()
-								trackSubreagent(recipeIDs[6], itemID)
-
-								-- Hide the subreagents window
-								f:Hide()
-							end)
-						end
 					end
-				-- Activate if Shift+clicking on the reagent
-				elseif button == "LeftButton" and IsShiftKeyDown() then
-					ChatFrameUtil.InsertLink(reagentInfo.link)
-					app:SendLinkToSearch(reagentInfo.link)
+
+					-- If three options
+					if no >= 3 then
+						-- Adjust popup frame
+						f:SetSize(640, 200)
+
+						-- Text
+						local pslOption3 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+						pslOption3:SetPoint("LEFT", pslOption1, "RIGHT", 220, 0)
+						pslOption3:SetPoint("TOP", pslOption1, "TOP")
+						pslOption3:SetWidth(200)
+						pslOption3:SetJustifyH("LEFT")
+						pslOption3:SetText("|cffFFFFFF")
+
+						-- Get reagents #3
+						local reagentsTable = {}
+						app:GetReagents(reagentsTable, recipeIDs[3], 1, false)
+
+						-- Create text #3
+						for reagentID, reagentAmount in pairs(reagentsTable) do
+							-- Get info
+							local function getInfo()
+								-- Cache item
+								if not C_Item.IsItemDataCachedByID(reagentID) then
+									C_Item.RequestLoadItemDataByID(reagentID)
+									local item = Item:CreateFromItemID(reagentID)
+
+									item:ContinueOnItemLoad(function()
+										getInfo()
+									end)
+
+									return
+								end
+
+								-- Get item info
+								local itemName, itemLink = C_Item.GetItemInfo(reagentID)
+
+								-- Add text
+								pslOption3:SetText(pslOption3:GetText() .. reagentAmount .. "× " .. itemLink .. "\n")
+							end
+							getInfo()
+						end
+
+						-- Button #3
+						local pslOptionButton3 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[3], false).name)
+						pslOptionButton3:SetPoint("BOTTOM", pslOption3, "TOP", 0, 5)
+						pslOptionButton3:SetPoint("CENTER", pslOption3, "CENTER")
+						pslOptionButton3:SetScript("OnClick", function()
+							trackSubreagent(recipeIDs[3], itemID)
+
+							-- Hide the subreagents window
+							f:Hide()
+						end)
+					end
+
+					-- If four options
+					if no >= 4 then
+						-- Adjust popup frame
+						f:SetSize(640, 335)
+
+						-- Text
+						local pslOption4 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+						pslOption4:SetPoint("LEFT", pslOption1, "LEFT")
+						pslOption4:SetPoint("TOP", pslOption1, "TOP", 0, -130)
+						pslOption4:SetWidth(200)
+						pslOption4:SetJustifyH("LEFT")
+						pslOption4:SetText("|cffFFFFFF")
+
+						-- Get reagents #4
+						local reagentsTable = {}
+						app:GetReagents(reagentsTable, recipeIDs[4], 1, false)
+
+						-- Create text #4
+						for reagentID, reagentAmount in pairs(reagentsTable) do
+							-- Get info
+							local function getInfo()
+								-- Cache item
+								if not C_Item.IsItemDataCachedByID(reagentID) then
+									C_Item.RequestLoadItemDataByID(reagentID)
+									local item = Item:CreateFromItemID(reagentID)
+
+									item:ContinueOnItemLoad(function()
+										getInfo()
+									end)
+
+									return
+								end
+
+								-- Get item info
+								local itemName, itemLink = C_Item.GetItemInfo(reagentID)
+
+								-- Add text
+								pslOption4:SetText(pslOption4:GetText() .. reagentAmount .. "× " .. itemLink .. "\n")
+							end
+							getInfo()
+						end
+
+						-- Button #4
+						local pslOptionButton4 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[4], false).name)
+						pslOptionButton4:SetPoint("BOTTOM", pslOption4, "TOP", 0, 5)
+						pslOptionButton4:SetPoint("CENTER", pslOption4, "CENTER")
+						pslOptionButton4:SetScript("OnClick", function()
+							trackSubreagent(recipeIDs[4], itemID)
+
+							-- Hide the subreagents window
+							f:Hide()
+						end)
+					end
+
+					-- If five options
+					if no >= 5 then
+						-- Text
+						local pslOption5 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+						pslOption5:SetPoint("LEFT", pslOption1, "RIGHT", 10, 0)
+						pslOption5:SetPoint("TOP", pslOption1, "TOP", 0, -130)
+						pslOption5:SetWidth(200)
+						pslOption5:SetJustifyH("LEFT")
+						pslOption5:SetText("|cffFFFFFF")
+
+						-- Get reagents #5
+						local reagentsTable = {}
+						app:GetReagents(reagentsTable, recipeIDs[5], 1, false)
+
+						-- Create text #5
+						for reagentID, reagentAmount in pairs(reagentsTable) do
+							-- Get info
+							local function getInfo()
+								-- Cache item
+								if not C_Item.IsItemDataCachedByID(reagentID) then
+									C_Item.RequestLoadItemDataByID(reagentID)
+									local item = Item:CreateFromItemID(reagentID)
+
+									item:ContinueOnItemLoad(function()
+										getInfo()
+									end)
+
+									return
+								end
+
+								-- Get item info
+								local itemName, itemLink = C_Item.GetItemInfo(reagentID)
+
+								-- Add text
+								pslOption5:SetText(pslOption5:GetText() .. reagentAmount .. "× " .. itemLink .. "\n")
+							end
+							getInfo()
+						end
+
+						-- Button #5
+						local pslOptionButton5 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[5], false).name)
+						pslOptionButton5:SetPoint("BOTTOM", pslOption5, "TOP", 0, 5)
+						pslOptionButton5:SetPoint("CENTER", pslOption5, "CENTER")
+						pslOptionButton5:SetScript("OnClick", function()
+							trackSubreagent(recipeIDs[5], itemID)
+
+							-- Hide the subreagents window
+							f:Hide()
+						end)
+					end
+
+					-- If six options
+					if no >= 6 then
+						-- Text
+						local pslOption6 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+						pslOption6:SetPoint("LEFT", pslOption1, "RIGHT", 220, 0)
+						pslOption6:SetPoint("TOP", pslOption1, "TOP", 0, -130)
+						pslOption6:SetWidth(200)
+						pslOption6:SetJustifyH("LEFT")
+						pslOption6:SetText("|cffFFFFFF")
+
+						-- Get reagents #6
+						local reagentsTable = {}
+						app:GetReagents(reagentsTable, recipeIDs[6], 1, false)
+
+						-- Create text #6
+						for reagentID, reagentAmount in pairs(reagentsTable) do
+							-- Get info
+							local function getInfo()
+								-- Cache item
+								if not C_Item.IsItemDataCachedByID(reagentID) then
+									C_Item.RequestLoadItemDataByID(reagentID)
+									local item = Item:CreateFromItemID(reagentID)
+
+									item:ContinueOnItemLoad(function()
+										getInfo()
+									end)
+
+									return
+								end
+
+								-- Get item info
+								local itemName, itemLink = C_Item.GetItemInfo(reagentID)
+
+								-- Add text
+								pslOption6:SetText(pslOption6:GetText() .. reagentAmount .. "× " .. itemLink .. "\n")
+							end
+							getInfo()
+						end
+
+						-- Button #6
+						local pslOptionButton6 = app:MakeButton(f, C_TradeSkillUI.GetRecipeSchematic(recipeIDs[6], false).name)
+						pslOptionButton6:SetPoint("BOTTOM", pslOption6, "TOP", 0, 5)
+						pslOptionButton6:SetPoint("CENTER", pslOption6, "CENTER")
+						pslOptionButton6:SetScript("OnClick", function()
+							trackSubreagent(recipeIDs[6], itemID)
+
+							-- Hide the subreagents window
+							f:Hide()
+						end)
+					end
 				end
-			end)
-
-			app.Rows.Reagent[rowNo2] = row
-
-			local icon1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-			icon1:SetPoint("LEFT", row)
-			icon1:SetScale(1.2)
-			icon1:SetText(CreateSimpleTextureMarkup(reagentInfo.icon))
-			row.icon = icon1
-
-			local text2 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-			text2:SetPoint("CENTER", icon1)
-			text2:SetPoint("RIGHT", app.Window.Child)
-			text2:SetJustifyH("RIGHT")
-			text2:SetTextColor(1, 1, 1)
-			text2:SetText(reagentInfo.quantity)
-			row.text2 = text2
-
-			local text1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-			text1:SetPoint("LEFT", icon1, "RIGHT", 3, 0)
-			text1:SetPoint("RIGHT", text2, "LEFT")
-			text1:SetTextColor(1, 1, 1)
-			text1:SetText(reagentInfo.link)
-			text1:SetJustifyH("LEFT")
-			text1:SetWordWrap(false)
-			row.text1 = text1
-
-			maxLength2 = math.max(icon1:GetStringWidth()+text1:GetStringWidth()+text2:GetStringWidth(), maxLength2)
-		end
-
-		-- Check what is being tracked
-		local trackRecipes = false
-		local trackItems = false
-		for k, v in pairs(ProfessionShoppingList_Data.Recipes) do
-			if type(k) == "number" or string.sub(k, 1, 6) == "order:" then
-				trackRecipes = true
-			else
-				trackItems = true
+			-- Activate if Shift+clicking on the reagent
+			elseif button == "LeftButton" and IsShiftKeyDown() then
+				ChatFrameUtil.InsertLink(reagentInfo.link)
+				app:SendLinkToSearch(reagentInfo.link)
 			end
-		end
+		end)
 
-		-- Set the header title accordingly
-		if trackRecipes and trackItems then
-			app.RecipeHeader:SetText(L.WINDOW_HEADER_RECIPES .. " & " .. L.WINDOW_HEADER_ITEMS .. " (" .. #app.Rows.Recipe .. ")")
-			app.ReagentHeader:SetText(L.WINDOW_HEADER_REAGENTS .. " & " .. L.WINDOW_HEADER_COSTS)
-		elseif trackRecipes == false and trackItems then
-			app.RecipeHeader:SetText(L.WINDOW_HEADER_ITEMS .. " (" .. #app.Rows.Recipe .. ")")
-			app.ReagentHeader:SetText(L.WINDOW_HEADER_COSTS)
+		app.Rows.Reagent[rowNo2] = row
+
+		local icon1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		icon1:SetPoint("LEFT", row)
+		icon1:SetScale(1.2)
+		icon1:SetText(CreateSimpleTextureMarkup(reagentInfo.icon))
+		row.icon = icon1
+
+		local text2 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		text2:SetPoint("CENTER", icon1)
+		text2:SetPoint("RIGHT", app.Window.Child)
+		text2:SetJustifyH("RIGHT")
+		text2:SetTextColor(1, 1, 1)
+		text2:SetText(reagentInfo.quantity)
+		row.text2 = text2
+
+		local text1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		text1:SetPoint("LEFT", icon1, "RIGHT", 3, 0)
+		text1:SetPoint("RIGHT", text2, "LEFT")
+		text1:SetTextColor(1, 1, 1)
+		text1:SetText(reagentInfo.link)
+		text1:SetJustifyH("LEFT")
+		text1:SetWordWrap(false)
+		row.text1 = text1
+
+		maxLength2 = math.max(icon1:GetStringWidth()+text1:GetStringWidth()+text2:GetStringWidth(), maxLength2)
+	end
+
+	-- Check what is being tracked
+	local trackRecipes = false
+	local trackItems = false
+	for k, v in pairs(ProfessionShoppingList_Data.Recipes) do
+		if type(k) == "number" or string.sub(k, 1, 6) == "order:" then
+			trackRecipes = true
 		else
-			if #app.Rows.Recipe == 0 then
-				app.RecipeHeader:SetText(L.WINDOW_HEADER_RECIPES)
-			else
-				app.RecipeHeader:SetText(L.WINDOW_HEADER_RECIPES .. " (" .. #app.Rows.Recipe .. ")")
-			end
-			app.ReagentHeader:SetText(L.WINDOW_HEADER_REAGENTS)
+			trackItems = true
 		end
+	end
 
-		local rowNo3 = 0
-		local showCooldowns = true
-
-		if not app.Window.Cooldowns then
-			app.Window.Cooldowns = CreateFrame("Button", nil, app.Window.Child)
-			app.Window.Cooldowns:SetSize(0,16)
-			app.Window.Cooldowns:SetPoint("RIGHT", app.Window.Child)
-			app.Window.Cooldowns:RegisterForDrag("LeftButton")
-			app.Window.Cooldowns:SetHighlightAtlas("Options_List_Active", "ADD")
-			app.Window.Cooldowns:SetScript("OnDragStart", function()
-				if app.Tab and app.Tab.IsShown[0] then return end
-				app:MoveWindow()
-			end)
-			app.Window.Cooldowns:SetScript("OnDragStop", function()
-				if app.Tab and app.Tab.IsShown[0] then return end
-				app:SaveWindow()
-			end)
-
-			local cooldowns1 = app.Window.Cooldowns:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-			cooldowns1:SetPoint("LEFT", app.Window.Cooldowns)
-			cooldowns1:SetText(L.WINDOW_HEADER_COOLDOWNS)
-			cooldowns1:SetScale(1.1)
+	-- Set the header title accordingly
+	if trackRecipes and trackItems then
+		app.RecipeHeader:SetText(L.WINDOW_HEADER_RECIPES .. " & " .. L.WINDOW_HEADER_ITEMS .. " (" .. #app.Rows.Recipe .. ")")
+		app.ReagentHeader:SetText(L.WINDOW_HEADER_REAGENTS .. " & " .. L.WINDOW_HEADER_COSTS)
+	elseif trackRecipes == false and trackItems then
+		app.RecipeHeader:SetText(L.WINDOW_HEADER_ITEMS .. " (" .. #app.Rows.Recipe .. ")")
+		app.ReagentHeader:SetText(L.WINDOW_HEADER_COSTS)
+	else
+		if #app.Rows.Recipe == 0 then
+			app.RecipeHeader:SetText(L.WINDOW_HEADER_RECIPES)
+		else
+			app.RecipeHeader:SetText(L.WINDOW_HEADER_RECIPES .. " (" .. #app.Rows.Recipe .. ")")
 		end
+		app.ReagentHeader:SetText(L.WINDOW_HEADER_REAGENTS)
+	end
 
-		local next = next
-		if next(ProfessionShoppingList_Data.Cooldowns) == nil or app.Settings["showRecipeCooldowns"] == false then
-			app.Window.Cooldowns:Hide()
+	local rowNo3 = 0
+	local showCooldowns = true
+
+	if not app.Window.Cooldowns then
+		app.Window.Cooldowns = CreateFrame("Button", nil, app.Window.Child)
+		app.Window.Cooldowns:SetSize(0,16)
+		app.Window.Cooldowns:SetPoint("RIGHT", app.Window.Child)
+		app.Window.Cooldowns:RegisterForDrag("LeftButton")
+		app.Window.Cooldowns:SetHighlightAtlas("Options_List_Active", "ADD")
+		app.Window.Cooldowns:SetScript("OnDragStart", function()
+			if app.Tab and app.Tab.IsShown[0] then return end
+			app:MoveWindow()
+		end)
+		app.Window.Cooldowns:SetScript("OnDragStop", function()
+			if app.Tab and app.Tab.IsShown[0] then return end
+			app:SaveWindow()
+		end)
+
+		local cooldowns1 = app.Window.Cooldowns:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		cooldowns1:SetPoint("LEFT", app.Window.Cooldowns)
+		cooldowns1:SetText(L.WINDOW_HEADER_COOLDOWNS)
+		cooldowns1:SetScale(1.1)
+	end
+
+	local next = next
+	if next(ProfessionShoppingList_Data.Cooldowns) == nil or app.Settings["showRecipeCooldowns"] == false then
+		app.Window.Cooldowns:Hide()
+		showCooldowns = false
+	else
+		app.Window.Cooldowns:Show()
+	end
+
+	local offset = -2
+	if rowNo2 >= 1 then offset = -16*#app.Rows.Reagent end
+	app.Window.Cooldowns:SetPoint("TOPLEFT", app.Window.Reagents, "BOTTOMLEFT", 0, offset)
+
+	app.Window.Cooldowns:SetScript("OnClick", function(self)
+		local children = {self:GetChildren()}
+
+		if showCooldowns then
+			for i_, child in ipairs(children) do child:Hide() end
 			showCooldowns = false
 		else
-			app.Window.Cooldowns:Show()
+			for i_, child in ipairs(children) do child:Show() end
+			showCooldowns = true
 		end
+	end)
 
-		local offset = -2
-		if rowNo2 >= 1 then offset = -16*#app.Rows.Reagent end
-		app.Window.Cooldowns:SetPoint("TOPLEFT", app.Window.Reagents, "BOTTOMLEFT", 0, offset)
+	local cooldownsSorted = {}
+	for k, v in pairs(ProfessionShoppingList_Data.Cooldowns) do
+		local timedone = v.start + v.cooldown
+		cooldownsSorted[#cooldownsSorted+1] = {id = k, recipeID = v.recipeID, start = v.start, cooldown = v.cooldown, name = v.name, user = v.user, time = timedone, maxCharges = v.maxCharges, charges = v.charges}
+	end
+	table.sort(cooldownsSorted, function(a, b) return a.time > b.time end)
 
-		app.Window.Cooldowns:SetScript("OnClick", function(self)
-			local children = {self:GetChildren()}
+	for _, cooldownInfo in pairs(cooldownsSorted) do
+		rowNo3 = rowNo3 + 1
 
-			if showCooldowns then
-				for i_, child in ipairs(children) do child:Hide() end
-				showCooldowns = false
-			else
-				for i_, child in ipairs(children) do child:Show() end
-				showCooldowns = true
-			end
+		local row = CreateFrame("Button", nil, app.Window.Cooldowns, nil, cooldownInfo.id)
+		row:SetSize(0,16)
+		row:SetHighlightAtlas("Options_List_Active", "ADD")
+		row:RegisterForDrag("LeftButton")
+		row:RegisterForClicks("AnyUp")
+		row:SetScript("OnDragStart", function()
+			if app.Tab and app.Tab.IsShown[0] then return end
+			app:MoveWindow()
 		end)
-
-		local cooldownsSorted = {}
-		for k, v in pairs(ProfessionShoppingList_Data.Cooldowns) do
-			local timedone = v.start + v.cooldown
-			cooldownsSorted[#cooldownsSorted+1] = {id = k, recipeID = v.recipeID, start = v.start, cooldown = v.cooldown, name = v.name, user = v.user, time = timedone, maxCharges = v.maxCharges, charges = v.charges}
-		end
-		table.sort(cooldownsSorted, function(a, b) return a.time > b.time end)
-
-		for _, cooldownInfo in pairs(cooldownsSorted) do
-			rowNo3 = rowNo3 + 1
-
-			local row = CreateFrame("Button", nil, app.Window.Cooldowns, nil, cooldownInfo.id)
-			row:SetSize(0,16)
-			row:SetHighlightAtlas("Options_List_Active", "ADD")
-			row:RegisterForDrag("LeftButton")
-			row:RegisterForClicks("AnyUp")
-			row:SetScript("OnDragStart", function()
-				if app.Tab and app.Tab.IsShown[0] then return end
-				app:MoveWindow()
-			end)
-			row:SetScript("OnDragStop", function()
-				if app.Tab and app.Tab.IsShown[0] then return end
-				app:SaveWindow()
-			end)
-			row:SetScript("OnEnter", function()
-				app:ShowWindowTooltip("|cffFFFFFF" .. cooldownInfo.user, false, L.WINDOW_TOOLTIP_COOLDOWNS)
-			end)
-			row:SetScript("OnLeave", function()
-				GameTooltip:ClearLines()
-				GameTooltip:Hide()
-				ShoppingTooltip1:ClearLines()
-				ShoppingTooltip1:Hide()
-			end)
-			row:SetScript("OnClick", function(self, button)
-				if button == "RightButton" and IsShiftKeyDown() then
-					table.remove(ProfessionShoppingList_Data.Cooldowns, cooldownInfo.id)
-					app:UpdateRecipes()
-				elseif button == "LeftButton" then
-					-- If Control is held also
-					if IsControlKeyDown() then
-						C_TradeSkillUI.SetRecipeItemNameFilter("") -- Clear search filter, which can interfere
-						C_TradeSkillUI.OpenRecipe(cooldownInfo.recipeID)
-					-- If Alt is held also
-					elseif IsAltKeyDown() then
-						C_TradeSkillUI.SetRecipeItemNameFilter("") -- Clear search filter, which can interfere
-						C_TradeSkillUI.OpenRecipe(cooldownInfo.recipeID)
-						-- Make sure the tradeskill frame is loaded
-						if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
-							C_TradeSkillUI.CraftRecipe(cooldownInfo.recipeID)
-						end
+		row:SetScript("OnDragStop", function()
+			if app.Tab and app.Tab.IsShown[0] then return end
+			app:SaveWindow()
+		end)
+		row:SetScript("OnEnter", function()
+			app:ShowWindowTooltip("|cffFFFFFF" .. cooldownInfo.user, false, L.WINDOW_TOOLTIP_COOLDOWNS)
+		end)
+		row:SetScript("OnLeave", function()
+			GameTooltip:ClearLines()
+			GameTooltip:Hide()
+			ShoppingTooltip1:ClearLines()
+			ShoppingTooltip1:Hide()
+		end)
+		row:SetScript("OnClick", function(self, button)
+			if button == "RightButton" and IsShiftKeyDown() then
+				table.remove(ProfessionShoppingList_Data.Cooldowns, cooldownInfo.id)
+				app:UpdateRecipes()
+			elseif button == "LeftButton" then
+				-- If Control is held also
+				if IsControlKeyDown() then
+					C_TradeSkillUI.SetRecipeItemNameFilter("") -- Clear search filter, which can interfere
+					C_TradeSkillUI.OpenRecipe(cooldownInfo.recipeID)
+				-- If Alt is held also
+				elseif IsAltKeyDown() then
+					C_TradeSkillUI.SetRecipeItemNameFilter("") -- Clear search filter, which can interfere
+					C_TradeSkillUI.OpenRecipe(cooldownInfo.recipeID)
+					-- Make sure the tradeskill frame is loaded
+					if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
+						C_TradeSkillUI.CraftRecipe(cooldownInfo.recipeID)
 					end
 				end
-			end)
-
-			app.Rows.Cooldown[rowNo3] = row
-			if rowNo3 == 1 then
-				row:SetPoint("TOPLEFT", app.Window.Cooldowns, "BOTTOMLEFT")
-				row:SetPoint("TOPRIGHT", app.Window.Cooldowns, "BOTTOMRIGHT")
-			else
-				row:SetPoint("TOPLEFT", app.Rows.Cooldown[rowNo3-1], "BOTTOMLEFT")
-				row:SetPoint("TOPRIGHT", app.Rows.Cooldown[rowNo3-1], "BOTTOMRIGHT")
 			end
-
-			local tradeskill = ProfessionShoppingList_Library[cooldownInfo.recipeID].tradeskillID or 999
-
-			local icon1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-			icon1:SetPoint("LEFT", row)
-			icon1:SetScale(1.2)
-			icon1:SetText(app.IconProfession[tradeskill])
-			row.icon = icon1
-
-			local cooldownRemaining = cooldownInfo.start + cooldownInfo.cooldown - GetServerTime()
-			local days, hours, minutes
-
-			days = math.floor(cooldownRemaining/(60*60*24))
-			hours = math.floor((cooldownRemaining - (days*60*60*24))/(60*60))
-			minutes = math.floor((cooldownRemaining - ((days*60*60*24) + (hours*60*60)))/60)
-
-			local text2 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-			text2:SetPoint("CENTER", icon1)
-			text2:SetPoint("RIGHT", app.Window.Child)
-			text2:SetJustifyH("RIGHT")
-			text2:SetTextColor(1, 1, 1)
-			if cooldownRemaining <= 0 then
-				text2:SetText(L.READY)
-			elseif cooldownRemaining < 60*60 then
-				text2:SetText(minutes .. L.MINUTES)
-			elseif cooldownRemaining < 60*60*24 then
-				text2:SetText(hours .. L.HOURS .. " " .. minutes .. L.MINUTES)
-			else
-				text2:SetText(days .. L.DAYS .. " " .. hours .. L.HOURS .. " " .. minutes .. L.MINUTES)
-			end
-			row.text2 = text2
-
-			local text1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-			text1:SetPoint("LEFT", icon1, "RIGHT", 3, 0)
-			text1:SetPoint("RIGHT", text2, "LEFT")
-			text1:SetTextColor(1, 1, 1)
-			if cooldownInfo.maxCharges > 0 then
-				text1:SetText(cooldownInfo.name .. " (" .. cooldownInfo.charges .. "/" .. cooldownInfo.maxCharges .. ")")
-			else
-				text1:SetText(cooldownInfo.name)
-			end
-			text1:SetJustifyH("LEFT")
-			text1:SetWordWrap(false)
-			row.text1 = text1
-
-			maxLength3 = math.max(icon1:GetStringWidth()+text1:GetStringWidth()+text2:GetStringWidth(), maxLength3)
-		end
-
-		function app:ResizeWindow(save)
-			local windowHeight = 62
-			local windowWidth = 0
-			if next(ProfessionShoppingList_Data.Cooldowns) == nil or app.Settings["showRecipeCooldowns"] == false then
-				windowHeight = windowHeight - 16
-			elseif showCooldowns then
-				windowHeight = windowHeight + rowNo3 * 16
-				windowWidth = math.max(windowWidth, maxLength3, app.Rows.CooldownWidth)
-			end
-			if showReagents then
-				windowHeight = windowHeight + rowNo2 * 16
-				windowWidth = math.max(windowWidth, maxLength2, app.Rows.ReagentWidth)
-			end
-			if showRecipes then
-				windowHeight = windowHeight + rowNo * 16
-				windowWidth = math.max(windowWidth, maxLength1)
-			end
-			if showRecipes == false or #ProfessionShoppingList_Data.Recipes < 1 then
-				windowHeight = windowHeight + 2 -- Not sure why this is needed, but whatever
-			end
-			if windowHeight > math.floor(GetScreenHeight()*0.8) then windowHeight = math.floor(GetScreenHeight()*0.8) end
-			if windowWidth > math.floor(GetScreenWidth()*0.8) then windowWidth = math.floor(GetScreenWidth()*0.8) end
-
-			app.Window:SetHeight(math.max(140,windowHeight))
-			app.Window:SetWidth(math.max(140,windowWidth+40))
-			app.Window.ScrollFrame:SetVerticalScroll(0)
-
-			if save then app:SaveWindow() end
-		end
-
-		app.Window.Corner:SetScript("OnDoubleClick", function()
-			app:ResizeWindow(true)
 		end)
 
-		-- Update numbers tracked and assets like buttons
-		app:UpdateNumbers()
-		app:UpdateAssets()
+		app.Rows.Cooldown[rowNo3] = row
+		if rowNo3 == 1 then
+			row:SetPoint("TOPLEFT", app.Window.Cooldowns, "BOTTOMLEFT")
+			row:SetPoint("TOPRIGHT", app.Window.Cooldowns, "BOTTOMRIGHT")
+		else
+			row:SetPoint("TOPLEFT", app.Rows.Cooldown[rowNo3-1], "BOTTOMLEFT")
+			row:SetPoint("TOPRIGHT", app.Rows.Cooldown[rowNo3-1], "BOTTOMRIGHT")
+		end
+
+		local tradeskill = ProfessionShoppingList_Library[cooldownInfo.recipeID].tradeskillID or 999
+
+		local icon1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		icon1:SetPoint("LEFT", row)
+		icon1:SetScale(1.2)
+		icon1:SetText(app.IconProfession[tradeskill])
+		row.icon = icon1
+
+		local cooldownRemaining = cooldownInfo.start + cooldownInfo.cooldown - GetServerTime()
+		local days, hours, minutes
+
+		days = math.floor(cooldownRemaining/(60*60*24))
+		hours = math.floor((cooldownRemaining - (days*60*60*24))/(60*60))
+		minutes = math.floor((cooldownRemaining - ((days*60*60*24) + (hours*60*60)))/60)
+
+		local text2 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		text2:SetPoint("CENTER", icon1)
+		text2:SetPoint("RIGHT", app.Window.Child)
+		text2:SetJustifyH("RIGHT")
+		text2:SetTextColor(1, 1, 1)
+		if cooldownRemaining <= 0 then
+			text2:SetText(L.READY)
+		elseif cooldownRemaining < 60*60 then
+			text2:SetText(minutes .. L.MINUTES)
+		elseif cooldownRemaining < 60*60*24 then
+			text2:SetText(hours .. L.HOURS .. " " .. minutes .. L.MINUTES)
+		else
+			text2:SetText(days .. L.DAYS .. " " .. hours .. L.HOURS .. " " .. minutes .. L.MINUTES)
+		end
+		row.text2 = text2
+
+		local text1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		text1:SetPoint("LEFT", icon1, "RIGHT", 3, 0)
+		text1:SetPoint("RIGHT", text2, "LEFT")
+		text1:SetTextColor(1, 1, 1)
+		if cooldownInfo.maxCharges > 0 then
+			text1:SetText(cooldownInfo.name .. " (" .. cooldownInfo.charges .. "/" .. cooldownInfo.maxCharges .. ")")
+		else
+			text1:SetText(cooldownInfo.name)
+		end
+		text1:SetJustifyH("LEFT")
+		text1:SetWordWrap(false)
+		row.text1 = text1
+
+		maxLength3 = math.max(icon1:GetStringWidth()+text1:GetStringWidth()+text2:GetStringWidth(), maxLength3)
 	end
+
+	function app:ResizeWindow(save)
+		local windowHeight = 62
+		local windowWidth = 0
+		if next(ProfessionShoppingList_Data.Cooldowns) == nil or app.Settings["showRecipeCooldowns"] == false then
+			windowHeight = windowHeight - 16
+		elseif showCooldowns then
+			windowHeight = windowHeight + rowNo3 * 16
+			windowWidth = math.max(windowWidth, maxLength3, app.Rows.CooldownWidth)
+		end
+		if showReagents then
+			windowHeight = windowHeight + rowNo2 * 16
+			windowWidth = math.max(windowWidth, maxLength2, app.Rows.ReagentWidth)
+		end
+		if showRecipes then
+			windowHeight = windowHeight + rowNo * 16
+			windowWidth = math.max(windowWidth, maxLength1)
+		end
+		if showRecipes == false or #ProfessionShoppingList_Data.Recipes < 1 then
+			windowHeight = windowHeight + 2 -- Not sure why this is needed, but whatever
+		end
+		if windowHeight > math.floor(GetScreenHeight()*0.8) then windowHeight = math.floor(GetScreenHeight()*0.8) end
+		if windowWidth > math.floor(GetScreenWidth()*0.8) then windowWidth = math.floor(GetScreenWidth()*0.8) end
+
+		app.Window:SetHeight(math.max(140,windowHeight))
+		app.Window:SetWidth(math.max(140,windowWidth+40))
+		app.Window.ScrollFrame:SetVerticalScroll(0)
+
+		if save then app:SaveWindow() end
+	end
+
+	app.Window.Corner:SetScript("OnDoubleClick", function()
+		app:ResizeWindow(true)
+	end)
+
+	-- Update numbers tracked and assets like buttons
+	app:UpdateNumbers()
+	app:UpdateAssets()
 end
 
 -- Show window and update numbers
