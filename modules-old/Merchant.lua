@@ -149,6 +149,11 @@ app.Event:Register("MERCHANT_SHOW", function()
 			GameTooltip:Hide()
 		end)
 
+		if C_AddOns.IsAddOnLoaded("CompactVendor") and CompactVendorFilterButton then
+			CompactVendorFilterButton:ClearAllPoints()
+			CompactVendorFilterButton:SetPoint("TOPRIGHT", app.MerchantButton, "TOPLEFT", 0, 3)
+		end
+
 		app.Flag.MerchantAssets = true
 	end
 end)
