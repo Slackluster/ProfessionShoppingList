@@ -125,7 +125,7 @@ L.BUTTON_TRACKNEW =                      "Отслеживать новые об
 L.CURRENT_SETTING =                      "Текущая настройка:"
 L.MODE_APPEARANCES =                     "новые внешние виды"
 L.MODE_SOURCES =                         "новые внешние виды и источники"
--- L.ADDED_RECIPES =                        "Checked %d visible recipes for %s. Tracked %d recipes." -- %d becomes a number, %s becomes L.MODE_APPEARANCES or L.MODE_SOURCES
+L.ADDED_RECIPES =                        "Проверено рецептов для %2$s: %1$d. Отслеживается рецептов: %3$d." -- %d becomes a number, %s becomes L.MODE_APPEARANCES or L.MODE_SOURCES
 
 -- Tooltip info
 L.MORE_NEEDED =                          "нужно больше" -- Preceded by a number
@@ -246,9 +246,9 @@ L.SETTINGS_INCLUDEHIGHER_DESC =          "Учитывать ли реагент
 L.SETTINGS_COLLECTMODE_TITLE =           "Режим сбора"
 L.SETTINGS_COLLECTMODE_DESC =            "Установите, какие предметы будут включены при использовании " .. app:Colour(L.BUTTON_TRACKNEW) .. " кнопки."
 
--- L.PROFESSION_WINDOW =                    "Profession Window"
--- L.SETTINGS_FILTER_OPTREAGENTS =          "Filter Optional Reagents"
--- L.SETTINGS_FILTER_OPTREAGENTS_DESC =     "When %s is checked for optional reagents, hide combinable items." -- %s becomes "Hide Unavailable"
+L.PROFESSION_WINDOW =                    "Окно профессий"
+L.SETTINGS_FILTER_OPTREAGENTS =          "Фильтр необязательных реагентов"
+L.SETTINGS_FILTER_OPTREAGENTS_DESC =     "Если для необязательных реагентов включена опция %s, объединяемые предметы будут скрыты." -- %s becomes "Hide Unavailable"
 L.SETTINGS_SPENDTOPERK_TITLE =           "Тратить до ближайшего таланта"
 L.SETTINGS_SPENDTOPERK_DESC =            "Shift+клик по узлу специализации профессии тратит очки до достижения следующего бонуса."
 L.SETTINGS_ENHANCEDORDERS_TITLE =        "Улучшенные заказы"
