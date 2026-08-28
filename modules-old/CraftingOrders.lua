@@ -277,6 +277,12 @@ function app:CreateProfessionsOrdersAssets()
 		app.TrackOrdersButton:SetPoint("LEFT", ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "RIGHT", 6, 0)
 		app.TrackOrdersButton:SetScript("OnClick", function()
 			if not app.OrderInfo then return end
+			if app.Flag.ProcessingOrders and app.Flag.ProcessingOrders ~= 0 then
+				C_Timer.After(0.1, function()
+					app.TrackOrdersButton:Click()
+				end)
+			end
+
 			local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 			if ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
 				for key, orderInfo in pairs(app.OrderInfo) do
@@ -678,8 +684,11 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 		app.OrderAdjustments = app.OrderAdjustments or {}
 		app.OrderIcons = app.OrderIcons or {}
 		app.OrderInfo = app.OrderInfo or {}
+		app.Flag.ProcessingOrders = app.Flag.ProcessingOrders or 0
 
 		local function OnFrameInitialized(_, v, data)
+			app.Flag.ProcessingOrders = app.Flag.ProcessingOrders + 1
+
 			if app.OrderState ~= app.Enum.OrderState.Idle then
 				app.OrderState = app.Enum.OrderState.Idle
 				app:Debug("app.Enum.OrderState.Idle 4")
@@ -1060,6 +1069,8 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						app.OrderAdjustments[v].firstCraft:Show()
 						app.OrderInfo[key].knowledge[app.OrderInfo[key].skillLineID] = (app.OrderInfo[key].knowledge[app.OrderInfo[key].skillLineID] or 0) + 1
 					end
+
+					app.Flag.ProcessingOrders = app.Flag.ProcessingOrders - 1
 				end
 				RunNextFrame(doTheThing)
 
