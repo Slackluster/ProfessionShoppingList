@@ -448,7 +448,7 @@ function app:CreateProfessionsOrdersAssets()
 					table.insert(professions, { tradeSkillLineID = tradeSkillLineID, professionName = professionInfo.professionName })
 				end
 			end
-			table.sort(professions, function(a, b) return a.tradeSkillLineID < b.tradeSkillLineID end)
+			table.sort(professions, function(a, b) return a.tradeSkillLineID > b.tradeSkillLineID end)
 			for _, profession in ipairs(professions) do
 				rootDescription:CreateCheckbox(profession.professionName, isSelected, setSelected, profession.tradeSkillLineID)
 			end
