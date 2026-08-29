@@ -169,6 +169,11 @@ function app:UpdateOrdersQueue()
 			app.OrdersQueueFrame.Button:SetScript("OnClick", function()
 				ProfessionsFrame.OrdersPage:ViewOrder(app.QueuedOrders[1].view)
 			end)
+			if not app.OrdersQueueFrame.Warning:IsShown() and #app.QueuedOrders > 0 then
+				C_Timer.After(0.2, function()
+					ProfessionsFrame.OrdersPage:ViewOrder(app.QueuedOrders[1].view)
+				end)
+			end
 		elseif app.OrderState == app.Enum.OrderState.Opened then
 			app:UpdateButton(app.OrdersQueueFrame.Button, L.ORDERSQUEUE_CLAIM)
 			app.OrdersQueueFrame.Button:SetScript("OnClick", function()
@@ -210,7 +215,7 @@ function app:UpdateOrdersQueue()
 				app:UpdateOrdersQueue()
 				return
 			end
-			C_Timer.After(0.1, function()
+			C_Timer.After(0.2, function()
 				app:UpdateButton(app.OrdersQueueFrame.Button, L.ORDERSQUEUE_COMPLETE)
 				app.OrdersQueueFrame.Button:SetScript("OnClick", function() end)
 				C_CraftingOrders.FulfillOrder(app.QueuedOrders[1].orderID, "", professionID)
