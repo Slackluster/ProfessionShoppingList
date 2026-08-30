@@ -25,7 +25,6 @@ function app:AddTooltipInfo()
 	local function OnTooltipSetItem(tooltip, itemData)
 		local itemID = app:GetTooltipItem(tooltip, itemData)
 		if not itemID then return end
-		app.TooltipItemID = itemID
 
 		if app.Settings["showTooltip"] then
 			local reagentID1 = 0
