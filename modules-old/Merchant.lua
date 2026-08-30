@@ -23,6 +23,7 @@ end)
 
 app.Event:Register("MERCHANT_SHOW", function()
 	app.Flag.MerchantOpen = true
+
 	local function TrackMerchantItem()
 		if IsAltKeyDown() then
 			local merchant = MerchantFrameTitleText:GetText()
@@ -94,9 +95,27 @@ app.Event:Register("MERCHANT_SHOW", function()
 	end
 
 	if app.Flag.MerchantAssets == false then
+		 -- Stop autocompare which messes with our recipe detection (and is dumb)
+		function MerchantItemButton_OnEnter(button)
+			GameTooltip:SetOwner(button, "ANCHOR_RIGHT");
+			if ( MerchantFrame.selectedTab == 1 ) then
+				GameTooltip:SetMerchantItem(button:GetID());
+				-- GameTooltip_ShowCompareItem(GameTooltip);
+				MerchantFrame.itemHover = button:GetID();
+			else
+				GameTooltip:SetBuybackItem(button:GetID());
+				if ( IsModifiedClick("DRESSUP") and button.hasItem ) then
+					ShowInspectCursor();
+				else
+					ShowBuybackSellCursor(button:GetID());
+				end
+			end
+		end
+
 		for i = 1, 99 do -- Works for addons that expand the vendor frame up to 99 slots
 			local itemButton = _G["MerchantItem" .. i .. "ItemButton"]
 			if itemButton then
+				itemButton.UpdateTooltip = MerchantItemButton_OnEnter
 				itemButton:HookScript("OnClick", function() TrackMerchantItem() end)
 			end
 		end
