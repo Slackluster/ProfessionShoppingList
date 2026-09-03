@@ -218,9 +218,13 @@ function app:UpdateOrdersQueue()
 			C_Timer.After(0.2, function()
 				app:UpdateButton(app.OrdersQueueFrame.Button, L.ORDERSQUEUE_COMPLETE)
 				app.OrdersQueueFrame.Button:SetScript("OnClick", function() end)
-				C_CraftingOrders.FulfillOrder(app.QueuedOrders[1].orderID, "", professionID)
-				app:Debug("Fulfill")
-				-- app:UpdateOrdersQueue()
+				if C_CraftingOrders.GetClaimedOrder() and #app.QueuedOrders > 0 then
+					C_CraftingOrders.FulfillOrder(app.QueuedOrders[1].orderID, "", professionID)
+					app:Debug("Fulfill")
+				else
+					app.OrderState = app.Enum.OrderState.Idle
+					app:UpdateOrdersQueue()
+				end
 			end)
 		end
 	end)
