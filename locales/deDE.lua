@@ -225,6 +225,8 @@ local L = app.locales
 -- L.SETTINGS_SLASH_CRAFTINGACHIE =         "crafting achievement"
 -- L.SETTINGS_SLASH_RECIPEID =              "recipeID"
 -- L.SETTINGS_SLASH_QUANTITY =              "quantity"
+-- L.SETTINGS_SLASH_REAGENT =               "itemLink or itemID"
+-- L.SETTINGS_SLASH_TRACKREAGENT =          "Track all recipes using this reagent"
 
 -- L.GENERAL =                              GENERAL -- "General"
 -- L.SETTINGS_MINIMAP_TITLE =               "Show Minimap Icon"

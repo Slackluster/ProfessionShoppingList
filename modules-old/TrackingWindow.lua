@@ -2083,7 +2083,7 @@ function api:TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 
 	-- Adjust the recipeID for SL legendary crafts, if a custom rank is entered
 	if app.slLegendaryRecipeIDs[recipeID] then
-		local rank = math.floor(app.ShadowlandsRankBox:GetNumber())
+		local rank = (app.ShadowlandsRankBox and math.floor(app.ShadowlandsRankBox:GetNumber())) or 1
 		if rank == 1 then
 			recipeID = app.slLegendaryRecipeIDs[recipeID].one
 		elseif rank == 2 then

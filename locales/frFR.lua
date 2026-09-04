@@ -225,6 +225,8 @@ L.SETTINGS_SLASH_TRACKACHIE =            "Suivre les recettes nécessaires pour 
 L.SETTINGS_SLASH_CRAFTINGACHIE =         "haut fait de métier"
 L.SETTINGS_SLASH_RECIPEID =              "recipeID"
 L.SETTINGS_SLASH_QUANTITY =              "quantité"
+-- L.SETTINGS_SLASH_REAGENT =               "itemLink or itemID"
+-- L.SETTINGS_SLASH_TRACKREAGENT =          "Track all recipes using this reagent"
 
 L.GENERAL =                              GENERAL    -- "General"
 L.SETTINGS_MINIMAP_TITLE =               "Afficher le bouton de la mini-carte"

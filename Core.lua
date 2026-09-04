@@ -179,8 +179,9 @@ function app:CreateSlashCommands()
 		elseif command == "" then
 			api:ToggleWindow()
 		else
-			local _, check = string.find(command, "\124cffffff00\124Hachievement:")
-			if check ~= nil then
+			local _, achievement = string.find(command, "\124cffffff00\124Hachievement:")
+			local itemID = C_Item.GetItemInfoInstant(command)
+			if achievement ~= nil then
 				local achievementID = tonumber(string.match(string.sub(command, 25), "%d+"))
 				local numCriteria = GetAchievementNumCriteria(achievementID)
 				local _, criteriaType = GetAchievementCriteriaInfo(achievementID, 1, true)
@@ -225,6 +226,20 @@ function app:CreateSlashCommands()
 					end
 				else
 					app:Print(L.INVALID_ACHIEVEMENT)
+				end
+			elseif itemID then
+				for recipeID, recipeInfo in pairs(ProfessionShoppingList_Library) do
+					if recipeInfo.reagents then
+						for _, reagents in ipairs(recipeInfo.reagents) do
+							if reagents.reagents then
+								for _, reagent in ipairs(reagents.reagents) do
+									if reagent.itemID and reagent.itemID == itemID then
+										api:TrackRecipe(recipeID, 1)
+									end
+								end
+							end
+						end
+					end
 				end
 			else
 				app:Print(L.INVALID_COMMAND)

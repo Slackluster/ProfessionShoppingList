@@ -295,7 +295,8 @@ function app:CreateSettings()
 			"/psl track " .. app:Colour(L.SETTINGS_SLASH_RECIPEID .. " " .. L.SETTINGS_SLASH_QUANTITY),
 			"/psl untrack " .. app:Colour(L.SETTINGS_SLASH_RECIPEID .. " " .. L.SETTINGS_SLASH_QUANTITY),
 			"/psl untrack " .. app:Colour(L.SETTINGS_SLASH_RECIPEID),
-			"/psl " .. app:Colour("[" .. L.SETTINGS_SLASH_CRAFTINGACHIE .. "]") }
+			"/psl " .. app:Colour("[" .. L.SETTINGS_SLASH_CRAFTINGACHIE .. "]"),
+			"/psl " .. app:Colour("[" .. L.SETTINGS_SLASH_REAGENT .. "]") }
 		local middleText = {
 			L.SETTINGS_SLASH_TOGGLE,
 			L.SETTINGS_SLASH_RESETPOS,

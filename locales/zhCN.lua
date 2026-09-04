@@ -225,6 +225,8 @@ L.SETTINGS_SLASH_TRACKACHIE =            "追踪链接成就所需配方"
 L.SETTINGS_SLASH_CRAFTINGACHIE =         "制造成就"
 L.SETTINGS_SLASH_RECIPEID =              "配方ID"
 L.SETTINGS_SLASH_QUANTITY =              "数量"
+-- L.SETTINGS_SLASH_REAGENT =               "itemLink or itemID"
+-- L.SETTINGS_SLASH_TRACKREAGENT =          "Track all recipes using this reagent"
 
 L.GENERAL =                              GENERAL -- "General"
 L.SETTINGS_MINIMAP_TITLE =               "显示小地图图标"
