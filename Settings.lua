@@ -192,9 +192,9 @@ function app:CreateSettings()
 			NewSettings[patch] = NewSettings[patch] or {}
 			table.insert(NewSettings[patch], appName .. "_" .. variable)
 
-			local function callback() app.Settings.seenNew[variable] = true end
-			if setting1 then setting1:SetValueChangedCallback(callback) end
-			if setting2 then setting2:SetValueChangedCallback(callback) end
+			local function markAsSeen() app.Settings.seenNew[variable] = true end
+			if setting1 then setting1:SetValueChangedCallback(markAsSeen) end
+			if setting2 then setting2:SetValueChangedCallback(markAsSeen) end
 		end
 	end
 
