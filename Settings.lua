@@ -189,7 +189,6 @@ function app:CreateSettings()
 
 			initializer.data.newTagID = appName .. "_" .. variable
 
-			NewSettings[patch] = NewSettings[patch] or {}
 			table.insert(NewSettings[patch], appName .. "_" .. variable)
 
 			local function markAsSeen() app.Settings.seenNew[variable] = true end
