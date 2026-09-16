@@ -21,6 +21,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		app.Settings["windowLocked"] = app.Settings["windowLocked"] or false
 		app.Settings["debug"] = app.Settings["debug"] or false
 		app.Settings["useLocalReagents"] = app.Settings["useLocalReagents"] or false
+		app.Settings.seenNew = app.Settings.seenNew or {}
 
 		app:CreateMinimapButton()
 		app:CreateSettings()
