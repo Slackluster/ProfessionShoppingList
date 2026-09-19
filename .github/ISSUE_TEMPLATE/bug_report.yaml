@@ -1,0 +1,65 @@
+name: Bug report
+description: Did I do an oopsie again? Let me know!
+labels: ["bug"]
+assignees:
+  - Slackluster
+type: bug
+body:
+  - type: checkboxes
+    id: reload
+    attributes:
+      label: Reload the game
+      description: Did you try reloading the game (using /rl)?
+      options:
+        - label: Yes, the issue still happens after reloading the game.
+          required: false
+  - type: checkboxes
+    id: unique
+    attributes:
+      label: Enable only this addon
+      description: Did you verify the issue happens when only this addon is enabled?
+      options:
+        - label: Yes, the issue still happens with only this addon enabled.
+          required: false
+  - type: checkboxes
+    id: settings
+    attributes:
+      label: Check the settings
+      description: Is this behaviour that can be changed via the addon's settings?
+      options:
+        - label: No, there aren't any settings that help with this issue.
+          required: false
+  - type: dropdown
+    id: flavour
+    attributes:
+      label: Flavour
+      description: What flavour of WoW do you play when the issue happens?
+      options:
+        - Retail
+        - Forever
+      default: 0
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of the addon are you using when the issue happens?
+      placeholder: v12.1.0
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the issue
+      description: What is going wrong? What should be happening? Is this reproducible, if yes, how?
+      placeholder: I tried to open the settings, and I was turned into a newt!
+    validations:
+      required: true
+  - type: upload
+    id: screenshot
+    attributes:
+      label: Screenshots
+      description: If it helps to explain the issue, you can upload one or more screenshots here.
+    validations:
+      required: false
