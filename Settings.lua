@@ -364,6 +364,8 @@ function app:CreateSettings()
 
 	checkbox("showCraftCostTooltip", L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE, L.SETTINGS_CRAFTCOSTTOOLTIP_DESC, true, nil, parentSetting, parentCheckbox, true)
 
+	if app.Retail then
+
 	dropdown("reagentQuality", L.SETTINGS_REAGENTQUALITY_TITLE, L.SETTINGS_REAGENTQUALITY_DESC, 1, {
 		{ value = 1, name = "|A:Professions-ChatIcon-Quality-12-Tier1:24:24::1|a|A:Professions-ChatIcon-Quality-Tier1:20:18::1|a  " .. L.LOW, description = nil },
 		{ value = 2, name = "|A:Professions-ChatIcon-Quality-12-Tier2:24:24::1|a|A:Professions-ChatIcon-Quality-Tier3:20:18::1|a  " .. L.HIGH, description = nil },
@@ -392,6 +394,8 @@ function app:CreateSettings()
 		{ value = 1, name = L.SETTINGS_DURATION_MEDIUM, description = nil },
 		{ value = 2, name = L.SETTINGS_DURATION_LONG, description = nil },
 	})
+
+	end
 
 	header(L.SETTINGS_HEADER_TRACK)
 

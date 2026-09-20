@@ -1,4 +1,4 @@
-## Interface: 120100
+## Interface: 16001, 120100
 ## Title: |cff3FC7EBProfession Shopping List|r
 ## Author: Slackluster
 ## Notes: Track recipes, reagents, cooldowns, patron orders, and more
@@ -30,18 +30,19 @@ libs\ChatThrottleLib\ChatThrottleLib.xml
 libs\LibDBIcon-1.0\embeds.xml
 libs\LibDBIcon-1.0\LibDBIcon-1.0\LibDBIcon-1.0.lua
 Core.lua
+_[Game].lua
 Database.lua
 Settings.lua
 FrameTemplates.xml
 modules-old\AuctionHouse.lua
-modules-old\CraftingOrders.lua
+modules-old\CraftingOrders.lua [AllowLoadGameType standard]
 modules-old\Merchant.lua
-modules-old\ProfessionKnowledge.lua
+modules-old\ProfessionKnowledge.lua [AllowLoadGameType standard]
 modules-old\ProfessionWindow.lua
 modules-old\Tooltip.lua
 modules-old\TrackingWindow.lua
-modules\OrdersQueue.lua
-modules\TrackNewMogs.lua
+modules\OrdersQueue.lua [AllowLoadGameType standard]
+modules\TrackNewMogs.lua [AllowLoadGameType standard]
 locales\enUS.lua
 locales\deDE.lua
 locales\esES.lua
