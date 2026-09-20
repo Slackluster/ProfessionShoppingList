@@ -40,12 +40,20 @@ function app:CreateProfToolsAssets()
 		frame.equipped:Hide()
 
 		frame:SetScript("OnEnter", function(self)
-			GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+			local string = L.PROFTOOL_AUTOEQUIP .. "\n"
 			if type == "default" then
-				GameTooltip:SetText(L.PROFTOOL_AUTOEQUIP .. "\n" .. L.PROFTOOL_DEFAULT .. "\n" .. L.PROFTOOL_MOUSE)
+				string = string .. L.PROFTOOL_DEFAULT .. "\n"
 			elseif type == "orders" then
-				GameTooltip:SetText(L.PROFTOOL_AUTOEQUIP .. "\n" .. L.PROFTOOL_ORDERS .. "\n" .. L.PROFTOOL_MOUSE)
+				string = string .. L.PROFTOOL_ORDERS .. "\n"
 			end
+			if frame:GetItem() then
+				string = string .. L.PROFTOOL_MOUSE
+			else
+				string = string .. L.PROFTOOL_DRAG
+			end
+
+			GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+			GameTooltip:SetText(string)
 			GameTooltip:Show()
 
 			local itemLink = self:GetItemLink()

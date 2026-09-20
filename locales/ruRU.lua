@@ -171,8 +171,9 @@ L.ORDERSQUEUE_WARNING_QUEST =            "Вы не взяли %s." -- %s become
 L.ORDERSQUEUE_WARNING_REAGENTS =         "У вас недостаточно реагентов для всех отслеживаемых рецептов."
 
 -- L.PROFTOOL_AUTOEQUIP =                   "Automatically equip this tool" -- Followed by one of the two following phrases
--- L.PROFTOOL_DEFAULT =                     "for regular crafting."
--- L.PROFTOOL_ORDERS =                      "while doing orders."
+-- L.PROFTOOL_DEFAULT =                     "for |cffFFFFFFregular crafting|R."
+-- L.PROFTOOL_ORDERS =                      "while |cffFFFFFFdoing orders|R."
+-- L.PROFTOOL_DRAG =                        "Drag a tool here."
 -- L.PROFTOOL_MOUSE =                       app.IconLMB .. ": Equip this tool.\n" ..
 --                                          app.IconRMB .. ": Remove this tool."
 
