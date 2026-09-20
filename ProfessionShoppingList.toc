@@ -42,6 +42,7 @@ modules-old\ProfessionWindow.lua
 modules-old\Tooltip.lua
 modules-old\TrackingWindow.lua
 modules\OrdersQueue.lua [AllowLoadGameType standard]
+modules\ProfessionTools.lua [AllowLoadGameType standard]
 modules\TrackNewMogs.lua [AllowLoadGameType standard]
 locales\enUS.lua
 locales\deDE.lua

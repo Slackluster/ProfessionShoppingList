@@ -170,6 +170,12 @@ local L = app.locales
 -- L.ORDERSQUEUE_WARNING_QUEST =            "You have not picked up %s." -- %s becomes a quest name
 -- L.ORDERSQUEUE_WARNING_REAGENTS =         "You do not have enough reagents for all tracked recipes."
 
+-- L.PROFTOOL_AUTOEQUIP =                   "Automatically equip this tool" -- Followed by one of the two following phrases
+-- L.PROFTOOL_DEFAULT =                     "for regular crafting."
+-- L.PROFTOOL_ORDERS =                      "while doing orders."
+-- L.PROFTOOL_MOUSE =                       app.IconLMB .. ": Equip this tool.\n" ..
+--                                          app.IconRMB .. ": Remove this tool."
+
 -- Chat feedback
 -- L.INVALID_PARAMETERS =                   "Invalid parameters."
 -- L.INVALID_RECIPEQUANTITY =               L.INVALID_PARAMETERS .. " Please enter a valid recipe quantity."
