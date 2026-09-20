@@ -299,7 +299,6 @@ app.CraftingOrderRewards = {
 		[3266] = { type = "artisan", expansion = 11 },
 	},
 }
--- L.CRAFTING_COST =                        "Crafting Cost"
 
 -- Profession knowledge
 app.ProfessionKnowledge = {
