@@ -61,7 +61,7 @@ function app:CreateShoppingList()
 
 			for reagentID, reagentAmount in pairs(app.ReagentQuantities) do
 				if type(reagentID) == "number" then -- Ignore tracked gold and currency costs
-					if not ProfessionShoppingList_Cache.ReagentTiers[reagentID] then
+					if not app.Cache.ReagentTiers[reagentID] then
 						app:CacheItem(reagentID)
 					end
 
@@ -79,19 +79,19 @@ function app:CreateShoppingList()
 					local itemName, _, _, _, _, _, _, _, _, _, _, _, _, bindType = C_Item.GetItemInfo(reagentID)
 					if not (bindType == Enum.ItemBind.OnAcquire or bindType == Enum.ItemBind.ToWoWAccount or bindType == Enum.ItemBind.ToBnetAccount or bindType == Enum.ItemBind.ToBnetAccountUntilEquipped) then
 						local simulatedReagents = {}
-						for k, v in pairs(ProfessionShoppingList_Cache.SimulatedRecipes) do
+						for k, v in pairs(app.Cache.SimulatedRecipes) do
 							for k2, v2 in pairs(v) do
 								simulatedReagents[k2] = v2
 							end
 						end
 
 						local reagentQuality
-						local preMidnight = ProfessionShoppingList_Cache.ReagentTiers[reagentID].three ~= 0
-						local noQuality = ProfessionShoppingList_Cache.ReagentTiers[reagentID].two == 0
+						local preMidnight = app.Cache.ReagentTiers[reagentID].three ~= 0
+						local noQuality = app.Cache.ReagentTiers[reagentID].two == 0
 						if simulatedReagents[reagentID] then
-							if ProfessionShoppingList_Cache.ReagentTiers[reagentID].three == reagentID then
+							if app.Cache.ReagentTiers[reagentID].three == reagentID then
 								reagentQuality = 3
-							elseif ProfessionShoppingList_Cache.ReagentTiers[reagentID].two == reagentID then
+							elseif app.Cache.ReagentTiers[reagentID].two == reagentID then
 								reagentQuality = 2
 							elseif preMidnight or noQuality then
 								reagentQuality = ""
@@ -107,8 +107,8 @@ function app:CreateShoppingList()
 						local reagentCount = app:GetReagentCount(reagentID)
 						reagentCount = math.max(0, reagentAmount - reagentCount)
 
-						for k, v in pairs(ProfessionShoppingList_Data.Recipes) do
-							if ProfessionShoppingList_Library[k] and ProfessionShoppingList_Library[k].itemID == reagentID then
+						for k, v in pairs(app.Data.Recipes) do
+							if app.Library[k] and app.Library[k].itemID == reagentID then
 								reagentCount = 0
 							end
 						end

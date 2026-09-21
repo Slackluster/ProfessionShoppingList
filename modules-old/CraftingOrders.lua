@@ -20,15 +20,15 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		}
 		if app.Settings["craftingOrders"].trackReset == nil then app.Settings["craftingOrders"].trackReset = true end
 
-		ProfessionShoppingList_CharacterData.Queue = ProfessionShoppingList_CharacterData.Queue or {}
-		if ProfessionShoppingList_CharacterData.TrackConcentration ~= nil then
-			ProfessionShoppingList_CharacterData.Queue.TrackConcentration = ProfessionShoppingList_CharacterData.TrackConcentration
-			ProfessionShoppingList_CharacterData.TrackConcentration = nil
+		app.CharData.Queue = app.CharData.Queue or {}
+		if app.CharData.TrackConcentration ~= nil then
+			app.CharData.Queue.TrackConcentration = app.CharData.TrackConcentration
+			app.CharData.TrackConcentration = nil
 		end
-		if ProfessionShoppingList_CharacterData.Queue.TrackConcentration == nil then
-			ProfessionShoppingList_CharacterData.Queue.TrackConcentration = true
+		if app.CharData.Queue.TrackConcentration == nil then
+			app.CharData.Queue.TrackConcentration = true
 		end
-		ProfessionShoppingList_CharacterData.Queue.Knowledge = ProfessionShoppingList_CharacterData.Queue.Knowledge or {}
+		app.CharData.Queue.Knowledge = app.CharData.Queue.Knowledge or {}
 
 		app.Flag.CraftingOrderAssets = false
 		app.Flag.QuickOrder = 0
@@ -98,11 +98,11 @@ function app:CreateCraftingOrdersAssets()
 		app.QuickOrderTargetBox:SetAutoFocus(false)
 		app.QuickOrderTargetBox:SetCursorPosition(0)
 		app.QuickOrderTargetBox:SetScript("OnEditFocusLost", function(self)
-			ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] = tostring(app.QuickOrderTargetBox:GetText())
+			app.CharData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] = tostring(app.QuickOrderTargetBox:GetText())
 			app:UpdateAssets()
 		end)
 		app.QuickOrderTargetBox:SetScript("OnEnterPressed", function(self)
-			ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] = tostring(app.QuickOrderTargetBox:GetText())
+			app.CharData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] = tostring(app.QuickOrderTargetBox:GetText())
 			self:ClearFocus()
 			app:UpdateAssets()
 		end)
@@ -141,22 +141,22 @@ function app:CreateCraftingOrdersAssets()
 					local reagentID = recipeInfo[i].reagents[1].itemID
 
 					-- Add the info for tiered reagents to craftingReagentItems
-					if ProfessionShoppingList_Cache.ReagentTiers[reagentID].two ~= 0 then
+					if app.Cache.ReagentTiers[reagentID].two ~= 0 then
 						-- Set it to the lowest quality we have enough of for this order
-						if C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].one, true, false, true, true) >= quantityNo then
-							craftingReagentInfo[no1] = {reagent = { itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].one}, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
+						if C_Item.GetItemCount(app.Cache.ReagentTiers[reagentID].one, true, false, true, true) >= quantityNo then
+							craftingReagentInfo[no1] = {reagent = { itemID = app.Cache.ReagentTiers[reagentID].one}, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
 							no1 = no1 + 1
-						elseif C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].two, true, false, true, true) >= quantityNo then
-							craftingReagentInfo[no1] = {reagent = { itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].two}, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
+						elseif C_Item.GetItemCount(app.Cache.ReagentTiers[reagentID].two, true, false, true, true) >= quantityNo then
+							craftingReagentInfo[no1] = {reagent = { itemID = app.Cache.ReagentTiers[reagentID].two}, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
 							no1 = no1 + 1
-						elseif C_Item.GetItemCount(ProfessionShoppingList_Cache.ReagentTiers[reagentID].three, true, false, true, true) >= quantityNo then
-							craftingReagentInfo[no1] = {reagent = { itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].three}, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
+						elseif C_Item.GetItemCount(app.Cache.ReagentTiers[reagentID].three, true, false, true, true) >= quantityNo then
+							craftingReagentInfo[no1] = {reagent = { itemID = app.Cache.ReagentTiers[reagentID].three}, dataSlotIndex = recipeInfo[i].dataSlotIndex, quantity = quantityNo}
 							no1 = no1 + 1
 						end
 					-- Add the info for non-tiered reagents to reagentItems
 					else
 						if C_Item.GetItemCount(reagentID, true, false, true, true) >= quantityNo then
-							reagentInfo[no2] = {reagent = { itemID = ProfessionShoppingList_Cache.ReagentTiers[reagentID].one}, quantity = quantityNo}
+							reagentInfo[no2] = {reagent = { itemID = app.Cache.ReagentTiers[reagentID].one}, quantity = quantityNo}
 							no2 = no2 + 1
 						end
 					end
@@ -174,11 +174,11 @@ function app:CreateCraftingOrdersAssets()
 		end
 
 		local orderType = Enum.CraftingOrderType.Personal
-		if ProfessionShoppingList_CharacterData.Orders[recipeID] == "GUILD" then
+		if app.CharData.Orders[recipeID] == "GUILD" then
 			orderType = Enum.CraftingOrderType.Guild
 		end
 
-		local orderInfo = { skillLineAbilityID = ProfessionShoppingList_Library[recipeID].abilityID, orderType = orderType, orderDuration = app.Settings["quickOrderDuration"], tipAmount = 100, customerNotes = "", orderTarget = ProfessionShoppingList_CharacterData.Orders[recipeID], reagentInfos = reagentInfo, craftingReagentItems = craftingReagentInfo }
+		local orderInfo = { skillLineAbilityID = app.Library[recipeID].abilityID, orderType = orderType, orderDuration = app.Settings["quickOrderDuration"], tipAmount = 100, customerNotes = "", orderTarget = app.CharData.Orders[recipeID], reagentInfos = reagentInfo, craftingReagentItems = craftingReagentInfo }
 		C_CraftingOrders.PlaceNewOrder(orderInfo)
 	end
 
@@ -217,7 +217,7 @@ function app:CreateCraftingOrdersAssets()
 		app.LocalReagentsCheckbox:SetScript("OnClick", function(self)
 			app.Settings["useLocalReagents"] = self:GetChecked()
 
-			if ProfessionShoppingList_CharacterData.Orders["last"] ~= nil and ProfessionShoppingList_CharacterData.Orders["last"] ~= 0 then
+			if app.CharData.Orders["last"] ~= nil and app.CharData.Orders["last"] ~= 0 then
 				app.RepeatQuickOrderTooltip.Reagents = L.FALSE
 				if app.Settings["useLocalReagents"] then
 					app.RepeatQuickOrderTooltip.Reagents = L.TRUE
@@ -231,8 +231,8 @@ function app:CreateCraftingOrdersAssets()
 		app.RepeatQuickOrderButton = app:MakeButton(ProfessionsCustomerOrdersFrame, "")
 		app.RepeatQuickOrderButton:SetPoint("BOTTOMLEFT", ProfessionsCustomerOrdersFrame, 170, 5)
 		app.RepeatQuickOrderButton:SetScript("OnClick", function()
-			if ProfessionShoppingList_CharacterData.Orders["last"] ~= nil and ProfessionShoppingList_CharacterData.Orders["last"] ~= 0 then
-				quickOrder(ProfessionShoppingList_CharacterData.Orders["last"])
+			if app.CharData.Orders["last"] ~= nil and app.CharData.Orders["last"] ~= 0 then
+				quickOrder(app.CharData.Orders["last"])
 				ProfessionsCustomerOrdersFrame.MyOrdersPage:RefreshOrders()
 			else
 				app:Print("No last Quick Order found.")
@@ -250,8 +250,8 @@ function app:CreateCraftingOrdersAssets()
 		-- Set the last used recipe name for the repeat order button title
 		local recipeName = L.NOLASTORDER
 		-- Check for the name if there has been a last order
-		if ProfessionShoppingList_CharacterData.Orders["last"] ~= nil and ProfessionShoppingList_CharacterData.Orders["last"] ~= 0 then
-			recipeName = C_TradeSkillUI.GetRecipeSchematic(ProfessionShoppingList_CharacterData.Orders["last"], false).name
+		if app.CharData.Orders["last"] ~= nil and app.CharData.Orders["last"] ~= 0 then
+			recipeName = C_TradeSkillUI.GetRecipeSchematic(app.CharData.Orders["last"], false).name
 		end
 		app:UpdateButton(app.RepeatQuickOrderButton, recipeName)
 	end
@@ -259,12 +259,12 @@ function app:CreateCraftingOrdersAssets()
 	-- Create the repeat last crafting order button text
 	app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP
 
-	if ProfessionShoppingList_CharacterData.Orders["last"] ~= nil and ProfessionShoppingList_CharacterData.Orders["last"] ~= 0 and ProfessionShoppingList_CharacterData.Orders[ProfessionShoppingList_CharacterData.Orders["last"]] ~= nil then
+	if app.CharData.Orders["last"] ~= nil and app.CharData.Orders["last"] ~= 0 and app.CharData.Orders[app.CharData.Orders["last"]] ~= nil then
 		app.RepeatQuickOrderTooltip.Reagents = L.FALSE
 		if app.Settings["useLocalReagents"] then
 			app.RepeatQuickOrderTooltip.Reagents = L.TRUE
 		end
-		app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP .. "\n" .. L.RECIPIENT .. ": " .. ProfessionShoppingList_CharacterData.Orders[ProfessionShoppingList_CharacterData.Orders["last"]] .. "\n" .. L.LOCALREAGENTS_LABEL .. ": " .. app.RepeatQuickOrderTooltip.Reagents
+		app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP .. "\n" .. L.RECIPIENT .. ": " .. app.CharData.Orders[app.CharData.Orders["last"]] .. "\n" .. L.LOCALREAGENTS_LABEL .. ": " .. app.RepeatQuickOrderTooltip.Reagents
 	end
 
 	-- Set the flag for assets created to true
@@ -286,12 +286,12 @@ function app:CreateProfessionsOrdersAssets()
 			local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 			if ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
 				for key, orderInfo in pairs(app.OrderInfo) do
-					if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] and skillLineID == orderInfo.skillLineID and orderInfo.view.orderType == Enum.CraftingOrderType.Npc then
+					if orderInfo.learned and not app.Data.Recipes[key] and skillLineID == orderInfo.skillLineID and orderInfo.view.orderType == Enum.CraftingOrderType.Npc then
 						local profit = 1
 						if app.Flag.IsAuctionAddonLoaded then
 							profit = orderInfo.profit
 							for tradeSkillLineID, knowledge in pairs(orderInfo.knowledge) do
-								if ProfessionShoppingList_CharacterData.Queue.Knowledge[tradeSkillLineID] then
+								if app.CharData.Queue.Knowledge[tradeSkillLineID] then
 									profit = profit + (knowledge * (app.Settings["craftingOrders"].knowledgeCost * 10000))
 								end
 							end
@@ -299,7 +299,7 @@ function app:CreateProfessionsOrdersAssets()
 							profit = profit + (orderInfo.payout * (app.Settings["craftingOrders"].payoutCost * 10000))
 						end
 
-						if profit >= 0 and (ProfessionShoppingList_CharacterData.Queue.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings["craftingOrders"].trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) and orderInfo.expirationTime > GetServerTime() then
+						if profit >= 0 and (app.CharData.Queue.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings["craftingOrders"].trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) and orderInfo.expirationTime > GetServerTime() then
 							api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
 						end
 					end
@@ -309,7 +309,7 @@ function app:CreateProfessionsOrdersAssets()
 				end
 			elseif ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected then
 				for key, orderInfo in pairs(app.OrderInfo) do
-					if orderInfo.learned and not ProfessionShoppingList_Data.Recipes[key] and orderInfo.view.orderType == Enum.CraftingOrderType.Personal then
+					if orderInfo.learned and not app.Data.Recipes[key] and orderInfo.view.orderType == Enum.CraftingOrderType.Personal then
 						api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
 					end
 				end
@@ -431,13 +431,13 @@ function app:CreateProfessionsOrdersAssets()
 		texture:SetAtlas("auctionhouse-icon-coin-gold", true)
 
 		local function isSelected(index)
-			if ProfessionShoppingList_CharacterData.Queue.Knowledge[index] == nil then
-				ProfessionShoppingList_CharacterData.Queue.Knowledge[index] = true
+			if app.CharData.Queue.Knowledge[index] == nil then
+				app.CharData.Queue.Knowledge[index] = true
 			end
-			return ProfessionShoppingList_CharacterData.Queue.Knowledge[index]
+			return app.CharData.Queue.Knowledge[index]
 		end
 		local function setSelected(index)
-			ProfessionShoppingList_CharacterData.Queue.Knowledge[index] = not ProfessionShoppingList_CharacterData.Queue.Knowledge[index]
+			app.CharData.Queue.Knowledge[index] = not app.CharData.Queue.Knowledge[index]
 		end
 		function listStyleGenerator(owner, rootDescription)
 			rootDescription:CreateTitle(string.format(L.ORDERS_TRACK_ON, charName))
@@ -544,9 +544,9 @@ function app:CreateProfessionsOrdersAssets()
 		checkbox2:SetPoint("TOPLEFT", text4, "BOTTOMLEFT", -3, -2)
 		checkbox2.Text:SetText(charName)
 		checkbox2.Text:SetPoint("LEFT", checkbox2, "RIGHT")
-		checkbox2:SetChecked(ProfessionShoppingList_CharacterData.Queue.TrackConcentration)
+		checkbox2:SetChecked(app.CharData.Queue.TrackConcentration)
 		checkbox2:SetScript("OnClick", function(self)
-			ProfessionShoppingList_CharacterData.Queue.TrackConcentration = self:GetChecked()
+			app.CharData.Queue.TrackConcentration = self:GetChecked()
 		end)
 
 		app.TrackOrdersSettings:SetFlattensRenderLayers(true)
@@ -583,7 +583,7 @@ end)
 
 -- When a recipe is selected (or rather, when any spell is loaded, but this is the only way to grab the recipeID for placing a recrafting order)
 app.Event:Register("SPELL_DATA_LOAD_RESULT", function(spellID, success)
-	if not InCombatLockdown() and app.SelectedRecipe and app.SelectedRecipe.PlaceOrder and app.SelectedRecipe.PlaceOrder.recraft and ProfessionShoppingList_Library[spellID] then
+	if not InCombatLockdown() and app.SelectedRecipe and app.SelectedRecipe.PlaceOrder and app.SelectedRecipe.PlaceOrder.recraft and app.Library[spellID] then
 		app.SelectedRecipe.PlaceOrder.recipeID = spellID
 		app:UpdateAssets()
 	end
@@ -597,7 +597,7 @@ end)
 -- When fulfilling an order
 app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, orderID)
 	if result ~= 0 then return end
-	for k, v in pairs(ProfessionShoppingList_Data.Recipes) do
+	for k, v in pairs(app.Data.Recipes) do
 		if tonumber(string.match(k, ":(%d+):")) == orderID then
 			if app.OrderInfo and app.OrderInfo[k] then
 				app.OrderInfo[k] = nil
@@ -607,7 +607,7 @@ app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, ord
 				api:UntrackRecipe(k, 1)
 
 				local next = next
-				if next(ProfessionShoppingList_Data.Recipes) == nil and app.Settings["closeWhenDone"] then
+				if next(app.Data.Recipes) == nil and app.Settings["closeWhenDone"] then
 					app.Window:Hide()
 				end
 			end
@@ -638,16 +638,16 @@ app.Event:Register("CRAFTINGORDERS_ORDER_PLACEMENT_RESPONSE", function(result)
 			return
 		end
 
-		ProfessionShoppingList_CharacterData.Orders["last"] = app.QuickOrderRecipeID
+		app.CharData.Orders["last"] = app.QuickOrderRecipeID
 
 		local recipeName = L.NOLASTORDER
-		if ProfessionShoppingList_CharacterData.Orders["last"] ~= nil and ProfessionShoppingList_CharacterData.Orders["last"] ~= 0 then
+		if app.CharData.Orders["last"] ~= nil and app.CharData.Orders["last"] ~= 0 then
 			app.RepeatQuickOrderTooltip.Reagents = L.FALSE
 			if app.Settings["useLocalReagents"] then
 				app.RepeatQuickOrderTooltip.Reagents = L.TRUE
 			end
-			app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP .. "\n" .. L.RECIPIENT .. ": " .. ProfessionShoppingList_CharacterData.Orders[ProfessionShoppingList_CharacterData.Orders["last"]] .. "\n" .. L.LOCALREAGENTS_LABEL .. ": " .. app.RepeatQuickOrderTooltip.Reagents
-			recipeName = C_TradeSkillUI.GetRecipeSchematic(ProfessionShoppingList_CharacterData.Orders["last"], false).name
+			app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP .. "\n" .. L.RECIPIENT .. ": " .. app.CharData.Orders[app.CharData.Orders["last"]] .. "\n" .. L.LOCALREAGENTS_LABEL .. ": " .. app.RepeatQuickOrderTooltip.Reagents
+			recipeName = C_TradeSkillUI.GetRecipeSchematic(app.CharData.Orders["last"], false).name
 		end
 		app:UpdateButton(app.RepeatQuickOrderButton, recipeName)
 
@@ -839,14 +839,14 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 							if reagent.count > 0 then
 								local prices = {}
 								table.insert(prices, app:ItemValue(reagent.itemID))
-								if ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID] and ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].one then
-									table.insert(prices, app:ItemValue(ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].one))
+								if app.Cache.ReagentTiers[reagent.itemID] and app.Cache.ReagentTiers[reagent.itemID].one then
+									table.insert(prices, app:ItemValue(app.Cache.ReagentTiers[reagent.itemID].one))
 								end
-								if ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID] and ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].two then
-									table.insert(prices, app:ItemValue(ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].two))
+								if app.Cache.ReagentTiers[reagent.itemID] and app.Cache.ReagentTiers[reagent.itemID].two then
+									table.insert(prices, app:ItemValue(app.Cache.ReagentTiers[reagent.itemID].two))
 								end
-								if ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID] and ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].three then
-									table.insert(prices, app:ItemValue(ProfessionShoppingList_Cache.ReagentTiers[reagent.itemID].three))
+								if app.Cache.ReagentTiers[reagent.itemID] and app.Cache.ReagentTiers[reagent.itemID].three then
+									table.insert(prices, app:ItemValue(app.Cache.ReagentTiers[reagent.itemID].three))
 								end
 
 								local min = 10000000000
@@ -1061,7 +1061,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 					app.OrderAdjustments[v].unlearned:Hide()
 					app.OrderAdjustments[v].firstCraft:Hide()
 
-					if ProfessionShoppingList_Data.Recipes[key] then
+					if app.Data.Recipes[key] then
 						app.OrderAdjustments[v].tracked:Show()
 					elseif not recipeInfo.learned then
 						app.OrderAdjustments[v].unlearned:Show()
@@ -1077,7 +1077,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 				local originalOnClick = v:GetScript("OnClick")
 				v:SetScript("OnClick", function(self, button, down)
 					if IsShiftKeyDown() then
-						if ProfessionShoppingList_Data.Recipes[key] then
+						if app.Data.Recipes[key] then
 							api:UntrackRecipe(key, 1)
 						else
 							api:TrackRecipe(data.option.spellID, 1, data.option.isRecraft, data.option.orderID)

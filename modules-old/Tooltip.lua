@@ -35,18 +35,18 @@ function app:AddTooltipInfo()
 			local reagentAmountNeed2 = 0
 			local reagentAmountNeed3 = 0
 
-			if ProfessionShoppingList_Cache.ReagentTiers[itemID] then
-				if ProfessionShoppingList_Cache.ReagentTiers[itemID].one ~= 0 then
-					reagentID1 = ProfessionShoppingList_Cache.ReagentTiers[itemID].one
-					reagentAmountNeed1 = app.ReagentQuantities[ProfessionShoppingList_Cache.ReagentTiers[itemID].one] or 0
+			if app.Cache.ReagentTiers[itemID] then
+				if app.Cache.ReagentTiers[itemID].one ~= 0 then
+					reagentID1 = app.Cache.ReagentTiers[itemID].one
+					reagentAmountNeed1 = app.ReagentQuantities[app.Cache.ReagentTiers[itemID].one] or 0
 				end
-				if ProfessionShoppingList_Cache.ReagentTiers[itemID].two ~= 0 then
-					reagentID2 = ProfessionShoppingList_Cache.ReagentTiers[itemID].two
-					reagentAmountNeed2 = app.ReagentQuantities[ProfessionShoppingList_Cache.ReagentTiers[itemID].two] or 0
+				if app.Cache.ReagentTiers[itemID].two ~= 0 then
+					reagentID2 = app.Cache.ReagentTiers[itemID].two
+					reagentAmountNeed2 = app.ReagentQuantities[app.Cache.ReagentTiers[itemID].two] or 0
 				end
-				if ProfessionShoppingList_Cache.ReagentTiers[itemID].three ~= 0 then
-					reagentID3 = ProfessionShoppingList_Cache.ReagentTiers[itemID].three
-					reagentAmountNeed3 = app.ReagentQuantities[ProfessionShoppingList_Cache.ReagentTiers[itemID].three] or 0
+				if app.Cache.ReagentTiers[itemID].three ~= 0 then
+					reagentID3 = app.Cache.ReagentTiers[itemID].three
+					reagentAmountNeed3 = app.ReagentQuantities[app.Cache.ReagentTiers[itemID].three] or 0
 				end
 			end
 
@@ -68,17 +68,17 @@ function app:AddTooltipInfo()
 
 			if app.Settings["showCraftTooltip"] or app.Settings["showCraftCostTooltip"] then
 				local recipeID
-				for k, v in pairs(ProfessionShoppingList_Library) do
+				for k, v in pairs(app.Library) do
 					if type(v) ~= "number" and v.itemID == itemID then -- No clue why these non-table values are here, tbh
 						recipeID = k
 						break
 					end
 				end
 
-				if recipeID and ProfessionShoppingList_Library[recipeID] then
+				if recipeID and app.Library[recipeID] then
 					local totalCost = 0
-					if app.Settings["showCraftCostTooltip"] and app.Flag.IsAuctionAddonLoaded and ProfessionShoppingList_Library[recipeID].reagents then
-						for _, reagent in ipairs(ProfessionShoppingList_Library[recipeID].reagents) do
+					if app.Settings["showCraftCostTooltip"] and app.Flag.IsAuctionAddonLoaded and app.Library[recipeID].reagents then
+						for _, reagent in ipairs(app.Library[recipeID].reagents) do
 							local reagentCost = {}
 							for _, reagentVar in ipairs(reagent.reagents) do
 								if reagentVar.itemID then
@@ -95,8 +95,8 @@ function app:AddTooltipInfo()
 
 					local tradeskillID, learned
 					if app.Settings["showCraftTooltip"] then
-						tradeskillID = ProfessionShoppingList_Library[recipeID].tradeskillID
-						learned = ProfessionShoppingList_Library[recipeID].learned
+						tradeskillID = app.Library[recipeID].tradeskillID
+						learned = app.Library[recipeID].learned
 					end
 
 					if app.Settings["showCraftTooltip"] then

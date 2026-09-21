@@ -37,7 +37,7 @@ app.Event:Register("MERCHANT_SHOW", function()
 
 			-- Add this as a fake recipe
 			local key = "vendor:" .. merchant .. ":" .. itemID
-			ProfessionShoppingList_Cache.FakeRecipes[key] = {
+			app.Cache.FakeRecipes[key] = {
 				["itemID"] = itemID,
 				["tradeskillID"] = 0, -- Vendor item
 				["costCopper"] = 0,
@@ -46,8 +46,8 @@ app.Event:Register("MERCHANT_SHOW", function()
 			}
 
 			if itemPrice then
-				ProfessionShoppingList_Cache.FakeRecipes[key].costCopper = itemPrice
-				ProfessionShoppingList_Cache.Reagents["gold"] = {
+				app.Cache.FakeRecipes[key].costCopper = itemPrice
+				app.Cache.Reagents["gold"] = {
 					icon = app.IconProfession[0],
 					link = L.GOLD,
 				}
@@ -58,16 +58,16 @@ app.Event:Register("MERCHANT_SHOW", function()
 				if currencyName and itemLink then
 					local currencyID = C_CurrencyInfo.GetCurrencyIDFromLink(itemLink)
 
-					ProfessionShoppingList_Cache.FakeRecipes[key].costCurrency[currencyID] = itemValue
-					ProfessionShoppingList_Cache.Reagents["currency:" .. currencyID] = {
+					app.Cache.FakeRecipes[key].costCurrency[currencyID] = itemValue
+					app.Cache.Reagents["currency:" .. currencyID] = {
 						icon = itemTexture,
 						link = C_CurrencyInfo.GetCurrencyLink(currencyID),
 					}
 				elseif itemLink then
 					local itemID = GetItemInfoFromHyperlink(itemLink)
-					ProfessionShoppingList_Cache.FakeRecipes[key].costItems[itemID] = itemValue
-					if not ProfessionShoppingList_Cache.ReagentTiers[itemID] then
-						ProfessionShoppingList_Cache.ReagentTiers[itemID] = {
+					app.Cache.FakeRecipes[key].costItems[itemID] = itemValue
+					if not app.Cache.ReagentTiers[itemID] then
+						app.Cache.ReagentTiers[itemID] = {
 							one = itemID,
 							two = 0,
 							three = 0,
@@ -78,8 +78,8 @@ app.Event:Register("MERCHANT_SHOW", function()
 			end
 
 			-- Track the vendor item as a fake recipe
-			if not ProfessionShoppingList_Data.Recipes[key] then ProfessionShoppingList_Data.Recipes[key] = { quantity = 0, link = itemLink} end
-			ProfessionShoppingList_Data.Recipes[key].quantity = ProfessionShoppingList_Data.Recipes[key].quantity + 1
+			if not app.Data.Recipes[key] then app.Data.Recipes[key] = { quantity = 0, link = itemLink} end
+			app.Data.Recipes[key].quantity = app.Data.Recipes[key].quantity + 1
 
 			app:ShowWindow()
 		end
@@ -166,7 +166,7 @@ app.Event:Register("CHAT_MSG_LOOT", function(text, playerName, languageName, cha
 	if not app.Flag.MerchantOpen then return end
 	if issecretvalue(text) then return end
 	local trackingVendorRecipes = false
-	for key, _ in pairs(ProfessionShoppingList_Data.Recipes) do
+	for key, _ in pairs(app.Data.Recipes) do
 		if type(key) == "string" and key:match("^vendor:") then
 			trackingVendorRecipes = true
 			break
@@ -179,7 +179,7 @@ app.Event:Register("CHAT_MSG_LOOT", function(text, playerName, languageName, cha
 	if itemString then
 		local itemID = C_Item.GetItemInfoInstant(itemString)
 
-		for key, itemInfo in pairs(ProfessionShoppingList_Data.Recipes) do
+		for key, itemInfo in pairs(app.Data.Recipes) do
 			if type(key) == "string" and key:match("^vendor:") then
 				local trackedItemID = C_Item.GetItemInfoInstant(itemInfo.link)
 				if itemID == trackedItemID then

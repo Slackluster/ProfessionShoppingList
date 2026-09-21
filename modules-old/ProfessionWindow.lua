@@ -12,7 +12,7 @@ local L = app.locales
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
-		if not ProfessionShoppingList_Data.Pets then ProfessionShoppingList_Data.Pets = {} end
+		if not app.Data.Pets then app.Data.Pets = {} end
 
 		app.Flag.TradeskillAssets = false
 	end
@@ -80,7 +80,7 @@ function app:CreateTradeskillAssets()
 			self:ClearFocus()
 		end)
 		app.RecipeQuantityBox:SetScript("OnEscapePressed", function(self, newValue)
-			self:SetText(ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID].quantity)
+			self:SetText(app.Data.Recipes[app.SelectedRecipe.Profession.recipeID].quantity)
 			self:ClearFocus()
 		end)
 		app:SetBorder(app.RecipeQuantityBox, -6, 1, 2, -2)
@@ -450,7 +450,7 @@ function app:CreateTradeskillAssets()
 			-- Decide if we need to create a track or untrack option
 			local key = "order:" .. ownerRegion.rowData.option.orderID .. ":" .. ownerRegion.rowData.option.spellID
 
-			if ProfessionShoppingList_Data.Recipes[key] then
+			if app.Data.Recipes[key] then
 				rootDescription:CreateButton(CreateSimpleTextureMarkup(app.Icon) .. " " .. app:Colour(L.UNTRACK), function()
 					api:UntrackRecipe(key, 1)
 				end)
@@ -477,7 +477,7 @@ function app:CreateTradeskillAssets()
 		app.TrackMakeOrderButton:SetScript("OnClick", function()
 			local key = "order:" .. app.SelectedRecipe.MakeOrder.orderID .. ":" .. app.SelectedRecipe.MakeOrder.spellID
 
-			if ProfessionShoppingList_Data.Recipes[key] then
+			if app.Data.Recipes[key] then
 				api:UntrackRecipe(key, 1)
 				app:UpdateButton(app.TrackMakeOrderButton, L.TRACK)
 				app:ShowWindow()
@@ -493,13 +493,13 @@ function app:CreateTradeskillAssets()
 		TestFlight.GUI.OrdersPage.SetOrderTracked = function(_, orderDetails, checked)
 			local key = "order:" .. orderDetails.orderID .. ":" .. orderDetails.spellID
 
-			if not checked and ProfessionShoppingList_Data.Recipes[key] then
+			if not checked and app.Data.Recipes[key] then
 				-- Untrack the recipe
 				api:UntrackRecipe(key, 1)
 
 				-- Show window
 				app:ShowWindow()
-			elseif checked and ProfessionShoppingList_Data.Recipes[key] == nil then
+			elseif checked and app.Data.Recipes[key] == nil then
 				-- Track the recipe
 				api:TrackRecipe(orderDetails.spellID, 1, orderDetails.isRecraft, orderDetails.orderID)
 			end
@@ -546,15 +546,15 @@ function app:UpdateAssets()
 			end
 
 			-- Enable Profession untracking for tracked recipes
-			if not ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID] or ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID].quantity == 0 then
+			if not app.Data.Recipes[app.SelectedRecipe.Profession.recipeID] or app.Data.Recipes[app.SelectedRecipe.Profession.recipeID].quantity == 0 then
 				app.UntrackProfessionButton:Disable()
 			else
 				app.UntrackProfessionButton:Enable()
 			end
 
 			-- Update the Profession quantity editbox
-			if ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID] then
-				app.RecipeQuantityBox:SetText(ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.Profession.recipeID].quantity or 0)
+			if app.Data.Recipes[app.SelectedRecipe.Profession.recipeID] then
+				app.RecipeQuantityBox:SetText(app.Data.Recipes[app.SelectedRecipe.Profession.recipeID].quantity or 0)
 			else
 				app.RecipeQuantityBox:SetText(0)
 			end
@@ -570,7 +570,7 @@ function app:UpdateAssets()
 
 				-- Set the Make Order button to Track or Untrack depending on if the recipe is tracked or not
 				local key = "order:" .. app.SelectedRecipe.MakeOrder.orderID .. ":" .. app.SelectedRecipe.MakeOrder.spellID
-				if ProfessionShoppingList_Data.Recipes[key] then
+				if app.Data.Recipes[key] then
 					app:UpdateButton(app.TrackMakeOrderButton, L.UNTRACK)
 				else
 					app:UpdateButton(app.TrackMakeOrderButton, L.TRACK)
@@ -609,7 +609,7 @@ function app:UpdateAssets()
 			app.ThermalAnvilCooldown:SetCooldown(startTime, duration)
 
 			-- Make the Alvin the Anvil button not desaturated if it can be used
-			if ProfessionShoppingList_Data.Pets["alvin"] and C_PetJournal.PetIsSummonable(ProfessionShoppingList_Data.Pets["alvin"].guid) then
+			if app.Data.Pets["alvin"] and C_PetJournal.PetIsSummonable(app.Data.Pets["alvin"].guid) then
 				app.AlvinButton:GetNormalTexture():SetDesaturated(false)
 			end
 
@@ -636,27 +636,27 @@ function app:UpdateAssets()
 			end
 
 			-- Disable untracking for untracked recipes
-			if not ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.PlaceOrder.recipeID] or ProfessionShoppingList_Data.Recipes[app.SelectedRecipe.PlaceOrder.recipeID].quantity == 0 then
+			if not app.Data.Recipes[app.SelectedRecipe.PlaceOrder.recipeID] or app.Data.Recipes[app.SelectedRecipe.PlaceOrder.recipeID].quantity == 0 then
 				app.UntrackPlaceOrderButton:Disable()
 			else
 				app.UntrackPlaceOrderButton:Enable()
 			end
 
 			-- Remove the personal order entry if the value is ""
-			if ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] == "" then
-				ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] = nil
+			if app.CharData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] == "" then
+				app.CharData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] = nil
 			end
 
 			-- Enable the quick order button if recipe is cached and target are known
-			if ProfessionShoppingList_Library[app.SelectedRecipe.PlaceOrder.recipeID] and ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] then
+			if app.Library[app.SelectedRecipe.PlaceOrder.recipeID] and app.CharData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] then
 				app.QuickOrderButton:Enable()
 			else
 				app.QuickOrderButton:Disable()
 			end
 
 			-- Update the personal order name textbox
-			if ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] then
-				app.QuickOrderTargetBox:SetText(ProfessionShoppingList_CharacterData.Orders[app.SelectedRecipe.PlaceOrder.recipeID])
+			if app.CharData.Orders[app.SelectedRecipe.PlaceOrder.recipeID] then
+				app.QuickOrderTargetBox:SetText(app.CharData.Orders[app.SelectedRecipe.PlaceOrder.recipeID])
 			else
 				app.QuickOrderTargetBox:SetText("")
 			end
@@ -670,7 +670,7 @@ function app:UpdateAssets()
 					row.unlearned:Hide()
 					row.firstCraft:Hide()
 
-					if ProfessionShoppingList_Data.Recipes[row.key] then
+					if app.Data.Recipes[row.key] then
 						row.tracked:Show()
 					elseif not C_TradeSkillUI.GetRecipeInfo(row.recipeID).learned then
 						row.unlearned:Show()
@@ -710,11 +710,11 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 		end
 
 		local function getGUID(id, name)
-			if not ProfessionShoppingList_Data.Pets[name] then
+			if not app.Data.Pets[name] then
 				for i=1, 9999 do
 					local petID, speciesID = C_PetJournal.GetPetInfoByIndex(i)
 					if speciesID == id and petID then
-						ProfessionShoppingList_Data.Pets[name] = {guid = petID, enabled = true}
+						app.Data.Pets[name] = {guid = petID, enabled = true}
 						break
 					elseif speciesID == nil then
 						break
@@ -723,30 +723,30 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 			end
 		end
 
-		-- ProfessionShoppingList_Data.Pets[name]
+		-- app.Data.Pets[name]
 		getGUID(297, "ragnaros")
 		getGUID(1204, "pierre")
 		getGUID(3274, "alvin")
 
 		if app.Flag.TradeskillAssets then
 			-- Alvin button
-			if ProfessionShoppingList_Data.Pets["alvin"] then
+			if app.Data.Pets["alvin"] then
 				app.AlvinButton:SetAttribute("type1", "macro")
-				app.AlvinButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. ProfessionShoppingList_Data.Pets["alvin"].guid .. "\")")
+				app.AlvinButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. app.Data.Pets["alvin"].guid .. "\")")
 			end
 
 			-- Lil' Ragnaros button
-			if ProfessionShoppingList_Data.Pets["ragnaros"] then
+			if app.Data.Pets["ragnaros"] then
 				app.RagnarosButton:SetAttribute("type1", "macro")
-				app.RagnarosButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. ProfessionShoppingList_Data.Pets["ragnaros"].guid .. "\")")
+				app.RagnarosButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. app.Data.Pets["ragnaros"].guid .. "\")")
 				app.RagnarosButton:SetAttribute("type2", "macro")
 				app.RagnarosButton:SetAttribute("macrotext2", "/run ProfessionShoppingList:SwapCookingPet()")
 			end
 
 			-- Pierre button
-			if ProfessionShoppingList_Data.Pets["pierre"] then
+			if app.Data.Pets["pierre"] then
 				app.PierreButton:SetAttribute("type1", "macro")
-				app.PierreButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. ProfessionShoppingList_Data.Pets["pierre"].guid .. "\")")
+				app.PierreButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. app.Data.Pets["pierre"].guid .. "\")")
 				app.PierreButton:SetAttribute("type2", "macro")
 				app.PierreButton:SetAttribute("macrotext2", "/run ProfessionShoppingList:SwapCookingPet()")
 			end
@@ -775,16 +775,16 @@ end)
 function api:SwapCookingPet()
 	assert(self == api, "Call ProfessionShoppingList:SwapCookingPet(), not ProfessionShoppingList.SwapCookingPet()")
 
-	if ProfessionShoppingList_Data.Pets["ragnaros"] and ProfessionShoppingList_Data.Pets["pierre"] then
-		if ProfessionShoppingList_Data.Pets["ragnaros"].enabled then
-			ProfessionShoppingList_Data.Pets["ragnaros"].enabled = false
+	if app.Data.Pets["ragnaros"] and app.Data.Pets["pierre"] then
+		if app.Data.Pets["ragnaros"].enabled then
+			app.Data.Pets["ragnaros"].enabled = false
 			app.RagnarosButton:Hide()
-			ProfessionShoppingList_Data.Pets["pierre"].enabled = true
+			app.Data.Pets["pierre"].enabled = true
 			app.PierreButton:Show()
 		else
-			ProfessionShoppingList_Data.Pets["ragnaros"].enabled = true
+			app.Data.Pets["ragnaros"].enabled = true
 			app.RagnarosButton:Show()
-			ProfessionShoppingList_Data.Pets["pierre"].enabled = false
+			app.Data.Pets["pierre"].enabled = false
 			app.PierreButton:Hide()
 		end
 	end
@@ -885,9 +885,9 @@ app.Event:Register("SPELL_DATA_LOAD_RESULT", function(spellID, success)
 
 			-- Cooking Fire and Chef's Hat buttons
 			if professionID == 5 then
-				if ProfessionShoppingList_Data.Pets["ragnaros"] and ProfessionShoppingList_Data.Pets["ragnaros"].enabled then
+				if app.Data.Pets["ragnaros"] and app.Data.Pets["ragnaros"].enabled then
 					app.RagnarosButton:Show()
-				elseif ProfessionShoppingList_Data.Pets["pierre"] and ProfessionShoppingList_Data.Pets["pierre"].enabled then
+				elseif app.Data.Pets["pierre"] and app.Data.Pets["pierre"].enabled then
 					app.PierreButton:Show()
 				else
 					app.CookingFireButton:Show()

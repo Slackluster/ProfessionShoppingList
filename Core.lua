@@ -42,10 +42,16 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		ProfessionShoppingList_CharacterData = ProfessionShoppingList_CharacterData or {}
 		ProfessionShoppingList_Data = ProfessionShoppingList_Data or {}
 		ProfessionShoppingList_Library = ProfessionShoppingList_Library or {}
+		ProfessionShoppingList_Settings = ProfessionShoppingList_Settings or {}
 
-		app.Flag = {}
+		app.Cache = ProfessionShoppingList_Cache
+		app.Data = ProfessionShoppingList_Data
+		app.CharData = ProfessionShoppingList_CharacterData
+		app.Library = ProfessionShoppingList_Library
+		app.Settings = ProfessionShoppingList_Settings
 		app.Version = C_AddOns.GetAddOnMetadata(appName, "Version")
 		app.Enum = {}
+		app.Flag = {}
 
 		C_ChatInfo.RegisterAddonMessagePrefix(app.NamePrefix)
 		app:CreateSlashCommands()

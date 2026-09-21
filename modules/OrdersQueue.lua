@@ -150,7 +150,7 @@ function app:UpdateOrdersQueue()
 				trackedType = Enum.CraftingOrderType.Personal
 			end
 
-			for key, recipe in pairs(ProfessionShoppingList_Data.Recipes) do
+			for key, recipe in pairs(app.Data.Recipes) do
 				if recipe and recipe.professionID == professionID and recipe.orderID and app.OrderInfo[key] and app.OrderInfo[key].view.orderType == trackedType and C_CurrencyInfo.GetCurrencyInfo(concID).quantity > app.OrderInfo[key].concentrationCost then
 					table.insert(app.QueuedOrders, app.OrderInfo[key])
 				end
@@ -279,7 +279,7 @@ app.Event:Register("CRAFTINGORDERS_CLAIM_ORDER_RESPONSE", function(result, order
 	if app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() and result == Enum.CraftingOrderResult.MissingOrder then
 		local key = "order:" .. orderID .. ":" .. app.QueuedOrders[1].spellID
 		app.OrderInfo[key] = nil
-		ProfessionShoppingList_Data.Recipes[key] = nil
+		app.Data.Recipes[key] = nil
 		table.remove(app.OrdersQueueFrame, 1)
 		app:UpdateRecipes()
 		app:UpdateOrdersQueue()
