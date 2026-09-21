@@ -14,9 +14,6 @@ local L = app.locales
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		app.CharData.profTools = app.CharData.profTools or {}
-		for skillLineID in pairs(app.ProfessionKnowledge) do
-			app.CharData.profTools[skillLineID] = app.CharData.profTools[skillLineID] or {}
-		end
 	end
 end)
 
@@ -74,7 +71,7 @@ function app:CreateProfToolsAssets()
 			local itemLocation = C_Cursor.GetCursorItem()
 			if itemLocation then
 				local itemGUID = C_Item.GetItemGUID(itemLocation)
-				app.CharData.profTools[C_TradeSkillUI.GetProfessionChildSkillLineID()][type] = itemGUID
+				app.CharData.profTools[type] = itemGUID
 				app:UpdateProfToolsAssets()
 			end
 			ClearCursor()
@@ -83,10 +80,9 @@ function app:CreateProfToolsAssets()
 		frame:SetScript("OnReceiveDrag", grabCursorItem)
 
 		frame:SetScript("OnClick", function(self, button)
-			local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 			if button == "LeftButton" then
-				if app.CharData.profTools[skillLineID][type] then
-					local itemLocation = C_Item.GetItemLocation(app.CharData.profTools[skillLineID][type])
+				if app.CharData.profTools[type] then
+					local itemLocation = C_Item.GetItemLocation(app.CharData.profTools[type])
 					if C_Item.DoesItemExist(itemLocation) and itemLocation:IsBagAndSlot() then
 						C_Container.PickupContainerItem(itemLocation.bagID, itemLocation.slotIndex)
 						AutoEquipCursorItem()
@@ -95,7 +91,7 @@ function app:CreateProfToolsAssets()
 					grabCursorItem()
 				end
 			elseif button == "RightButton" then
-				app.CharData.profTools[skillLineID][type] = nil
+				app.CharData.profTools[type] = nil
 				ShoppingTooltip1:Hide()
 			end
 			app:UpdateProfToolsAssets()
@@ -121,12 +117,10 @@ function app:UpdateProfToolsAssets()
 
 	local function update(frameName, type)
 		local frame = app[frameName]
-		local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
-		if not skillLineID or skillLineID == 0 then return end
 
 		frame.equipped:Hide()
-		if app.CharData.profTools[skillLineID][type] then
-			local itemGUID = app.CharData.profTools[skillLineID][type]
+		if app.CharData.profTools[type] then
+			local itemGUID = app.CharData.profTools[type]
 			local itemLink = C_Item.GetItemLink(C_Item.GetItemLocation(itemGUID))
 			frame:SetItem(itemLink)
 
@@ -147,11 +141,8 @@ end
 function app:EquipProfTool(type)
 	if not app.Settings["enhancedOrders"] then return end
 
-	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
-	if not skillLineID or skillLineID == 0 then return end
-
-	if app.CharData.profTools[skillLineID][type] then
-		local itemLocation = C_Item.GetItemLocation(app.CharData.profTools[skillLineID][type])
+	if app.CharData.profTools[type] then
+		local itemLocation = C_Item.GetItemLocation(app.CharData.profTools[type])
 		if C_Item.DoesItemExist(itemLocation) and itemLocation:IsBagAndSlot() then
 			C_Container.PickupContainerItem(itemLocation.bagID, itemLocation.slotIndex)
 			AutoEquipCursorItem()
