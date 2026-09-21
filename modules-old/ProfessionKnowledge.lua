@@ -48,10 +48,10 @@ end
 function app:SpendToNextPerk()
 	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 
-	if not app.Flag.SpendHook then app.Flag.SpendHook = {} end
+	app.Flag.SpendHook = app.Flag.SpendHook or {}
 	if not app.Flag.SpendHook[skillLineID] then
 		hooksecurefunc(ProfessionsSpecPathMixin, "PurchaseRank", function(self)
-			if app.Settings["spendToNextPerk"] then
+			if app.Settings.spendToNextPerk then
 				local nodeID = self:GetNodeID()
 				local configID = C_ProfSpecs.GetConfigIDForSkillLine(C_TradeSkillUI.GetProfessionChildSkillLineID())
 				local pathInfo = C_Traits.GetNodeInfo(configID, nodeID)

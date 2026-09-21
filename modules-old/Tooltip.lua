@@ -26,7 +26,7 @@ function app:AddTooltipInfo()
 		local itemID = app:GetTooltipItem(tooltip, itemData)
 		if not itemID then return end
 
-		if app.Settings["showTooltip"] then
+		if app.Settings.showTooltip then
 			local reagentID1 = 0
 			local reagentID2 = 0
 			local reagentID3 = 0
@@ -66,7 +66,7 @@ function app:AddTooltipInfo()
 				tooltip:AddLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. reagentAmountHave .. "/" .. reagentAmountNeed .. " (" .. math.max(0,reagentAmountNeed-reagentAmountHave) .. " " .. L.MORE_NEEDED .. ")")
 			end
 
-			if app.Settings["showCraftTooltip"] or app.Settings["showCraftCostTooltip"] then
+			if app.Settings.showCraftTooltip or app.Settings.showCraftCostTooltip then
 				local recipeID
 				for k, v in pairs(app.Library) do
 					if type(v) ~= "number" and v.itemID == itemID then -- No clue why these non-table values are here, tbh
@@ -77,7 +77,7 @@ function app:AddTooltipInfo()
 
 				if recipeID and app.Library[recipeID] then
 					local totalCost = 0
-					if app.Settings["showCraftCostTooltip"] and app.Flag.IsAuctionAddonLoaded and app.Library[recipeID].reagents then
+					if app.Settings.showCraftCostTooltip and app.Flag.IsAuctionAddonLoaded and app.Library[recipeID].reagents then
 						for _, reagent in ipairs(app.Library[recipeID].reagents) do
 							local reagentCost = {}
 							for _, reagentVar in ipairs(reagent.reagents) do
@@ -94,24 +94,24 @@ function app:AddTooltipInfo()
 					end
 
 					local tradeskillID, learned
-					if app.Settings["showCraftTooltip"] then
+					if app.Settings.showCraftTooltip then
 						tradeskillID = app.Library[recipeID].tradeskillID
 						learned = app.Library[recipeID].learned
 					end
 
-					if app.Settings["showCraftTooltip"] then
+					if app.Settings.showCraftTooltip then
 						if not emptyLine then
 							tooltip:AddLine(" ")
 						end
 						local learnedString = learned and L.RECIPE_LEARNED or L.RECIPE_UNLEARNED
 						local icon = app.IconProfession[tradeskillID] or app.IconProfession[999]
 						local name = (tradeskillID and C_TradeSkillUI.GetTradeSkillDisplayName(tradeskillID)) or UNKNOWN
-						if app.Settings["showCraftCostTooltip"] and totalCost > 0 then
+						if app.Settings.showCraftCostTooltip and totalCost > 0 then
 							tooltip:AddDoubleLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.MADE_WITH .. "  " .. icon .. " " .. name .. " (" .. learnedString .. ")", GetMoneyString(totalCost, true))
 						else
 							tooltip:AddLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.MADE_WITH .. "  " .. icon .. " " .. name .. " (" .. learnedString .. ")")
 						end
-					elseif app.Settings["showCraftCostTooltip"] and totalCost > 0 then
+					elseif app.Settings.showCraftCostTooltip and totalCost > 0 then
 						if not emptyLine then
 							tooltip:AddLine(" ")
 						end

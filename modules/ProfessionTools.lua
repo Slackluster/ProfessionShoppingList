@@ -22,7 +22,7 @@ end)
 ----------------------
 
 function app:CreateProfToolsAssets()
-	if not app.Settings["enhancedOrders"] or app.ProfessionToolOrders then return end
+	if not app.Settings.enhancedOrders or app.ProfessionToolOrders then return end
 
 	local function createProfToolFrame(type)
 		local frame = CreateFrame("ItemButton", nil, ProfessionsFrame.OrdersPage)
@@ -113,7 +113,7 @@ function app:CreateProfToolsAssets()
 end
 
 function app:UpdateProfToolsAssets()
-	if not app.Settings["enhancedOrders"] then return end
+	if not app.Settings.enhancedOrders then return end
 
 	local function update(frameName, type)
 		local frame = app[frameName]
@@ -139,7 +139,7 @@ function app:UpdateProfToolsAssets()
 end
 
 function app:EquipProfTool(type)
-	if not app.Settings["enhancedOrders"] then return end
+	if not app.Settings.enhancedOrders then return end
 
 	if app.CharData.profTools[type] then
 		local itemLocation = C_Item.GetItemLocation(app.CharData.profTools[type])

@@ -13,12 +13,12 @@ local L = app.locales
 -- When the addon is fully loaded, actually run the components
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
-		app.Settings["craftingOrders"] = app.Settings["craftingOrders"] or {
+		app.Settings.craftingOrders = app.Settings.craftingOrders or {
 			knowledgeCost = 85,
 			artisanCost = 3,
 			payoutCost = 50,
 		}
-		if app.Settings["craftingOrders"].trackReset == nil then app.Settings["craftingOrders"].trackReset = true end
+		if app.Settings.craftingOrders.trackReset == nil then app.Settings.craftingOrders.trackReset = true end
 
 		app.CharData.Queue = app.CharData.Queue or {}
 		if app.CharData.TrackConcentration ~= nil then
@@ -165,11 +165,11 @@ function app:CreateCraftingOrdersAssets()
 		end
 
 		-- Only add the reagentInfo if the option is enabled
-		if app.Settings["useLocalReagents"] then localReagentsOrder() end
+		if app.Settings.useLocalReagents then localReagentsOrder() end
 
 		-- Signal that PSL is currently working on a quick order with tiered local reagents, if applicable
 		local next = next
-		if next(craftingReagentInfo) ~= nil and app.Settings["useLocalReagents"] then
+		if next(craftingReagentInfo) ~= nil and app.Settings.useLocalReagents then
 			app.Flag.QuickOrder = 2
 		end
 
@@ -178,7 +178,7 @@ function app:CreateCraftingOrdersAssets()
 			orderType = Enum.CraftingOrderType.Guild
 		end
 
-		local orderInfo = { skillLineAbilityID = app.Library[recipeID].abilityID, orderType = orderType, orderDuration = app.Settings["quickOrderDuration"], tipAmount = 100, customerNotes = "", orderTarget = app.CharData.Orders[recipeID], reagentInfos = reagentInfo, craftingReagentItems = craftingReagentInfo }
+		local orderInfo = { skillLineAbilityID = app.Library[recipeID].abilityID, orderType = orderType, orderDuration = app.Settings.quickOrderDuration, tipAmount = 100, customerNotes = "", orderTarget = app.CharData.Orders[recipeID], reagentInfos = reagentInfo, craftingReagentItems = craftingReagentInfo }
 		C_CraftingOrders.PlaceNewOrder(orderInfo)
 	end
 
@@ -215,11 +215,11 @@ function app:CreateCraftingOrdersAssets()
 		app.LocalReagentsCheckbox.Text:SetText(L.LOCALREAGENTS_LABEL)
 		app.LocalReagentsCheckbox.tooltip = L.LOCALREAGENTS_TOOLTIP
 		app.LocalReagentsCheckbox:SetScript("OnClick", function(self)
-			app.Settings["useLocalReagents"] = self:GetChecked()
+			app.Settings.useLocalReagents = self:GetChecked()
 
-			if app.CharData.Orders["last"] ~= nil and app.CharData.Orders["last"] ~= 0 then
+			if app.CharData.Orders.last ~= nil and app.CharData.Orders.last ~= 0 then
 				app.RepeatQuickOrderTooltip.Reagents = L.FALSE
-				if app.Settings["useLocalReagents"] then
+				if app.Settings.useLocalReagents then
 					app.RepeatQuickOrderTooltip.Reagents = L.TRUE
 				end
 			end
@@ -231,8 +231,8 @@ function app:CreateCraftingOrdersAssets()
 		app.RepeatQuickOrderButton = app:MakeButton(ProfessionsCustomerOrdersFrame, "")
 		app.RepeatQuickOrderButton:SetPoint("BOTTOMLEFT", ProfessionsCustomerOrdersFrame, 170, 5)
 		app.RepeatQuickOrderButton:SetScript("OnClick", function()
-			if app.CharData.Orders["last"] ~= nil and app.CharData.Orders["last"] ~= 0 then
-				quickOrder(app.CharData.Orders["last"])
+			if app.CharData.Orders.last ~= nil and app.CharData.Orders.last ~= 0 then
+				quickOrder(app.CharData.Orders.last)
 				ProfessionsCustomerOrdersFrame.MyOrdersPage:RefreshOrders()
 			else
 				app:Print("No last Quick Order found.")
@@ -250,8 +250,8 @@ function app:CreateCraftingOrdersAssets()
 		-- Set the last used recipe name for the repeat order button title
 		local recipeName = L.NOLASTORDER
 		-- Check for the name if there has been a last order
-		if app.CharData.Orders["last"] ~= nil and app.CharData.Orders["last"] ~= 0 then
-			recipeName = C_TradeSkillUI.GetRecipeSchematic(app.CharData.Orders["last"], false).name
+		if app.CharData.Orders.last ~= nil and app.CharData.Orders.last ~= 0 then
+			recipeName = C_TradeSkillUI.GetRecipeSchematic(app.CharData.Orders.last, false).name
 		end
 		app:UpdateButton(app.RepeatQuickOrderButton, recipeName)
 	end
@@ -259,12 +259,12 @@ function app:CreateCraftingOrdersAssets()
 	-- Create the repeat last crafting order button text
 	app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP
 
-	if app.CharData.Orders["last"] ~= nil and app.CharData.Orders["last"] ~= 0 and app.CharData.Orders[app.CharData.Orders["last"]] ~= nil then
+	if app.CharData.Orders.last ~= nil and app.CharData.Orders.last ~= 0 and app.CharData.Orders[app.CharData.Orders.last] ~= nil then
 		app.RepeatQuickOrderTooltip.Reagents = L.FALSE
-		if app.Settings["useLocalReagents"] then
+		if app.Settings.useLocalReagents then
 			app.RepeatQuickOrderTooltip.Reagents = L.TRUE
 		end
-		app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP .. "\n" .. L.RECIPIENT .. ": " .. app.CharData.Orders[app.CharData.Orders["last"]] .. "\n" .. L.LOCALREAGENTS_LABEL .. ": " .. app.RepeatQuickOrderTooltip.Reagents
+		app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP .. "\n" .. L.RECIPIENT .. ": " .. app.CharData.Orders[app.CharData.Orders.last] .. "\n" .. L.LOCALREAGENTS_LABEL .. ": " .. app.RepeatQuickOrderTooltip.Reagents
 	end
 
 	-- Set the flag for assets created to true
@@ -292,14 +292,14 @@ function app:CreateProfessionsOrdersAssets()
 							profit = orderInfo.profit
 							for tradeSkillLineID, knowledge in pairs(orderInfo.knowledge) do
 								if app.CharData.Queue.Knowledge[tradeSkillLineID] then
-									profit = profit + (knowledge * (app.Settings["craftingOrders"].knowledgeCost * 10000))
+									profit = profit + (knowledge * (app.Settings.craftingOrders.knowledgeCost * 10000))
 								end
 							end
-							profit = profit + (orderInfo.artisan * (app.Settings["craftingOrders"].artisanCost * 10000))
-							profit = profit + (orderInfo.payout * (app.Settings["craftingOrders"].payoutCost * 10000))
+							profit = profit + (orderInfo.artisan * (app.Settings.craftingOrders.artisanCost * 10000))
+							profit = profit + (orderInfo.payout * (app.Settings.craftingOrders.payoutCost * 10000))
 						end
 
-						if profit >= 0 and (app.CharData.Queue.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings["craftingOrders"].trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) and orderInfo.expirationTime > GetServerTime() then
+						if profit >= 0 and (app.CharData.Queue.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings.craftingOrders.trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) and orderInfo.expirationTime > GetServerTime() then
 							api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
 						end
 					end
@@ -360,7 +360,7 @@ function app:CreateProfessionsOrdersAssets()
 		end
 
 		hooksecurefunc(ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton, "SetTabSelected", function()
-			if app.Settings["enhancedOrders"] and (ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected or ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected) then
+			if app.Settings.enhancedOrders and (ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected or ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected) then
 				app.TrackOrdersButton:Show()
 				sortOrders()
 			else
@@ -369,13 +369,13 @@ function app:CreateProfessionsOrdersAssets()
 		end)
 
 		ProfessionsFrame.OrdersPage:HookScript("OnShow", function()
-			if app.Settings["enhancedOrders"] and ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
+			if app.Settings.enhancedOrders and ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
 				sortOrders()
 			end
 		end)
 
 		hooksecurefunc(ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "SetTabSelected", function()
-			if app.Settings["enhancedOrders"] and (ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected or ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected) then
+			if app.Settings.enhancedOrders and (ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected or ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected) then
 				app.TrackOrdersButton:Show()
 			else
 				app.TrackOrdersButton:Hide()
@@ -408,18 +408,18 @@ function app:CreateProfessionsOrdersAssets()
 		editbox1:SetPoint("TOPLEFT", text1, "BOTTOMLEFT", 4, -4)
 		editbox1:SetAutoFocus(false)
 		editbox1:SetCursorPosition(0)
-		editbox1:SetText(app.Settings["craftingOrders"].knowledgeCost)
+		editbox1:SetText(app.Settings.craftingOrders.knowledgeCost)
 		editbox1:SetJustifyH("RIGHT")
 		editbox1:SetTextInsets(0, 3, 0, 0)
 		editbox1:SetScript("OnEditFocusLost", function(self)
-			app.Settings["craftingOrders"].knowledgeCost = math.floor(tonumber(self:GetText()) or app.Settings["craftingOrders"].knowledgeCost)
-			self:SetText(app.Settings["craftingOrders"].knowledgeCost)
+			app.Settings.craftingOrders.knowledgeCost = math.floor(tonumber(self:GetText()) or app.Settings.craftingOrders.knowledgeCost)
+			self:SetText(app.Settings.craftingOrders.knowledgeCost)
 		end)
 		editbox1:SetScript("OnEnterPressed", function(self)
 			self:ClearFocus()
 		end)
 		editbox1:SetScript("OnEscapePressed", function(self)
-			self:SetText(app.Settings["craftingOrders"].knowledgeCost)
+			self:SetText(app.Settings.craftingOrders.knowledgeCost)
 		end)
 		app:SetBorder(editbox1, -6, 1, 2, -1)
 
@@ -470,18 +470,18 @@ function app:CreateProfessionsOrdersAssets()
 		editbox2:SetPoint("TOPLEFT", text2, "BOTTOMLEFT", 4, -4)
 		editbox2:SetAutoFocus(false)
 		editbox2:SetCursorPosition(0)
-		editbox2:SetText(app.Settings["craftingOrders"].artisanCost)
+		editbox2:SetText(app.Settings.craftingOrders.artisanCost)
 		editbox2:SetJustifyH("RIGHT")
 		editbox2:SetTextInsets(0, 3, 0, 0)
 		editbox2:SetScript("OnEditFocusLost", function(self)
-			app.Settings["craftingOrders"].artisanCost = math.floor(tonumber(self:GetText()) or app.Settings["craftingOrders"].artisanCost)
-			self:SetText(app.Settings["craftingOrders"].artisanCost)
+			app.Settings.craftingOrders.artisanCost = math.floor(tonumber(self:GetText()) or app.Settings.craftingOrders.artisanCost)
+			self:SetText(app.Settings.craftingOrders.artisanCost)
 		end)
 		editbox2:SetScript("OnEnterPressed", function(self)
 			self:ClearFocus()
 		end)
 		editbox2:SetScript("OnEscapePressed", function(self)
-			self:SetText(app.Settings["craftingOrders"].artisanCost)
+			self:SetText(app.Settings.craftingOrders.artisanCost)
 		end)
 		app:SetBorder(editbox2, -6, 1, 2, -1)
 
@@ -502,18 +502,18 @@ function app:CreateProfessionsOrdersAssets()
 		editbox3:SetPoint("TOPLEFT", text3, "BOTTOMLEFT", 4, -4)
 		editbox3:SetAutoFocus(false)
 		editbox3:SetCursorPosition(0)
-		editbox3:SetText(app.Settings["craftingOrders"].payoutCost)
+		editbox3:SetText(app.Settings.craftingOrders.payoutCost)
 		editbox3:SetJustifyH("RIGHT")
 		editbox3:SetTextInsets(0, 3, 0, 0)
 		editbox3:SetScript("OnEditFocusLost", function(self)
-			app.Settings["craftingOrders"].payoutCost = math.floor(tonumber(self:GetText()) or app.Settings["craftingOrders"].payoutCost)
-			self:SetText(app.Settings["craftingOrders"].payoutCost)
+			app.Settings.craftingOrders.payoutCost = math.floor(tonumber(self:GetText()) or app.Settings.craftingOrders.payoutCost)
+			self:SetText(app.Settings.craftingOrders.payoutCost)
 		end)
 		editbox3:SetScript("OnEnterPressed", function(self)
 			self:ClearFocus()
 		end)
 		editbox3:SetScript("OnEscapePressed", function(self)
-			self:SetText(app.Settings["craftingOrders"].payoutCost)
+			self:SetText(app.Settings.craftingOrders.payoutCost)
 		end)
 		app:SetBorder(editbox3, -6, 1, 2, -1)
 
@@ -529,9 +529,9 @@ function app:CreateProfessionsOrdersAssets()
 		checkbox1.Text:SetText(L.ORDERS_TRACK_AFTER_RESET)
 		checkbox1.Text:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
 		checkbox1.Text:SetPoint("LEFT", checkbox1, "RIGHT")
-		checkbox1:SetChecked(app.Settings["craftingOrders"].trackReset)
+		checkbox1:SetChecked(app.Settings.craftingOrders.trackReset)
 		checkbox1:SetScript("OnClick", function(self)
-			app.Settings["craftingOrders"].trackReset = self:GetChecked()
+			app.Settings.craftingOrders.trackReset = self:GetChecked()
 		end)
 
 		local text4 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -603,11 +603,11 @@ app.Event:Register("CRAFTINGORDERS_FULFILL_ORDER_RESPONSE", function(result, ord
 				app.OrderInfo[k] = nil
 			end
 
-			if app.Settings["removeCraft"] then
+			if app.Settings.removeCraft then
 				api:UntrackRecipe(k, 1)
 
 				local next = next
-				if next(app.Data.Recipes) == nil and app.Settings["closeWhenDone"] then
+				if next(app.Data.Recipes) == nil and app.Settings.closeWhenDone then
 					app.Window:Hide()
 				end
 			end
@@ -638,16 +638,16 @@ app.Event:Register("CRAFTINGORDERS_ORDER_PLACEMENT_RESPONSE", function(result)
 			return
 		end
 
-		app.CharData.Orders["last"] = app.QuickOrderRecipeID
+		app.CharData.Orders.last = app.QuickOrderRecipeID
 
 		local recipeName = L.NOLASTORDER
-		if app.CharData.Orders["last"] ~= nil and app.CharData.Orders["last"] ~= 0 then
+		if app.CharData.Orders.last ~= nil and app.CharData.Orders.last ~= 0 then
 			app.RepeatQuickOrderTooltip.Reagents = L.FALSE
-			if app.Settings["useLocalReagents"] then
+			if app.Settings.useLocalReagents then
 				app.RepeatQuickOrderTooltip.Reagents = L.TRUE
 			end
-			app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP .. "\n" .. L.RECIPIENT .. ": " .. app.CharData.Orders[app.CharData.Orders["last"]] .. "\n" .. L.LOCALREAGENTS_LABEL .. ": " .. app.RepeatQuickOrderTooltip.Reagents
-			recipeName = C_TradeSkillUI.GetRecipeSchematic(app.CharData.Orders["last"], false).name
+			app.RepeatQuickOrderTooltip.Text = L.QUICKORDER_REPEAT_TOOLTIP .. "\n" .. L.RECIPIENT .. ": " .. app.CharData.Orders[app.CharData.Orders.last] .. "\n" .. L.LOCALREAGENTS_LABEL .. ": " .. app.RepeatQuickOrderTooltip.Reagents
+			recipeName = C_TradeSkillUI.GetRecipeSchematic(app.CharData.Orders.last, false).name
 		end
 		app:UpdateButton(app.RepeatQuickOrderButton, recipeName)
 
@@ -680,7 +680,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 		end
 	end
 
-	if app.Settings["enhancedOrders"] and numOrders >= 1 and not app.OrderAdjustments then
+	if app.Settings.enhancedOrders and numOrders >= 1 and not app.OrderAdjustments then
 		app.OrderAdjustments = app.OrderAdjustments or {}
 		app.OrderIcons = app.OrderIcons or {}
 		app.OrderInfo = app.OrderInfo or {}
@@ -759,7 +759,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						end
 					end
 
-					if not app.OrderAdjustments[v].reagent then app.OrderAdjustments[v].reagent = {} end
+					app.OrderAdjustments[v].reagent = app.OrderAdjustments[v].reagent or {}
 					for i, button in ipairs(app.OrderAdjustments[v].reagent) do
 						button:Hide()
 					end
@@ -997,7 +997,7 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						end
 					end
 
-					if not app.OrderAdjustments[v].reward then app.OrderAdjustments[v].reward = {} end
+					app.OrderAdjustments[v].reward = app.OrderAdjustments[v].reward or {}
 					for i, button in ipairs(app.OrderAdjustments[v].reward) do
 						button:Hide()
 					end

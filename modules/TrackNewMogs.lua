@@ -27,9 +27,9 @@ function app:GetTransmogText(itemLinkie, searchString)
 	app.Tooltip[itemLinkie] = tooltip
 	if cvar ~= "1" then C_CVar.SetCVar("missingTransmogSourceInItemTooltips", cvar) end
 
-	if tooltip and tooltip["lines"] then
-		for k, v in ipairs(tooltip["lines"]) do
-			if v["leftText"] and v["leftText"]:find(searchString) then
+	if tooltip and tooltip.lines then
+		for k, v in ipairs(tooltip.lines) do
+			if v.leftText and v.leftText:find(searchString) then
 				return true
 			end
 		end
@@ -126,7 +126,7 @@ function app:TrackUnlearnedMogs()
 		local item = Item:CreateFromItemID(recipe.itemID)
 		item:ContinueOnItemLoad(function()
 			local _, itemLink = C_Item.GetItemInfo(recipe.itemID)
-			if not api:IsAppearanceCollected(itemLink) or (app.Settings["collectMode"] == 2 and not api:IsSourceCollected(itemLink)) then
+			if not api:IsAppearanceCollected(itemLink) or (app.Settings.collectMode == 2 and not api:IsSourceCollected(itemLink)) then
 				api:TrackRecipe(recipe.recipeID, 1)
 				added = added + 1
 			end
@@ -135,7 +135,7 @@ function app:TrackUnlearnedMogs()
 				RunNextFrame(function()
 					app.Flag.ChangingRecipes = false
 					app:UpdateRecipes()
-					app:Print(string.format(L.ADDED_RECIPES, #visibleRecipes, "|cffEDBD21" .. (app.Settings["collectMode"] == 1 and L.MODE_APPEARANCES or L.MODE_SOURCES) .. "|R", added))
+					app:Print(string.format(L.ADDED_RECIPES, #visibleRecipes, "|cffEDBD21" .. (app.Settings.collectMode == 1 and L.MODE_APPEARANCES or L.MODE_SOURCES) .. "|R", added))
 				end)
 			end
 		end)

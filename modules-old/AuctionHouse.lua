@@ -98,9 +98,9 @@ function app:CreateShoppingList()
 							else
 								reagentQuality = 1
 							end
-						elseif app.Settings["reagentQuality"] == 1 or noQuality then
+						elseif app.Settings.reagentQuality == 1 or noQuality then
 							reagentQuality = ""
-						elseif app.Settings["reagentQuality"] == 2 then
+						elseif app.Settings.reagentQuality == 2 then
 							reagentQuality = preMidnight and 3 or 2
 						end
 

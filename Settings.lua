@@ -12,19 +12,19 @@ local L = app.locales
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
-		app.Settings["hide"] = app.Settings["hide"] or false
-		app.Settings["windowPosition"] = app.Settings["windowPosition"] or { ["left"] = 1295, ["bottom"] = 836, ["width"] = 200, ["height"] = 200, }
-		app.Settings["pcWindowPosition"] = app.Settings["pcWindowPosition"] or app.Settings["windowPosition"]
-		app.Settings["windowLocked"] = app.Settings["windowLocked"] or false
-		app.Settings["debug"] = app.Settings["debug"] or false
-		app.Settings["useLocalReagents"] = app.Settings["useLocalReagents"] or false
+		app.Settings.hide = app.Settings.hide or false
+		app.Settings.windowPosition = app.Settings.windowPosition or { left = 1295, bottom = 836, width = 200, height = 200, }
+		app.Settings.pcWindowPosition = app.Settings.pcWindowPosition or app.Settings.windowPosition
+		app.Settings.windowLocked = app.Settings.windowLocked or false
+		app.Settings.debug = app.Settings.debug or false
+		app.Settings.useLocalReagents = app.Settings.useLocalReagents or false
 		app.Settings.seen = app.Settings.seen or {}
 
 		app:CreateMinimapButton()
 		app:CreateSettings()
 
 		-- Midnight cleanup
-		app.Settings["midClean1"] = nil
+		app.Settings.midClean1 = nil
 	end
 end)
 
@@ -34,7 +34,7 @@ end)
 
 function app:OpenSettings()
 	if InCombatLockdown() then
-		app:Print(ERR_AFFECTING_COMBAT..".")
+		app:Print(ERR_AFFECTING_COMBAT .. ".")
 	else
 		Settings.OpenToCategory(app.SettingsCategory:GetID())
 	end
@@ -58,11 +58,11 @@ function app:CreateMinimapButton()
 	app.MinimapIcon:Register(appName, miniButton, app.Settings)
 
 	function app:ToggleMinimapIcon()
-		if app.Settings["minimapIcon"] then
-			app.Settings["hide"] = false
+		if app.Settings.minimapIcon then
+			app.Settings.hide = false
 			app.MinimapIcon:Show(appName)
 		else
-			app.Settings["hide"] = true
+			app.Settings.hide = true
 			app.MinimapIcon:Hide(appName)
 		end
 	end

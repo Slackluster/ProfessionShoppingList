@@ -37,17 +37,11 @@ app.Event:Register("MERCHANT_SHOW", function()
 
 			-- Add this as a fake recipe
 			local key = "vendor:" .. merchant .. ":" .. itemID
-			app.Cache.FakeRecipes[key] = {
-				["itemID"] = itemID,
-				["tradeskillID"] = 0, -- Vendor item
-				["costCopper"] = 0,
-				["costItems"] = {},
-				["costCurrency"] = {},
-			}
+			app.Cache.FakeRecipes[key] = { itemID = itemID, tradeskillID = 0, costCopper = 0, costItems = {}, costCurrency = {} }
 
 			if itemPrice then
 				app.Cache.FakeRecipes[key].costCopper = itemPrice
-				app.Cache.Reagents["gold"] = {
+				app.Cache.Reagents.gold = {
 					icon = app.IconProfession[0],
 					link = L.GOLD,
 				}

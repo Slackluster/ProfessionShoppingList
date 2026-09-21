@@ -12,7 +12,7 @@ local L = app.locales
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
-		if not app.Data.Pets then app.Data.Pets = {} end
+		app.Data.Pets = app.Data.Pets or {}
 
 		app.Flag.TradeskillAssets = false
 	end
@@ -129,7 +129,7 @@ function app:CreateTradeskillAssets()
 		end)
 		app.TrackNewMogsButton:SetScript("OnEnter", function(self)
 			GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
-			GameTooltip:SetText(L.CURRENT_SETTING .. " " .. (app.Settings["collectMode"] == 1 and L.MODE_APPEARANCES or L.MODE_SOURCES))
+			GameTooltip:SetText(L.CURRENT_SETTING .. " " .. (app.Settings.collectMode == 1 and L.MODE_APPEARANCES or L.MODE_SOURCES))
 			GameTooltip:Show()
 		end)
 		app.TrackNewMogsButton:SetScript("OnLeave", function()
@@ -609,7 +609,7 @@ function app:UpdateAssets()
 			app.ThermalAnvilCooldown:SetCooldown(startTime, duration)
 
 			-- Make the Alvin the Anvil button not desaturated if it can be used
-			if app.Data.Pets["alvin"] and C_PetJournal.PetIsSummonable(app.Data.Pets["alvin"].guid) then
+			if app.Data.Pets.alvin and C_PetJournal.PetIsSummonable(app.Data.Pets.alvin.guid) then
 				app.AlvinButton:GetNormalTexture():SetDesaturated(false)
 			end
 
@@ -689,14 +689,14 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 		if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
 			app:CreateTradeskillAssets()
 
-			if app.Settings["filterOptionalReagents"] then
+			if app.Settings.filterOptionalReagents then
 				function Professions.GenerateItemsFromEligibleItemSlots(reagents, filterAvailable)
 					local items = {}
 					local maxFindCount = 1
 					for index, reagent in ipairs(Professions.FilterReagentsByItemID(reagents)) do
 						local itemID = reagent.itemID
 						local foundItems = Professions.FindItemsInInventorySlots(itemID, maxFindCount)
-						if not app.Settings["filterOptionalReagents"] or not filterAvailable or (itemID ~= 247719 and itemID ~= 247725 and itemID ~= 260630) then
+						if not app.Settings.filterOptionalReagents or not filterAvailable or (itemID ~= 247719 and itemID ~= 247725 and itemID ~= 260630) then
 							tAppendAll(items, foundItems)
 						end
 
@@ -730,23 +730,23 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 
 		if app.Flag.TradeskillAssets then
 			-- Alvin button
-			if app.Data.Pets["alvin"] then
+			if app.Data.Pets.alvin then
 				app.AlvinButton:SetAttribute("type1", "macro")
-				app.AlvinButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. app.Data.Pets["alvin"].guid .. "\")")
+				app.AlvinButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. app.Data.Pets.alvin.guid .. "\")")
 			end
 
 			-- Lil' Ragnaros button
-			if app.Data.Pets["ragnaros"] then
+			if app.Data.Pets.ragnaros then
 				app.RagnarosButton:SetAttribute("type1", "macro")
-				app.RagnarosButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. app.Data.Pets["ragnaros"].guid .. "\")")
+				app.RagnarosButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. app.Data.Pets.ragnaros.guid .. "\")")
 				app.RagnarosButton:SetAttribute("type2", "macro")
 				app.RagnarosButton:SetAttribute("macrotext2", "/run ProfessionShoppingList:SwapCookingPet()")
 			end
 
 			-- Pierre button
-			if app.Data.Pets["pierre"] then
+			if app.Data.Pets.pierre then
 				app.PierreButton:SetAttribute("type1", "macro")
-				app.PierreButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. app.Data.Pets["pierre"].guid .. "\")")
+				app.PierreButton:SetAttribute("macrotext1", "/run C_PetJournal.SummonPetByGUID(\"" .. app.Data.Pets.pierre.guid .. "\")")
 				app.PierreButton:SetAttribute("type2", "macro")
 				app.PierreButton:SetAttribute("macrotext2", "/run ProfessionShoppingList:SwapCookingPet()")
 			end
@@ -775,16 +775,16 @@ end)
 function api:SwapCookingPet()
 	assert(self == api, "Call ProfessionShoppingList:SwapCookingPet(), not ProfessionShoppingList.SwapCookingPet()")
 
-	if app.Data.Pets["ragnaros"] and app.Data.Pets["pierre"] then
-		if app.Data.Pets["ragnaros"].enabled then
-			app.Data.Pets["ragnaros"].enabled = false
+	if app.Data.Pets.ragnaros and app.Data.Pets.pierre then
+		if app.Data.Pets.ragnaros.enabled then
+			app.Data.Pets.ragnaros.enabled = false
 			app.RagnarosButton:Hide()
-			app.Data.Pets["pierre"].enabled = true
+			app.Data.Pets.pierre.enabled = true
 			app.PierreButton:Show()
 		else
-			app.Data.Pets["ragnaros"].enabled = true
+			app.Data.Pets.ragnaros.enabled = true
 			app.RagnarosButton:Show()
-			app.Data.Pets["pierre"].enabled = false
+			app.Data.Pets.pierre.enabled = false
 			app.PierreButton:Hide()
 		end
 	end
@@ -885,9 +885,9 @@ app.Event:Register("SPELL_DATA_LOAD_RESULT", function(spellID, success)
 
 			-- Cooking Fire and Chef's Hat buttons
 			if professionID == 5 then
-				if app.Data.Pets["ragnaros"] and app.Data.Pets["ragnaros"].enabled then
+				if app.Data.Pets.ragnaros and app.Data.Pets.ragnaros.enabled then
 					app.RagnarosButton:Show()
-				elseif app.Data.Pets["pierre"] and app.Data.Pets["pierre"].enabled then
+				elseif app.Data.Pets.pierre and app.Data.Pets.pierre.enabled then
 					app.PierreButton:Show()
 				else
 					app.CookingFireButton:Show()

@@ -146,7 +146,7 @@ function app:CreateSlashCommands()
 			local recipeID = tonumber(part1)
 			local recipeQuantity = tonumber(part2)
 
-			if ProfessionShoppingList_Library[recipeID] then
+			if app.Library[recipeID] then
 				if type(recipeQuantity) == "number" and recipeQuantity ~= 0 then
 					api:TrackRecipe(recipeID, recipeQuantity)
 				else
@@ -160,12 +160,12 @@ function app:CreateSlashCommands()
 			local recipeID = tonumber(part1)
 			local recipeQuantity = tonumber(part2)
 
-			if ProfessionShoppingList_Data.Recipes[recipeID] then
+			if app.Data.Recipes[recipeID] then
 				if part2 == "all" then
 					api:UntrackRecipe(recipeID, 0)
 
 					app:ShowWindow()
-				elseif type(recipeQuantity) == "number" and recipeQuantity ~= 0 and recipeQuantity <= ProfessionShoppingList_Data.Recipes[recipeID].quantity then
+				elseif type(recipeQuantity) == "number" and recipeQuantity ~= 0 and recipeQuantity <= app.Data.Recipes[recipeID].quantity then
 					api:UntrackRecipe(recipeID, recipeQuantity)
 
 					app:ShowWindow()
@@ -176,11 +176,11 @@ function app:CreateSlashCommands()
 				app:Print(L.INVALID_RECIPE_TRACKED)
 			end
 		elseif command == "debug" then
-			if app.Settings["debug"] then
-				app.Settings["debug"] = false
+			if app.Settings.debug then
+				app.Settings.debug = false
 				app:Print(L.DEBUG_DISABLED)
 			else
-				app.Settings["debug"] = true
+				app.Settings.debug = true
 				app:Print(L.DEBUG_ENABLED)
 			end
 		elseif command == "" then
@@ -235,7 +235,7 @@ function app:CreateSlashCommands()
 					app:Print(L.INVALID_ACHIEVEMENT)
 				end
 			elseif itemID then
-				for recipeID, recipeInfo in pairs(ProfessionShoppingList_Library) do
+				for recipeID, recipeInfo in pairs(app.Library) do
 					if recipeInfo.reagents then
 						for _, reagents in ipairs(recipeInfo.reagents) do
 							if reagents.reagents then
@@ -260,26 +260,26 @@ function app:Reset(arg)
 		app.Settings = {}
 		app:Print(L.RESET_DONE, L.REQUIRES_RELOAD)
 	elseif arg == "library" then
-		ProfessionShoppingList_Library = {}
+		app.Library = {}
 		app:Print(L.RESET_DONE)
 	elseif arg == "cache" then
 		app:Clear()
-		ProfessionShoppingList_Cache = nil
+		app.Cache = nil
 		app:Print(L.RESET_DONE, L.REQUIRES_RELOAD)
 	elseif arg == "character" then
-		ProfessionShoppingList_CharacterData = nil
+		app.CharData = nil
 		app:Print(L.RESET_DONE, L.REQUIRES_RELOAD)
 	elseif arg == "all" then
 		app:Clear()
 		app.Settings = nil
-		ProfessionShoppingList_Data = nil
-		ProfessionShoppingList_Library = nil
-		ProfessionShoppingList_Cache = nil
-		ProfessionShoppingList_CharacterData = nil
+		app.Data = nil
+		app.Library = nil
+		app.Cache = nil
+		app.CharData = nil
 		app:Print(L.RESET_DONE, L.REQUIRES_RELOAD)
 	elseif arg == "pos" then
-		app.Settings["windowPosition"] = { ["left"] = GetScreenWidth()/2-100, ["bottom"] = GetScreenHeight()/2-100, ["width"] = 200, ["height"] = 200, }
-		app.Settings["pcWindowPosition"] = app.Settings["windowPosition"]
+		app.Settings.windowPosition = { left = GetScreenWidth()/2-100, bottom = GetScreenHeight()/2-100, width = 200, height = 200, }
+		app.Settings.pcWindowPosition = app.Settings.windowPosition
 
 		app:ShowWindow()
 	else
@@ -319,7 +319,7 @@ function app:Colour(string)
 end
 
 function app:Debug(...)
-	if app.Settings["debug"] then
+	if app.Settings.debug then
 		print(app.NameShort .. app:Colour(" Debug") .. ":", ...)
 	end
 end
