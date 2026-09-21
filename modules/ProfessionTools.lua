@@ -158,6 +158,10 @@ app.Event:Register("TRADE_SKILL_CLOSE", function()
 	app:EquipProfTool("default")
 end)
 
+app.Event:Register("CRAFTINGORDERS_CAN_REQUEST", function()
+	app:EquipProfTool("orders")
+end)
+
 EventRegistry:RegisterCallback("ProfessionsFrame.TabSet", function(...)
 	local _, _, tabID = ...
 	if tabID == 1 then
