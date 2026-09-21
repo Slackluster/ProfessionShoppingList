@@ -25,7 +25,7 @@ end)
 ----------------------
 
 function app:CreateProfToolsAssets()
-	if not app.Settings["enhancedOrders"] then return end
+	if not app.Settings["enhancedOrders"] or app.ProfessionToolOrders then return end
 
 	local function createProfToolFrame(type)
 		local frame = CreateFrame("ItemButton", nil, ProfessionsFrame.OrdersPage)
