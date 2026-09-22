@@ -251,7 +251,7 @@ app.Event:Register("TRADE_SKILL_CLOSE", function()
 	app:EquipProfTool("default")
 end)
 
-app.Event:Register("CRAFTINGORDERS_CAN_REQUEST", function()
+app.Event:Register("CRAFTINGORDERS_CLAIM_ORDER_RESPONSE", function(result, orderID)
 	app:EquipProfTool("orders")
 end)
 
