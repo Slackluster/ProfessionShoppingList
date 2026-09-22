@@ -149,20 +149,6 @@ function app:CreateProfToolsAssets()
 	ProfessionsFrame.CraftingPage.Prof1ToolSlot:SetAllPoints(app.ProfessionToolDefault1)
 	ProfessionsFrame.CraftingPage.FishingToolSlot:SetAllPoints(app.ProfessionToolDefault1)
 	ProfessionsFrame.CraftingPage.CookingToolSlot:SetAllPoints(app.ProfessionToolDefault1)
-
-	ProfessionsFrame.CraftingPage.Prof0ToolSlot:HookScript("OnShow", function()
-		app:UpdateProfToolsAssets()
-	end)
-	ProfessionsFrame.CraftingPage.Prof1ToolSlot:HookScript("OnShow", function()
-		app:UpdateProfToolsAssets()
-	end)
-	ProfessionsFrame.CraftingPage.FishingToolSlot:HookScript("OnShow", function()
-		app:UpdateProfToolsAssets()
-	end)
-	ProfessionsFrame.CraftingPage.CookingToolSlot:HookScript("OnShow", function()
-		app:UpdateProfToolsAssets()
-	end)
-
 	ProfessionsFrame.CraftingPage.RankBar:SetWidth(ProfessionsFrame.CraftingPage.RankBar:GetWidth() - 20)
 	ProfessionsFrame.CraftingPage.RankBar.Background:SetWidth(ProfessionsFrame.CraftingPage.RankBar.Background:GetWidth() - 25)
 	ProfessionsFrame.CraftingPage.RankBar.Border:SetWidth(ProfessionsFrame.CraftingPage.RankBar.Border:GetWidth() - 25)
@@ -248,6 +234,17 @@ end
 
 app.Event:Register("TRADE_SKILL_SHOW", function()
 	app:CreateProfToolsAssets()
+
+	local function updateAssets()
+		local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
+		if not skillLineID or skillLineID == 0 then
+			RunNextFrame(updateAssets)
+			return
+		else
+			app:UpdateProfToolsAssets()
+		end
+	end
+	updateAssets()
 end)
 
 app.Event:Register("TRADE_SKILL_CLOSE", function()
