@@ -67,7 +67,7 @@ end
 -- Create the main window
 function app:CreateWindow()
 	-- Create popup frame
-	app.Window = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
+	app.Window = CreateFrame("Frame", "PSLTrackingWindow", UIParent, "BackdropTemplate")
 	app.Window:SetPoint("CENTER")
 	app.Window:SetFrameStrata("MEDIUM")
 	app.Window:SetFrameLevel(200)
@@ -92,6 +92,9 @@ function app:CreateWindow()
 	app.Window:SetScript("OnDragStop", function()
 		if app.Tab and app.Tab.IsShown[0] then return end
 		app:SaveWindow()
+	end)
+	app.Window:SetScript("OnMouseDown", function()
+		app.Window:SetToplevel(true)
 	end)
 	app.Window:Hide()
 
@@ -686,6 +689,8 @@ function app:UpdateRecipes()
 	end
 
 	app.Window.Recipes:SetScript("OnClick", function(self)
+		app.Window:SetToplevel(true)
+
 		local children = {self:GetChildren()}
 
 		if showRecipes then
@@ -779,6 +784,7 @@ function app:UpdateRecipes()
 			ShoppingTooltip1:Hide()
 		end)
 		row:SetScript("OnClick", function(self, button)
+			app.Window:SetToplevel(true)
 			-- Right-click on recipe amount
 			if button == "RightButton" then
 				-- Untrack the recipe
@@ -874,6 +880,8 @@ function app:UpdateRecipes()
 		app.Window.Reagents:SetPoint("TOPLEFT", app.Window.Recipes, "BOTTOMLEFT", 0, rowNo*-16)
 	end
 	app.Window.Reagents:SetScript("OnClick", function(self)
+		app.Window:SetToplevel(true)
+
 		local children = {self:GetChildren()}
 
 		if showReagents then
@@ -934,6 +942,8 @@ function app:UpdateRecipes()
 			ShoppingTooltip1:Hide()
 		end)
 		row:SetScript("OnClick", function(self, button)
+			app.Window:SetToplevel(true)
+
 			local function trackSubreagent(recipeID, itemID)
 				-- Define the amount of recipes to be tracked
 				local quantityMade = C_TradeSkillUI.GetRecipeSchematic(recipeID, false).quantityMin
@@ -1412,6 +1422,8 @@ function app:UpdateRecipes()
 	app.Window.Cooldowns:SetPoint("TOPLEFT", app.Window.Reagents, "BOTTOMLEFT", 0, offset)
 
 	app.Window.Cooldowns:SetScript("OnClick", function(self)
+		app.Window:SetToplevel(true)
+
 		local children = {self:GetChildren()}
 
 		if showCooldowns then
@@ -1456,6 +1468,8 @@ function app:UpdateRecipes()
 			ShoppingTooltip1:Hide()
 		end)
 		row:SetScript("OnClick", function(self, button)
+			app.Window:SetToplevel(true)
+
 			if button == "RightButton" and IsShiftKeyDown() then
 				table.remove(app.Data.Cooldowns, cooldownInfo.id)
 				app:UpdateRecipes()
@@ -1584,6 +1598,8 @@ function app:ShowWindow()
 		end
 
 		app.Window:Show()
+		app.Window:SetToplevel(true)
+		app.Window:Raise()
 	end
 
 	-- Update numbers
@@ -1647,8 +1663,38 @@ function app:CreateTab(frame, tabFrame)
 	if app.Tab[frame] then return end
 	local locked
 
+	local attLoaded = C_AddOns.IsAddOnLoaded("AllTheThings")
+	local unshown = 0
 	app.Tab[frame] = CreateFrame("Frame", nil, tabFrame, "ProfessionShoppingList_Tab")
-	app.Tab[frame]:SetPoint("TOPLEFT", tabFrame, "TOPRIGHT", -2, -114)
+	if app.Forever and tabFrame == ProfessionsFrameTabSideBar then
+		local foreverTabs = { "Overview", 1, 2, 3, 4, 5, 6, 7 }
+		for _, tab in ipairs(foreverTabs) do
+			local frame1 = ProfessionsFrame["Professions" .. tab .. "Tab"]
+			local frameLeft, frameTop = frame1:GetLeft(), frame1:GetTop()
+			local sidebarLeft, sidebarTop = ProfessionsFrameTabSideBar:GetLeft(), ProfessionsFrameTabSideBar:GetTop()
+			local x = frameLeft - sidebarLeft
+			local y = frameTop - sidebarTop
+
+			frame1:ClearAllPoints()
+			frame1:SetPoint("TOPLEFT", ProfessionsFrameTabSideBar, "TOPLEFT", x, y)
+			frame1:SetParent(ProfessionsFrameTabSideBar)
+		end
+
+		for _, tab in ipairs(foreverTabs) do
+			local frame1 = ProfessionsFrame["Professions" .. tab .. "Tab"]
+			if not frame1:IsShown() then
+				unshown = unshown + 1
+			end
+			if (unshown == 2 and attLoaded) or (unshown == 1 and not attLoaded) then
+				app.Tab[frame]:SetPoint("TOPLEFT", frame1, x, y)
+				break
+			end
+		end
+	elseif tabFrame == ProfessionsFrameTabSideBar and attLoaded then
+		app.Tab[frame]:SetPoint("TOPLEFT", tabFrame, "TOPRIGHT", -2, -114)
+	else
+		app.Tab[frame]:SetPoint("TOPLEFT", tabFrame, "TOPRIGHT", -2, -52)
+	end
 	tabFrame.Tabs[2] = app.Tab[frame]
 
 	local function setIcon(tabFrame)
@@ -1662,6 +1708,8 @@ function app:CreateTab(frame, tabFrame)
 		app.Window:ClearAllPoints()
 		app.Window:SetPoint("TOPLEFT", frame, "TOPRIGHT", 0, -1)
 		app.Window:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT")
+		app.Window:SetToplevel(true)
+		app.Window:Raise()
 
 		for i = 1, #tabFrame.Tabs do
 			if tabFrame.selTab == i and i ~= 2 then
