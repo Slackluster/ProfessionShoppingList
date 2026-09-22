@@ -22,7 +22,7 @@ end)
 ----------------------
 
 function app:CreateProfToolsAssets()
-	if not app.Settings.enhancedOrders or app.ProfessionToolOrders1 then return end
+	if not app.Settings.enhancedOrders or app.ProfessionToolOrders1 or C_TradeSkillUI.IsTradeSkillLinked() or C_TradeSkillUI.IsTradeSkillGuild() then return end
 
 	local function createProfToolFrame(type, parent)
 		local frame = CreateFrame("ItemButton", nil, parent)
@@ -170,7 +170,7 @@ function app:UpdateProfToolsAssets()
 	if not app.Settings.enhancedOrders or not skillLineID or skillLineID == 0 then return end
 	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
 
-	if professionID == 4 or professionID == 5 or professionID == 6 or professionID == 10 or professionID == 11 or professionID == 14 then
+	if C_TradeSkillUI.IsTradeSkillLinked() or C_TradeSkillUI.IsTradeSkillGuild() or professionID == 4 or professionID == 5 or professionID == 6 or professionID == 10 or professionID == 11 or professionID == 14 then
 		app.ProfessionToolOrders1:Hide()
 		app.ProfessionToolDefault1:Hide()
 	else
@@ -180,7 +180,7 @@ function app:UpdateProfToolsAssets()
 		app.ProfessionToolDefault1:Show()
 	end
 
-	if professionID == 4 or professionID == 5 or professionID == 6 or professionID == 10 or professionID == 11 or professionID == 14 then return end
+	if C_TradeSkillUI.IsTradeSkillLinked() or C_TradeSkillUI.IsTradeSkillGuild() or professionID == 4 or professionID == 5 or professionID == 6 or professionID == 10 or professionID == 11 or professionID == 14 then return end
 	app.CharData.profTools[professionID] = app.CharData.profTools[professionID] or {}
 
 	if not app.CharData.profTools[professionID].default and not app.CharData.profTools[professionID].orders then
@@ -217,7 +217,7 @@ end
 
 function app:EquipProfTool(type)
 	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
-	if not app.Settings.enhancedOrders or not skillLineID or skillLineID == 0 then return end
+	if not app.Settings.enhancedOrders or not skillLineID or skillLineID == 0 or C_TradeSkillUI.IsTradeSkillLinked() or C_TradeSkillUI.IsTradeSkillGuild() then return end
 	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
 	if professionID == 4 or professionID == 5 or professionID == 6 or professionID == 10 or professionID == 11 or professionID == 14 then return end
 	app.CharData.profTools[professionID] = app.CharData.profTools[professionID] or {}
