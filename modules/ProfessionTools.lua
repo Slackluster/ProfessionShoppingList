@@ -146,17 +146,9 @@ function app:CreateProfToolsAssets()
 	app.ProfessionToolDefault1:SetPoint("RIGHT", app.ProfessionToolOrders1, "LEFT", -2, 0)
 
 	ProfessionsFrame.CraftingPage.Prof0ToolSlot:SetAllPoints(app.ProfessionToolDefault1)
-	ProfessionsFrame.CraftingPage.Prof0ToolSlot:Hide()
-	ProfessionsFrame.CraftingPage.Prof0ToolSlot:HookScript("OnShow", function(self)
-		self:Hide()
-		app:UpdateProfToolsAssets()
-	end)
 	ProfessionsFrame.CraftingPage.Prof1ToolSlot:SetAllPoints(app.ProfessionToolDefault1)
-	ProfessionsFrame.CraftingPage.Prof1ToolSlot:Hide()
-	ProfessionsFrame.CraftingPage.Prof1ToolSlot:HookScript("OnShow", function(self)
-		self:Hide()
-		app:UpdateProfToolsAssets()
-	end)
+	ProfessionsFrame.CraftingPage.FishingToolSlot:SetAllPoints(app.ProfessionToolDefault1)
+	ProfessionsFrame.CraftingPage.CookingToolSlot:SetAllPoints(app.ProfessionToolDefault1)
 	ProfessionsFrame.CraftingPage.RankBar:SetWidth(ProfessionsFrame.CraftingPage.RankBar:GetWidth() - 20)
 	ProfessionsFrame.CraftingPage.RankBar.Background:SetWidth(ProfessionsFrame.CraftingPage.RankBar.Background:GetWidth() - 25)
 	ProfessionsFrame.CraftingPage.RankBar.Border:SetWidth(ProfessionsFrame.CraftingPage.RankBar.Border:GetWidth() - 25)
@@ -177,6 +169,7 @@ function app:UpdateProfToolsAssets()
 	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 	if not app.Settings.enhancedOrders or not skillLineID or skillLineID == 0 then return end
 	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
+	if professionID == 4 or professionID == 5 or professionID == 6 or professionID == 10 or professionID == 11 or professionID == 14 then return end
 	app.CharData.profTools[professionID] = app.CharData.profTools[professionID] or {}
 
 	if not app.CharData.profTools[professionID].default and not app.CharData.profTools[professionID].orders then
@@ -215,6 +208,7 @@ function app:EquipProfTool(type)
 	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 	if not app.Settings.enhancedOrders or not skillLineID or skillLineID == 0 then return end
 	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
+	if professionID == 4 or professionID == 5 or professionID == 6 or professionID == 10 or professionID == 11 or professionID == 14 then return end
 	app.CharData.profTools[professionID] = app.CharData.profTools[professionID] or {}
 	if not (app.CharData.profTools[professionID].default and app.CharData.profTools[professionID].orders) then return end
 
@@ -245,6 +239,24 @@ EventRegistry:RegisterCallback("ProfessionsFrame.TabSet", function(...)
 		app:EquipProfTool("default")
 	elseif tabID == 3 then
 		app:EquipProfTool("orders")
+	end
+end)
+
+EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelected", function()
+	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
+	if not app.Settings.enhancedOrders or not skillLineID or skillLineID == 0 then return end
+
+	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
+	if professionID == 4 or professionID == 5 or professionID == 6 or professionID == 10 or professionID == 11 or professionID == 14 then
+		ProfessionsFrame.CraftingPage.Prof0ToolSlot:Show()
+		ProfessionsFrame.CraftingPage.Prof1ToolSlot:Show()
+		app.ProfessionToolOrders1:Hide()
+		app.ProfessionToolDefault1:Hide()
+	else
+		ProfessionsFrame.CraftingPage.Prof0ToolSlot:Hide()
+		ProfessionsFrame.CraftingPage.Prof1ToolSlot:Hide()
+		app.ProfessionToolOrders1:Show()
+		app.ProfessionToolDefault1:Show()
 	end
 end)
 
