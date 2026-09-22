@@ -80,12 +80,7 @@ function app:CreateProfToolsAssets()
 		local function unequipItem(unequippedType)
 			local professionID = ProfessionsFrame.CraftingPage.professionInfo.profession
 			if not app.CharData.profTools[professionID].default and not app.CharData.profTools[professionID].orders then
-				local slot
-				if ProfessionsFrame.CraftingPage.Prof0Gear0Slot:IsShown() then
-					slot = 20
-				elseif ProfessionsFrame.CraftingPage.Prof1Gear0Slot:IsShown() then
-					slot = 23
-				end
+				local slot = C_TradeSkillUI.GetProfessionSlots(professionID)[1]
 				if slot then
 					local action = EquipmentManager_UnequipItemInSlot(slot)
 					if action and not IsInventoryItemLocked(action.invSlot) then
@@ -115,7 +110,8 @@ function app:CreateProfToolsAssets()
 			if itemLocation then
 				local itemGUID = C_Item.GetItemGUID(itemLocation)
 				app.CharData.profTools[professionID][type] = itemGUID
-				if (ProfessionsFrame.CraftingPage.Prof0Gear0Slot:IsShown() and not GetInventoryItemLink("player", 20)) or (ProfessionsFrame.CraftingPage.Prof1Gear0Slot:IsShown() and notGetInventoryItemLink("player", 23)) then
+				local slot = C_TradeSkillUI.GetProfessionSlots(professionID)[1]
+				if not GetInventoryItemLink("player", slot) then
 					equipItem(type)
 				end
 				app:UpdateProfToolsAssets()
@@ -184,20 +180,8 @@ function app:UpdateProfToolsAssets()
 	app.CharData.profTools[professionID] = app.CharData.profTools[professionID] or {}
 
 	if not app.CharData.profTools[professionID].default and not app.CharData.profTools[professionID].orders then
-		local prof0, prof1 = GetProfessions()
-		if prof0 then
-			prof0 = C_TradeSkillUI.GetProfessionInfoBySkillLineID(select(7, GetProfessionInfo(prof0))).profession
-		end
-		if prof1 then
-			prof1 = C_TradeSkillUI.GetProfessionInfoBySkillLineID(select(7, GetProfessionInfo(prof1))).profession
-		end
-
-		local itemLocation
-		if professionID == prof0 then
-			itemLocation = ItemLocation:CreateFromEquipmentSlot(20)
-		elseif professionID == prof1 then
-			itemLocation = ItemLocation:CreateFromEquipmentSlot(23)
-		end
+		local slot = C_TradeSkillUI.GetProfessionSlots(professionID)[1]
+		local itemLocation = ItemLocation:CreateFromEquipmentSlot(slot)
 		if itemLocation and itemLocation:IsValid() and not app.Flag.UnequippingTool then
 			app.CharData.profTools[professionID].default = C_Item.GetItemGUID(itemLocation)
 		end
@@ -212,11 +196,10 @@ function app:UpdateProfToolsAssets()
 			local itemLink = C_Item.GetItemLink(C_Item.GetItemLocation(itemGUID))
 			frame:SetItem(itemLink)
 
-			for _, slot in pairs({ 20, 23 }) do
-				local slotItemLocation = ItemLocation:CreateFromEquipmentSlot(slot)
-				if slotItemLocation and C_Item.DoesItemExist(slotItemLocation) and C_Item.GetItemGUID(slotItemLocation) == itemGUID then
-					frame.equipped:Show()
-				end
+			local slot = C_TradeSkillUI.GetProfessionSlots(professionID)[1]
+			local slotItemLocation = ItemLocation:CreateFromEquipmentSlot(slot)
+			if slotItemLocation and C_Item.DoesItemExist(slotItemLocation) and C_Item.GetItemGUID(slotItemLocation) == itemGUID then
+				frame.equipped:Show()
 			end
 		else
 			frame:SetItem(nil)
