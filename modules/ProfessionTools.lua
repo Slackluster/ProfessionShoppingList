@@ -247,14 +247,6 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 	updateAssets()
 end)
 
-app.Event:Register("TRADE_SKILL_CLOSE", function()
-	app:EquipProfTool("default")
-end)
-
-app.Event:Register("CRAFTINGORDERS_CLAIM_ORDER_RESPONSE", function(result, orderID)
-	app:EquipProfTool("orders")
-end)
-
 EventRegistry:RegisterCallback("ProfessionsFrame.TabSet", function(...)
 	local _, _, tabID = ...
 	if tabID == 1 then
