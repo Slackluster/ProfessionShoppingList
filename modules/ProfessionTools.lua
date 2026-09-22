@@ -22,17 +22,17 @@ end)
 ----------------------
 
 function app:CreateProfToolsAssets()
-	if not app.Settings.enhancedOrders or app.ProfessionToolOrders then return end
+	if not app.Settings.enhancedOrders or app.ProfessionToolOrders1 then return end
 
-	local function createProfToolFrame(type)
-		local frame = CreateFrame("ItemButton", nil, ProfessionsFrame.OrdersPage)
+	local function createProfToolFrame(type, parent)
+		local frame = CreateFrame("ItemButton", nil, parent)
 		frame:SetSize(40, 40)
 		frame.bg = frame:CreateTexture(nil, "BACKGROUND")
 		frame.bg:SetAllPoints()
 		frame.bg:SetAtlas("bags-item-slot64")
 		frame.equipped = frame:CreateTexture(nil, "BACKGROUND")
-		frame.equipped:SetSize(55, 56)
-		frame.equipped:SetPoint("CENTER", -1, 0)
+		frame.equipped:SetSize(54, 54)
+		frame.equipped:SetPoint("CENTER")
 		frame.equipped:SetAtlas("bags-newitem")
 		frame.equipped:Hide()
 
@@ -67,11 +67,57 @@ function app:CreateProfToolsAssets()
 			ShoppingTooltip1:Hide()
 		end)
 
+		local function equipItem(typeToEquip)
+			local professionID = ProfessionsFrame.CraftingPage.professionInfo.profession
+			local itemLocation = C_Item.GetItemLocation(app.CharData.profTools[professionID][typeToEquip])
+			if C_Item.DoesItemExist(itemLocation) and itemLocation:IsBagAndSlot() then
+				ClearCursor()
+				C_Container.PickupContainerItem(itemLocation.bagID, itemLocation.slotIndex)
+				AutoEquipCursorItem()
+			end
+		end
+
+		local function unequipItem(unequippedType)
+			local professionID = ProfessionsFrame.CraftingPage.professionInfo.profession
+			if not app.CharData.profTools[professionID].default and not app.CharData.profTools[professionID].orders then
+				local slot
+				if ProfessionsFrame.CraftingPage.Prof0Gear0Slot:IsShown() then
+					slot = 20
+				elseif ProfessionsFrame.CraftingPage.Prof1Gear0Slot:IsShown() then
+					slot = 23
+				end
+				if slot then
+					local action = EquipmentManager_UnequipItemInSlot(slot)
+					if action and not IsInventoryItemLocked(action.invSlot) then
+						app.Flag.UnequippingTool = true
+						ClearCursor()
+						PickupInventoryItem(action.invSlot)
+						EquipmentManager_PutItemInInventory(action)
+						C_Timer.After(1, function()
+							app.Flag.UnequippingTool = false
+						end)
+					end
+				end
+			elseif frame.equipped:IsShown() then
+				local typeToEquip
+				if unequippedType == "default" then
+					typeToEquip = "orders"
+				elseif unequippedType == "orders" then
+					typeToEquip = "default"
+				end
+				equipItem(typeToEquip)
+			end
+		end
+
 		local function grabCursorItem()
+			local professionID = ProfessionsFrame.CraftingPage.professionInfo.profession
 			local itemLocation = C_Cursor.GetCursorItem()
 			if itemLocation then
 				local itemGUID = C_Item.GetItemGUID(itemLocation)
-				app.CharData.profTools[type] = itemGUID
+				app.CharData.profTools[professionID][type] = itemGUID
+				if (ProfessionsFrame.CraftingPage.Prof0Gear0Slot:IsShown() and not GetInventoryItemLink("player", 20)) or (ProfessionsFrame.CraftingPage.Prof1Gear0Slot:IsShown() and notGetInventoryItemLink("player", 23)) then
+					equipItem(type)
+				end
 				app:UpdateProfToolsAssets()
 			end
 			ClearCursor()
@@ -80,19 +126,17 @@ function app:CreateProfToolsAssets()
 		frame:SetScript("OnReceiveDrag", grabCursorItem)
 
 		frame:SetScript("OnClick", function(self, button)
+			local professionID = ProfessionsFrame.CraftingPage.professionInfo.profession
 			if button == "LeftButton" then
-				if app.CharData.profTools[type] then
-					local itemLocation = C_Item.GetItemLocation(app.CharData.profTools[type])
-					if C_Item.DoesItemExist(itemLocation) and itemLocation:IsBagAndSlot() then
-						C_Container.PickupContainerItem(itemLocation.bagID, itemLocation.slotIndex)
-						AutoEquipCursorItem()
-					end
+				if app.CharData.profTools[professionID][type] then
+					equipItem(type)
 				else
 					grabCursorItem()
 				end
 			elseif button == "RightButton" then
-				app.CharData.profTools[type] = nil
+				app.CharData.profTools[professionID][type] = nil
 				ShoppingTooltip1:Hide()
+				unequipItem(type)
 			end
 			app:UpdateProfToolsAssets()
 		end)
@@ -100,27 +144,71 @@ function app:CreateProfToolsAssets()
 		return frame
 	end
 
-	app.ProfessionToolOrders = createProfToolFrame("orders")
-	app.ProfessionToolOrders:SetPoint("TOPRIGHT", ProfessionsFrame.OrdersPage, -8, -28)
+	app.ProfessionToolOrders1 = createProfToolFrame("orders", ProfessionsFrame.CraftingPage, 20)
+	app.ProfessionToolOrders1:SetPoint("TOPRIGHT", ProfessionsFrame.CraftingPage, -5, -29)
+	app.ProfessionToolDefault1 = createProfToolFrame("default", ProfessionsFrame.CraftingPage, 20)
+	app.ProfessionToolDefault1:SetPoint("RIGHT", app.ProfessionToolOrders1, "LEFT", -2, 0)
 
-	app.ProfessionToolDefault = createProfToolFrame("default")
-	app.ProfessionToolDefault:SetPoint("RIGHT", app.ProfessionToolOrders, "LEFT", -10, 0)
+	ProfessionsFrame.CraftingPage.Prof0ToolSlot:SetAllPoints(app.ProfessionToolDefault1)
+	ProfessionsFrame.CraftingPage.Prof0ToolSlot:Hide()
+	ProfessionsFrame.CraftingPage.Prof0ToolSlot:HookScript("OnShow", function(self)
+		self:Hide()
+		app:UpdateProfToolsAssets()
+	end)
+	ProfessionsFrame.CraftingPage.Prof1ToolSlot:SetAllPoints(app.ProfessionToolDefault1)
+	ProfessionsFrame.CraftingPage.Prof1ToolSlot:Hide()
+	ProfessionsFrame.CraftingPage.Prof1ToolSlot:HookScript("OnShow", function(self)
+		self:Hide()
+		app:UpdateProfToolsAssets()
+	end)
+	ProfessionsFrame.CraftingPage.RankBar:SetWidth(ProfessionsFrame.CraftingPage.RankBar:GetWidth() - 20)
+	ProfessionsFrame.CraftingPage.RankBar.Background:SetWidth(ProfessionsFrame.CraftingPage.RankBar.Background:GetWidth() - 25)
+	ProfessionsFrame.CraftingPage.RankBar.Border:SetWidth(ProfessionsFrame.CraftingPage.RankBar.Border:GetWidth() - 25)
+	ProfessionsFrame.CraftingPage.RankBar.Fill:SetWidth(ProfessionsFrame.CraftingPage.RankBar.Fill:GetWidth() - 25)
+
+	app.ProfessionToolOrders2 = createProfToolFrame("orders", ProfessionsFrame.OrdersPage, 40)
+	app.ProfessionToolOrders2:SetPoint("TOPRIGHT", ProfessionsFrame.OrdersPage, -5, -29)
+	app.ProfessionToolDefault2 = createProfToolFrame("default", ProfessionsFrame.OrdersPage, 40)
+	app.ProfessionToolDefault2:SetPoint("RIGHT", app.ProfessionToolOrders2, "LEFT", -2, 0)
 
 	ProfessionsFrame.OrdersPage.BrowseFrame.OrdersRemainingDisplay.Background:SetPoint("TOPLEFT", ProfessionsFrame.OrdersPage.BrowseFrame.OrdersRemainingDisplay.OrdersRemaining, -8, -2)
 	ProfessionsFrame.OrdersPage.BrowseFrame.OrdersRemainingDisplay.Background:SetPoint("BOTTOMRIGHT", ProfessionsFrame.OrdersPage.BrowseFrame.OrdersRemainingDisplay.OrdersRemaining, 8, 2)
 	ProfessionsFrame.OrdersPage.BrowseFrame.OrdersRemainingDisplay:ClearAllPoints()
-	ProfessionsFrame.OrdersPage.BrowseFrame.OrdersRemainingDisplay:SetPoint("RIGHT", app.ProfessionToolDefault, "LEFT", 6, 0)
+	ProfessionsFrame.OrdersPage.BrowseFrame.OrdersRemainingDisplay:SetPoint("RIGHT", app.ProfessionToolDefaul2, "LEFT", 6, 0)
 end
 
 function app:UpdateProfToolsAssets()
-	if not app.Settings.enhancedOrders then return end
+	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
+	if not app.Settings.enhancedOrders or not skillLineID or skillLineID == 0 then return end
+	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
+	app.CharData.profTools[professionID] = app.CharData.profTools[professionID] or {}
+
+	if not app.CharData.profTools[professionID].default and not app.CharData.profTools[professionID].orders then
+		local prof0, prof1 = GetProfessions()
+		if prof0 then
+			prof0 = C_TradeSkillUI.GetProfessionInfoBySkillLineID(select(7, GetProfessionInfo(prof0))).profession
+		end
+		if prof1 then
+			prof1 = C_TradeSkillUI.GetProfessionInfoBySkillLineID(select(7, GetProfessionInfo(prof1))).profession
+		end
+
+		local itemLocation
+		if professionID == prof0 then
+			itemLocation = ItemLocation:CreateFromEquipmentSlot(20)
+		elseif professionID == prof1 then
+			itemLocation = ItemLocation:CreateFromEquipmentSlot(23)
+		end
+		if itemLocation and itemLocation:IsValid() and not app.Flag.UnequippingTool then
+			app.CharData.profTools[professionID].default = C_Item.GetItemGUID(itemLocation)
+		end
+	end
 
 	local function update(frameName, type)
 		local frame = app[frameName]
 
 		frame.equipped:Hide()
-		if app.CharData.profTools[type] then
-			local itemGUID = app.CharData.profTools[type]
+		if app.CharData.profTools[professionID][type] then
+			local itemGUID = app.CharData.profTools[professionID][type]
 			local itemLink = C_Item.GetItemLink(C_Item.GetItemLocation(itemGUID))
 			frame:SetItem(itemLink)
 
@@ -134,15 +222,21 @@ function app:UpdateProfToolsAssets()
 			frame:SetItem(nil)
 		end
 	end
-	update("ProfessionToolOrders", "orders")
-	update("ProfessionToolDefault", "default")
+	update("ProfessionToolOrders1", "orders")
+	update("ProfessionToolOrders2", "orders")
+	update("ProfessionToolDefault1", "default")
+	update("ProfessionToolDefault2", "default")
 end
 
 function app:EquipProfTool(type)
-	if not app.Settings.enhancedOrders then return end
+	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
+	if not app.Settings.enhancedOrders or not skillLineID or skillLineID == 0 then return end
+	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
+	app.CharData.profTools[professionID] = app.CharData.profTools[professionID] or {}
+	if not (app.CharData.profTools[professionID].default and app.CharData.profTools[professionID].orders) then return end
 
-	if app.CharData.profTools[type] then
-		local itemLocation = C_Item.GetItemLocation(app.CharData.profTools[type])
+	if app.CharData.profTools[professionID][type] then
+		local itemLocation = C_Item.GetItemLocation(app.CharData.profTools[professionID][type])
 		if C_Item.DoesItemExist(itemLocation) and itemLocation:IsBagAndSlot() then
 			C_Container.PickupContainerItem(itemLocation.bagID, itemLocation.slotIndex)
 			AutoEquipCursorItem()
