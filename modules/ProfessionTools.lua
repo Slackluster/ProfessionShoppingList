@@ -162,7 +162,7 @@ function app:CreateProfToolsAssets()
 	ProfessionsFrame.OrdersPage.BrowseFrame.OrdersRemainingDisplay.Background:SetPoint("TOPLEFT", ProfessionsFrame.OrdersPage.BrowseFrame.OrdersRemainingDisplay.OrdersRemaining, -8, -2)
 	ProfessionsFrame.OrdersPage.BrowseFrame.OrdersRemainingDisplay.Background:SetPoint("BOTTOMRIGHT", ProfessionsFrame.OrdersPage.BrowseFrame.OrdersRemainingDisplay.OrdersRemaining, 8, 2)
 	ProfessionsFrame.OrdersPage.BrowseFrame.OrdersRemainingDisplay:ClearAllPoints()
-	ProfessionsFrame.OrdersPage.BrowseFrame.OrdersRemainingDisplay:SetPoint("RIGHT", app.ProfessionToolDefaul2, "LEFT", 6, 0)
+	ProfessionsFrame.OrdersPage.BrowseFrame.OrdersRemainingDisplay:SetPoint("RIGHT", app.ProfessionToolDefault2, "LEFT", 6, 0)
 end
 
 function app:UpdateProfToolsAssets()
