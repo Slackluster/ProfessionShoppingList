@@ -170,11 +170,11 @@ L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete
 L.ORDERSQUEUE_WARNING_QUEST =            "Вы не взяли %s." -- %s becomes a quest name
 L.ORDERSQUEUE_WARNING_REAGENTS =         "У вас недостаточно реагентов для всех отслеживаемых рецептов."
 
--- L.PROFTOOL_AUTOEQUIP =                   "Automatically equip this tool" -- Followed by one of the two following phrases
--- L.PROFTOOL_DEFAULT =                     "for |cffFFFFFFregular crafting|R."
--- L.PROFTOOL_ORDERS =                      "while |cffFFFFFFdoing orders|R."
--- L.PROFTOOL_DRAG =                        "Drag a tool here."
--- L.PROFTOOL_MOUSE =                       app.IconLMB .. ": Equip this tool.\n" ..
+L.PROFTOOL_AUTOEQUIP =                   "Автоматически экипировать этот инструмент" -- Followed by one of the two following phrases
+L.PROFTOOL_DEFAULT =                     "для |cffFFFFFFобычного ремесла|R."
+L.PROFTOOL_ORDERS =                      "при |cffFFFFFFвыполнении заказов|R."
+L.PROFTOOL_DRAG =                        "Перетащите инструмент сюда."
+L.PROFTOOL_MOUSE =                       app.IconLMB .. ": экипировать этот инструмент.\n" ..
 --                                          app.IconRMB .. ": Remove this tool."
 
 -- Chat feedback
