@@ -206,6 +206,9 @@ function app:UpdateOrdersQueue()
 				else
 					app.OrdersQueueFrame.Status:SetText(oldText)
 				end
+				if GetShapeshiftForm() ~= 0 then
+					UIErrorsFrame:Show()
+				end
 				ProfessionsFrame.OrdersPage.OrderView.CreateButton:Click()
 			end)
 		elseif app.OrderState == app.Enum.OrderState.Crafting then
