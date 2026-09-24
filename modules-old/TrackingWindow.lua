@@ -1806,6 +1806,23 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 	end
 end)
 
+app.Event:Register("SKILL_LINES_CHANGED", function()
+	if not ProfessionsFrame or not app.Forever then return end
+	local attLoaded = C_AddOns.IsAddOnLoaded("AllTheThings")
+	local foreverTabs = { "Overview", 1, 2, 3, 4, 5, 6, 7 }
+	local unshown = 0
+	for _, tab in ipairs(foreverTabs) do
+		local frame1 = ProfessionsFrame["Professions" .. tab .. "Tab"]
+		if not frame1:IsShown() then
+			unshown = unshown + 1
+		end
+		if (unshown == 2 and attLoaded) or (unshown == 1 and not attLoaded) then
+			app.Tab[ProfessionsFrame]:SetPoint("TOPLEFT", frame1, x, y)
+			break
+		end
+	end
+end)
+
 app.Event:Register("AUCTION_HOUSE_SHOW", function()
 	if not AuctionHouseFrameTabSideBar then
 		AuctionHouseFrameTabSideBar = CreateFrame("Frame", nil, AuctionHouseFrame)
