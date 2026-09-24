@@ -202,11 +202,9 @@ function app:UpdateOrdersQueue()
 					else
 						errorReason = GUILD_RENAME_ERROR_UNKNOWN
 					end
-					app.OrdersQueueFrame.Status:SetText(errorReason)
-					app.OrdersQueueFrame.Status:SetTextColor(RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
+					app.OrdersQueueFrame.Status:SetText("|cffFF0000" .. errorReason .. "|R")
 				else
 					app.OrdersQueueFrame.Status:SetText(oldText)
-					app.OrdersQueueFrame.Status:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
 				end
 				ProfessionsFrame.OrdersPage.OrderView.CreateButton:Click()
 			end)
