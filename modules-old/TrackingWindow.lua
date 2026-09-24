@@ -1690,7 +1690,7 @@ function app:CreateTab(frame, tabFrame)
 				break
 			end
 		end
-	elseif tabFrame == ProfessionsFrameTabSideBar and attLoaded then
+	elseif attLoaded and (frame == ProfessionsFrame or frame == AuctionHouseFrame) then
 		app.Tab[frame]:SetPoint("TOPLEFT", tabFrame, "TOPRIGHT", -2, -114)
 	else
 		app.Tab[frame]:SetPoint("TOPLEFT", tabFrame, "TOPRIGHT", -2, -52)
