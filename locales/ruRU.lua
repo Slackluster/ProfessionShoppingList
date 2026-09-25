@@ -175,7 +175,7 @@ L.PROFTOOL_DEFAULT =                     "для |cffFFFFFFобычного ре
 L.PROFTOOL_ORDERS =                      "при |cffFFFFFFвыполнении заказов|R."
 L.PROFTOOL_DRAG =                        "Перетащите инструмент сюда."
 L.PROFTOOL_MOUSE =                       app.IconLMB .. ": экипировать этот инструмент.\n" ..
-                                         app.IconRMB .. ": удалять этот инструмент."
+                                         app.IconRMB .. ": убрать этот инструмент."
 
 -- Chat feedback
 L.INVALID_PARAMETERS =                   "Неверные параметры."
