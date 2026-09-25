@@ -363,6 +363,7 @@ function app:CreateTradeskillAssets()
 			app.MillingClassic:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 			app.MillingClassic:SetJustifyH("LEFT")
 			app.MillingClassic:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_CLASSIC)
+			app.MillingClassic:Hide()
 		end
 
 		-- Create The Burning Crusade Milling info
@@ -371,6 +372,7 @@ function app:CreateTradeskillAssets()
 			app.MillingTheBurningCrusade:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 			app.MillingTheBurningCrusade:SetJustifyH("LEFT")
 			app.MillingTheBurningCrusade:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_TBC)
+			app.MillingTheBurningCrusade:Hide()
 		end
 
 		-- Create Wrath of the Lich King Milling info
@@ -379,6 +381,7 @@ function app:CreateTradeskillAssets()
 			app.MillingWrathOfTheLichKing:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 			app.MillingWrathOfTheLichKing:SetJustifyH("LEFT")
 			app.MillingWrathOfTheLichKing:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_WOTLK)
+			app.MillingWrathOfTheLichKing:Hide()
 		end
 
 		-- Create Cataclysm Milling info
@@ -387,6 +390,7 @@ function app:CreateTradeskillAssets()
 			app.MillingCataclysm:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 			app.MillingCataclysm:SetJustifyH("LEFT")
 			app.MillingCataclysm:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_CATA)
+			app.MillingCataclysm:Hide()
 		end
 
 		-- Create Mists of Pandaria Milling info
@@ -395,6 +399,7 @@ function app:CreateTradeskillAssets()
 			app.MillingMistsOfPandaria:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 			app.MillingMistsOfPandaria:SetJustifyH("LEFT")
 			app.MillingMistsOfPandaria:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_MOP)
+			app.MillingMistsOfPandaria:Hide()
 		end
 
 		-- Create Warlords of Draenor Milling info
@@ -403,6 +408,7 @@ function app:CreateTradeskillAssets()
 			app.MillingWarlordsOfDraenor:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 			app.MillingWarlordsOfDraenor:SetJustifyH("LEFT")
 			app.MillingWarlordsOfDraenor:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_WOD)
+			app.MillingWarlordsOfDraenor:Hide()
 		end
 
 		-- Create Legion Milling info
@@ -411,6 +417,7 @@ function app:CreateTradeskillAssets()
 			app.MillingLegion:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 			app.MillingLegion:SetJustifyH("LEFT")
 			app.MillingLegion:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_LEGION)
+			app.MillingLegion:Hide()
 		end
 
 		-- Create Battle for Azeroth Milling info
@@ -419,6 +426,7 @@ function app:CreateTradeskillAssets()
 			app.MillingBattleForAzeroth:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 			app.MillingBattleForAzeroth:SetJustifyH("LEFT")
 			app.MillingBattleForAzeroth:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_BFA)
+			app.MillingBattleForAzeroth:Hide()
 		end
 
 		-- Create Shadowlands Milling info
@@ -427,6 +435,7 @@ function app:CreateTradeskillAssets()
 			app.MillingShadowlands:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 			app.MillingShadowlands:SetJustifyH("LEFT")
 			app.MillingShadowlands:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_SL)
+			app.MillingShadowlands:Hide()
 		end
 
 		-- Create Dragonflight Milling info
@@ -435,6 +444,7 @@ function app:CreateTradeskillAssets()
 			app.MillingDragonflight:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 			app.MillingDragonflight:SetJustifyH("LEFT")
 			app.MillingDragonflight:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_DF)
+			app.MillingDragonflight:Hide()
 		end
 
 		-- Create The War Within Milling info
@@ -443,6 +453,7 @@ function app:CreateTradeskillAssets()
 			app.MillingTheWarWithin:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 			app.MillingTheWarWithin:SetJustifyH("LEFT")
 			app.MillingTheWarWithin:SetText(app:Colour(L.MILLING_INFO) .. "\n|cffFFFFFF" .. L.MILLING_TWW)
+			app.MillingTheWarWithin:Hide()
 		end
 
 		-- Create The War Within Thaumaturgy info
@@ -451,6 +462,7 @@ function app:CreateTradeskillAssets()
 			app.ThaumaturgyTheWarWithin:SetPoint("BOTTOMLEFT", ProfessionsFrame.CraftingPage.SchematicForm, "BOTTOMLEFT", 35, 50)
 			app.ThaumaturgyTheWarWithin:SetJustifyH("LEFT")
 			app.ThaumaturgyTheWarWithin:SetText(app:Colour(L.THAUMATURGY_INFO) .. "\n|cffFFFFFF" .. L.THAUMATURGY_TWW)
+			app.ThaumaturgyTheWarWithin:Hide()
 		end
 
 		-- Append an (un)track button to the RMB-menu
@@ -808,86 +820,81 @@ function api:SwapCookingPet()
 	end
 end
 
--- When a recipe is selected
-app.Event:Register("SPELL_DATA_LOAD_RESULT", function(spellID, success)
-	if not InCombatLockdown() then
-		-- Recipe-specific assets
-		local function recipeAssets()
-			if not app.Retail then return end
+EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelected", function(_, recipeInfo)
+	if not InCombatLockdown() and app.Flag.TradeskillAssets then
+		local recipeID = recipeInfo.recipeID
 
-			if spellID == 444181 then -- The War Within Thaumaturgy
+		local recipeDif = app.RecipeDifficulty[recipeID]
+		if recipeDif then
+			app.RecipeDifficultyText:SetText("|cffFF8040" .. (recipeDif.optimal or "")  .. "|R |cffFFFF00" .. (recipeDif.medium or "")  .. "|R |cff40BF40" .. (recipeDif.easy or "")  .. "|R |cff808080" .. (recipeDif.trivial or "")  .. "|R")
+			app.RecipeDifficultyText:Show()
+		else
+			app.RecipeDifficultyText:Hide()
+		end
+
+		if app.Retail then
+			if recipeID == 444181 then -- The War Within Thaumaturgy
 				app.MillingTheWarWithin:Show()
 			else
 				app.MillingTheWarWithin:Hide()
 			end
-
-			if spellID == 430315 then -- The War Within Milling
+			if recipeID == 430315 then -- The War Within Milling
 				app.ThaumaturgyTheWarWithin:Show()
 			else
 				app.ThaumaturgyTheWarWithin:Hide()
 			end
-
-			if spellID == 382981 then -- Dragonflight Milling
+			if recipeID == 382981 then -- Dragonflight Milling
 				app.MillingDragonflight:Show()
 			else
 				app.MillingDragonflight:Hide()
 			end
-
-			if spellID == 382982 then -- Shadowlands Milling
+			if recipeID == 382982 then -- Shadowlands Milling
 				app.MillingShadowlands:Show()
 			else
 				app.MillingShadowlands:Hide()
 			end
-
-			if spellID == 382984 then -- Battle for Azeroth Milling
+			if recipeID == 382984 then -- Battle for Azeroth Milling
 				app.MillingBattleForAzeroth:Show()
 			else
 				app.MillingBattleForAzeroth:Hide()
 			end
-
-			if spellID == 382986 then -- Legion Milling
+			if recipeID == 382986 then -- Legion Milling
 				app.MillingLegion:Show()
 			else
 				app.MillingLegion:Hide()
 			end
-
-			if spellID == 382987 then -- Warlords of Draenor Milling
+			if recipeID == 382987 then -- Warlords of Draenor Milling
 				app.MillingWarlordsOfDraenor:Show()
 			else
 				app.MillingWarlordsOfDraenor:Hide()
 			end
-
-			if spellID == 382988 then -- Mists of Pandaria Milling
+			if recipeID == 382988 then -- Mists of Pandaria Milling
 				app.MillingMistsOfPandaria:Show()
 			else
 				app.MillingMistsOfPandaria:Hide()
 			end
-
-			if spellID == 382989 then -- Cataclysm Milling
+			if recipeID == 382989 then -- Cataclysm Milling
 				app.MillingCataclysm:Show()
 			else
 				app.MillingCataclysm:Hide()
 			end
-
-			if spellID == 382990 then -- Wrath of the Lich King Milling
+			if recipeID == 382990 then -- Wrath of the Lich King Milling
 				app.MillingWrathOfTheLichKing:Show()
 			else
 				app.MillingWrathOfTheLichKing:Hide()
 			end
-
-			if spellID == 382991 then -- The Burning Crusade Milling
+			if recipeID == 382991 then -- The Burning Crusade Milling
 				app.MillingTheBurningCrusade:Show()
 			else
 				app.MillingTheBurningCrusade:Hide()
 			end
-
-			if spellID == 382994 then -- Classic Milling
+			if recipeID == 382994 then -- Classic Milling
 				app.MillingClassic:Show()
 			else
 				app.MillingClassic:Hide()
 			end
 
-			if app.slLegendaryRecipeIDs[app.SelectedRecipe.Profession.recipeID] then -- Shadowlands Legendary recipes
+			if app.slLegendaryRecipeIDs[app.SelectedRecipe.Profession.recipeID] then
 				app.ShadowlandsRankText:Show()
 				app.ShadowlandsRankBox:Show()
 				app.ShadowlandsRankBox:SetText(app.slLegendaryRecipeIDs[app.SelectedRecipe.Profession.recipeID].rank)
@@ -897,65 +904,43 @@ app.Event:Register("SPELL_DATA_LOAD_RESULT", function(spellID, success)
 			end
 		end
 
-		-- Profession buttons
-		local function professionButtons()
-			-- Show stuff depending on which profession is opened
-			local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
-			local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
-
-			-- Cooking Fire and Chef's Hat buttons
-			if professionID == 5 then
-				if app.Data.Pets.ragnaros and app.Data.Pets.ragnaros.enabled then
-					app.RagnarosButton:Show()
-				elseif app.Data.Pets.pierre and app.Data.Pets.pierre.enabled then
-					app.PierreButton:Show()
-				else
-					app.CookingFireButton:Show()
-				end
-				app.ChefsHatButton:Show()
+		local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
+		local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
+		if professionID == 5 then
+			if app.Data.Pets.ragnaros and app.Data.Pets.ragnaros.enabled then
+				app.RagnarosButton:Show()
+			elseif app.Data.Pets.pierre and app.Data.Pets.pierre.enabled then
+				app.PierreButton:Show()
 			else
-				app.CookingFireButton:Hide()
-				if app.Retail then
-					app.RagnarosButton:Hide()
-					app.PierreButton:Hide()
-					app.ChefsHatButton:Hide()
-				end
+				app.CookingFireButton:Show()
 			end
-
+			app.ChefsHatButton:Show()
+		else
+			app.CookingFireButton:Hide()
 			if app.Retail then
-				-- Thermal Anvil button
-				if professionID == 1 or professionID == 6 or professionID == 8 then
-					app.ThermalAnvilButton:Show()
-					app.AlvinButton:Show()
-					local _, _, raceID = UnitRace("player")
-					if raceID == 30 then
-						app.LightforgeButton:Show()
-					end
-				else
-					app.ThermalAnvilButton:Hide()
-					app.AlvinButton:Hide()
-					app.LightforgeButton:Hide()
-				end
+				app.RagnarosButton:Hide()
+				app.PierreButton:Hide()
+				app.ChefsHatButton:Hide()
 			end
 		end
-
-		if app.Flag.TradeskillAssets then
-			recipeAssets()
-			professionButtons()
+		if app.Retail then
+			if professionID == 1 or professionID == 6 or professionID == 8 then
+				app.ThermalAnvilButton:Show()
+				app.AlvinButton:Show()
+				local _, _, raceID = UnitRace("player")
+				if raceID == 30 then
+					app.LightforgeButton:Show()
+				end
+			else
+				app.ThermalAnvilButton:Hide()
+				app.AlvinButton:Hide()
+				app.LightforgeButton:Hide()
+			end
 		end
 	end
 end)
 
-EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelected", function(_, recipeInfo)
-	local recipeID = recipeInfo.recipeID
-	local recipeDif = app.RecipeDifficulty[recipeID]
-	if recipeDif then
-		app.RecipeDifficultyText:SetText("|cffFF8040" .. (recipeDif.optimal or "")  .. "|R |cffFFFF00" .. (recipeDif.medium or "")  .. "|R |cff40BF40" .. (recipeDif.easy or "")  .. "|R |cff808080" .. (recipeDif.trivial or "")  .. "|R")
-		app.RecipeDifficultyText:Show()
-	else
-		app.RecipeDifficultyText:Hide()
-	end
-
+EventRegistry:RegisterCallback("Professions.RecipeSelected", function() -- The other callback is too quick for this to properly take, and this one only exists in Forever
 	if app.Forever then
 		ProfessionsFrame.CraftingPage.SchematicForm.OutputText:SetPoint("LEFT", ProfessionsFrame.CraftingPage.SchematicForm.OutputIcon, "RIGHT", 16, 8)
 	end
