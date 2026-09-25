@@ -125,14 +125,14 @@ L.BUTTON_TRACKNEW =                      "追踪新外观"
 L.CURRENT_SETTING =                      "当前设置："
 L.MODE_APPEARANCES =                     "新外观"
 L.MODE_SOURCES =                         "新外观及来源"
--- L.ADDED_RECIPES =                        "Checked %d visible recipes for %s. Tracked %d recipes." -- %d becomes a number, %s becomes L.MODE_APPEARANCES or L.MODE_SOURCES
+L.ADDED_RECIPES =                        "已检查 %s 的 %d 个可见配方，追踪了 %d 个配方。" -- %d becomes a number, %s becomes L.MODE_APPEARANCES or L.MODE_SOURCES
 
 -- Tooltip info
 L.MORE_NEEDED =                          "个仍需" -- Preceded by a number
 L.MADE_WITH =                            "制造专业：" -- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
 L.RECIPE_LEARNED =                       "配方已学会"
 L.RECIPE_UNLEARNED =                     "配方未学会"
--- L.CRAFTING_COST =                        "Crafting Cost"
+L.CRAFTING_COST =                        "制造成本"
 
 -- Profession knowledge
 L.PERKS_UNLOCKED =                       "特长已解锁"
@@ -141,24 +141,24 @@ L.VENDORS =                              "供应商"
 L.RENOWN =                               "名望"
 L.WORLD =                                "世界"
 L.HIDDEN_PROFESSION_MASTER =             "隐藏专业大师"
--- L.WEEKLY =                               WEEKLY -- "Weekly"
--- L.TREASURE =                             "Treasure"
--- L.DROP =                                 BATTLE_PET_SOURCE_1 -- "Drop"
+L.WEEKLY =                               WEEKLY -- "每周"
+L.TREASURE =                             "宝藏"
+L.DROP =                                 BATTLE_PET_SOURCE_1 -- "掉落"
 L.CATCHUP_KNOWLEDGE =                    "可用追赶知识："
-L.LOADING =                              SEARCH_LOADING_TEXT -- "Loading..."
+L.LOADING =                              SEARCH_LOADING_TEXT -- "加载中..."
 
 -- Order adjustments
--- L.AUCTION_ADDONS =                       "Auctionator, Oribos Exchange, or TradeSkillMaster"
--- L.ORDERS_PRICING_MISSING =               "Missing"
--- L.ORDERS_PRICING_UPDATE =                "Update or scan with %s." -- %s becomes a list of addon names
+L.AUCTION_ADDONS =                       "Auctionator、Oribos Exchange 或 TradeSkillMaster"
+L.ORDERS_PRICING_MISSING =               "缺失"
+L.ORDERS_PRICING_UPDATE =                "请使用 %s 更新或扫描价格。" -- %s becomes a list of addon names
 L.ORDERS_SET_CRITERIA =                  "设置追踪订单的标准。"
--- L.ORDERS_COST_NEED =                     "Cost settings only work with: %s." -- %s becomes a list of addon names
+L.ORDERS_COST_NEED =                     "成本设置仅在使用以下插件时生效：%s。" -- %s becomes a list of addon names
 L.ORDERS_MAX_COST_KNOWLEDGE =            "每个知识点的最大成本："
 L.ORDERS_MAX_COST_ARTISAN =              "每份工匠货币的最大成本：" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
 L.ORDERS_MAX_COST_PAYOUT =               "每个奖励袋的最大成本：" -- This refers to Artisan's Payout bag
--- L.ORDERS_TRACK_AFTER_RESET =             "Track orders available after weekly reset"
+L.ORDERS_TRACK_AFTER_RESET =             "追踪每周重置后可用的订单"
 L.ORDERS_TRACK_CONCENTRATION =           "追踪消耗专注度的订单："
--- L.ORDERS_TRACK_ON =                      "Track on %s:"  -- %s becomes a character name
+L.ORDERS_TRACK_ON =                      "在 %s 上追踪："  -- %s becomes a character name
 
 L.ORDERSQUEUE_QUEUE =                    "队列"
 L.ORDERSQUEUE_QUEUE =                    "队列中的订单："
@@ -166,16 +166,16 @@ L.ORDERSQUEUE_NEXT =                     "下一个订单"
 L.ORDERSQUEUE_CLAIM =                    "开始接单"
 L.ORDERSQUEUE_CRAFT =                    "制作订单"
 L.ORDERSQUEUE_CRAFTING =                 "制作中..."
-L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
--- L.ORDERSQUEUE_WARNING_QUEST =            "You have not picked up %s." -- %s becomes a quest name
--- L.ORDERSQUEUE_WARNING_REAGENTS =         "You do not have enough reagents for all tracked recipes."
+L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "完成订单"
+L.ORDERSQUEUE_WARNING_QUEST =            "你尚未接取任务：%s。" -- %s becomes a quest name
+L.ORDERSQUEUE_WARNING_REAGENTS =         "你的材料不足以完成所有已追踪的配方。"
 
--- L.PROFTOOL_AUTOEQUIP =                   "Automatically equip this tool" -- Followed by one of the two following phrases
--- L.PROFTOOL_DEFAULT =                     "for |cffFFFFFFregular crafting|R."
--- L.PROFTOOL_ORDERS =                      "while |cffFFFFFFdoing orders|R."
--- L.PROFTOOL_DRAG =                        "Drag a tool here."
--- L.PROFTOOL_MOUSE =                       app.IconLMB .. ": Equip this tool.\n" ..
---                                          app.IconRMB .. ": Remove this tool."
+L.PROFTOOL_AUTOEQUIP =                   "自动装备此工具" -- Followed by one of the two following phrases
+L.PROFTOOL_DEFAULT =                     "用于 |cffFFFFFF常规制造|R。"
+L.PROFTOOL_ORDERS =                      "用于 |cffFFFFFF处理订单|R。"
+L.PROFTOOL_DRAG =                        "将工具拖拽至此处。"
+L.PROFTOOL_MOUSE =                       app.IconLMB .. "：装备此工具。\n" ..
+                                         app.IconRMB .. "：移除此工具。"
 
 -- Chat feedback
 L.INVALID_PARAMETERS =                   "参数无效。"
@@ -232,8 +232,8 @@ L.SETTINGS_SLASH_TRACKACHIE =            "追踪链接成就所需配方"
 L.SETTINGS_SLASH_CRAFTINGACHIE =         "制造成就"
 L.SETTINGS_SLASH_RECIPEID =              "配方ID"
 L.SETTINGS_SLASH_QUANTITY =              "数量"
--- L.SETTINGS_SLASH_REAGENT =               "itemLink or itemID"
--- L.SETTINGS_SLASH_TRACKREAGENT =          "Track all recipes using this reagent"
+L.SETTINGS_SLASH_REAGENT =               "物品链接或物品ID"
+L.SETTINGS_SLASH_TRACKREAGENT =          "追踪所有使用此材料的配方"
 
 L.GENERAL =                              GENERAL -- "General"
 L.SETTINGS_MINIMAP_TITLE =               "显示小地图图标"
@@ -246,8 +246,8 @@ L.SETTINGS_TOOLTIP_TITLE =               "显示提示信息"
 L.SETTINGS_TOOLTIP_DESC =                "在物品提示中显示拥有/需要的材料数量。"
 L.SETTINGS_CRAFTTOOLTIP_TITLE =          "显示制造信息"
 L.SETTINGS_CRAFTTOOLTIP_DESC =           "在装备提示中显示制造专业及配方是否学会。"
--- L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE =      "Show Crafting Cost"
--- L.SETTINGS_CRAFTCOSTTOOLTIP_DESC =       "Show how much an item costs to craft, if that information is available."
+L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE =      "显示制造成本"
+L.SETTINGS_CRAFTCOSTTOOLTIP_DESC =       "若信息可用，则在提示中显示物品的制造成本。"
 L.SETTINGS_REAGENTQUALITY_TITLE =        "最低材料品质"
 L.SETTINGS_REAGENTQUALITY_DESC =         "设置材料所需的最低品质，" .. app.NameShort .. "才会将其计入物品数量统计。模拟结果仍会覆盖此设置。"
 L.SETTINGS_INCLUDEHIGHER_TITLE =         "包含更高品质"
@@ -255,9 +255,9 @@ L.SETTINGS_INCLUDEHIGHER_DESC =          "是否统计高品质材料。（例�
 L.SETTINGS_COLLECTMODE_TITLE =           "收集模式"
 L.SETTINGS_COLLECTMODE_DESC =            "设置使用" .. app:Colour(L.BUTTON_TRACKNEW) .. "按钮时包含的物品类型。"
 
--- L.PROFESSION_WINDOW =                    "Profession Window"
--- L.SETTINGS_FILTER_OPTREAGENTS =          "Filter Optional Reagents"
--- L.SETTINGS_FILTER_OPTREAGENTS_DESC =     "When %s is checked for optional reagents, hide combinable items." -- %s becomes "Hide Unavailable"
+L.PROFESSION_WINDOW =                    "专业窗口"
+L.SETTINGS_FILTER_OPTREAGENTS =          "过滤可选材料"
+L.SETTINGS_FILTER_OPTREAGENTS_DESC =     "当「可选材料」勾选 %s 时，隐藏可组合的物品。" -- %s becomes "Hide Unavailable"
 L.SETTINGS_SPENDTOPERK_TITLE =           "花费至下一专精"
 L.SETTINGS_SPENDTOPERK_DESC =            "Shift+点击专业技能知识节点时，自动花费技能点直至获得下一个专精效果。"
 L.SETTINGS_ENHANCEDORDERS_TITLE =        "增强订单"
@@ -265,11 +265,11 @@ L.SETTINGS_ENHANCEDORDERS_DESC =         "增强订单奖励和委托的预览�
 L.SETTINGS_QUICKORDER_TITLE =            "快速订单时长"
 L.SETTINGS_QUICKORDER_DESC =             "设置" .. app.NameShort .. "快速订单的持续时间。"
 
-L.LOW =                                  LOW -- "Low"
-L.HIGH =                                 HIGH -- "High"
+L.LOW =                                  LOW -- "低"
+L.HIGH =                                 HIGH -- "高"
 L.SETTINGS_INCLUDE =                     "包含更高品质"
 L.SETTINGS_DONT_INCLUDE =                "不包含更高品质"
-L.SETTINGS_APPEARANCES_TITLE =           WARDROBE -- "Appearances"
+L.SETTINGS_APPEARANCES_TITLE =           WARDROBE -- "外观"
 L.SETTINGS_APPEARANCES_TEXT =            "仅包含新外观物品。"
 L.SETTINGS_SOURCES_TITLE =               "来源"
 L.SETTINGS_SOURCES_TEXT =                "包含新来源物品（包括已知外观的新来源）。"
