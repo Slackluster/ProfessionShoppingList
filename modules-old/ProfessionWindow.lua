@@ -104,6 +104,13 @@ function app:CreateTradeskillAssets()
 		end)
 	end
 
+	if not app.RecipeDifficultyText then
+		app.RecipeDifficultyText = ProfessionsFrame.CraftingPage.SchematicForm:CreateFontString(nil, "ARTWORK", "SystemFont_Shadow_Med2_Outline")
+		app.RecipeDifficultyText:SetPoint("RIGHT", app.UntrackProfessionButton, "LEFT", 0, 0)
+		app.RecipeDifficultyText:SetJustifyH("RIGHT")
+		app.RecipeDifficultyText:Hide()
+	end
+
 	if app.Retail then
 		-- Create the rank editbox for SL legendary recipes
 		if not app.ShadowlandsRankBox then
@@ -939,7 +946,16 @@ app.Event:Register("SPELL_DATA_LOAD_RESULT", function(spellID, success)
 	end
 end)
 
-EventRegistry:RegisterCallback("Professions.RecipeSelected", function()
+EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelected", function(_, recipeInfo)
+	local recipeID = recipeInfo.recipeID
+	local recipeDif = app.RecipeDifficulty[recipeID]
+	if recipeDif then
+		app.RecipeDifficultyText:SetText("|cffFF8040" .. (recipeDif.optimal or "")  .. "|R |cffFFFF00" .. (recipeDif.medium or "")  .. "|R |cff40BF40" .. (recipeDif.easy or "")  .. "|R |cff808080" .. (recipeDif.trivial or "")  .. "|R")
+		app.RecipeDifficultyText:Show()
+	else
+		app.RecipeDifficultyText:Hide()
+	end
+
 	if app.Forever then
 		ProfessionsFrame.CraftingPage.SchematicForm.OutputText:SetPoint("LEFT", ProfessionsFrame.CraftingPage.SchematicForm.OutputIcon, "RIGHT", 16, 8)
 	end
