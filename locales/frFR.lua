@@ -18,9 +18,9 @@ L.WINDOW_BUTTON_AUCTIONATOR =            "Mettre à jour la liste d’achats dan
                                          "La liste d’achats sera générée automatiquement lors de l’ouverture de l’Hôtel des ventes"
 L.WINDOW_BUTTON_CORNER =                 "Double " .. app.IconLMB .. "|cffFFFFFF : dimensionner automatiquement pour s’adapter à la fenêtre|r"
 
-L.WINDOW_HEADER_RECIPES =                PROFESSIONS_RECIPES_TAB -- "Recettes"
-L.WINDOW_HEADER_ITEMS =                  ITEMS -- "Objets"
-L.WINDOW_HEADER_REAGENTS =               PROFESSIONS_COLUMN_HEADER_REAGENTS -- "Composants"
+L.WINDOW_HEADER_RECIPES =                PROFESSIONS_RECIPES_TAB -- "Recipes"
+L.WINDOW_HEADER_ITEMS =                  ITEMS -- "Items"
+L.WINDOW_HEADER_REAGENTS =               PROFESSIONS_COLUMN_HEADER_REAGENTS -- "Reagents"
 L.WINDOW_HEADER_COSTS =                  "Coûts"
 L.WINDOW_HEADER_COOLDOWNS =              "Temps de recharge"
 
@@ -37,10 +37,10 @@ L.WINDOW_TOOLTIP_COOLDOWNS =             "Maj " .. app.IconRMB .. "|cffFFFFFF : 
 
 L.CLEAR_CONFIRMATION =                   "Cela effacera toutes les recettes."
 L.CONFIRMATION =                         "Souhaitez-vous poursuivre ?"
-L.SUBREAGENTS1 =                         "Il existe plusieurs recettes qui permettent de créer" -- Followed by an item link
-L.SUBREAGENTS2 =                         "Veuillez sélectionner l’un des éléments suivants"
-L.GOLD =                                 BONUS_ROLL_REWARD_MONEY -- "Or"
-L.MERCHANT_BUY =                         "Laissez " .. app.NameShort .. " acheter les " .. L.WINDOW_HEADER_REAGENTS .. " et " .. L.WINDOW_HEADER_COSTS .. " dont vous avez besoin auprès de ce marchand, si disponibles."
+L.SUBREAGENTS1 =                         "Il existe plusieurs recettes qui permettent de créer %s" -- %s becomes an item link
+L.SUBREAGENTS2 =                         "Veuillez sélectionner l’un des éléments suivants :"
+L.GOLD =                                 BONUS_ROLL_REWARD_MONEY -- "Gold"
+-- L.MERCHANT_BUY =                         "Buy all tracked reagents, if available."
 
 -- Cooldowns
 L.RECHARGED =                            "Entièrement rechargé"
@@ -48,7 +48,7 @@ L.READY =                                "Prêt"
 L.DAYS =                                 "j"
 L.HOURS =                                "h"
 L.MINUTES =                              "m"
-L.READY_TO_CRAFT =                       "est de nouveau prête pour" -- Preceded by a recipe name, followed by a character name
+L.READY_TO_CRAFT =                       "%s est de nouveau prête pour %s." -- %s becomes a recipe name, and character name
 
 -- Recipe tracking
 L.TRACK =                                "Suivre"
@@ -58,7 +58,7 @@ L.RECRAFT_TOOLTIP =                      "Sélectionnez un objet dont la recette
                                          "Pour mettre en cache une recette, ouvrez le métier correspondant (sur n’importe quel personnage)\nou visualisez l’objet comme une commande d’artisanat normale."
 L.QUICKORDER =                           "Commande rapide"
 L.QUICKORDER_TOOLTIP =                   "|cffFF0000Créer instantanément|r une commande d’artisanat pour le destinataire spécifié.\n\n" ..
-                                         "Utiliser |cffFFFFFFGUILD|r (tout en majuscules) pour placer une " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. ".\n" .. -- "Guild Order". Don't translate "|cffFFFFFFGUILD|r" as this is hardcoded
+                                         "Utiliser %s (tout en majuscules) pour placer une " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. ".\n" .. -- "Guild Order", %s becomes "GUILD"
                                          "Utiliser un nom de personnage pour placer une " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_PRIVATE .. ".\n" .. -- "Personal Order"
                                          "Les destinataires sont mémorisés par recette. "
 L.LOCALREAGENTS_LABEL =                  "Utiliser des composants dans les sacs"
@@ -128,8 +128,8 @@ L.MODE_SOURCES =                         "nouvelles apparences et sources"
 -- L.ADDED_RECIPES =                        "Checked %d visible recipes for %s. Tracked %d recipes." -- %d becomes a number, %s becomes L.MODE_APPEARANCES or L.MODE_SOURCES
 
 -- Tooltip info
-L.MORE_NEEDED =                          "de plus sont nécessaires" -- Preceded by a number
-L.MADE_WITH =                            "Fabriqué par" -- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
+L.MORE_NEEDED =                          "%d de plus sont nécessaires" -- %d becomes a number
+L.MADE_WITH =                            "Fabriqué par %s" -- %s becomes a profession
 L.RECIPE_LEARNED =                       "recette apprise"
 L.RECIPE_UNLEARNED =                     "recette non apprise"
 -- L.CRAFTING_COST =                        "Crafting Cost"
@@ -202,7 +202,7 @@ L.ERROR_GUILD =                          L.ERROR .. " : impossible de créer une
 L.ERROR_RECIPIENT =                      L.ERROR .. " : le destinataire cible ne peut pas fabriquer cet objet. Veuillez saisir un nom de destinataire valide"
 L.ERROR_MULTISIM =                       L.ERROR .. " : aucun composant simulé n’a été utilisé. Veuillez n’activer que l’un des addons suivants :"
 
-L.NEW_VERSION_AVAILABLE =                "Une nouvelle version de " .. app.NameLong .. " est disponible :"
+L.NEW_VERSION_AVAILABLE =                "Une nouvelle version de %s est disponible :" -- %s becomes the addon name
 
 -- Settings
 L.SETTINGS_TOOLTIP =                     app.NameLong .. "\n|cffFFFFFF" ..
@@ -237,7 +237,7 @@ L.SETTINGS_SLASH_QUANTITY =              "quantité"
 
 L.GENERAL =                              GENERAL    -- "General"
 L.SETTINGS_MINIMAP_TITLE =               "Afficher le bouton de la mini-carte"
-L.SETTINGS_MINIMAP_DESC =                "Afficher le bouton de la mini-carte. Si vous désactivez cette fonction, " .. app.NameShort .. " sera toujours disponible dans le panneau des addons."
+L.SETTINGS_MINIMAP_DESC =                "Afficher le bouton de la mini-carte. Si vous désactivez cette fonction, %s sera toujours disponible dans le panneau des addons." -- %s becomes the addon name
 L.SETTINGS_COOLDOWNS_TITLE =             "Suivre le temps de recharge des recettes"
 L.SETTINGS_COOLDOWNS_DESC =              "Activer le suivi des temps de recharge des recettes. Ceux-ci s’afficheront dans la fenêtre de suivi, et dans le chat à la connexion s’ils sont prêts."
 L.SETTINGS_COOLDOWNSWINDOW_TITLE =       "Afficher la fenêtre lorsque « Prêt »"
@@ -249,11 +249,11 @@ L.SETTINGS_CRAFTTOOLTIP_DESC =           "Afficher avec quel métier une pièce 
 -- L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE =      "Show Crafting Cost"
 -- L.SETTINGS_CRAFTCOSTTOOLTIP_DESC =       "Show how much an item costs to craft, if that information is available."
 L.SETTINGS_REAGENTQUALITY_TITLE =        "Qualité minimale de composant"
-L.SETTINGS_REAGENTQUALITY_DESC =         "Définissez la qualité minimale requise pour les réactifs avant que " .. app.NameShort .. " ne les inclue dans le décompte des objets. Les résultats simulés prévaudront toutefois sur cette valeur."
+-- L.SETTINGS_REAGENTQUALITY_DESC =         "Set the minimum quality reagents need to be before they are counted. Simulated results will still override this."
 L.SETTINGS_INCLUDEHIGHER_TITLE =         "Inclure une qualité supérieure"
 L.SETTINGS_INCLUDEHIGHER_DESC =          "Faut-il inclure ou non les réactifs de qualité supérieure ? (Par exemple, faut-il inclure les réactifs de niveau 2 détenus lors du décompte des réactifs de niveau 1 ?)"
 L.SETTINGS_COLLECTMODE_TITLE =           "Mode de collection"
-L.SETTINGS_COLLECTMODE_DESC =            "Définir les objets à inclure lors de l’utilisation du bouton " .. app:Colour(L.BUTTON_TRACKNEW) .. "."
+L.SETTINGS_COLLECTMODE_DESC =            "Définir les objets à inclure lors de l’utilisation du bouton %s." -- %s becomes "Track New"
 
 -- L.PROFESSION_WINDOW =                    "Profession Window"
 -- L.SETTINGS_FILTER_OPTREAGENTS =          "Filter Optional Reagents"
@@ -261,9 +261,9 @@ L.SETTINGS_COLLECTMODE_DESC =            "Définir les objets à inclure lors de
 L.SETTINGS_SPENDTOPERK_TITLE =           "Dépenser jusqu’au prochain palier"
 L.SETTINGS_SPENDTOPERK_DESC =            "Maj + Clic sur une spécialisation de métier dépense tous les points de connaissance jusqu’au prochain palier."
 L.SETTINGS_ENHANCEDORDERS_TITLE =        "Commandes améliorées"
-L.SETTINGS_ENHANCEDORDERS_DESC =         "Améliore l’aperçu des récompenses et commissions de commande et ajoute des icônes pour les premières fabrications, les recettes non apprises et les recettes suivies.\n\n" .. L.REQUIRES_RELOAD
+L.SETTINGS_ENHANCEDORDERS_DESC =         "Améliore l’aperçu des récompenses et commissions de commande et ajoute des icônes pour les premières fabrications, les recettes non apprises et les recettes suivies."
 L.SETTINGS_QUICKORDER_TITLE =            "Durée de la commande rapide"
-L.SETTINGS_QUICKORDER_DESC =             "Définir la durée pour passer des commandes rapides avec " .. app.NameShort .. "."
+-- L.SETTINGS_QUICKORDER_DESC =             "Set the duration for placing quick orders."
 
 L.LOW =                                  LOW -- "Low"
 L.HIGH =                                 HIGH -- "High"

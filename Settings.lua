@@ -349,7 +349,7 @@ function app:CreateSettings()
 
 	header(L.GENERAL)
 
-	checkbox("minimapIcon", L.SETTINGS_MINIMAP_TITLE, L.SETTINGS_MINIMAP_DESC, true, function() app:ToggleMinimapIcon() end)
+	checkbox("minimapIcon", L.SETTINGS_MINIMAP_TITLE, string.format(L.SETTINGS_MINIMAP_DESC, app.NameShort), true, function() app:ToggleMinimapIcon() end)
 
 	local parentSetting, parentCheckbox = checkbox("showRecipeCooldowns", L.SETTINGS_COOLDOWNS_TITLE, L.SETTINGS_COOLDOWNS_DESC, true, function() app:UpdateRecipes() end)
 
@@ -373,7 +373,7 @@ function app:CreateSettings()
 		{ value = 2, name = L.SETTINGS_DONT_INCLUDE, description = nil },
 	}, function() C_Timer.After(0.5, function() app:UpdateRecipes() end) end)
 
-	dropdown("collectMode", L.SETTINGS_COLLECTMODE_TITLE, L.SETTINGS_COLLECTMODE_DESC, 1, {
+	dropdown("collectMode", L.SETTINGS_COLLECTMODE_TITLE, string.format(L.SETTINGS_COLLECTMODE_DESC, app:Colour(L.BUTTON_TRACKNEW)), 1, {
 		{ value = 1, name = L.SETTINGS_APPEARANCES_TITLE, description = L.SETTINGS_APPEARANCES_TEXT },
 		{ value = 2, name = L.SETTINGS_SOURCES_TITLE, description = L.SETTINGS_SOURCES_TEXT },
 	})
@@ -384,7 +384,7 @@ function app:CreateSettings()
 
 	checkbox("spendToNextPerk", L.SETTINGS_SPENDTOPERK_TITLE, L.SETTINGS_SPENDTOPERK_DESC, true)
 
-	checkbox("enhancedOrders", L.SETTINGS_ENHANCEDORDERS_TITLE, L.SETTINGS_ENHANCEDORDERS_DESC, true)
+	checkbox("enhancedOrders", L.SETTINGS_ENHANCEDORDERS_TITLE, L.SETTINGS_ENHANCEDORDERS_DESC .. "\n\n|cffFF0000" .. L.REQUIRES_RELOAD, true)
 
 	dropdown("quickOrderDuration", L.SETTINGS_QUICKORDER_TITLE, L.SETTINGS_QUICKORDER_DESC, 0, {
 		{ value = 0, name = L.SETTINGS_DURATION_SHORT, description = nil },

@@ -63,7 +63,7 @@ function app:AddTooltipInfo()
 				local reagentAmountHave = app:GetReagentCount(itemID)
 				tooltip:AddLine(" ")
 				emptyLine = true
-				tooltip:AddLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. reagentAmountHave .. "/" .. reagentAmountNeed .. " (" .. math.max(0,reagentAmountNeed-reagentAmountHave) .. " " .. L.MORE_NEEDED .. ")")
+				tooltip:AddLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. reagentAmountHave .. "/" .. reagentAmountNeed .. " (" .. string.format(L.MORE_NEEDED, math.max(0,reagentAmountNeed-reagentAmountHave)) .. ")")
 			end
 
 			if app.Settings.showCraftTooltip or app.Settings.showCraftCostTooltip then
@@ -107,9 +107,9 @@ function app:AddTooltipInfo()
 						local icon = app.IconProfession[tradeskillID] or app.IconProfession[999]
 						local name = (tradeskillID and C_TradeSkillUI.GetTradeSkillDisplayName(tradeskillID)) or UNKNOWN
 						if app.Settings.showCraftCostTooltip and totalCost > 0 then
-							tooltip:AddDoubleLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.MADE_WITH .. "  " .. icon .. " " .. name .. " (" .. learnedString .. ")", GetMoneyString(totalCost, true))
+							tooltip:AddDoubleLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. string.format(L.MADE_WITH, " " .. icon .. " " .. name) .. " (" .. learnedString .. ")", GetMoneyString(totalCost, true))
 						else
-							tooltip:AddLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. L.MADE_WITH .. "  " .. icon .. " " .. name .. " (" .. learnedString .. ")")
+							tooltip:AddLine(CreateSimpleTextureMarkup(app.Icon) .. " " .. string.format(L.MADE_WITH, " " .. icon .. " " .. name) .. " (" .. learnedString .. ")")
 						end
 					elseif app.Settings.showCraftCostTooltip and totalCost > 0 then
 						if not emptyLine then

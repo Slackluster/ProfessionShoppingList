@@ -37,10 +37,10 @@ L.WINDOW_TOOLTIP_COOLDOWNS =             "Shift + " .. app.IconRMB .. "|cffFFFFF
 
 L.CLEAR_CONFIRMATION =                   "这将清除所有配方。"
 L.CONFIRMATION =                         "确定要继续吗？"
-L.SUBREAGENTS1 =                         "存在多个可制作" -- Followed by an item link
-L.SUBREAGENTS2 =                         "请选择以下配方之一"
+L.SUBREAGENTS1 =                         "存在多个可制作 %s" -- %s becomes an item link
+L.SUBREAGENTS2 =                         "请选择以下配方之一:"
 L.GOLD =                                 BONUS_ROLL_REWARD_MONEY -- "Gold"
-L.MERCHANT_BUY =                         "让 " .. app.NameShort .. " 从该商人处购买你需要的已追踪 " .. L.WINDOW_HEADER_REAGENTS .. " 和 " .. L.WINDOW_HEADER_COSTS .. "（如果可用）。"
+-- L.MERCHANT_BUY =                         "Buy all tracked reagents, if available."
 
 -- Cooldowns
 L.RECHARGED =                            "已完全恢复"
@@ -48,7 +48,7 @@ L.READY =                                "准备就绪"
 L.DAYS =                                 "天"
 L.HOURS =                                "小时"
 L.MINUTES =                              "分钟"
-L.READY_TO_CRAFT =                       "的冷却时间已重置，可在角色" -- Preceded by a recipe name, followed by a character name
+L.READY_TO_CRAFT =                       "%s 的冷却时间已重置，可在角色 %s。" -- %s becomes a recipe name, and character name
 
 -- Recipe tracking
 L.TRACK =                                "追踪"
@@ -58,7 +58,7 @@ L.RECRAFT_TOOLTIP =                      "选择带有缓存配方的物品进�
                                          "要缓存配方，请在任何角色上打开对应专业窗口\n或查看普通制造订单中的物品。"
 L.QUICKORDER =                           "快速订单"
 L.QUICKORDER_TOOLTIP =                   "|cffFF0000立即|r为指定接收者创建制造订单。\n\n" ..
-                                         "使用|cffFFFFFFGUILD|r（全大写）创建" .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. "。\n" .. -- "Guild Order". Don't translate "|cffFFFFFFGUILD|r" as this is hardcoded
+                                         "使用%s（全大写）创建" .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. "。\n" .. -- "Guild Order", %s becomes "GUILD"
                                          "使用角色名创建" .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_PRIVATE .. "。\n" .. -- "Personal Order"
                                          "接收者按配方保存。"
 L.LOCALREAGENTS_LABEL =                  "使用本地材料"
@@ -128,8 +128,8 @@ L.MODE_SOURCES =                         "新外观及来源"
 L.ADDED_RECIPES =                        "已检查 %s 的 %d 个可见配方，追踪了 %d 个配方。" -- %d becomes a number, %s becomes L.MODE_APPEARANCES or L.MODE_SOURCES
 
 -- Tooltip info
-L.MORE_NEEDED =                          "个仍需" -- Preceded by a number
-L.MADE_WITH =                            "制造专业：" -- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
+L.MORE_NEEDED =                          "%d个仍需" -- %d becomes a number
+L.MADE_WITH =                            "制造专业：%s" -- %s becomes a profession
 L.RECIPE_LEARNED =                       "配方已学会"
 L.RECIPE_UNLEARNED =                     "配方未学会"
 L.CRAFTING_COST =                        "制造成本"
@@ -202,7 +202,7 @@ L.ERROR_GUILD =                          L.ERROR .. "：未加入公会时无法
 L.ERROR_RECIPIENT =                      L.ERROR .. "：目标接收者无法制作该物品。请输入有效角色名。"
 L.ERROR_MULTISIM =                       L.ERROR .. "：未使用模拟材料。请启用以下支持插件之一："
 
-L.NEW_VERSION_AVAILABLE =                app.NameLong .. "有新版本可用："
+L.NEW_VERSION_AVAILABLE =                "%s 有新版本可用：" -- %s becomes the addon name
 
 -- Settings
 L.SETTINGS_TOOLTIP =                     app.NameLong .. "\n|cffFFFFFF" ..
@@ -237,7 +237,7 @@ L.SETTINGS_SLASH_TRACKREAGENT =          "追踪所有使用此材料的配方"
 
 L.GENERAL =                              GENERAL -- "General"
 L.SETTINGS_MINIMAP_TITLE =               "显示小地图图标"
-L.SETTINGS_MINIMAP_DESC =                "显示小地图图标。禁用后仍可通过插件菜单访问。"
+L.SETTINGS_MINIMAP_DESC =                "显示小地图图标。禁用后仍可通过插件菜单访问。" -- %s becomes the addon name
 L.SETTINGS_COOLDOWNS_TITLE =             "追踪配方冷却"
 L.SETTINGS_COOLDOWNS_DESC =              "启用配方冷却时间追踪。显示在追踪窗口，并在登录时通过聊天提醒就绪冷却。"
 L.SETTINGS_COOLDOWNSWINDOW_TITLE =       "冷却就绪时显示窗口"
@@ -249,11 +249,11 @@ L.SETTINGS_CRAFTTOOLTIP_DESC =           "在装备提示中显示制造专业�
 L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE =      "显示制造成本"
 L.SETTINGS_CRAFTCOSTTOOLTIP_DESC =       "若信息可用，则在提示中显示物品的制造成本。"
 L.SETTINGS_REAGENTQUALITY_TITLE =        "最低材料品质"
-L.SETTINGS_REAGENTQUALITY_DESC =         "设置材料所需的最低品质，" .. app.NameShort .. "才会将其计入物品数量统计。模拟结果仍会覆盖此设置。"
+-- L.SETTINGS_REAGENTQUALITY_DESC =         "Set the minimum quality reagents need to be before they are counted. Simulated results will still override this."
 L.SETTINGS_INCLUDEHIGHER_TITLE =         "包含更高品质"
 L.SETTINGS_INCLUDEHIGHER_DESC =          "是否统计高品质材料。（例如：在统计1级材料时包含拥有的2级材料。）"
 L.SETTINGS_COLLECTMODE_TITLE =           "收集模式"
-L.SETTINGS_COLLECTMODE_DESC =            "设置使用" .. app:Colour(L.BUTTON_TRACKNEW) .. "按钮时包含的物品类型。"
+L.SETTINGS_COLLECTMODE_DESC =            "设置使用%s按钮时包含的物品类型。" -- %s becomes "Track New"
 
 L.PROFESSION_WINDOW =                    "专业窗口"
 L.SETTINGS_FILTER_OPTREAGENTS =          "过滤可选材料"
@@ -261,9 +261,9 @@ L.SETTINGS_FILTER_OPTREAGENTS_DESC =     "当「可选材料」勾选 %s 时，�
 L.SETTINGS_SPENDTOPERK_TITLE =           "花费至下一专精"
 L.SETTINGS_SPENDTOPERK_DESC =            "Shift+点击专业技能知识节点时，自动花费技能点直至获得下一个专精效果。"
 L.SETTINGS_ENHANCEDORDERS_TITLE =        "增强订单"
-L.SETTINGS_ENHANCEDORDERS_DESC =         "增强订单奖励和委托的预览效果，并添加首次制造图标、未学习配方图标和追踪配方图标。\n\n" .. L.REQUIRES_RELOAD
+L.SETTINGS_ENHANCEDORDERS_DESC =         "增强订单奖励和委托的预览效果，并添加首次制造图标、未学习配方图标和追踪配方图标。"
 L.SETTINGS_QUICKORDER_TITLE =            "快速订单时长"
-L.SETTINGS_QUICKORDER_DESC =             "设置" .. app.NameShort .. "快速订单的持续时间。"
+-- L.SETTINGS_QUICKORDER_DESC =             "Set the duration for placing quick orders."
 
 L.LOW =                                  LOW -- "低"
 L.HIGH =                                 HIGH -- "高"

@@ -114,7 +114,7 @@ app.Event:Register("CHAT_MSG_ADDON", function(prefix, text, channel, sender, tar
 					local localAddonVersion = tonumber(iteration2)
 
 					if otherGameVersion > localGameVersion or (otherGameVersion == localGameVersion and otherAddonVersion > localAddonVersion) then
-						app:Print(L.NEW_VERSION_AVAILABLE, version)
+						app:Print(string.format(L.NEW_VERSION_AVAILABLE, app.NameLong), version)
 						app.Flag.VersionCheck = true
 					end
 				end

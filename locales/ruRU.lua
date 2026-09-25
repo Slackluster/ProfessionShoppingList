@@ -37,10 +37,10 @@ L.WINDOW_TOOLTIP_COOLDOWNS =             "Shift " .. app.IconRMB .. "|cffFFFFFF:
 
 L.CLEAR_CONFIRMATION =                   "Это очистит все рецепты."
 L.CONFIRMATION =                         "Хотите продолжить?"
-L.SUBREAGENTS1 =                         "Существует множество рецептов, которые можно изготовить" -- Followed by an item link
-L.SUBREAGENTS2 =                         "Пожалуйста, выберите один из следующих вариантов"
+L.SUBREAGENTS1 =                         "Существует множество рецептов, которые можно изготовить %s"  -- %s becomes an item link
+L.SUBREAGENTS2 =                         "Пожалуйста, выберите один из следующих вариантов:"
 L.GOLD =                                 BONUS_ROLL_REWARD_MONEY -- "Gold"
-L.MERCHANT_BUY =                         "Позвольте купить " .. app.NameShort .. " отслеживаемые " .. L.WINDOW_HEADER_REAGENTS .. " и " .. L.WINDOW_HEADER_COSTS .. "\nкоторые вам нужны, у этого продавца, если таковые имеются."
+-- L.MERCHANT_BUY =                         "Buy all tracked reagents, if available."
 
 -- Cooldowns
 L.RECHARGED =                            "Полностью заряжен"
@@ -48,7 +48,7 @@ L.READY =                                "Готов"
 L.DAYS =                                 "д"
 L.HOURS =                                "ч"
 L.MINUTES =                              "м"
-L.READY_TO_CRAFT =                       "готов снова к работе" -- Preceded by a recipe name, followed by a character name
+L.READY_TO_CRAFT =                       "%s готов снова к работе %s"-- %s becomes a recipe name, and character name
 
 -- Recipe tracking
 L.TRACK =                                "Отслеживать"
@@ -58,7 +58,7 @@ L.RECRAFT_TOOLTIP =                      "Выберите предмет с с�
                                          "Чтобы кэшировать рецепт, откройте профессию, к которой относится рецепт, на любом персонаже\nили просмотреть предмет как обычный заказ на изготовление."
 L.QUICKORDER =                           "Быстрый заказ"
 L.QUICKORDER_TOOLTIP =                   "|cffFF0000Немедленно|r создать заказ на изготовление для указанного получателя.\n\n" ..
-                                         "Используйте |cffFFFFFFGUILD|r (все заглавные буквы), чтобы разместить " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. ".\n" .. -- "Guild Order". Don't translate "|cffFFFFFFGUILD|r" as this is hardcoded
+                                         "Используйте %s (все заглавные буквы), чтобы разместить " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. ".\n" .. -- "Guild Order", %s becomes "GUILD"
                                          "Используйте имя персонажа, чтобы разместить " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_PRIVATE .. ".\n" .. -- "Personal Order"
                                          "Получатели сохраняются по рецепту."
 L.LOCALREAGENTS_LABEL =                  "Используйте местные реагенты"
@@ -128,8 +128,8 @@ L.MODE_SOURCES =                         "новые внешние виды и 
 L.ADDED_RECIPES =                        "Проверено рецептов для %2$s: %1$d. Отслеживается рецептов: %3$d." -- %d becomes a number, %s becomes L.MODE_APPEARANCES or L.MODE_SOURCES
 
 -- Tooltip info
-L.MORE_NEEDED =                          "нужно больше" -- Preceded by a number
-L.MADE_WITH =                            "Сделано" -- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
+L.MORE_NEEDED =                          "%d нужно больше" -- %d becomes a number
+L.MADE_WITH =                            "Сделано %s" -- %s becomes a profession
 L.RECIPE_LEARNED =                       "рецепт изучен"
 L.RECIPE_UNLEARNED =                     "рецепт не изучен"
 L.CRAFTING_COST =                        "Стоимость создания"
@@ -202,7 +202,7 @@ L.ERROR_GUILD =                          L.ERROR .. ": Невозможно со
 L.ERROR_RECIPIENT =                      L.ERROR .. ": Выбранный получатель не может создать этот предмет. Введите допустимое имя получателя."
 L.ERROR_MULTISIM =                       L.ERROR .. ": Никакие смоделированные реагенты не использовались. Пожалуйста, включите только один из следующих поддерживаемых аддонов:"
 
-L.NEW_VERSION_AVAILABLE =                "Доступна более новая версия " .. app.NameLong .. " аддона:"
+L.NEW_VERSION_AVAILABLE =                "Доступна более новая версия %s аддона:" -- %s becomes the addon name
 
 -- Settings
 L.SETTINGS_TOOLTIP =                     app.NameLong .. "\n|cffFFFFFF" ..
@@ -237,7 +237,7 @@ L.SETTINGS_SLASH_TRACKREAGENT =          "Отслеживать все реце
 
 L.GENERAL =                              GENERAL -- "General"
 L.SETTINGS_MINIMAP_TITLE =               "Показать значок на миникарте"
-L.SETTINGS_MINIMAP_DESC =                "Показать значок на миникарте. Если вы отключите это, " .. app.NameShort .. " все еще будет доступен из настроек."
+L.SETTINGS_MINIMAP_DESC =                "Показать значок на миникарте. Если вы отключите это, %s все еще будет доступен из настроек." -- %s becomes the addon name
 L.SETTINGS_COOLDOWNS_TITLE =             "Отслеживание перезарядки рецептов"
 L.SETTINGS_COOLDOWNS_DESC =              "Включить отслеживание перезарядки рецептов. Они будут отображаться в окне отслеживания и в чате при входе в игру, если готовы."
 L.SETTINGS_COOLDOWNSWINDOW_TITLE =       "Показать окно, когда будет готово"
@@ -249,11 +249,11 @@ L.SETTINGS_CRAFTTOOLTIP_DESC =           "Показывать, с помощь�
 L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE =      "Показывать стоимость создания"
 L.SETTINGS_CRAFTCOSTTOOLTIP_DESC =       "Показывать, сколько стоит изготовление предмета, если эта информация доступна."
 L.SETTINGS_REAGENTQUALITY_TITLE =        "Минимальное качество реагента"
-L.SETTINGS_REAGENTQUALITY_DESC =         "Установите минимальное качество реагентов, при котором " .. app.NameShort .. " будет учитывать их в общем количестве предметов. Результаты симуляции по-прежнему будут иметь приоритет над этой настройкой."
+-- L.SETTINGS_REAGENTQUALITY_DESC =         "Set the minimum quality reagents need to be before they are counted. Simulated results will still override this."
 L.SETTINGS_INCLUDEHIGHER_TITLE =         "Включить более высокое качество"
 L.SETTINGS_INCLUDEHIGHER_DESC =          "Учитывать ли реагенты более высокого качества. (Например, включать имеющиеся реагенты 2-го уровня при подсчете реагентов 1-го уровня.)"
 L.SETTINGS_COLLECTMODE_TITLE =           "Режим сбора"
-L.SETTINGS_COLLECTMODE_DESC =            "Установите, какие предметы будут включены при использовании " .. app:Colour(L.BUTTON_TRACKNEW) .. " кнопки."
+L.SETTINGS_COLLECTMODE_DESC =            "Установите, какие предметы будут включены при использовании %s кнопки." -- %s becomes "Track New"
 
 L.PROFESSION_WINDOW =                    "Окно профессий"
 L.SETTINGS_FILTER_OPTREAGENTS =          "Фильтр необязательных реагентов"
@@ -261,9 +261,9 @@ L.SETTINGS_FILTER_OPTREAGENTS_DESC =     "Если для необязатель
 L.SETTINGS_SPENDTOPERK_TITLE =           "Тратить до ближайшего таланта"
 L.SETTINGS_SPENDTOPERK_DESC =            "Shift+клик по узлу специализации профессии тратит очки до достижения следующего бонуса."
 L.SETTINGS_ENHANCEDORDERS_TITLE =        "Улучшенные заказы"
-L.SETTINGS_ENHANCEDORDERS_DESC =         "Улучшите предварительный просмотр наград за заказы и комиссионных, а также добавьте значки для первых созданных, неизученных рецептов и отслеживаемых рецептов.\n\n" .. L.REQUIRES_RELOAD
+L.SETTINGS_ENHANCEDORDERS_DESC =         "Улучшите предварительный просмотр наград за заказы и комиссионных, а также добавьте значки для первых созданных, неизученных рецептов и отслеживаемых рецептов."
 L.SETTINGS_QUICKORDER_TITLE =            "Продолжительность быстрого заказа"
-L.SETTINGS_QUICKORDER_DESC =             "Установите продолжительность размещения быстрых заказов с помощью " .. app.NameShort .. "."
+-- L.SETTINGS_QUICKORDER_DESC =             "Set the duration for placing quick orders."
 
 L.LOW =                                  LOW -- "Low"
 L.HIGH =                                 HIGH -- "High"

@@ -1009,7 +1009,7 @@ function app:UpdateRecipes()
 					pslOptionText:SetPoint("CENTER", f, "CENTER")
 					pslOptionText:SetPoint("TOP", f, "TOP", 0, -10)
 					pslOptionText:SetJustifyH("CENTER")
-					pslOptionText:SetText("|cffFFFFFF" .. L.SUBREAGENTS1 .. ":\n" .. reagentInfo.link .. "\n\n" .. L.SUBREAGENTS2 .. ":")
+					pslOptionText:SetText("|cffFFFFFF" .. string.format(L.SUBREAGENTS1, reagentInfo.link) .. "\n\n" .. L.SUBREAGENTS2)
 
 					-- Text
 					local pslOption1 = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -2461,7 +2461,7 @@ app.Event:Register("PLAYER_ENTERING_WORLD", function(isInitialLogin, isReloading
 				-- If the option to show recipe cooldowns is enabled and all charges are full (or 0 = 0 for recipes without charges)
 				if app.Settings.showRecipeCooldowns and app.Data.Cooldowns[k].charges == app.Data.Cooldowns[k].maxCharges then
 					-- Show the reminder
-					app:Print(recipeInfo.name .. " " .. L.READY_TO_CRAFT .. " " .. recipeInfo.user .. ".")
+					app:Print(string.format(L.READY_TO_CRAFT, recipeInfo.name, recipeInfo.user))
 
 					-- And open the window if that setting is enabled
 					if app.Settings.showWindowCooldown then

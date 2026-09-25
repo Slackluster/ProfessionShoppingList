@@ -37,10 +37,10 @@ local L = app.locales
 
 -- L.CLEAR_CONFIRMATION =                   "This will clear all recipes."
 -- L.CONFIRMATION =                         "Do you wish to proceed?"
--- L.SUBREAGENTS1 =                         "There are multiple recipes that can create" -- Followed by an item link
--- L.SUBREAGENTS2 =                         "Please select one of the following"
+-- L.SUBREAGENTS1 =                         "There are multiple recipes that can create %s" -- %s becomes an item link
+-- L.SUBREAGENTS2 =                         "Please select one of the following:"
 -- L.GOLD =                                 BONUS_ROLL_REWARD_MONEY -- "Gold"
--- L.MERCHANT_BUY =                         "Let " .. app.NameShort .. " buy the tracked " .. L.WINDOW_HEADER_REAGENTS .. " and " .. L.WINDOW_HEADER_COSTS .. "\nyou need from this merchant, if available."
+-- L.MERCHANT_BUY =                         "Buy all tracked reagents, if available."
 
 -- Cooldowns
 -- L.RECHARGED =                            "Fully recharged"
@@ -48,7 +48,7 @@ local L = app.locales
 -- L.DAYS =                                 "d"
 -- L.HOURS =                                "h"
 -- L.MINUTES =                              "m"
--- L.READY_TO_CRAFT =                       "is ready to craft again on" -- Preceded by a recipe name, followed by a character name
+-- L.READY_TO_CRAFT =                       "%s is ready to craft again on %s." -- %s becomes a recipe name, and character name
 
 -- -- Recipe tracking
 -- L.TRACK =                                "Track"
@@ -58,7 +58,7 @@ local L = app.locales
 --                                          "To cache a recipe, open the profession the recipe belongs to on any character\nor view the item as a regular crafting order."
 -- L.QUICKORDER =                           "Quick Order"
 -- L.QUICKORDER_TOOLTIP =                   "|cffFF0000Instantly|r create a crafting order for the specified recipient.\n\n" ..
---                                          "Use |cffFFFFFFGUILD|r (all uppercase) to place a " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. ".\n" .. -- "Guild Order". Don't translate "|cffFFFFFFGUILD|r" as this is hardcoded
+--                                          "Use %s (all uppercase) to place a " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. ".\n" .. -- "Guild Order", %s becomes "GUILD"
 --                                          "Use a character name to place a " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_PRIVATE .. ".\n" .. -- "Personal Order"
 --                                          "Recipients are saved per recipe."
 -- L.LOCALREAGENTS_LABEL =                  "Use local reagents"
@@ -128,8 +128,8 @@ local L = app.locales
 -- L.ADDED_RECIPES =                        "Checked %d visible recipes for %s. Tracked %d recipes." -- %d becomes a number, %s becomes L.MODE_APPEARANCES or L.MODE_SOURCES
 
 -- Tooltip info
--- L.MORE_NEEDED =                          "more needed" -- Preceded by a number
--- L.MADE_WITH =                            "Made with" -- Followed by a profession name such as "Blacksmithing" or "Leatherworking"
+-- L.MORE_NEEDED =                          "%d more needed" -- %d becomes a number
+-- L.MADE_WITH =                            "Made with %s" -- %s becomes a profession
 -- L.RECIPE_LEARNED =                       "recipe learned"
 -- L.RECIPE_UNLEARNED =                     "recipe not learned"
 -- L.CRAFTING_COST =                        "Crafting Cost"
@@ -202,7 +202,7 @@ local L = app.locales
 -- L.ERROR_RECIPIENT =                      L.ERROR .. ": Target recipient cannot craft that item. Please enter a valid recipient name."
 -- L.ERROR_MULTISIM =                       L.ERROR .. ": No simulated reagents have been used. Please only enable one of the following supported addons:"
 
--- L.NEW_VERSION_AVAILABLE =                "There is a newer version of " .. app.NameLong .. " available:"
+-- L.NEW_VERSION_AVAILABLE =                "There is a newer version of %s available:" -- %s becomes the addon name
 
 -- Settings
 -- L.SETTINGS_TOOLTIP =                     app.NameLong .. "\n|cffFFFFFF" ..
@@ -237,7 +237,7 @@ local L = app.locales
 
 -- L.GENERAL =                              GENERAL -- "General"
 -- L.SETTINGS_MINIMAP_TITLE =               "Show Minimap Icon"
--- L.SETTINGS_MINIMAP_DESC =                "Show the minimap icon. If you disable this, " .. app.NameShort .. " is still available from the Addon Compartment."
+-- L.SETTINGS_MINIMAP_DESC =                "Show the minimap icon. If you disable this, %s is still available from the Addon Compartment." -- %s becomes the addon name
 -- L.SETTINGS_COOLDOWNS_TITLE =             "Track Recipe Cooldowns"
 -- L.SETTINGS_COOLDOWNS_DESC =              "Enable the tracking of recipe cooldowns. These will show in the tracking window, and in chat upon login if ready."
 -- L.SETTINGS_COOLDOWNSWINDOW_TITLE =       "Show Window When Ready"
@@ -249,11 +249,11 @@ local L = app.locales
 -- L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE =      "Show Crafting Cost"
 -- L.SETTINGS_CRAFTCOSTTOOLTIP_DESC =       "Show how much an item costs to craft, if that information is available."
 -- L.SETTINGS_REAGENTQUALITY_TITLE =        "Minimum Reagent Quality"
--- L.SETTINGS_REAGENTQUALITY_DESC =         "Set the minimum quality reagents need to be before " .. app.NameShort .. " includes them in the item count. Simulated results will still override this."
+-- L.SETTINGS_REAGENTQUALITY_DESC =         "Set the minimum quality reagents need to be before they are counted. Simulated results will still override this."
 -- L.SETTINGS_INCLUDEHIGHER_TITLE =         "Include Higher Quality"
 -- L.SETTINGS_INCLUDEHIGHER_DESC =          "Whether or not to count higher quality reagents. (I.e. include owned tier 2 reagents when counting tier 1 reagents.)"
 -- L.SETTINGS_COLLECTMODE_TITLE =           "Collection Mode"
--- L.SETTINGS_COLLECTMODE_DESC =            "Set which items are included when using the " .. app:Colour(L.BUTTON_TRACKNEW) .. " button."
+-- L.SETTINGS_COLLECTMODE_DESC =            "Set which items are included when using the %s button." -- %s becomes "Track New"
 
 -- L.PROFESSION_WINDOW =                    "Profession Window"
 -- L.SETTINGS_FILTER_OPTREAGENTS =          "Filter Optional Reagents"
@@ -261,9 +261,9 @@ local L = app.locales
 -- L.SETTINGS_SPENDTOPERK_TITLE =           "Spend to Next Perk"
 -- L.SETTINGS_SPENDTOPERK_DESC =            "Shift+clicking a profession knowledge node spends points until the next perk."
 -- L.SETTINGS_ENHANCEDORDERS_TITLE =        "Enhanced Orders"
--- L.SETTINGS_ENHANCEDORDERS_DESC =         "Enhance the preview of order rewards and commission, and add icons for first crafts, unlearned recipes, and tracked recipes.\n\n" .. L.REQUIRES_RELOAD
+-- L.SETTINGS_ENHANCEDORDERS_DESC =         "Enhance the preview of order rewards and commission, and add icons for first crafts, unlearned recipes, and tracked recipes."
 -- L.SETTINGS_QUICKORDER_TITLE =            "Quick Order Duration"
--- L.SETTINGS_QUICKORDER_DESC =             "Set the duration for placing quick orders with " .. app.NameShort .. "."
+-- L.SETTINGS_QUICKORDER_DESC =             "Set the duration for placing quick orders."
 
 -- L.LOW =                                  LOW -- "Low"
 -- L.HIGH =                                 HIGH -- "High"
