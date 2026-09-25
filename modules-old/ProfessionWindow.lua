@@ -825,7 +825,7 @@ EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelecte
 		local recipeID = recipeInfo.recipeID
 
 		local recipeDif = app.RecipeDifficulty[recipeID]
-		if recipeDif then
+		if recipeDif and recipeDif.trivial ~= 1 then
 			app.RecipeDifficultyText:SetText("|cffFF8040" .. (recipeDif.optimal or "")  .. "|R |cffFFFF00" .. (recipeDif.medium or "")  .. "|R |cff40BF40" .. (recipeDif.easy or "")  .. "|R |cff808080" .. (recipeDif.trivial or "")  .. "|R")
 			app.RecipeDifficultyText:Show()
 		else
