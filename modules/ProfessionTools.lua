@@ -39,12 +39,12 @@ function app:CreateProfToolsAssets()
 		frame:SetScript("OnEnter", function(self)
 			local string = L.PROFTOOL_AUTOEQUIP .. "\n"
 			if type == "default" then
-				string = string .. L.PROFTOOL_DEFAULT .. "\n"
+				string = string .. string.format(L.PROFTOOL_FOR, "|cffFFFFFF" .. L.PROFTOOL_DEFAULT .. "|r") .. "\n"
 			elseif type == "orders" then
-				string = string .. L.PROFTOOL_ORDERS .. "\n"
+				string = string .. string.format(L.PROFTOOL_FOR, "|cffFFFFFF" .. L.PROFTOOL_ORDERS .. "|r") .. "\n"
 			end
 			if frame:GetItem() then
-				string = string .. L.PROFTOOL_MOUSE
+				string = string .. app.IconLMB .. ": " .. L.PROFTOOL_EQUIP .. "\n" .. app.IconRMB .. ": " .. L.PROFTOOL_REMOVE
 			else
 				string = string .. L.PROFTOOL_DRAG
 			end

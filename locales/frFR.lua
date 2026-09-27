@@ -8,33 +8,124 @@ if GetLocale() ~= "frFR" then return end
 local appName, app = ...
 local L = app.locales
 
--- Main window
-L.WINDOW_BUTTON_CLOSE =                  "Fermer la fenêtre"
-L.WINDOW_BUTTON_LOCK =                   "Verrouiller la fenêtre"
-L.WINDOW_BUTTON_UNLOCK =                 "Déverrouiller la fenêtre"
-L.WINDOW_BUTTON_SETTINGS =               "Ouvrir les paramètres"
-L.WINDOW_BUTTON_CLEAR =                  "Effacer toutes les recettes suivies"
-L.WINDOW_BUTTON_AUCTIONATOR =            "Mettre à jour la liste d’achats dans Auctionator\n" ..
-                                         "La liste d’achats sera générée automatiquement lors de l’ouverture de l’Hôtel des ventes"
-L.WINDOW_BUTTON_CORNER =                 "Double " .. app.IconLMB .. "|cffFFFFFF : dimensionner automatiquement pour s’adapter à la fenêtre|r"
+-- Core
+L.NEW_VERSION_AVAILABLE =                "Une nouvelle version de %s est disponible :" -- %s becomes the addon name
 
-L.WINDOW_HEADER_RECIPES =                PROFESSIONS_RECIPES_TAB -- "Recipes"
-L.WINDOW_HEADER_ITEMS =                  ITEMS -- "Items"
-L.WINDOW_HEADER_REAGENTS =               PROFESSIONS_COLUMN_HEADER_REAGENTS -- "Reagents"
-L.WINDOW_HEADER_COSTS =                  "Coûts"
-L.WINDOW_HEADER_COOLDOWNS =              "Temps de recharge"
+L.RESET_DONE =                           "La réinitialisation des données a été effectuée avec succès."
+L.REQUIRES_RELOAD =                      REQUIRES_RELOAD -- "Requires Reload"
+L.DEBUG_ENABLED =                        "Mode débogage activé"
+L.DEBUG_DISABLED =                       "Mode débogage désactivé"
+L.INVALID_PARAMETERS =                   "Paramètres non valides"
+L.INVALID_COMMAND =                      "Commande non valide"
 
-L.WINDOW_TOOLTIP_RECIPES =               "Maj " .. app.IconLMB .. "|cffFFFFFF : poster la recette\n|r" ..
-                                         "Ctrl " .. app.IconLMB .. "|cffFFFFFF : ouvrir la recette (si connue)\n|r" ..
-                                         "Alt " .. app.IconLMB .. "|cffFFFFFF : essayer de créer cette recette\n\n|r" ..
-                                         app.IconRMB .. "|cffFFFFFF : annuler le suivi d’1 unité de la recette\n|r" ..
-                                         "Ctrl " .. app.IconRMB .. "|cffFFFFFF : annuler le suivi de toutes les unités de la recette sélectionnée"
-L.WINDOW_TOOLTIP_REAGENTS =              "Maj " .. app.IconLMB .. "|cffFFFFFF : poster le composant\n|r" ..
-                                         "Ctrl " .. app.IconLMB .. "|cffFFFFFF : ajouter une recette pour le sous-composant sélectionné, s’il existe et est mis en cache"
-L.WINDOW_TOOLTIP_COOLDOWNS =             "Maj " .. app.IconRMB .. "|cffFFFFFF : supprimer le rappel de temps de recharge\n|r" ..
-                                         "Ctrl " .. app.IconLMB .. "|cffFFFFFF : ouvrir la recette (si connue)\n|r" ..
-                                         "Alt " .. app.IconLMB .. "|cffFFFFFF : essayer de créer cette recette"
+-- Settings
+L.VERSION =                              GAME_VERSION_LABEL .. ":" -- "Version"
+L.SUPPORT_TEXTLONG1 =                    "Le développement de cette extension demande beaucoup de temps et d’efforts."
+L.SUPPORT_TEXTLONG2 =                    "Veuillez envisager de soutenir financièrement le développeur."
+L.SUPPORT =                              "Soutien"
+L.BUY_ME_A_COFFEE =                      "Buy Me a Coffee" -- Brand name, if there isn't a localised version, keep it the way it is
+L.THANK_YOU =                            "Merci !"
+L.FEEDBACK_AND_HELP =                    "Commentaires et aide"
+L.DISCORD =                              "Discord" -- Brand name, if there isn't a localised version, keep it the way it is
+L.JOIN_DISCORD_SERVER =                  "Rejoignez le serveur Discord."
+L.CTRL_C_COPY =                          "Ctrl + C pour copier :"
+L.LINK_COPIED =                          "lien a été copié dans le presse-papiers"
 
+L.KEYBINDINGS_AND_SLASH_COMMANDS =       SETTINGS_KEYBINDINGS_LABEL .. " & Commandes « Slash »" -- "Keybindings"
+_G["BINDING_NAME_PSL_TOGGLEWINDOW"] =    app.NameShort .. " : afficher / masquer la fenêtre"
+L.TOGGLE_TRACKING_WINDOW =               "Afficher / masquer la fenêtre de suivi"
+L.RESET_WINDOW_POSITION =                "Réinitialiser la position de la fenêtre de suivi"
+L.RESET_SAVED_DATA =                     "Réinitialiser les données enregistrées"
+L.OPEN_SETTINGS =                        "Ouvrir les paramètres"
+L.CLEAR_TRACKED_RECIPES =                "Effacer toutes les recettes suivies"
+L.RECIPEID =                             "recipeID"
+L.QUANTITY =                             "quantité"
+L.TRACK_RECIPE =                         "Suivre une recette"
+L.UNTRACK_RECIPE =                       "Annuler le suivi d’une recette"
+L.UNTRACK_RECIPE_ALL =                   "Annuler le suivi de toutes les unités d’une recette"
+L.CRAFTING_ACHIEVEMENT =                 "haut fait de métier"
+L.TRACK_ACHIEVEMENT_RECIPES =            "Suivre les recettes nécessaires pour le haut fait sélectionné"
+-- L.ITEMLINK_OR_ITEMID =                   "itemLink or itemID"
+-- L.TRACK_REAGENT_RECIPES =                "Track all recipes using this reagent"
+
+L.GENERAL =                              GENERAL    -- "General"
+L.SHOW_MINIMAP_ICON =                    "Afficher le bouton de la mini-carte"
+L.SHOW_MINIMAP_ICON_DESC =               "Afficher le bouton de la mini-carte. Si vous désactivez cette fonction, %s sera toujours disponible dans le panneau des addons." -- %s becomes the addon name
+L.TRACK_RECIPE_COOLDOWNS =               "Suivre le temps de recharge des recettes"
+L.TRACK_RECIPE_COOLDOWNS_DESC =          "Activer le suivi des temps de recharge des recettes. Ceux-ci s’afficheront dans la fenêtre de suivi, et dans le chat à la connexion s’ils sont prêts."
+L.SHOW_WINDOW_WHEN_READY =               "Afficher la fenêtre lorsque « Prêt »"
+L.SHOW_WINDOW_WHEN_READY_DESC =          "Ouvrir la fenêtre de suivi lors de la connexion lorsqu’un temps de recharge est prêt, en plus du rappel par message de chat."
+L.SHOW_TOOLTIP_INFORMATION =             "Afficher les informations de l’infobulle"
+L.SHOW_TOOLTIP_INFORMATION_DESC =        "Afficher la quantité de composants que vous possédez / avez besoin dans l’infobulle de l’objet."
+L.SHOW_CRAFTING_INFORMATION =            "Afficher les informations d’artisanat"
+L.SHOW_CRAFTING_INFORMATION_DESC =       "Afficher avec quel métier une pièce d’équipement est fabriquée et si la recette est connue sur votre compte."
+-- L.SHOW_CRAFTING_COST =                   "Show Crafting Cost"
+-- L.SHOW_CRAFTING_COST_DESC =              "Show how much an item costs to craft, if that information is available."
+L.MINIMUM_REAGENT_QUALITY =              "Qualité minimale de composant"
+-- L.MINIMUM_REAGENT_QUALITY_DESC =         "Set the minimum quality reagents need to be before they are counted. Simulated results will still override this."
+L.LOW =                                  LOW -- "Low"
+L.HIGH =                                 HIGH -- "High"
+L.INCLUDE_HIGHER_QUALITY =               "Inclure une qualité supérieure"
+L.INCLUDE_HIGHER_QUALITY_DESC =          "Faut-il inclure ou non les réactifs de qualité supérieure ? (Par exemple, faut-il inclure les réactifs de niveau 2 détenus lors du décompte des réactifs de niveau 1 ?)"
+L.INCLUDE_HIGHER_QUALITIES_YES =         "Inclure les qualités supérieures"
+L.INCLUDE_HIGHER_QUALITIES_NO =          "Ne pas inclure les qualités supérieures"
+L.COLLECTION_MODE =                      "Mode de collection"
+L.COLLECTION_MODE_DESC =                 "Définir les objets à inclure lors de l’utilisation du bouton %s." -- %s becomes "Track New"
+L.APPEARANCES =                           WARDROBE -- "Appearances"
+L.APPEARANCES_SETTING_DESC =             "Inclure les objets uniquement s’ils ont une nouvelle apparence."
+L.APPEARANCES_SOURCES =                  "Sources"
+L.APPEARANCES_SOURCES_SETTING_DESC =     "Inclure les objets s’ils proviennent d’une nouvelle source, y compris pour les apparences connues."
+
+-- L.PROFESSION_WINDOW =                    "Profession Window"
+-- L.FILTER_OPTIONAL_REAGENTS =             "Filter Optional Reagents"
+-- L.FILTER_OPTIONAL_REAGENTS_DESC =        "When %s is checked for optional reagents, hide combinable items." -- %s becomes "Hide Unavailable"
+L.SPEND_TO_NEXT_PERK =                   "Dépenser jusqu’au prochain palier"
+L.SPEND_TO_NEXT_PERK_DESC =              "Maj + Clic sur une spécialisation de métier dépense tous les points de connaissance jusqu’au prochain palier."
+L.ENHANCED_ORDERS =                      "Commandes améliorées"
+L.ENHANCED_ORDERS_DESC =                 "Améliore l’aperçu des récompenses et commissions de commande et ajoute des icônes pour les premières fabrications, les recettes non apprises et les recettes suivies."
+L.QUICK_ORDER_DURATION =                 "Durée de la commande rapide"
+-- L.QUICK_ORDER_DURATION_DESC =            "Set the duration for placing quick orders."
+-- L.QUICK_ORDER_DURATION_SHORT =           PROFESSIONS_LISTING_DURATION_ONE -- "12 Hours"
+-- L.QUICK_ORDER_DURATION_MEDIUM =          PROFESSIONS_LISTING_DURATION_TWO -- "24 Hours"
+-- L.QUICK_ORDER_DURATION_LONG =            PROFESSIONS_LISTING_DURATION_THREE -- "48 Hours"
+
+L.TRACKING_WINDOW =                      "Fenêtre de suivi"
+L.SHOW_HELP_TOOLTIPS =                   "Afficher les infobulles d’aide"
+L.SHOW_HELP_TOOLTIPS_DESC =              "Afficher les actions disponibles à la souris lorsque vous survolez des éléments dans la fenêtre de suivi."
+L.WINDOW_POSITION_PER_CHAR =             "Position de la fenêtre par personnage"
+L.WINDOW_POSITION_PER_CHAR_DESC =        "Enregistrer la position de la fenêtre pour chaque personnage, au lieu de l’appliquer à tout le compte."
+L.TRACK_RECIPES_PER_CHAR =               "Suivre les recettes par personnage"
+L.TRACK_RECIPES_PER_CHAR_DESC =          "Suivre les recettes pour chaque personnage, au lieu de les partager à tout le compte."
+L.SHOW_REMAINING_REAGENTS =              "Afficher les composants restants"
+L.SHOW_REMAINING_REAGENTS_DESC =         "Afficher uniquement le nombre de composants qu’il reste à obtenir dans la fenêtre de suivi, au lieu d’afficher ceux possédés / requis."
+L.UNTRACK_ON_CRAFT =                     "Arrêt du suivi après fabrication"
+L.UNTRACK_ON_CRAFT_DESC =                "Arrêter de suivre une recette lorsque vous la fabriquez avec succès."
+L.CLOSE_WINDOW_WHEN_DONE =               "Fermer la fenêtre une fois terminé"
+L.CLOSE_WINDOW_WHEN_DONE_DESC =          "Fermer la fenêtre de suivi après avoir fabriqué la dernière recette suivie."
+
+-- Tracking window
+L.CLOSE_WINDOW =                         "Fermer la fenêtre"
+L.LOCK_WINDOW =                          "Verrouiller la fenêtre"
+L.UNLOCK_WINDOW =                        "Déverrouiller la fenêtre"
+L.UPDATE_AUCTIONATOR_LIST1 =             "Mettre à jour la liste d’achats dans Auctionator"
+L.UPDATE_AUCTIONATOR_LIST2 =             "La liste d’achats sera générée automatiquement lors de l’ouverture de l’Hôtel des ventes"
+L.DOUBLE =                               "Double" -- Followed by LMB or RMB
+L.CTRL =                                 "Ctrl" -- Followed by LMB or RMB
+L.ALT =                                  "Alt" -- Followed by LMB or RMB
+L.SHIFT =                                "Maj" -- Followed by LMB or RMB
+L.AUTOSIZE_WINDOW =                      "dimensionner automatiquement pour s’adapter à la fenêtre"
+L.LINK_RECIPE =                          "poster la recette"
+L.OPEN_RECIPE =                          "ouvrir la recette"
+-- L.CRAFT_RECIPE =                         "Craft this recipe"
+L.LINK_REAGENT =                         "poster le composant"
+-- L.TRACK_RECIPE_SUBREAGENT =              "Track the recipe to craft this reagent, if one exists"
+L.REMOVE_COOLDOWN_REMINDER =             "supprimer le rappel de temps de recharge"
+
+L.RECIPES =                              PROFESSIONS_RECIPES_TAB -- "Recipes"
+L.ITEMS =                                ITEMS -- "Items"
+L.REAGENTS =                             PROFESSIONS_COLUMN_HEADER_REAGENTS -- "Reagents"
+L.COSTS =                                "Coûts"
+L.COOLDOWNS =                            "Temps de recharge"
 L.CLEAR_CONFIRMATION =                   "Cela effacera toutes les recettes."
 L.CONFIRMATION =                         "Souhaitez-vous poursuivre ?"
 L.SUBREAGENTS1 =                         "Il existe plusieurs recettes qui permettent de créer %s" -- %s becomes an item link
@@ -42,34 +133,98 @@ L.SUBREAGENTS2 =                         "Veuillez sélectionner l’un des él�
 L.GOLD =                                 BONUS_ROLL_REWARD_MONEY -- "Gold"
 -- L.MERCHANT_BUY =                         "Buy all tracked reagents, if available."
 
--- Cooldowns
-L.RECHARGED =                            "Entièrement rechargé"
 L.READY =                                "Prêt"
 L.DAYS =                                 "j"
 L.HOURS =                                "h"
 L.MINUTES =                              "m"
-L.READY_TO_CRAFT =                       "%s est de nouveau prête pour %s." -- %s becomes a recipe name, and character name
+L.READY_TO_CRAFT =                       "%s est de nouveau prête pour %s" -- %s becomes a recipe name, and character name
 
--- Recipe tracking
+L.MORE_NEEDED =                          "%d de plus sont nécessaires" -- %d becomes a number
+L.MADE_WITH =                            "Fabriqué par %s" -- %s becomes a profession
+L.RECIPE_LEARNED =                       "recette apprise"
+L.RECIPE_UNLEARNED =                     "recette non apprise"
+-- L.CRAFTING_COST =                        "Crafting Cost"
+
+-- Profession window
 L.TRACK =                                "Suivre"
 L.UNTRACK =                              "Annuler le suivi"
 L.RANK =                                 "Rang"
-L.RECRAFT_TOOLTIP =                      "Sélectionnez un objet dont la recette a été mise en cache pour en assurer le suivi.\n" ..
-                                         "Pour mettre en cache une recette, ouvrez le métier correspondant (sur n’importe quel personnage)\nou visualisez l’objet comme une commande d’artisanat normale."
-L.QUICKORDER =                           "Commande rapide"
-L.QUICKORDER_TOOLTIP =                   "|cffFF0000Créer instantanément|r une commande d’artisanat pour le destinataire spécifié.\n\n" ..
-                                         "Utiliser %s (tout en majuscules) pour placer une " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. ".\n" .. -- "Guild Order", %s becomes "GUILD"
-                                         "Utiliser un nom de personnage pour placer une " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_PRIVATE .. ".\n" .. -- "Personal Order"
-                                         "Les destinataires sont mémorisés par recette. "
-L.LOCALREAGENTS_LABEL =                  "Utiliser des composants dans les sacs"
-L.LOCALREAGENTS_TOOLTIP =                "Utiliser les composants disponibles dans les sacs (de la plus basse qualité). Les composants utilisés |cffFF0000ne peuvent pas|r être personnalisés."
-L.QUICKORDER_REPEAT_TOOLTIP =            "Répéter la dernière " .. L.QUICKORDER .. " effectuée sur ce personnage"
+L.MILLING_INFORMATION =                  "Informations sur le broyage"
+L.THAUMATURGY_INFORMATION =              "Informations sur la thaumaturgie"
+L.FROM =                                 "depuis"
+L.TARGET =                               STATUS_TEXT_TARGET -- "Target"
+L.SWITCH_AVAILABLE_PETS =                "passer d’une mascotte à l’autre"
+-- L.TRACK_NEW =                            "Track New"
+L.CURRENT_SETTING =                      "Paramètre actuel :"
+L.NEW_APPEARANCES =                      "nouvelles apparences"
+L.NEW_APPEARANCES_AND_SOURCES =          "nouvelles apparences et sources"
+-- L.ADDED_RECIPES =                        "Checked %d visible recipes for %s. Tracked %d recipes." -- %d becomes a number, %s becomes L.NEW_APPEARANCES or L.NEW_APPEARANCES_AND_SOURCES
+
+L.RECHARGED =                            "Entièrement rechargé"
+-- L.PROFTOOL_AUTOEQUIP =                   "Automatically equip this tool" -- Followed by L.PROFTOOL_FOR
+-- L.PROFTOOL_FOR =                         "for %s." -- %s becomes one of the two following phrases
+-- L.PROFTOOL_DEFAULT =                     "regular crafting"
+-- L.PROFTOOL_ORDERS =                      "doing orders"
+-- L.PROFTOOL_DRAG =                        "Drag a tool here."
+-- L.PROFTOOL_EQUIP =                       "Equip this tool."
+-- L.PROFTOOL_REMOVE =                      "Remove this tool."
+
+L.PERKS_UNLOCKED =                       "avantages débloqués"
+L.PROFESSION_KNOWLEDGE =                 "connaissance"
+L.VENDORS =                              "Vendeurs"
+L.RENOWN =                               COVENANT_SANCTUM_TAB_RENOWN --"Renown "
+L.WORLD =                                "Monde"
+L.HIDDEN_PROFESSION_MASTER =             "Maître de métier caché"
+-- L.WEEKLY =                               WEEKLY -- "Weekly"
+-- L.TREASURE =                             "Treasure"
+-- L.DROP =                                 BATTLE_PET_SOURCE_1 -- "Drop"
+L.CATCHUP_KNOWLEDGE =                    "Connaissances de rattrapage disponibles :"
+L.LOADING =                              SEARCH_LOADING_TEXT -- "Loading..."
+
+-- L.AUCTION_ADDONS =                       "Auctionator, Oribos Exchange, or TradeSkillMaster"
+-- L.ORDERS_PRICING_MISSING =               "Missing"
+-- L.ORDERS_PRICING_UPDATE =                "Update or scan with %s." -- %s becomes a list of addon names
+L.ORDERS_SET_CRITERIA =                  "Définir les critères de suivi des commandes."
+-- L.ORDERS_COST_NEED =                     "Cost settings only work with: %s." -- %s becomes a list of addon names
+L.ORDERS_MAX_COST_KNOWLEDGE =            "Coût maximal par point de connaissance :"
+L.ORDERS_MAX_COST_ARTISAN =              "Coût maximal par unité de monnaie d’artisan :" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
+L.ORDERS_MAX_COST_PAYOUT =               "Coût maximal par sac de récompense :" -- This refers to Artisan's Payout bag
+L.ORDERS_TRACK_AFTER_RESET =             "Suivi des commandes disponible après la réinitialisation hebdomadaire"
+L.ORDERS_TRACK_CONCENTRATION =           "Suivre les commandes par coûts en concentration :"
+-- L.ORDERS_TRACK_ON =                      "Track on %s:"  -- %s becomes a character name
+
+L.ORDERSQUEUE_QUEUE =                    "File d’attente"
+L.ORDERSQUEUE_QUEUED =                   "Commandes en attente :"
+L.ORDERSQUEUE_NEXT =                     "Prochaine commande"
+L.ORDERSQUEUE_CLAIM =                    "Commencer la commande"
+L.ORDERSQUEUE_CRAFT =                    "Lancer la commande"
+L.ORDERSQUEUE_CRAFTING =                 "En cours..."
+L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
+-- L.ORDERSQUEUE_WARNING_QUEST =            "You have not picked up %s." -- %s becomes a quest name
+-- L.ORDERSQUEUE_WARNING_REAGENTS =         "You do not have enough reagents for all tracked recipes."
+
+-- Crafting Orders window
+L.RECRAFT_TOOLTIP =                      "Sélectionnez un objet dont la recette a été mise en cache pour en assurer le suivi."
+L.QUICK_ORDER =                          "Commande rapide"
+L.QUICKORDER_TOOLTIP1 =                  "Créer instantanément une commande d’artisanat pour le destinataire spécifié."
+L.QUICKORDER_TOOLTIP2 =                  "Utiliser %s (tout en majuscules) pour placer une " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. "." -- "Guild Order", %s becomes "GUILD"
+L.QUICKORDER_TOOLTIP3 =                  "Utiliser un nom de personnage pour placer une " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_PRIVATE .. "." -- "Personal Order"
+L.QUICKORDER_TOOLTIP4 =                  "Les destinataires sont mémorisés par recette."
+L.USE_LOCAL_REAGENTS =                   "Utiliser des composants dans les sacs"
+L.USE_LOCAL_REAGENTS_DESC =              "Utiliser les composants disponibles dans les sacs (de la plus basse qualité). Les composants utilisés ne peuvent pas être personnalisés."
+L.REPEAT_LAST_QUICK_ORDER =              "Répéter la dernière Commande rapide effectuée sur ce personnage"
 L.RECIPIENT =                            "Destinataire"
 
--- Profession window
-L.MILLING_INFO =                         "Informations sur le broyage"
-L.THAUMATURGY_INFO =                     "Informations sur la thaumaturgie"
-L.FROM =                                 "depuis" -- I will convert this whole section to item links, then this is the only localisation needed. I recommend skipping this section, other than the two headers. :)
+L.FALSE =                                "faux"
+L.TRUE =                                 "vrai"
+L.NO_LAST_QUICK_ORDER_FOUND =            "Aucune dernière Commande rapide trouvée"
+L.ERROR =                                "Erreur :"
+L.ERROR_CRAFTSIM =                       "impossible de lire les informations provenant de CraftSim"
+L.ERROR_REAGENTS =                       "impossible de créer une Commande rapide pour les objets comportant des composants obligatoires"
+L.ERROR_WARBANK =                        "impossible de créer une Commande rapide avec des objets provenant de la Banque de bataillon"
+L.ERROR_GUILD =                          "impossible de créer une " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. " en dehors d’une guilde" -- "Guild Order"
+L.ERROR_RECIPIENT =                      "le destinataire cible ne peut pas fabriquer cet objet. Veuillez saisir un nom de destinataire valide"
+L.ERROR_MULTISIM =                       "aucun composant simulé n’a été utilisé. Veuillez n’activer que l’un des addons suivants :"
 
 L.MILLING_CLASSIC =                      "Pigment saphir : 25% depuis Sansam doré, Feuillerêve, Sauge-argent des montagnes, Chagrinelle, Chapeglace\n" ..
                                          "Pigment argenté : 75% depuis Sansam doré, Feuillerêve, Sauge-argent des montagnes, Chagrinelle, Chapeglace\n\n" ..
@@ -110,183 +265,3 @@ L.MILLING_TWW =                          "Pigment de la floraison : Floraison b�
 L.THAUMATURGY_TWW =                      "Transmutagène mercurien : Aqirite, Chitine sinistre, Pose-appât, Orbinide\n" ..
                                          "Transmutagène sinistre : Bismuth, Champifleur, Poussière de tempête, Tissétoffe\n" ..
                                          "Transmutagène instable : Lance d’Arathor, Floraison bénie, Minerai de griffefer, Cuir chargé par la tempête"
-
-L.BUTTON_COOKINGFIRE =                   app.IconLMB .. " : " .. BINDING_NAME_TARGETSELF .. "\n" .. -- "Target Self"
-                                         app.IconRMB .. " : " .. STATUS_TEXT_TARGET -- "Target"
-L.BUTTON_COOKINGPET =                    app.IconLMB .. " : invoquer cette mascotte\n" ..
-                                         app.IconRMB .. " : passer d’une mascotte à l’autre"
-L.BUTTON_CHEFSHAT =                      app.IconLMB .. " : utiliser l’"
-L.BUTTON_THERMALANVIL =                  app.IconLMB .. " : utiliser une"
-L.BUTTON_ALVIN =                         app.IconLMB .. " : invoquer cette mascotte"
-L.BUTTON_LIGHTFORGE =                    app.IconLMB .. " : lancer"
-
--- Track new mogs
-L.BUTTON_TRACKNEW =                      "Suivre les apparences inconnues"
-L.CURRENT_SETTING =                      "Paramètre actuel :"
-L.MODE_APPEARANCES =                     "nouvelles apparences"
-L.MODE_SOURCES =                         "nouvelles apparences et sources"
--- L.ADDED_RECIPES =                        "Checked %d visible recipes for %s. Tracked %d recipes." -- %d becomes a number, %s becomes L.MODE_APPEARANCES or L.MODE_SOURCES
-
--- Tooltip info
-L.MORE_NEEDED =                          "%d de plus sont nécessaires" -- %d becomes a number
-L.MADE_WITH =                            "Fabriqué par %s" -- %s becomes a profession
-L.RECIPE_LEARNED =                       "recette apprise"
-L.RECIPE_UNLEARNED =                     "recette non apprise"
--- L.CRAFTING_COST =                        "Crafting Cost"
-
--- Profession knowledge
-L.PERKS_UNLOCKED =                       "avantages débloqués"
-L.PROFESSION_KNOWLEDGE =                 "connaissance"
-L.VENDORS =                              "Vendeurs"
-L.RENOWN =                               COVENANT_SANCTUM_TAB_RENOWN --"Renown "
-L.WORLD =                                "Monde"
-L.HIDDEN_PROFESSION_MASTER =             "Maître de métier caché"
--- L.WEEKLY =                               WEEKLY -- "Weekly"
--- L.TREASURE =                             "Treasure"
--- L.DROP =                                 BATTLE_PET_SOURCE_1 -- "Drop"
-L.CATCHUP_KNOWLEDGE =                    "Connaissances de rattrapage disponibles :"
-L.LOADING =                              SEARCH_LOADING_TEXT -- "Loading..."
-
--- Order adjustments
--- L.AUCTION_ADDONS =                       "Auctionator, Oribos Exchange, or TradeSkillMaster"
--- L.ORDERS_PRICING_MISSING =               "Missing"
--- L.ORDERS_PRICING_UPDATE =                "Update or scan with %s." -- %s becomes a list of addon names
-L.ORDERS_SET_CRITERIA =                  "Définir les critères de suivi des commandes."
--- L.ORDERS_COST_NEED =                     "Cost settings only work with: %s." -- %s becomes a list of addon names
-L.ORDERS_MAX_COST_KNOWLEDGE =            "Coût maximal par point de connaissance :"
-L.ORDERS_MAX_COST_ARTISAN =              "Coût maximal par unité de monnaie d'artisan :" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
-L.ORDERS_MAX_COST_PAYOUT =               "Coût maximal par sac de récompense :" -- This refers to Artisan's Payout bag
-L.ORDERS_TRACK_AFTER_RESET =             "Suivi des commandes disponible après la réinitialisation hebdomadaire"
-L.ORDERS_TRACK_CONCENTRATION =           "Suivre les commandes par coûts en concentration :"
--- L.ORDERS_TRACK_ON =                      "Track on %s:"  -- %s becomes a character name
-
-L.ORDERSQUEUE_QUEUE =                    "File d'attente"
-L.ORDERSQUEUE_QUEUED =                   "Commandes en attente :"
-L.ORDERSQUEUE_NEXT =                     "Prochaine commande"
-L.ORDERSQUEUE_CLAIM =                    "Commencer la commande"
-L.ORDERSQUEUE_CRAFT =                    "Lancer la commande"
-L.ORDERSQUEUE_CRAFTING =                 "En cours..."
-L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
--- L.ORDERSQUEUE_WARNING_QUEST =            "You have not picked up %s." -- %s becomes a quest name
--- L.ORDERSQUEUE_WARNING_REAGENTS =         "You do not have enough reagents for all tracked recipes."
-
--- L.PROFTOOL_AUTOEQUIP =                   "Automatically equip this tool" -- Followed by one of the two following phrases
--- L.PROFTOOL_DEFAULT =                     "for |cffFFFFFFregular crafting|R."
--- L.PROFTOOL_ORDERS =                      "while |cffFFFFFFdoing orders|R."
--- L.PROFTOOL_DRAG =                        "Drag a tool here."
--- L.PROFTOOL_MOUSE =                       app.IconLMB .. ": Equip this tool.\n" ..
---                                          app.IconRMB .. ": Remove this tool."
-
--- Chat feedback
-L.INVALID_PARAMETERS =                   "Paramètres non valides"
-L.INVALID_RECIPEQUANTITY =               L.INVALID_PARAMETERS .. " : veuillez saisir une quantité valide pour la recette."
-L.INVALID_RECIPEID =                     L.INVALID_PARAMETERS .. " : veuillez saisir un identifiant de recette (recipeID) mis en cache."
-L.INVALID_RECIPE_TRACKED =               L.INVALID_PARAMETERS .. " : veuillez saisir un identifiant de recette suivie (recipeID)"
-L.INVALID_ACHIEVEMENT =                  L.INVALID_PARAMETERS .. " : il ne s’agit pas d’un haut fait de métier. Aucune recette n’a été ajoutée."
-L.INVALID_RESET_ARG =                    L.INVALID_PARAMETERS .. " : vous pouvez utiliser les arguments suivants :"
-L.INVALID_COMMAND =                      "Commande non valide. Voir " .. app:Colour("/psl settings") .. " pour plus d’informations."
-L.DEBUG_ENABLED =                        "Mode débogage activé"
-L.DEBUG_DISABLED =                       "Mode débogage désactivé"
-L.RESET_DONE =                           "La réinitialisation des données a été effectuée avec succès."
-L.REQUIRES_RELOAD =                      "|cffFF0000" .. REQUIRES_RELOAD .. ".|r Faites |cffFFFFFF/reload|r ou |cffFFFFFF/rl|r ou reconnectez-vous."
-
-L.FALSE =                                "faux"
-L.TRUE =                                 "vrai"
-L.NOLASTORDER =                          "Aucune dernière " .. L.QUICKORDER .. " trouvée"
-L.ERROR =                                "Erreur"
-L.ERROR_CRAFTSIM =                       L.ERROR .. " : impossible de lire les informations provenant de CraftSim"
-L.ERROR_QUICKORDER =                     L.ERROR .. " : la " .. L.QUICKORDER .. " a échoué. Désolé. :("
-L.ERROR_REAGENTS =                       L.ERROR .. " : impossible de créer une " .. L.QUICKORDER .. " pour les objets comportant des composants obligatoires. Désolé. :("
-L.ERROR_WARBANK =                        L.ERROR .. " : impossible de créer une " .. L.QUICKORDER .. " avec des objets provenant de la Banque de bataillon"
-L.ERROR_GUILD =                          L.ERROR .. " : impossible de créer une " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. " en dehors d’une guilde" -- "Guild Order"
-L.ERROR_RECIPIENT =                      L.ERROR .. " : le destinataire cible ne peut pas fabriquer cet objet. Veuillez saisir un nom de destinataire valide"
-L.ERROR_MULTISIM =                       L.ERROR .. " : aucun composant simulé n’a été utilisé. Veuillez n’activer que l’un des addons suivants :"
-
-L.NEW_VERSION_AVAILABLE =                "Une nouvelle version de %s est disponible :" -- %s becomes the addon name
-
--- Settings
-L.SETTINGS_TOOLTIP =                     app.NameLong .. "\n|cffFFFFFF" ..
-                                         app.IconLMB .. " : Afficher / masquer la fenêtre\n" ..
-                                         app.IconRMB .. " : " .. L.WINDOW_BUTTON_SETTINGS
-
-L.SETTINGS_VERSION =                     GAME_VERSION_LABEL .. ":"    -- "Version"
-L.SETTINGS_SUPPORT_TEXTLONG =            "Le développement de ce module complémentaire demande beaucoup de temps et d’efforts.\nVeuillez envisager de soutenir financièrement le développeur."
-L.SETTINGS_SUPPORT_TEXT =                "Soutien"
-L.SETTINGS_SUPPORT_BUTTON =              "Buy Me a Coffee"    -- Brand name, if there isn't a localised version, keep it the way it is
-L.SETTINGS_SUPPORT_DESC =                "Merci !"
-L.SETTINGS_HELP_TEXT =                   "Commentaires et aide"
-L.SETTINGS_HELP_BUTTON =                 "Discord"    -- Brand name, if there isn't a localised version, keep it the way it is
-L.SETTINGS_HELP_DESC =                   "Rejoignez le serveur Discord."
-L.SETTINGS_URL_COPY =                    "Ctrl + C pour copier :"
-L.SETTINGS_URL_COPIED =                  "lien a été copié dans le presse-papiers"
-
-L.SETTINGS_KEYSLASH_TITLE =              SETTINGS_KEYBINDINGS_LABEL .. " & Commandes « Slash »"    -- "Keybindings"
-_G["BINDING_NAME_PSL_TOGGLEWINDOW"] =    app.NameShort .. " : afficher / masquer la fenêtre"
-L.SETTINGS_SLASH_TOGGLE =                "Afficher / masquer la fenêtre de suivi"
-L.SETTINGS_SLASH_RESETPOS =              "Réinitialiser la position de la fenêtre de suivi"
-L.SETTINGS_SLASH_RESET =                 "Réinitialiser les données enregistrées"
-L.SETTINGS_SLASH_TRACK =                 "Suivre une recette"
-L.SETTINGS_SLASH_UNTRACK =               "Annuler le suivi d’une recette"
-L.SETTINGS_SLASH_UNTRACKALL =            "Annuler le suivi de toutes les unités d’une recette"
-L.SETTINGS_SLASH_TRACKACHIE =            "Suivre les recettes nécessaires pour le haut fait sélectionné"
-L.SETTINGS_SLASH_CRAFTINGACHIE =         "haut fait de métier"
-L.SETTINGS_SLASH_RECIPEID =              "recipeID"
-L.SETTINGS_SLASH_QUANTITY =              "quantité"
--- L.SETTINGS_SLASH_REAGENT =               "itemLink or itemID"
--- L.SETTINGS_SLASH_TRACKREAGENT =          "Track all recipes using this reagent"
-
-L.GENERAL =                              GENERAL    -- "General"
-L.SETTINGS_MINIMAP_TITLE =               "Afficher le bouton de la mini-carte"
-L.SETTINGS_MINIMAP_DESC =                "Afficher le bouton de la mini-carte. Si vous désactivez cette fonction, %s sera toujours disponible dans le panneau des addons." -- %s becomes the addon name
-L.SETTINGS_COOLDOWNS_TITLE =             "Suivre le temps de recharge des recettes"
-L.SETTINGS_COOLDOWNS_DESC =              "Activer le suivi des temps de recharge des recettes. Ceux-ci s’afficheront dans la fenêtre de suivi, et dans le chat à la connexion s’ils sont prêts."
-L.SETTINGS_COOLDOWNSWINDOW_TITLE =       "Afficher la fenêtre lorsque « Prêt »"
-L.SETTINGS_COOLDOWNSWINDOW_DESC =        "Ouvrir la fenêtre de suivi lors de la connexion lorsqu’un temps de recharge est prêt, en plus du rappel par message de chat."
-L.SETTINGS_TOOLTIP_TITLE =               "Afficher les informations de l’infobulle"
-L.SETTINGS_TOOLTIP_DESC =                "Afficher la quantité de composants que vous possédez / avez besoin dans l’infobulle de l’objet."
-L.SETTINGS_CRAFTTOOLTIP_TITLE =          "Afficher les informations d’artisanat"
-L.SETTINGS_CRAFTTOOLTIP_DESC =           "Afficher avec quel métier une pièce d’équipement est fabriquée et si la recette est connue sur votre compte."
--- L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE =      "Show Crafting Cost"
--- L.SETTINGS_CRAFTCOSTTOOLTIP_DESC =       "Show how much an item costs to craft, if that information is available."
-L.SETTINGS_REAGENTQUALITY_TITLE =        "Qualité minimale de composant"
--- L.SETTINGS_REAGENTQUALITY_DESC =         "Set the minimum quality reagents need to be before they are counted. Simulated results will still override this."
-L.SETTINGS_INCLUDEHIGHER_TITLE =         "Inclure une qualité supérieure"
-L.SETTINGS_INCLUDEHIGHER_DESC =          "Faut-il inclure ou non les réactifs de qualité supérieure ? (Par exemple, faut-il inclure les réactifs de niveau 2 détenus lors du décompte des réactifs de niveau 1 ?)"
-L.SETTINGS_COLLECTMODE_TITLE =           "Mode de collection"
-L.SETTINGS_COLLECTMODE_DESC =            "Définir les objets à inclure lors de l’utilisation du bouton %s." -- %s becomes "Track New"
-
--- L.PROFESSION_WINDOW =                    "Profession Window"
--- L.SETTINGS_FILTER_OPTREAGENTS =          "Filter Optional Reagents"
--- L.SETTINGS_FILTER_OPTREAGENTS_DESC =     "When %s is checked for optional reagents, hide combinable items." -- %s becomes "Hide Unavailable"
-L.SETTINGS_SPENDTOPERK_TITLE =           "Dépenser jusqu’au prochain palier"
-L.SETTINGS_SPENDTOPERK_DESC =            "Maj + Clic sur une spécialisation de métier dépense tous les points de connaissance jusqu’au prochain palier."
-L.SETTINGS_ENHANCEDORDERS_TITLE =        "Commandes améliorées"
-L.SETTINGS_ENHANCEDORDERS_DESC =         "Améliore l’aperçu des récompenses et commissions de commande et ajoute des icônes pour les premières fabrications, les recettes non apprises et les recettes suivies."
-L.SETTINGS_QUICKORDER_TITLE =            "Durée de la commande rapide"
--- L.SETTINGS_QUICKORDER_DESC =             "Set the duration for placing quick orders."
-
-L.LOW =                                  LOW -- "Low"
-L.HIGH =                                 HIGH -- "High"
-L.SETTINGS_INCLUDE =                     "Inclure les qualités supérieures"
-L.SETTINGS_DONT_INCLUDE =                "Ne pas inclure les qualités supérieures"
-L.SETTINGS_APPEARANCES_TITLE =            WARDROBE -- "Appearances"
-L.SETTINGS_APPEARANCES_TEXT =            "Inclure les objets uniquement s’ils ont une nouvelle apparence."
-L.SETTINGS_SOURCES_TITLE =               "Sources"
-L.SETTINGS_SOURCES_TEXT =                "Inclure les objets s’ils proviennent d’une nouvelle source, y compris pour les apparences connues."
-L.SETTINGS_DURATION_SHORT =              "Court (12 heures)"
-L.SETTINGS_DURATION_MEDIUM =             "Moyen (24 heures)"
-L.SETTINGS_DURATION_LONG =               "Long (48 heures)"
-
-L.SETTINGS_HEADER_TRACK =                "Fenêtre de suivi"
-L.SETTINGS_HELPTOOLTIP_TITLE =           "Afficher les infobulles d’aide"
-L.SETTINGS_HELPTOOLTIP_DESC =            "Afficher les actions disponibles à la souris lorsque vous survolez des éléments dans la fenêtre de suivi."
-L.SETTINGS_PERSONALWINDOWS_TITLE =       "Position de la fenêtre par personnage"
-L.SETTINGS_PERSONALWINDOWS_DESC =        "Enregistrer la position de la fenêtre pour chaque personnage, au lieu de l’appliquer à tout le compte."
-L.SETTINGS_PERSONALRECIPES_TITLE =       "Suivre les recettes par personnage"
-L.SETTINGS_PERSONALRECIPES_DESC =        "Suivre les recettes pour chaque personnage, au lieu de les partager à tout le compte."
-L.SETTINGS_SHOWREMAINING_TITLE =         "Afficher les composants restants"
-L.SETTINGS_SHOWREMAINING_DESC =          "Afficher uniquement le nombre de composants qu’il reste à obtenir dans la fenêtre de suivi, au lieu d’afficher ceux possédés / requis."
-L.SETTINGS_REMOVECRAFT_TITLE =           "Arrêt du suivi après fabrication"
-L.SETTINGS_REMOVECRAFT_DESC =            "Arrêter de suivre une recette lorsque vous la fabriquez avec succès."
-L.SETTINGS_CLOSEWHENDONE_TITLE =         "Fermer la fenêtre une fois terminé"
-L.SETTINGS_CLOSEWHENDONE_DESC =          "Fermer la fenêtre de suivi après avoir fabriqué la dernière recette suivie."

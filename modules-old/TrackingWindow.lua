@@ -116,7 +116,7 @@ function app:CreateWindow()
 		app:SaveWindow()
 	end)
 	app.Window.Corner:SetScript("OnEnter", function()
-		app:ShowWindowTooltip(L.WINDOW_BUTTON_CORNER, nil, nil, "bottom")
+		app:ShowWindowTooltip(L.DOUBLE .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.AUTOSIZE_WINDOW .. "|r", nil, nil, "bottom")
 	end)
 	app.Window.Corner:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -129,7 +129,7 @@ function app:CreateWindow()
 		app.Window:Hide()
 	end)
 	app.CloseButton:SetScript("OnEnter", function()
-		app:ShowWindowTooltip(L.WINDOW_BUTTON_CLOSE, nil, nil, "top")
+		app:ShowWindowTooltip(L.CLOSE_WINDOW, nil, nil, "top")
 	end)
 	app.CloseButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -153,7 +153,7 @@ function app:CreateWindow()
 	app.LockButton:GetPushedTexture():SetTexCoord(183/256, 219/256, 81/128, 119/128)
 	app.LockButton:SetScript("OnClick", function() app:LockWindow() end)
 	app.LockButton:SetScript("OnEnter", function()
-		app:ShowWindowTooltip(L.WINDOW_BUTTON_LOCK, nil, nil, "top")
+		app:ShowWindowTooltip(L.LOCK_WINDOW, nil, nil, "top")
 	end)
 	app.LockButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -177,7 +177,7 @@ function app:CreateWindow()
 	app.UnlockButton:GetPushedTexture():SetTexCoord(148/256, 184/256, 81/128, 119/128)
 	app.UnlockButton:SetScript("OnClick", function() app:UnlockWindow() end)
 	app.UnlockButton:SetScript("OnEnter", function()
-		app:ShowWindowTooltip(L.WINDOW_BUTTON_UNLOCK, nil, nil, "top")
+		app:ShowWindowTooltip(L.UNLOCK_WINDOW, nil, nil, "top")
 	end)
 	app.UnlockButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -202,7 +202,7 @@ function app:CreateWindow()
 		app:OpenSettings()
 	end)
 	app.SettingsButton:SetScript("OnEnter", function()
-		app:ShowWindowTooltip(L.WINDOW_BUTTON_SETTINGS, nil, nil, "top")
+		app:ShowWindowTooltip(L.OPEN_SETTINGS, nil, nil, "top")
 	end)
 	app.SettingsButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -233,7 +233,7 @@ function app:CreateWindow()
 		StaticPopup_Show("PSL_CLEAR_RECIPES")
 	end)
 	app.ClearButton:SetScript("OnEnter", function()
-		app:ShowWindowTooltip(L.WINDOW_BUTTON_CLEAR, nil, nil, "top")
+		app:ShowWindowTooltip(L.CLEAR_TRACKED_RECIPES, nil, nil, "top")
 	end)
 	app.ClearButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -253,7 +253,7 @@ function app:CreateWindow()
 		app:CreateShoppingList()
 	end)
 	app.AuctionatorButton:SetScript("OnEnter", function(self)
-		app:ShowWindowTooltip(L.WINDOW_BUTTON_AUCTIONATOR, nil, nil, "top")
+		app:ShowWindowTooltip(L.UPDATE_AUCTIONATOR_LIST1 .. "\n" .. L.UPDATE_AUCTIONATOR_LIST2, nil, nil, "top")
 	end)
 	app.AuctionatorButton:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -387,7 +387,7 @@ function app:UpdateNumbers()
 			-- Make stuff grey and add a checkmark if 0 are needed
 			if math.max(0,amount-reagentAmountHave) == 0 then
 				itemIcon = app.IconReady
-				itemAmount = "|cff9d9d9d"
+				itemAmount = "|cff9D9D9D"
 				itemLink = string.gsub(itemLink, "cnIQ0", "cnIQ0") -- Poor
 				itemLink = string.gsub(itemLink, "cnIQ1", "cnIQ0") -- Common
 				itemLink = string.gsub(itemLink, "cnIQ2", "cnIQ0") -- Uncommon
@@ -423,7 +423,7 @@ function app:UpdateNumbers()
 			local colour = ""
 			if math.max(0,amount-GetMoney()) == 0 then
 				itemIcon = app.IconReady
-				colour = "|cff9d9d9d"
+				colour = "|cff9D9D9D"
 				itemLink = colour .. itemLink
 			else
 				app.Flag.HaveAllReagents = false
@@ -442,7 +442,7 @@ function app:UpdateNumbers()
 			-- Set the colour of both strings and the icon
 			if math.max(0,amount-quantity) == 0 then
 				itemIcon = app.IconReady
-				itemAmount = "|cff9d9d9d"
+				itemAmount = "|cff9D9D9D"
 				itemLink = string.gsub(itemLink, "cnIQ0", "cnIQ0") -- Poor
 				itemLink = string.gsub(itemLink, "cnIQ1", "cnIQ0") -- Common
 				itemLink = string.gsub(itemLink, "cnIQ2", "cnIQ0") -- Uncommon
@@ -775,7 +775,7 @@ function app:UpdateRecipes()
 			app:SaveWindow()
 		end)
 		row:SetScript("OnEnter", function()
-			app:ShowWindowTooltip(recipeInfo.link, true, L.WINDOW_TOOLTIP_RECIPES)
+			app:ShowWindowTooltip(recipeInfo.link, true, L.SHIFT .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.LINK_RECIPE .. "|r\n" .. L.CTRL .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.OPEN_RECIPE .. "|r\n" .. L.ALT .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.CRAFT_RECIPE .. "|r\n" .. app.IconRMB .. "|cffFFFFFF: " .. L.UNTRACK_RECIPE .. "|r\n" .. L.CTRL .. " " .. app.IconRMB .. "|cffFFFFFF: " .. L.UNTRACK_RECIPE_ALL .. "|r")
 		end)
 		row:SetScript("OnLeave", function()
 			GameTooltip:ClearLines()
@@ -870,7 +870,7 @@ function app:UpdateRecipes()
 
 		local reagents1 = app.Window.Reagents:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		reagents1:SetPoint("LEFT", app.Window.Reagents)
-		reagents1:SetText(L.WINDOW_HEADER_REAGENTS)
+		reagents1:SetText(L.REAGENTS)
 		reagents1:SetScale(1.1)
 		app.ReagentHeader = reagents1
 	end
@@ -933,7 +933,7 @@ function app:UpdateRecipes()
 			app:SaveWindow()
 		end)
 		row:SetScript("OnEnter", function()
-			app:ShowWindowTooltip(reagentInfo.link, true, L.WINDOW_TOOLTIP_REAGENTS)
+			app:ShowWindowTooltip(reagentInfo.link, true, L.SHIFT .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.LINK_REAGENT .. "|r\n" .. L.CTRL .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.TRACK_RECIPE_SUBREAGENT .. "|r")
 		end)
 		row:SetScript("OnLeave", function()
 			GameTooltip:ClearLines()
@@ -1371,18 +1371,18 @@ function app:UpdateRecipes()
 
 	-- Set the header title accordingly
 	if trackRecipes and trackItems then
-		app.RecipeHeader:SetText(L.WINDOW_HEADER_RECIPES .. " & " .. L.WINDOW_HEADER_ITEMS .. " (" .. #app.Rows.Recipe .. ")")
-		app.ReagentHeader:SetText(L.WINDOW_HEADER_REAGENTS .. " & " .. L.WINDOW_HEADER_COSTS)
+		app.RecipeHeader:SetText(L.RECIPES .. " & " .. L.ITEMS .. " (" .. #app.Rows.Recipe .. ")")
+		app.ReagentHeader:SetText(L.REAGENTS .. " & " .. L.COSTS)
 	elseif trackRecipes == false and trackItems then
-		app.RecipeHeader:SetText(L.WINDOW_HEADER_ITEMS .. " (" .. #app.Rows.Recipe .. ")")
-		app.ReagentHeader:SetText(L.WINDOW_HEADER_COSTS)
+		app.RecipeHeader:SetText(L.ITEMS .. " (" .. #app.Rows.Recipe .. ")")
+		app.ReagentHeader:SetText(L.COSTS)
 	else
 		if #app.Rows.Recipe == 0 then
-			app.RecipeHeader:SetText(L.WINDOW_HEADER_RECIPES)
+			app.RecipeHeader:SetText(L.RECIPES)
 		else
-			app.RecipeHeader:SetText(L.WINDOW_HEADER_RECIPES .. " (" .. #app.Rows.Recipe .. ")")
+			app.RecipeHeader:SetText(L.RECIPES .. " (" .. #app.Rows.Recipe .. ")")
 		end
-		app.ReagentHeader:SetText(L.WINDOW_HEADER_REAGENTS)
+		app.ReagentHeader:SetText(L.REAGENTS)
 	end
 
 	local rowNo3 = 0
@@ -1405,7 +1405,7 @@ function app:UpdateRecipes()
 
 		local cooldowns1 = app.Window.Cooldowns:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		cooldowns1:SetPoint("LEFT", app.Window.Cooldowns)
-		cooldowns1:SetText(L.WINDOW_HEADER_COOLDOWNS)
+		cooldowns1:SetText(L.COOLDOWNS)
 		cooldowns1:SetScale(1.1)
 	end
 
@@ -1459,7 +1459,7 @@ function app:UpdateRecipes()
 			app:SaveWindow()
 		end)
 		row:SetScript("OnEnter", function()
-			app:ShowWindowTooltip("|cffFFFFFF" .. cooldownInfo.user, false, L.WINDOW_TOOLTIP_COOLDOWNS)
+			app:ShowWindowTooltip("|cffFFFFFF" .. cooldownInfo.user, false, L.SHIFT .. " " .. app.IconRMB .. "|cffFFFFFF: " .. L.REMOVE_COOLDOWN_REMINDER .. "|r\n" .. L.CTRL .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.OPEN_RECIPE .. "|r\n" .. L.ALT .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.CRAFT_RECIPE .. "|r")
 		end)
 		row:SetScript("OnLeave", function()
 			GameTooltip:ClearLines()
@@ -2264,7 +2264,7 @@ function api:TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 			end
 			addons = addons .. v
 		end
-		app:Print(L.ERROR_MULTISIM, addons)
+		app:Print(L.ERROR, L.ERROR_MULTISIM, addons)
 	-- List custom reagents for simulated recipes
 	elseif app:SimAddonCount() >= 1 then
 		if C_AddOns.IsAddOnLoaded("CraftSim") and CraftSimAPI.GetCraftSim().SIMULATION_MODE.isActive then
@@ -2292,7 +2292,7 @@ function api:TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 				simRecipe = true
 				app.Cache.SimulatedRecipes[recipeID] = reagents
 			else
-				app:Print(L.ERROR_CRAFTSIM)
+				app:Print(L.ERROR, L.ERROR_CRAFTSIM)
 			end
 		elseif C_AddOns.IsAddOnLoaded("TestFlight") and TestFlight.enabled then
 			local allocationTable

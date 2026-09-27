@@ -135,7 +135,7 @@ function app:TrackUnlearnedMogs()
 				RunNextFrame(function()
 					app.Flag.ChangingRecipes = false
 					app:UpdateRecipes()
-					app:Print(string.format(L.ADDED_RECIPES, #visibleRecipes, "|cffEDBD21" .. (app.Settings.collectMode == 1 and L.MODE_APPEARANCES or L.MODE_SOURCES) .. "|R", added))
+					app:Print(string.format(L.ADDED_RECIPES, #visibleRecipes, "|cffEDBD21" .. (app.Settings.collectMode == 1 and L.NEW_APPEARANCES or L.NEW_APPEARANCES_AND_SOURCES) .. "|r", added))
 				end)
 			end
 		end)

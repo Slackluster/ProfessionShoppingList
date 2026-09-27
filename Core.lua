@@ -140,7 +140,13 @@ function app:CreateSlashCommands()
 		elseif command == "clear" then
 			app:Clear()
 		elseif command == "reset" then
-			app:Reset(rest:match("^(%S*)%s*(.-)$"))
+			app:Clear()
+			app.Settings = nil
+			app.Data = nil
+			app.Library = nil
+			app.Cache = nil
+			app.CharData = nil
+			app:Print(L.RESET_DONE, L.REQUIRES_RELOAD)
 		elseif command == "track" then
 			local part1, part2 = rest:match("^(%S*)%s*(.-)$")
 			local recipeID = tonumber(part1)
@@ -150,10 +156,10 @@ function app:CreateSlashCommands()
 				if type(recipeQuantity) == "number" and recipeQuantity ~= 0 then
 					api:TrackRecipe(recipeID, recipeQuantity)
 				else
-					app:Print(L.INVALID_RECIPEQUANTITY)
+					app:Print(L.INVALID_PARAMETERS)
 				end
 			else
-				app:Print(L.INVALID_RECIPEID)
+				app:Print(L.INVALID_PARAMETERS)
 			end
 		elseif command == "untrack" then
 			local part1, part2 = rest:match("^(%S*)%s*(.-)$")
@@ -170,10 +176,10 @@ function app:CreateSlashCommands()
 
 					app:ShowWindow()
 				else
-					app:Print(L.INVALID_RECIPEQUANTITY)
+					app:Print(L.INVALID_PARAMETERS)
 				end
 			else
-				app:Print(L.INVALID_RECIPE_TRACKED)
+				app:Print(L.INVALID_PARAMETERS)
 			end
 		elseif command == "debug" then
 			if app.Settings.debug then
@@ -232,7 +238,7 @@ function app:CreateSlashCommands()
 						end
 					end
 				else
-					app:Print(L.INVALID_ACHIEVEMENT)
+					app:Print(L.INVALID_PARAMETERS)
 				end
 			elseif itemID then
 				for recipeID, recipeInfo in pairs(app.Library) do
@@ -255,38 +261,6 @@ function app:CreateSlashCommands()
 	end
 end
 
-function app:Reset(arg)
-	if arg == "settings" then
-		app.Settings = {}
-		app:Print(L.RESET_DONE, L.REQUIRES_RELOAD)
-	elseif arg == "library" then
-		app.Library = {}
-		app:Print(L.RESET_DONE)
-	elseif arg == "cache" then
-		app:Clear()
-		app.Cache = nil
-		app:Print(L.RESET_DONE, L.REQUIRES_RELOAD)
-	elseif arg == "character" then
-		app.CharData = nil
-		app:Print(L.RESET_DONE, L.REQUIRES_RELOAD)
-	elseif arg == "all" then
-		app:Clear()
-		app.Settings = nil
-		app.Data = nil
-		app.Library = nil
-		app.Cache = nil
-		app.CharData = nil
-		app:Print(L.RESET_DONE, L.REQUIRES_RELOAD)
-	elseif arg == "pos" then
-		app.Settings.windowPosition = { left = GetScreenWidth()/2-100, bottom = GetScreenHeight()/2-100, width = 200, height = 200, }
-		app.Settings.pcWindowPosition = app.Settings.windowPosition
-
-		app:ShowWindow()
-	else
-		app:Print(L.INVALID_RESET_ARG .. "\n " .. app:Colour("settings") .. ", " .. app:Colour("library") .. ", " .. app:Colour("cache") .. ", " .. app:Colour("character") .. ", " .. app:Colour("all") .. ", " .. app:Colour("pos"))
-	end
-end
-
 -----------------------
 -- ADDON COMPARTMENT --
 -----------------------
@@ -302,7 +276,7 @@ end
 function ProfessionShoppingList_Enter(self, button)
 	GameTooltip:ClearLines()
 	GameTooltip:SetOwner(type(self) ~= "string" and self or button, "ANCHOR_LEFT")
-	GameTooltip:AddLine(L.SETTINGS_TOOLTIP)
+	GameTooltip:AddLine(app.NameLong .. "\n|cffFFFFFF" .. app.IconLMB .. ": " .. L.TOGGLE_TRACKING_WINDOW .. "\n" .. app.IconRMB .. ": " .. L.OPEN_SETTINGS)
 	GameTooltip:Show()
 end
 

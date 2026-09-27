@@ -205,13 +205,13 @@ function app:UpdateKnowledgeTracker()
 					end
 
 					if v.renown then
-						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffffffff (" .. factionName .. " - " .. status .. L.RENOWN .. " " .. v.renown .. "|r)|r"
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffFFFFFF (" .. factionName .. " - " .. status .. L.RENOWN .. " " .. v.renown .. "|r)|r"
 					elseif v.sourceType == "zone" then
-						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffffffff (" .. zoneName .. ")|r"
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffFFFFFF (" .. zoneName .. ")|r"
 					elseif v.sourceType == "static" then
-						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffffffff (" .. v.source .. ")|r"
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffFFFFFF (" .. v.source .. ")|r"
 					elseif v.sourceType == "currency" then
-						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffffffff (" .. currencyName .. ")|r"
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. itemLink .. "|cffFFFFFF (" .. currencyName .. ")|r"
 					end
 				end
 
@@ -239,7 +239,7 @@ function app:UpdateKnowledgeTracker()
 							status = "|cff238823"
 						end
 
-						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. "|cffffff00|Hquest:" .. v.quest .. "62|h[" .. questTitle .. "]|h|r" .. "|cffffffff (" .. factionTitle .. " - " .. status .. L.RENOWN .. " " .. v.renown .. "|r)|r"
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. "|cffffff00|Hquest:" .. v.quest .. "62|h[" .. questTitle .. "]|h|r" .. "|cffFFFFFF (" .. factionTitle .. " - " .. status .. L.RENOWN .. " " .. v.renown .. "|r)|r"
 					end
 				end
 			end
@@ -273,7 +273,7 @@ function app:UpdateKnowledgeTracker()
 						itemLink = L.HIDDEN_PROFESSION_MASTER
 					end
 
-					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " |cffffffff" .. itemLink .. " (" .. zone .. ")|r"
+					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " |cffFFFFFF" .. itemLink .. " (" .. zone .. ")|r"
 				end
 			end
 
@@ -345,7 +345,7 @@ function app:UpdateKnowledgeTracker()
 						if completed == 5 then
 							icon = app.IconReady
 						end
-						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. itemLink .. " |cffFFFFFF(" .. completed .. "/5)|R"
+						app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. itemLink .. " |cffFFFFFF(" .. completed .. "/5)|r"
 					end
 				end
 			end
@@ -392,7 +392,7 @@ function app:UpdateKnowledgeTracker()
 					end
 
 					local _, itemLink = C_Item.GetItemInfo(v.item)
-					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. itemLink .. "|cffFFFFFF (" .. L.TREASURE .. ")|R"
+					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. itemLink .. "|cffFFFFFF (" .. L.TREASURE .. ")|r"
 				end
 			end
 
@@ -415,14 +415,14 @@ function app:UpdateKnowledgeTracker()
 					end
 
 					local _, itemLink = C_Item.GetItemInfo(v.item)
-					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. itemLink .. "|cffFFFFFF (" .. (v.source or (L.TREASURE .. " / " .. L.DROP)) .. ")|R"
+					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n" .. icon .. " " .. itemLink .. "|cffFFFFFF (" .. (v.source or (L.TREASURE .. " / " .. L.DROP)) .. ")|r"
 				end
 			end
 
 			for k, v in ipairs(app.ProfessionKnowledge[skillLineID]) do
 				if v.type == "catchup" then
 					local catchupKnowledge = C_CurrencyInfo.GetCurrencyInfo(v.currency).maxQuantity-C_CurrencyInfo.GetCurrencyInfo(v.currency).quantity
-					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n\n|r" .. L.CATCHUP_KNOWLEDGE .. "|cffffffff " .. catchupKnowledge
+					app.KnowledgePointTooltip = app.KnowledgePointTooltip .. "\n\n|r" .. L.CATCHUP_KNOWLEDGE .. "|cffFFFFFF " .. catchupKnowledge
 				end
 			end
 		else

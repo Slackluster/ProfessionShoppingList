@@ -47,11 +47,8 @@ function app:CreateMinimapButton()
 		icon = app.Icon,
 
 		OnClick = ProfessionShoppingList_Click,
-
-		OnTooltipShow = function(tooltip)
-			if not tooltip or not tooltip.AddLine then return end
-			tooltip:AddLine(L.SETTINGS_TOOLTIP)
-		end,
+		OnEnter = ProfessionShoppingList_Enter,
+		OnLeave = ProfessionShoppingList_Leave,
 	})
 
 	app.MinimapIcon = LibStub("LibDBIcon-1.0", true)
@@ -82,7 +79,7 @@ function app:CreateSettings()
 	text:SetPoint("CENTER", app.LinkCopiedFrame, "CENTER")
 	text:SetPoint("TOP", app.LinkCopiedFrame, "TOP")
 	text:SetJustifyH("CENTER")
-	text:SetText(app.IconReady .. " " .. L.SETTINGS_URL_COPIED)
+	text:SetText(app.IconReady .. " " .. L.LINK_COPIED)
 
 	app.LinkCopiedFrame.animation = app.LinkCopiedFrame:CreateAnimationGroup()
 	local fadeOut = app.LinkCopiedFrame.animation:CreateAnimation("Alpha")
@@ -97,7 +94,7 @@ function app:CreateSettings()
 	end)
 
 	StaticPopupDialogs["PROFESSIONSHOPPINGLIST_URL"] = {
-		text = L.SETTINGS_URL_COPY,
+		text = L.CTRL_C_COPY,
 		button1 = CLOSE,
 		whileDead = true,
 		hasEditBox = true,
@@ -313,98 +310,99 @@ function app:CreateSettings()
 	Settings.RegisterAddOnCategory(category)
 	app.SettingsCategory = category
 
-	text(L.SETTINGS_VERSION .. " |cffFFFFFF" .. app.Version, nil, nil, 14)
-	text(L.SETTINGS_SUPPORT_TEXTLONG)
-	button(L.SETTINGS_SUPPORT_TEXT, L.SETTINGS_SUPPORT_BUTTON, L.SETTINGS_SUPPORT_DESC, function() StaticPopup_Show("PROFESSIONSHOPPINGLIST_URL", nil, nil, "https://buymeacoffee.com/Slackluster") end)
-	button(L.SETTINGS_HELP_TEXT, L.SETTINGS_HELP_BUTTON, L.SETTINGS_HELP_DESC, function() StaticPopup_Show("PROFESSIONSHOPPINGLIST_URL", nil, nil, "https://discord.gg/hGvF59hstx") end)
+	text(L.VERSION .. " |cffFFFFFF" .. app.Version, nil, nil, 14)
+	text(L.SUPPORT_TEXTLONG1 .. "\n" .. L.SUPPORT_TEXTLONG2)
+	button(L.SUPPORT, L.BUY_ME_A_COFFEE, L.THANK_YOU, function() StaticPopup_Show("PROFESSIONSHOPPINGLIST_URL", nil, nil, "https://buymeacoffee.com/Slackluster") end)
+	button(L.FEEDBACK_AND_HELP, L.DISCORD, L.JOIN_DISCORD_SERVER, function() StaticPopup_Show("PROFESSIONSHOPPINGLIST_URL", nil, nil, "https://discord.gg/hGvF59hstx") end)
 
-	local _, isExpanded = expandableHeader(L.SETTINGS_KEYSLASH_TITLE)
+	local _, isExpanded = expandableHeader(L.KEYBINDINGS_AND_SLASH_COMMANDS)
 
 		keybind("PSL_TOGGLEWINDOW", isExpanded)
 
 		local leftText = { "|cffFFFFFF" ..
 			"/psl",
 			"/psl reset pos",
-			"/psl reset " .. app:Colour("arg"),
+			"/psl reset",
 			"/psl settings",
 			"/psl clear",
-			"/psl track " .. app:Colour(L.SETTINGS_SLASH_RECIPEID .. " " .. L.SETTINGS_SLASH_QUANTITY),
-			"/psl untrack " .. app:Colour(L.SETTINGS_SLASH_RECIPEID .. " " .. L.SETTINGS_SLASH_QUANTITY),
-			"/psl untrack " .. app:Colour(L.SETTINGS_SLASH_RECIPEID),
-			"/psl " .. app:Colour("[" .. L.SETTINGS_SLASH_CRAFTINGACHIE .. "]"),
-			"/psl " .. app:Colour("[" .. L.SETTINGS_SLASH_REAGENT .. "]") }
+			"/psl track " .. app:Colour(L.RECIPEID .. " " .. L.QUANTITY),
+			"/psl untrack " .. app:Colour(L.RECIPEID .. " " .. L.QUANTITY),
+			"/psl untrack " .. app:Colour(L.RECIPEID),
+			"/psl " .. app:Colour("[" .. L.CRAFTING_ACHIEVEMENT .. "]"),
+			"/psl " .. app:Colour("[" .. L.ITEMLINK_OR_ITEMID .. "]") }
 		local middleText = {
-			L.SETTINGS_SLASH_TOGGLE,
-			L.SETTINGS_SLASH_RESETPOS,
-			L.SETTINGS_SLASH_RESET,
-			L.WINDOW_BUTTON_SETTINGS,
-			L.WINDOW_BUTTON_CLEAR,
-			L.SETTINGS_SLASH_TRACK,
-			L.SETTINGS_SLASH_UNTRACK,
-			L.SETTINGS_SLASH_UNTRACKALL,
-			L.SETTINGS_SLASH_TRACKACHIE }
+			L.TOGGLE_TRACKING_WINDOW,
+			L.RESET_WINDOW_POSITION,
+			L.RESET_SAVED_DATA,
+			L.OPEN_SETTINGS,
+			L.CLEAR_TRACKED_RECIPES,
+			L.TRACK_RECIPE,
+			L.UNTRACK_RECIPE,
+			L.UNTRACK_RECIPE_ALL,
+			L.TRACK_ACHIEVEMENT_RECIPES,
+			L.TRACK_REAGENT_RECIPES }
 		leftText = table.concat(leftText, "\n\n")
 		middleText = table.concat(middleText, "\n\n")
 		text(leftText, middleText, nil, nil, isExpanded)
 
 	header(L.GENERAL)
 
-	checkbox("minimapIcon", L.SETTINGS_MINIMAP_TITLE, string.format(L.SETTINGS_MINIMAP_DESC, app.NameShort), true, function() app:ToggleMinimapIcon() end)
+	checkbox("minimapIcon", L.SHOW_MINIMAP_ICON, string.format(L.SHOW_MINIMAP_ICON_DESC, app.NameShort), true, function() app:ToggleMinimapIcon() end)
 
-	local parentSetting, parentCheckbox = checkbox("showRecipeCooldowns", L.SETTINGS_COOLDOWNS_TITLE, L.SETTINGS_COOLDOWNS_DESC, true, function() app:UpdateRecipes() end)
+	local parentSetting, parentCheckbox = checkbox("showRecipeCooldowns", L.TRACK_RECIPE_COOLDOWNS, L.TRACK_RECIPE_COOLDOWNS_DESC, true, function() app:UpdateRecipes() end)
 
-	checkbox("showWindowCooldown", L.SETTINGS_COOLDOWNSWINDOW_TITLE, L.SETTINGS_COOLDOWNSWINDOW_DESC, false, nil, parentSetting, parentCheckbox)
+	checkbox("showWindowCooldown", L.SHOW_WINDOW_WHEN_READY, L.SHOW_WINDOW_WHEN_READY_DESC, false, nil, parentSetting, parentCheckbox)
 
-	local parentSetting, parentCheckbox = checkbox("showTooltip", L.SETTINGS_TOOLTIP_TITLE, L.SETTINGS_TOOLTIP_DESC, true)
+	local parentSetting, parentCheckbox = checkbox("showTooltip", L.SHOW_TOOLTIP_INFORMATION, L.SHOW_TOOLTIP_INFORMATION_DESC, true)
 
-	checkbox("showCraftTooltip", L.SETTINGS_CRAFTTOOLTIP_TITLE, L.SETTINGS_CRAFTTOOLTIP_DESC, true, nil, parentSetting, parentCheckbox)
+	checkbox("showCraftTooltip", L.SHOW_CRAFTING_INFORMATION, L.SHOW_CRAFTING_INFORMATION_DESC, true, nil, parentSetting, parentCheckbox)
 
-	checkbox("showCraftCostTooltip", L.SETTINGS_CRAFTCOSTTOOLTIP_TITLE, L.SETTINGS_CRAFTCOSTTOOLTIP_DESC, true, nil, parentSetting, parentCheckbox, true)
+	checkbox("showCraftCostTooltip", L.SHOW_CRAFTING_COST, L.SHOW_CRAFTING_COST_DESC, true, nil, parentSetting, parentCheckbox, true)
 
 	if app.Retail then
 
-	dropdown("reagentQuality", L.SETTINGS_REAGENTQUALITY_TITLE, L.SETTINGS_REAGENTQUALITY_DESC, 1, {
+	dropdown("reagentQuality", L.MINIMUM_REAGENT_QUALITY, L.MINIMUM_REAGENT_QUALITY_DESC, 1, {
 		{ value = 1, name = "|A:Professions-ChatIcon-Quality-12-Tier1:24:24::1|a|A:Professions-ChatIcon-Quality-Tier1:20:18::1|a  " .. L.LOW, description = nil },
 		{ value = 2, name = "|A:Professions-ChatIcon-Quality-12-Tier2:24:24::1|a|A:Professions-ChatIcon-Quality-Tier3:20:18::1|a  " .. L.HIGH, description = nil },
 	}, function() C_Timer.After(0.5, function() app:UpdateRecipes() end) end)
 
-	dropdown("includeHigher", L.SETTINGS_INCLUDEHIGHER_TITLE, L.SETTINGS_INCLUDEHIGHER_DESC, 1, {
-		{ value = 1, name = L.SETTINGS_INCLUDE, description = nil },
-		{ value = 2, name = L.SETTINGS_DONT_INCLUDE, description = nil },
+	dropdown("includeHigher", L.INCLUDE_HIGHER_QUALITY, L.INCLUDE_HIGHER_QUALITY_DESC, 1, {
+		{ value = 1, name = L.INCLUDE_HIGHER_QUALITIES_YES, description = nil },
+		{ value = 2, name = L.INCLUDE_HIGHER_QUALITIES_NO, description = nil },
 	}, function() C_Timer.After(0.5, function() app:UpdateRecipes() end) end)
 
-	dropdown("collectMode", L.SETTINGS_COLLECTMODE_TITLE, string.format(L.SETTINGS_COLLECTMODE_DESC, app:Colour(L.BUTTON_TRACKNEW)), 1, {
-		{ value = 1, name = L.SETTINGS_APPEARANCES_TITLE, description = L.SETTINGS_APPEARANCES_TEXT },
-		{ value = 2, name = L.SETTINGS_SOURCES_TITLE, description = L.SETTINGS_SOURCES_TEXT },
+	dropdown("collectMode", L.COLLECTION_MODE, string.format(L.COLLECTION_MODE_DESC, app:Colour(L.TRACK_NEW)), 1, {
+		{ value = 1, name = L.APPEARANCES, description = L.APPEARANCES_SETTING_DESC },
+		{ value = 2, name = L.APPEARANCES_SOURCES, description = L.APPEARANCES_SOURCES_SETTING_DESC },
 	})
 
 	header(L.PROFESSION_WINDOW)
 
-	checkbox("filterOptionalReagents", L.SETTINGS_FILTER_OPTREAGENTS, string.format(L.SETTINGS_FILTER_OPTREAGENTS_DESC, "\"" .. PROFESSIONS_HIDE_UNOWNED_REAGENTS .. "\""), true, nil, nil, nil, true)
+	checkbox("filterOptionalReagents", L.FILTER_OPTIONAL_REAGENTS, string.format(L.FILTER_OPTIONAL_REAGENTS_DESC, "\"" .. PROFESSIONS_HIDE_UNOWNED_REAGENTS .. "\""), true, nil, nil, nil, true)
 
-	checkbox("spendToNextPerk", L.SETTINGS_SPENDTOPERK_TITLE, L.SETTINGS_SPENDTOPERK_DESC, true)
+	checkbox("spendToNextPerk", L.SPEND_TO_NEXT_PERK, L.SPEND_TO_NEXT_PERK_DESC, true)
 
-	checkbox("enhancedOrders", L.SETTINGS_ENHANCEDORDERS_TITLE, L.SETTINGS_ENHANCEDORDERS_DESC .. "\n\n|cffFF0000" .. L.REQUIRES_RELOAD, true)
+	checkbox("enhancedOrders", L.ENHANCED_ORDERS, L.ENHANCED_ORDERS_DESC .. "\n\n|cffFF0000" .. L.REQUIRES_RELOAD, true)
 
-	dropdown("quickOrderDuration", L.SETTINGS_QUICKORDER_TITLE, L.SETTINGS_QUICKORDER_DESC, 0, {
-		{ value = 0, name = L.SETTINGS_DURATION_SHORT, description = nil },
-		{ value = 1, name = L.SETTINGS_DURATION_MEDIUM, description = nil },
-		{ value = 2, name = L.SETTINGS_DURATION_LONG, description = nil },
+	dropdown("quickOrderDuration", L.QUICK_ORDER_DURATION, L.QUICK_ORDER_DURATION_DESC, 0, {
+		{ value = 0, name = L.QUICK_ORDER_DURATION_SHORT, description = nil },
+		{ value = 1, name = L.QUICK_ORDER_DURATION_MEDIUM, description = nil },
+		{ value = 2, name = L.QUICK_ORDER_DURATION_LONG, description = nil },
 	})
 
 	end
 
-	header(L.SETTINGS_HEADER_TRACK)
+	header(L.TRACKING_WINDOW)
 
-	checkbox("helpTooltips", L.SETTINGS_HELPTOOLTIP_TITLE, L.SETTINGS_HELPTOOLTIP_DESC, true)
+	checkbox("helpTooltips", L.SHOW_HELP_TOOLTIPS, L.SHOW_HELP_TOOLTIPS_DESC, true)
 
-	checkbox("pcWindows", L.SETTINGS_PERSONALWINDOWS_TITLE, L.SETTINGS_PERSONALWINDOWS_DESC, false)
+	checkbox("pcWindows", L.WINDOW_POSITION_PER_CHAR, L.WINDOW_POSITION_PER_CHAR_DESC, false)
 
-	checkbox("pcRecipes", L.SETTINGS_PERSONALRECIPES_TITLE, L.SETTINGS_PERSONALRECIPES_DESC, false, function() app:UpdateRecipes() end)
+	checkbox("pcRecipes", L.TRACK_RECIPES_PER_CHAR, L.TRACK_RECIPES_PER_CHAR_DESC, false, function() app:UpdateRecipes() end)
 
-	checkbox("showRemaining", L.SETTINGS_SHOWREMAINING_TITLE, L.SETTINGS_SHOWREMAINING_DESC, false, function() C_Timer.After(0.5, function() app:UpdateRecipes() end) end)
+	checkbox("showRemaining", L.SHOW_REMAINING_REAGENTS, L.SHOW_REMAINING_REAGENTS_DESC, false, function() C_Timer.After(0.5, function() app:UpdateRecipes() end) end)
 
-	local parentSetting, parentCheckbox = checkbox("removeCraft", L.SETTINGS_REMOVECRAFT_TITLE, L.SETTINGS_REMOVECRAFT_DESC, true)
+	local parentSetting, parentCheckbox = checkbox("removeCraft", L.UNTRACK_ON_CRAFT, L.UNTRACK_ON_CRAFT_DESC, true)
 
-	checkbox("closeWhenDone", L.SETTINGS_CLOSEWHENDONE_TITLE, L.SETTINGS_CLOSEWHENDONE_DESC, false, nil, parentSetting, parentCheckbox)
+	checkbox("closeWhenDone", L.CLOSE_WINDOW_WHEN_DONE, L.CLOSE_WINDOW_WHEN_DONE_DESC, false, nil, parentSetting, parentCheckbox)
 end

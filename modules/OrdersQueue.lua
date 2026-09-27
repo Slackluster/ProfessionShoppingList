@@ -136,7 +136,7 @@ function app:UpdateOrdersQueue()
 
 		if app.OrderState == app.Enum.OrderState.Idle then
 			if questID and not C_QuestLog.IsQuestFlaggedCompleted(questID) and not C_QuestLog.IsOnQuest(questID) then
-				app.OrdersQueueFrame.Warning.Text = "|cffFFFFFF" .. string.format(L.ORDERSQUEUE_WARNING_QUEST, ("|R|Hquest:0|h[%s]|h|cffFFFFFF"):format(C_QuestLog.GetTitleForQuestID(questID) or ""))
+				app.OrdersQueueFrame.Warning.Text = "|cffFFFFFF" .. string.format(L.ORDERSQUEUE_WARNING_QUEST, ("|r|Hquest:0|h[%s]|h|cffFFFFFF"):format(C_QuestLog.GetTitleForQuestID(questID) or ""))
 				app.OrdersQueueFrame.Warning:Show()
 				app.OrdersQueueFrame.Warning.Animation:Play()
 			elseif not app.Flag.HaveAllReagents then
@@ -202,7 +202,7 @@ function app:UpdateOrdersQueue()
 					else
 						errorReason = GUILD_RENAME_ERROR_UNKNOWN
 					end
-					app.OrdersQueueFrame.Status:SetText("|cffFF0000" .. errorReason .. "|R")
+					app.OrdersQueueFrame.Status:SetText("|cffFF0000" .. errorReason .. "|r")
 				else
 					app.OrdersQueueFrame.Status:SetText(oldText)
 				end
