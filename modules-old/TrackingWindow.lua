@@ -85,17 +85,9 @@ function app:CreateWindow()
 	app.Window:SetResizable(true)
 	app.Window:SetResizeBounds(140, 140)
 	app.Window:RegisterForDrag("LeftButton")
-	app.Window:SetScript("OnDragStart", function()
-		if app.Tab and app.Tab.IsShown[0] then return end
-		app:MoveWindow()
-	end)
-	app.Window:SetScript("OnDragStop", function()
-		if app.Tab and app.Tab.IsShown[0] then return end
-		app:SaveWindow()
-	end)
-	app.Window:SetScript("OnMouseDown", function()
-		app.Window:SetToplevel(true)
-	end)
+	app.Window:SetScript("OnDragStart", function() app:MoveWindow() end)
+	app.Window:SetScript("OnDragStop", function() app:SaveWindow()	end)
+	app.Window:SetScript("OnMouseDown", function() app.Window:SetToplevel(true) end)
 	app.Window:Hide()
 
 	-- Resize corner
@@ -286,6 +278,8 @@ end
 
 -- Move the main window
 function app:MoveWindow()
+	if app.Tab and app.Tab.IsShown[0] then return end
+
 	if app.Settings.windowLocked then
 		-- Highlight the Unlock button
 		app.UnlockButton:LockHighlight()
@@ -300,6 +294,8 @@ end
 
 -- Save the main window position and size
 function app:SaveWindow()
+	if app.Tab and app.Tab.IsShown[0] then return end
+
 	-- Stop highlighting the unlock button
 	app.UnlockButton:UnlockHighlight()
 
@@ -673,14 +669,9 @@ function app:UpdateRecipes()
 		app.Window.Recipes:SetPoint("RIGHT", app.Window.Child)
 		app.Window.Recipes:RegisterForDrag("LeftButton")
 		app.Window.Recipes:SetHighlightAtlas("Options_List_Active", "ADD")
-		app.Window.Recipes:SetScript("OnDragStart", function()
-			if app.Tab and app.Tab.IsShown[0] then return end
-			app:MoveWindow()
-		end)
-		app.Window.Recipes:SetScript("OnDragStop", function()
-			if app.Tab and app.Tab.IsShown[0] then return end
-			app:SaveWindow()
-		end)
+		app.Window.Recipes:SetScript("OnDragStart", function() app:MoveWindow() end)
+		app.Window.Recipes:SetScript("OnDragStop", app:SaveWindow() end)
+		app.Window.Recipes:SetScript("OnMouseDown", function() app.Window:SetToplevel(true) end)
 
 		local recipes1 = app.Window.Recipes:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		recipes1:SetPoint("LEFT", app.Window.Recipes)
@@ -766,14 +757,9 @@ function app:UpdateRecipes()
 		row:SetHighlightAtlas("Options_List_Active", "ADD")
 		row:RegisterForDrag("LeftButton")
 		row:RegisterForClicks("AnyUp")
-		row:SetScript("OnDragStart", function()
-			if app.Tab and app.Tab.IsShown[0] then return end
-			app:MoveWindow()
-		end)
-		row:SetScript("OnDragStop", function()
-			if app.Tab and app.Tab.IsShown[0] then return end
-			app:SaveWindow()
-		end)
+		row:SetScript("OnDragStart", function() app:MoveWindow() end)
+		row:SetScript("OnDragStop", app:SaveWindow() end)
+		row:SetScript("OnMouseDown", function() app.Window:SetToplevel(true) end)
 		row:SetScript("OnEnter", function()
 			app:ShowWindowTooltip(recipeInfo.link, true, L.SHIFT .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.LINK_RECIPE .. "|r\n" .. L.CTRL .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.OPEN_RECIPE .. "|r\n" .. L.ALT .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.CRAFT_RECIPE .. "|r\n" .. app.IconRMB .. "|cffFFFFFF: " .. L.UNTRACK_RECIPE .. "|r\n" .. L.CTRL .. " " .. app.IconRMB .. "|cffFFFFFF: " .. L.UNTRACK_RECIPE_ALL .. "|r")
 		end)
@@ -859,14 +845,9 @@ function app:UpdateRecipes()
 		app.Window.Reagents:SetPoint("RIGHT", app.Window.Child)
 		app.Window.Reagents:RegisterForDrag("LeftButton")
 		app.Window.Reagents:SetHighlightAtlas("Options_List_Active", "ADD")
-		app.Window.Reagents:SetScript("OnDragStart", function()
-			if app.Tab and app.Tab.IsShown[0] then return end
-			app:MoveWindow()
-		end)
-		app.Window.Reagents:SetScript("OnDragStop", function()
-			if app.Tab and app.Tab.IsShown[0] then return end
-			app:SaveWindow()
-		end)
+		app.Window.Reagents:SetScript("OnDragStart", function() app:MoveWindow() end)
+		app.Window.Reagents:SetScript("OnDragStop", app:SaveWindow() end)
+		app.Window.Reagents:SetScript("OnMouseDown", function() app.Window:SetToplevel(true) end)
 
 		local reagents1 = app.Window.Reagents:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		reagents1:SetPoint("LEFT", app.Window.Reagents)
@@ -924,14 +905,9 @@ function app:UpdateRecipes()
 		row:SetSize(0,16)
 		row:SetHighlightAtlas("Options_List_Active", "ADD")
 		row:RegisterForDrag("LeftButton")
-		row:SetScript("OnDragStart", function()
-			if app.Tab and app.Tab.IsShown[0] then return end
-			app:MoveWindow()
-		end)
-		row:SetScript("OnDragStop", function()
-			if app.Tab and app.Tab.IsShown[0] then return end
-			app:SaveWindow()
-		end)
+		row:SetScript("OnDragStart", function() app:MoveWindow() end)
+		row:SetScript("OnDragStop", app:SaveWindow() end)
+		row:SetScript("OnMouseDown", function() app.Window:SetToplevel(true) end)
 		row:SetScript("OnEnter", function()
 			app:ShowWindowTooltip(reagentInfo.link, true, L.SHIFT .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.LINK_REAGENT .. "|r\n" .. L.CTRL .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.TRACK_RECIPE_SUBREAGENT .. "|r")
 		end)
@@ -1394,14 +1370,9 @@ function app:UpdateRecipes()
 		app.Window.Cooldowns:SetPoint("RIGHT", app.Window.Child)
 		app.Window.Cooldowns:RegisterForDrag("LeftButton")
 		app.Window.Cooldowns:SetHighlightAtlas("Options_List_Active", "ADD")
-		app.Window.Cooldowns:SetScript("OnDragStart", function()
-			if app.Tab and app.Tab.IsShown[0] then return end
-			app:MoveWindow()
-		end)
-		app.Window.Cooldowns:SetScript("OnDragStop", function()
-			if app.Tab and app.Tab.IsShown[0] then return end
-			app:SaveWindow()
-		end)
+		app.Window.Cooldowns:SetScript("OnDragStart", function() app:MoveWindow() end)
+		app.Window.Cooldowns:SetScript("OnDragStop", app:SaveWindow() end)
+		app.Window.Cooldowns:SetScript("OnMouseDown", function() app.Window:SetToplevel(true) end)
 
 		local cooldowns1 = app.Window.Cooldowns:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		cooldowns1:SetPoint("LEFT", app.Window.Cooldowns)
@@ -1450,14 +1421,9 @@ function app:UpdateRecipes()
 		row:SetHighlightAtlas("Options_List_Active", "ADD")
 		row:RegisterForDrag("LeftButton")
 		row:RegisterForClicks("AnyUp")
-		row:SetScript("OnDragStart", function()
-			if app.Tab and app.Tab.IsShown[0] then return end
-			app:MoveWindow()
-		end)
-		row:SetScript("OnDragStop", function()
-			if app.Tab and app.Tab.IsShown[0] then return end
-			app:SaveWindow()
-		end)
+		row:SetScript("OnDragStart", function() app:MoveWindow() end)
+		row:SetScript("OnDragStop", app:SaveWindow() end)
+		row:SetScript("OnMouseDown", function() app.Window:SetToplevel(true) end)
 		row:SetScript("OnEnter", function()
 			app:ShowWindowTooltip("|cffFFFFFF" .. cooldownInfo.user, false, L.SHIFT .. " " .. app.IconRMB .. "|cffFFFFFF: " .. L.REMOVE_COOLDOWN_REMINDER .. "|r\n" .. L.CTRL .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.OPEN_RECIPE .. "|r\n" .. L.ALT .. " " .. app.IconLMB .. "|cffFFFFFF: " .. L.CRAFT_RECIPE .. "|r")
 		end)
