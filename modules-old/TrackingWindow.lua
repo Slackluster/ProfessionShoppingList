@@ -88,6 +88,7 @@ function app:CreateWindow()
 	app.Window:SetScript("OnDragStart", function() app:MoveWindow() end)
 	app.Window:SetScript("OnDragStop", function() app:SaveWindow()	end)
 	app.Window:SetScript("OnMouseDown", function() app.Window:SetToplevel(true) end)
+	app.Window:SetScript("OnShow", function() C_Timer.After(1, function() if not (app.Tab and app.Tab.IsShown[0]) then app.Gravity:StartGravity(app.Window) end end) end)
 	app.Window:Hide()
 
 	-- Resize corner
@@ -279,6 +280,7 @@ end
 -- Move the main window
 function app:MoveWindow()
 	if app.Tab and app.Tab.IsShown[0] then return end
+	app.Gravity:StartDragging(app.Window)
 
 	if app.Settings.windowLocked then
 		-- Highlight the Unlock button
@@ -295,6 +297,7 @@ end
 -- Save the main window position and size
 function app:SaveWindow()
 	if app.Tab and app.Tab.IsShown[0] then return end
+	app.Gravity:StopDragging(app.Window)
 
 	-- Stop highlighting the unlock button
 	app.UnlockButton:UnlockHighlight()
