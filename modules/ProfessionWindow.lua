@@ -349,6 +349,12 @@ function app:UpdateAssets()
 			startTime, duration = C_Item.GetItemCooldown(87216)
 			app.ThermalAnvilButton.Cooldown:SetCooldown(startTime, duration)
 
+			if app.Data.Pets.ragnaros and C_PetJournal.PetIsSummonable(app.Data.Pets.ragnaros.guid) then
+				app.RagnarosButton:GetNormalTexture():SetDesaturated(false)
+			end
+			if app.Data.Pets.pierre and C_PetJournal.PetIsSummonable(app.Data.Pets.pierre.guid) then
+				app.PierreButton:GetNormalTexture():SetDesaturated(false)
+			end
 			if app.Data.Pets.alvin and C_PetJournal.PetIsSummonable(app.Data.Pets.alvin.guid) then
 				app.AlvinButton:GetNormalTexture():SetDesaturated(false)
 			end
