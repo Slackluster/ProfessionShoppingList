@@ -10,7 +10,6 @@ local L = app.locales
 -- ON LOAD --
 -------------
 
--- When the addon is fully loaded, actually run the components
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		app.Enum.OrderState = {
