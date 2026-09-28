@@ -8,207 +8,17 @@ if GetLocale() ~= "esMX" then return end
 local appName, app = ...
 local L = app.locales
 
--- Tracking window
--- L.CLOSE_WINDOW =                         "Close the window"
--- L.LOCK_WINDOW =                          "Lock the window"
--- L.UNLOCK_WINDOW =                        "Unlock the window"
--- L.OPEN_SETTINGS =                        "Open the settings"
--- L.CLEAR_TRACKED_RECIPES =                "Clear all tracked recipes"
--- L.WINDOW_BUTTON_AUCTIONATOR =            "Update the Auctionator shopping list\n" ..
---                                          "The shopping list is automatically generated when opening the Auction House"
--- L.AUTOSIZE_WINDOW =                 "Double " .. app.IconLMB .. "|cffFFFFFF: Autosize to fit the window|r"
+-- Core
+L.NEW_VERSION_AVAILABLE =                "Hay una versión más nueva de %s disponible:" -- %s becomes the addon name
 
--- L.RECIPES =                PROFESSIONS_RECIPES_TAB -- "Recipes"
--- L.ITEMS =                  ITEMS -- "Items"
--- L.REAGENTS =               PROFESSIONS_COLUMN_HEADER_REAGENTS -- "Reagents"
--- L.COSTS =                  "Costs"
--- L.COOLDOWNS =              "Cooldowns"
-
--- L.WINDOW_TOOLTIP_RECIPES =               "Shift " .. app.IconLMB .. "|cffFFFFFF: Link the recipe\n|r" ..
---                                          "Ctrl " .. app.IconLMB .. "|cffFFFFFF: Open the recipe (if known)\n|r" ..
---                                          "Alt " .. app.IconLMB .. "|cffFFFFFF: Attempt to craft this recipe\n\n|r" ..
---                                          app.IconRMB .. "|cffFFFFFF: Untrack 1 of the selected recipe\n|r" ..
---                                          "Ctrl " .. app.IconRMB .. "|cffFFFFFF: Untrack all of the selected recipe"
--- L.WINDOW_TOOLTIP_REAGENTS =              "Shift " .. app.IconLMB .. "|cffFFFFFF: Link the reagent\n|r" ..
---                                          "Ctrl " .. app.IconLMB .. "|cffFFFFFF: Add recipe for the selected subreagent, if it exists and is cached"
--- L.WINDOW_TOOLTIP_COOLDOWNS =             "Shift " .. app.IconRMB .. "|cffFFFFFF: Remove this specific cooldown reminder\n|r" ..
---                                          "Ctrl " .. app.IconLMB .. "|cffFFFFFF: Open the recipe (if known)\n|r" ..
---                                          "Alt " .. app.IconLMB .. "|cffFFFFFF: Attempt to craft this recipe"
-
--- L.CLEAR_CONFIRMATION =                   "This will clear all recipes."
--- L.CONFIRMATION =                         "Do you wish to proceed?"
--- L.SUBREAGENTS1 =                         "There are multiple recipes that can create %s" -- %s becomes an item link
--- L.SUBREAGENTS2 =                         "Please select one of the following:"
--- L.GOLD =                                 BONUS_ROLL_REWARD_MONEY -- "Gold"
--- L.MERCHANT_BUY =                         "Buy all tracked reagents, if available."
-
--- Cooldowns
--- L.RECHARGED =                            "Fully recharged"
--- L.READY =                                "Ready"
--- L.DAYS =                                 "d"
--- L.HOURS =                                "h"
--- L.MINUTES =                              "m"
--- L.READY_TO_CRAFT =                       "%s is ready to craft again on %s." -- %s becomes a recipe name, and character name
-
--- -- Recipe tracking
--- L.TRACK =                                "Track"
--- L.UNTRACK =                              "Untrack"
--- L.RANK =                                 RANK -- "Rank"
--- L.RECRAFT_TOOLTIP =                      "Select an item with a cached recipe to track it.\n" ..
---                                          "To cache a recipe, open the profession the recipe belongs to on any character\nor view the item as a regular crafting order."
--- L.QUICK_ORDER =                           "Quick Order"
--- L.QUICKORDER_TOOLTIP =                   "|cffFF0000Instantly|r create a crafting order for the specified recipient.\n\n" ..
---                                          "Use %s (all uppercase) to place a " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. ".\n" .. -- "Guild Order", %s becomes "GUILD"
---                                          "Use a character name to place a " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_PRIVATE .. ".\n" .. -- "Personal Order"
---                                          "Recipients are saved per recipe."
--- L.USE_LOCAL_REAGENTS =                  "Use local reagents"
--- L.USE_LOCAL_REAGENTS_DESC =                "Use (the lowest quality) available local reagents. Which reagents are used |cffFF0000cannot|r be customised."
--- L.REPEAT_LAST_QUICK_ORDER =            "Repeat the last " .. L.QUICK_ORDER .. " done on this character"
--- L.RECIPIENT =                            "Recipient"
-
--- Profession window
--- L.MILLING_INFORMATION =                         "Milling Information"
--- L.THAUMATURGY_INFORMATION =                     "Thaumaturgy Information"
--- L.FROM =                                 "from" -- I will convert this whole section to item links, then this is the only localisation needed. I recommend skipping the rest of this section. :)
-
--- L.MILLING_CLASSIC =                      "Sapphire Pigment: 25% from Golden Sansam, Dreamfoil, Mountain Silversage, Sorrowmoss, Icecap\n" ..
---                                          "Silvery Pigment: 75% from Golden Sansam, Dreamfoil, Mountain Silversage, Sorrowmoss, Icecap\n\n" ..
---                                          "Ruby Pigment: 25% from Firebloom, Purple Lotus, Arthas' Tears, Sungrass, Blindweed,\n      Ghost Mushroom, Gromsblood\n" ..
---                                          "Violet Pigment: 75% from Firebloom, Purple Lotus, Arthas' Tears, Sungrass, Blindweed,\n      Ghost Mushroom, Gromsblood\n\n" ..
---                                          "Indigo Pigment: 25% from Fadeleaf, Goldthorn, Khadgar's Whisker, Dragon's Teeth\n" ..
---                                          "Emerald Pigment: 75% from Fadeleaf, Goldthorn, Khadgar's Whisker, Dragon's Teeth\n\n" ..
---                                          "Burnt Pigment: 25% from Wild Steelbloom, Grave Moss, Kingsblood, Liferoot\n" ..
---                                          "Golden Pigment: 75% from Wild Steelbloom, Grave Moss, Kingsblood, Liferoot\n\n" ..
---                                          "Verdant Pigment: 25% from Mageroyal, Briarthorn, Swiftthistle, Bruiseweed, Stranglekelp\n" ..
---                                          "Dusky Pigment: 75% from Mageroyal, Briarthorn, Swiftthistle, Bruiseweed, Stranglekelp\n\n" ..
---                                          "Alabaster Pigment: 100% from Peacebloom, Silverleaf, Earthroot"
--- L.MILLING_TBC =                          "Ebon Pigment: 25%\n" ..
---                                          "Nether Pigment: 100%"
--- L.MILLING_WOTLK =                        "Icy Pigment: 25%\n" ..
---                                          "Azure Pigment: 100%"
--- L.MILLING_CATA =                         "Burning Embers: 25%, 50% from Twilight Jasmine, Whiptail\n" ..
---                                          "Ashen Pigment: 100%"
--- L.MILLING_MOP =                          "Misty Pigment: 25%, 50% from Fool's Cap\n" ..
---                                          "Shadow Pigment: 100%"
--- L.MILLING_WOD =                          "Cerulean Pigment: 100%"
--- L.MILLING_LEGION =                       "Sallow Pigment: 10%, 80% from Felwort\n" ..
---                                          "Roseate Pigment: 90%"
--- L.MILLING_BFA =                          "Viridescent Pigment: 10%, 30% from Anchor Weed\n" ..
---                                          "Crimson Pigment: 25%\n" ..
---                                          "Ultramarine Pigment: 75%"
--- L.MILLING_SL =                           "Tranquil Pigment: Nightshade\n" ..
---                                          "Luminous Pigment: Death Blossom, Rising Glory, Vigil's Torch\n" ..
---                                          "Umbral Pigment: Death's Blossom, Marrowroot, Widowbloom"
--- L.MILLING_DF =                           "Blazing Pigment: Saxifrage\n" ..
---                                          "Flourishing Pigment: Writhebark\n" ..
---                                          "Serene Pigment: Bubble Poppy\n" ..
---                                          "Shimmering Pigment: Hochenblume"
--- L.MILLING_TWW =                          "Blossom Pigment: Blessing Blossom\n" ..
---                                          "Luredrop Pigment: Luredrop\n" ..
---                                          "Orbinid Pigment: Orbinid\n" ..
---                                          "Nacreous Pigment: Mycobloom"
--- L.THAUMATURGY_TWW =                      "Mercurial Transmutagen: Aqirite, Gloom Chitin, Luredrop, Orbinid\n" ..
---                                          "Ominous Transmutagen: Bismuth, Mycobloom, Storm Dust, Weavercloth\n" ..
---                                          "Volatile Transmutagen: Arathor's Spear, Blessing Blossom, Ironclaw Ore, Stormcharged Leather"
-
--- L.BUTTON_COOKINGFIRE =                   app.IconLMB .. ": " .. BINDING_NAME_TARGETSELF .. "\n" .. -- "Target Self"
---                                          app.IconRMB .. ": " .. STATUS_TEXT_TARGET -- "Target"
--- L.BUTTON_COOKINGPET =                    app.IconLMB .. ": Summon this pet\n" ..
---                                          app.IconRMB .. ": Switch between available pets"
--- L.BUTTON_CHEFSHAT =                      app.IconLMB .. ": Use the"
--- L.BUTTON_THERMALANVIL =                  app.IconLMB .. ": Use a"
--- L.BUTTON_ALVIN =                         app.IconLMB .. ": Summon this pet"
--- L.BUTTON_LIGHTFORGE =                    app.IconLMB .. ": Cast"
-
--- Track new mogs
--- L.TRACK_NEW =                      "Track New Mogs"
--- L.CURRENT_SETTING =                      "Current setting:"
--- L.NEW_APPEARANCES =                     "new appearances"
--- L.NEW_APPEARANCES_AND_SOURCES =                         "new appearances and sources"
--- L.ADDED_RECIPES =                        "Checked %d visible recipes for %s. Tracked %d recipes." -- %d becomes a number, %s becomes L.NEW_APPEARANCES or L.NEW_APPEARANCES_AND_SOURCES
-
--- Tooltip info
--- L.MORE_NEEDED =                          "%d more needed" -- %d becomes a number
--- L.MADE_WITH =                            "Made with %s" -- %s becomes a profession
--- L.RECIPE_LEARNED =                       "recipe learned"
--- L.RECIPE_UNLEARNED =                     "recipe not learned"
--- L.CRAFTING_COST =                        "Crafting Cost"
-
--- Profession knowledge
--- L.PERKS_UNLOCKED =                       "perks unlocked"
--- L.PROFESSION_KNOWLEDGE =                 "knowledge"
--- L.VENDORS =                              "Vendors"
--- L.RENOWN =                               COVENANT_SANCTUM_TAB_RENOWN -- "Renown "
--- L.WORLD =                                "World"
--- L.HIDDEN_PROFESSION_MASTER =             "Hidden Profession Master"
--- L.WEEKLY =                               WEEKLY -- "Weekly"
--- L.TREASURE =                             "Treasure"
--- L.DROP =                                 BATTLE_PET_SOURCE_1 -- "Drop"
--- L.CATCHUP_KNOWLEDGE =                    "Available catch-up knowledge:"
--- L.LOADING =                              SEARCH_LOADING_TEXT -- "Loading..."
-
--- Order adjustments
--- L.AUCTION_ADDONS =                       "Auctionator, Oribos Exchange, or TradeSkillMaster"
--- L.ORDERS_PRICING_MISSING =               "Missing"
--- L.ORDERS_PRICING_UPDATE =                "Update or scan with %s." -- %s becomes a list of addon names
--- L.ORDERS_SET_CRITERIA =                  "Set the criteria to track orders."
--- L.ORDERS_COST_NEED =                     "Cost settings only work with: %s." -- %s becomes a list of addon names
--- L.ORDERS_MAX_COST_KNOWLEDGE =            "Maximum cost per knowledge point:"
--- L.ORDERS_MAX_COST_ARTISAN =              "Maximum cost per artisan currency:" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
--- L.ORDERS_MAX_COST_PAYOUT =               "Maximum cost per reward bag:" -- This refers to Artisan's Payout bag
--- L.ORDERS_TRACK_AFTER_RESET =             "Track orders available after weekly reset"
--- L.ORDERS_TRACK_CONCENTRATION =           "Track orders costing concentration:"
--- L.ORDERS_TRACK_ON =                      "Track on %s:"  -- %s becomes a character name
-
--- L.ORDERSQUEUE_QUEUE =                    "Queue"
--- L.ORDERSQUEUE_QUEUE =                    "Orders in queue:"
--- L.ORDERSQUEUE_NEXT =                     "Next Order"
--- L.ORDERSQUEUE_CLAIM =                    "Claim Order"
--- L.ORDERSQUEUE_CRAFT =                    "Craft Order"
--- L.ORDERSQUEUE_CRAFTING =                 "Crafting..."
--- L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
--- L.ORDERSQUEUE_WARNING_QUEST =            "You have not picked up %s." -- %s becomes a quest name
--- L.ORDERSQUEUE_WARNING_REAGENTS =         "You do not have enough reagents for all tracked recipes."
-
--- L.PROFTOOL_AUTOEQUIP =                   "Automatically equip this tool" -- Followed by one of the two following phrases
--- L.PROFTOOL_DEFAULT =                     "for |cffFFFFFFregular crafting|r."
--- L.PROFTOOL_ORDERS =                      "while |cffFFFFFFdoing orders|r."
--- L.PROFTOOL_DRAG =                        "Drag a tool here."
--- L.PROFTOOL_MOUSE =                       app.IconLMB .. ": Equip this tool.\n" ..
---                                          app.IconRMB .. ": Remove this tool."
-
--- Chat feedback
--- L.INVALID_PARAMETERS =                   "Invalid parameters."
--- L.INVALID_PARAMETERS =               L.INVALID_PARAMETERS .. " Please enter a valid recipe quantity."
--- L.INVALID_PARAMETERS =                     L.INVALID_PARAMETERS .. " Please enter a cached recipeID."
--- L.INVALID_PARAMETERS =               L.INVALID_PARAMETERS .. " Please enter a tracked recipeID."
--- L.INVALID_PARAMETERS =                  L.INVALID_PARAMETERS .. " This is not a crafting achievement. No recipes were added."
--- L.INVALID_PARAMETERS =                    L.INVALID_PARAMETERS .. " You can use the following arguments:"
--- L.INVALID_COMMAND =                      "Invalid command. See " .. app:Colour("/psl settings") .. " for more info."
+-- L.RESET_DONE =                           "Data reset performed successfully."
+-- L.REQUIRES_RELOAD =                      REQUIRES_RELOAD -- "Requires Reload"
 -- L.DEBUG_ENABLED =                        "Debug mode enabled"
 -- L.DEBUG_DISABLED =                       "Debug mode disabled"
--- L.RESET_DONE =                           "Data reset performed successfully."
--- L.REQUIRES_RELOAD =                      "|cffFF0000" .. REQUIRES_RELOAD .. ".|r Use |cffFFFFFF/reload|r or relog." -- "Requires Reload"
-
--- L.FALSE =                                "false"
--- L.TRUE =                                 "true"
--- L.NO_LAST_QUICK_ORDER_FOUND =                          "No last " .. L.QUICK_ORDER .. " found"
--- L.ERROR =                                "Error"
--- L.ERROR_CRAFTSIM =                       L.ERROR .. ": Could not read the information from CraftSim."
--- L.ERROR_QUICKORDER =                     L.ERROR .. ": " .. L.QUICK_ORDER .. " failed. Sorry. :("
--- L.ERROR_REAGENTS =                       L.ERROR .. ": Can't create a " .. L.QUICK_ORDER .. " for items with mandatory reagents. Sorry. :("
--- L.ERROR_WARBANK =                        L.ERROR .. ": Can't create a " .. L.QUICK_ORDER .. " with items in the Warbank."
--- L.ERROR_GUILD =                          L.ERROR .. ": Can't create a " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. " while not in a guild." -- "Guild Order"
--- L.ERROR_RECIPIENT =                      L.ERROR .. ": Target recipient cannot craft that item. Please enter a valid recipient name."
--- L.ERROR_MULTISIM =                       L.ERROR .. ": No simulated reagents have been used. Please only enable one of the following supported addons:"
-
--- L.NEW_VERSION_AVAILABLE =                "There is a newer version of %s available:" -- %s becomes the addon name
+-- L.INVALID_PARAMETERS =                   "Invalid parameters"
+L.INVALID_COMMAND =                      "Comando no válido"
 
 -- Settings
--- L.SETTINGS_TOOLTIP =                     app.NameLong .. "\n|cffFFFFFF" ..
---                                          app.IconLMB .. ": Toggle the window\n" ..
---                                          app.IconRMB .. ": " .. L.OPEN_SETTINGS
-
 L.VERSION =                              GAME_VERSION_LABEL .. ":" -- "Version"
 L.SUPPORT_TEXTLONG1 =                    "Desarrollar este addon requiere una cantidad significativa de tiempo y esfuerzo."
 L.SUPPORT_TEXTLONG2 =                    "Por favor, considera apoyar financieramente al desarrollador."
@@ -221,24 +31,26 @@ L.JOIN_DISCORD_SERVER =                  "Únete al servidor de Discord."
 L.CTRL_C_COPY =                          "Ctrl+C para copiar:"
 L.LINK_COPIED =                          "Enlace copiado al portapapeles"
 
--- L.KEYBINDINGS_AND_SLASH_COMMANDS =       SETTINGS_KEYBINDINGS_LABEL .. " & Slash Commands" -- "Keybindings"
+L.KEYBINDINGS_AND_SLASH_COMMANDS =       SETTINGS_KEYBINDINGS_LABEL .. " y Comandos" -- "Keybindings"
 -- _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =    app.NameShort .. ": Toggle Window"
 -- L.TOGGLE_TRACKING_WINDOW =               "Toggle the tracking window"
 -- L.RESET_WINDOW_POSITION =                "Reset the tracking window position"
 -- L.RESET_SAVED_DATA =                     "Reset saved data"
+L.OPEN_SETTINGS =                        "Abrir opciones"
+-- L.CLEAR_TRACKED_RECIPES =                "Clear all tracked recipes"
+-- L.RECIPEID =                             "recipeID"
+-- L.QUANTITY =                             "quantity"
 -- L.TRACK_RECIPE =                         "Track a recipe"
 -- L.UNTRACK_RECIPE =                       "Untrack a recipe"
 -- L.UNTRACK_RECIPE_ALL =                   "Untrack all of a recipe"
--- L.TRACK_ACHIEVEMENT_RECIPES =            "Track the recipes needed for the linked achievement"
 -- L.CRAFTING_ACHIEVEMENT =                 "crafting achievement"
--- L.RECIPEID =                             "recipeID"
--- L.QUANTITY =                             "quantity"
+-- L.TRACK_ACHIEVEMENT_RECIPES =            "Track the recipes needed for the linked achievement"
 -- L.ITEMLINK_OR_ITEMID =                   "itemLink or itemID"
 -- L.TRACK_REAGENT_RECIPES =                "Track all recipes using this reagent"
 
--- L.GENERAL =                              GENERAL -- "General"
--- L.SHOW_MINIMAP_ICON =                    "Show Minimap Icon"
--- L.SHOW_MINIMAP_ICON_DESC =               "Show the minimap icon. If you disable this, %s is still available from the Addon Compartment." -- %s becomes the addon name
+L.GENERAL =                              GENERAL -- "General"
+L.SHOW_MINIMAP_ICON =                    "Mostrar icono de minimapa"
+L.SHOW_MINIMAP_ICON_DESC =               "Muestra el icono del minimapa. Si desactivas esto, %s sigue disponible en el apartado de Addons." -- %s becomes the addon name
 -- L.TRACK_RECIPE_COOLDOWNS =               "Track Recipe Cooldowns"
 -- L.TRACK_RECIPE_COOLDOWNS_DESC =          "Enable the tracking of recipe cooldowns. These will show in the tracking window, and in chat upon login if ready."
 -- L.SHOW_WINDOW_WHEN_READY =               "Show Window When Ready"
@@ -251,10 +63,18 @@ L.LINK_COPIED =                          "Enlace copiado al portapapeles"
 -- L.SHOW_CRAFTING_COST_DESC =              "Show how much an item costs to craft, if that information is available."
 -- L.MINIMUM_REAGENT_QUALITY =              "Minimum Reagent Quality"
 -- L.MINIMUM_REAGENT_QUALITY_DESC =         "Set the minimum quality reagents need to be before they are counted. Simulated results will still override this."
+-- L.LOW =                                  LOW -- "Low"
+-- L.HIGH =                                 HIGH -- "High"
 -- L.INCLUDE_HIGHER_QUALITY =               "Include Higher Quality"
 -- L.INCLUDE_HIGHER_QUALITY_DESC =          "Whether or not to count higher quality reagents. (I.e. include owned tier 2 reagents when counting tier 1 reagents.)"
+-- L.INCLUDE_HIGHER_QUALITIES_YES =         "Include higher qualities"
+-- L.INCLUDE_HIGHER_QUALITIES_NO =          "Don't include higher qualities"
 -- L.COLLECTION_MODE =                      "Collection Mode"
 -- L.COLLECTION_MODE_DESC =                 "Set which items are included when using the %s button." -- %s becomes "Track New"
+-- L.APPEARANCES =                          WARDROBE -- "Appearances"
+-- L.APPEARANCES_SETTING_DESC =             "Include items only if they have a new appearance."
+-- L.APPEARANCES_SOURCES =                  "Sources"
+-- L.APPEARANCES_SOURCES_SETTING_DESC =     "Include items if they are a new source, including for known appearances."
 
 -- L.PROFESSION_WINDOW =                    "Profession Window"
 -- L.FILTER_OPTIONAL_REAGENTS =             "Filter Optional Reagents"
@@ -265,29 +85,143 @@ L.LINK_COPIED =                          "Enlace copiado al portapapeles"
 -- L.ENHANCED_ORDERS_DESC =                 "Enhance the preview of order rewards and commission, and add icons for first crafts, unlearned recipes, and tracked recipes."
 -- L.QUICK_ORDER_DURATION =                 "Quick Order Duration"
 -- L.QUICK_ORDER_DURATION_DESC =            "Set the duration for placing quick orders."
+-- L.QUICK_ORDER_DURATION_SHORT =           PROFESSIONS_LISTING_DURATION_ONE -- "12 Hours"
+-- L.QUICK_ORDER_DURATION_MEDIUM =          PROFESSIONS_LISTING_DURATION_TWO -- "24 Hours"
+-- L.QUICK_ORDER_DURATION_LONG =            PROFESSIONS_LISTING_DURATION_THREE -- "48 Hours"
 
--- L.LOW =                                  LOW -- "Low"
--- L.HIGH =                                 HIGH -- "High"
--- L.INCLUDE_HIGHER_QUALITIES_YES =         "Include higher qualities"
--- L.INCLUDE_HIGHER_QUALITIES_NO =          "Don't include higher qualities"
--- L.APPEARANCES =                          WARDROBE -- "Appearances"
--- L.APPEARANCES_SETTING_DESC =             "Include items only if they have a new appearance."
--- L.APPEARANCES_SOURCES =                  "Sources"
--- L.APPEARANCES_SOURCES_SETTING_DESC =     "Include items if they are a new source, including for known appearances."
--- L.QUICK_ORDER_DURATION_SHORT =              "Short (12 hours)"
--- L.QUICK_ORDER_DURATION_MEDIUM =             "Medium (24 hours)"
--- L.QUICK_ORDER_DURATION_LONG =               "Long (48 hours)"
-
--- L.TRACKING_WINDOW =                "Tracking Window"
--- L.SHOW_HELP_TOOLTIPS =           "Show Help Tooltips"
--- L.SHOW_HELP_TOOLTIPS_DESC =            "Display what mouse actions exist when hovering over entries in the tracking window."
--- L.WINDOW_POSITION_PER_CHAR =       "Window Position per Character"
+-- L.TRACKING_WINDOW =                      "Tracking Window"
+-- L.SHOW_HELP_TOOLTIPS =                   "Show Help Tooltips"
+-- L.SHOW_HELP_TOOLTIPS_DESC =              "Display what mouse actions exist when hovering over entries in the tracking window."
+-- L.WINDOW_POSITION_PER_CHAR =             "Window Position per Character"
 -- L.WINDOW_POSITION_PER_CHAR_DESC =        "Save the window position per character, instead of account wide."
--- L.TRACK_RECIPES_PER_CHAR =       "Track Recipes per Character"
--- L.TRACK_RECIPES_PER_CHAR_DESC =        "Track recipes per character, instead of account wide."
--- L.SHOW_REMAINING_REAGENTS =         "Show Remaining Reagents"
--- L.SHOW_REMAINING_REAGENTS_DESC =          "Only show how many reagents you still need in the tracking window, instead of have/need."
--- L.UNTRACK_ON_CRAFT =           "Untrack on Craft"
--- L.UNTRACK_ON_CRAFT_DESC =            "Remove one of a tracked recipe when you successfully craft it."
--- L.CLOSE_WINDOW_WHEN_DONE =         "Close Window When Done"
+-- L.TRACK_RECIPES_PER_CHAR =               "Track Recipes per Character"
+-- L.TRACK_RECIPES_PER_CHAR_DESC =          "Track recipes per character, instead of account wide."
+-- L.SHOW_REMAINING_REAGENTS =              "Show Remaining Reagents"
+-- L.SHOW_REMAINING_REAGENTS_DESC =         "Only show how many reagents you still need in the tracking window, instead of have/need."
+-- L.UNTRACK_ON_CRAFT =                     "Untrack on Craft"
+-- L.UNTRACK_ON_CRAFT_DESC =                "Remove one of a tracked recipe when you successfully craft it."
+-- L.CLOSE_WINDOW_WHEN_DONE =               "Close Window When Done"
 -- L.CLOSE_WINDOW_WHEN_DONE_DESC =          "Close the tracking window after crafting the last tracked recipe."
+
+-- Tracking window
+-- L.CLOSE_WINDOW =                         "Close the window"
+-- L.LOCK_WINDOW =                          "Lock the window"
+-- L.UNLOCK_WINDOW =                        "Unlock the window"
+-- L.UPDATE_AUCTIONATOR_LIST1 =             "Update the Auctionator shopping list"
+-- L.UPDATE_AUCTIONATOR_LIST2 =             "The shopping list is automatically generated when opening the Auction House"
+L.DOUBLE =                               "Doble" -- Followed by LMB or RMB
+L.CTRL =                                 "Ctrl" -- Followed by LMB or RMB
+L.ALT =                                  "Alt" -- Followed by LMB or RMB
+L.SHIFT =                                "Mayús" -- Followed by LMB or RMB
+-- L.AUTOSIZE_WINDOW =                      "Autosize to fit the window"
+-- L.LINK_RECIPE =                          "Link the recipe"
+-- L.OPEN_RECIPE =                          "Open the recipe"
+-- L.CRAFT_RECIPE =                         "Craft this recipe"
+-- L.LINK_REAGENT =                         "Link the reagent"
+-- L.TRACK_RECIPE_SUBREAGENT =              "Track the recipe to craft this reagent, if one exists"
+-- L.REMOVE_COOLDOWN_REMINDER =             "Remove this specific cooldown reminder"
+
+-- L.RECIPES =                              PROFESSIONS_RECIPES_TAB -- "Recipes"
+-- L.ITEMS =                                ITEMS -- "Items"
+-- L.REAGENTS =                             PROFESSIONS_COLUMN_HEADER_REAGENTS -- "Reagents"
+-- L.COSTS =                                "Costs"
+-- L.COOLDOWNS =                            "Cooldowns"
+-- L.CLEAR_CONFIRMATION =                   "This will clear all recipes."
+-- L.CONFIRMATION =                         "Do you wish to proceed?"
+-- L.SUBREAGENTS1 =                         "There are multiple recipes that can create %s" -- %s becomes an item link
+-- L.SUBREAGENTS2 =                         "Please select one of the following:"
+-- L.GOLD =                                 BONUS_ROLL_REWARD_MONEY -- "Gold"
+-- L.MERCHANT_BUY =                         "Buy all tracked reagents, if available."
+
+-- L.READY =                                "Ready"
+-- L.DAYS =                                 "d"
+-- L.HOURS =                                "h"
+-- L.MINUTES =                              "m"
+-- L.READY_TO_CRAFT =                       "%s is ready to craft again on %s" -- %s becomes a recipe name, and character name
+
+-- L.MORE_NEEDED =                          "%d more needed" -- %d becomes a number
+-- L.MADE_WITH =                            "Made with %s" -- %s becomes a profession
+-- L.RECIPE_LEARNED =                       "recipe learned"
+-- L.RECIPE_UNLEARNED =                     "recipe not learned"
+-- L.CRAFTING_COST =                        "Crafting Cost"
+
+-- Profession window
+-- L.TRACK =                                "Track"
+-- L.UNTRACK =                              "Untrack"
+-- L.RANK =                                 RANK -- "Rank"
+-- L.MILLING_INFORMATION =                  "Milling Information"
+-- L.THAUMATURGY_INFORMATION =              "Thaumaturgy Information"
+-- L.FROM =                                 "from"
+-- L.TARGET =                               STATUS_TEXT_TARGET -- "Target"
+-- L.SWITCH_AVAILABLE_PETS =                "Switch between available pets"
+-- L.TRACK_NEW =                            "Track New"
+-- L.CURRENT_SETTING =                      "Current setting:"
+-- L.NEW_APPEARANCES =                      "new appearances"
+-- L.NEW_APPEARANCES_AND_SOURCES =          "new appearances and sources"
+-- L.ADDED_RECIPES =                        "Checked %d visible recipes for %s. Tracked %d recipes." -- %d becomes a number, %s becomes L.NEW_APPEARANCES or L.NEW_APPEARANCES_AND_SOURCES
+
+-- L.RECHARGED =                            "Fully recharged"
+-- L.PROFTOOL_AUTOEQUIP =                   "Automatically equip this tool" -- Followed by L.PROFTOOL_FOR
+-- L.PROFTOOL_FOR =                         "for %s." -- %s becomes one of the two following phrases
+-- L.PROFTOOL_DEFAULT =                     "regular crafting"
+-- L.PROFTOOL_ORDERS =                      "doing orders"
+-- L.PROFTOOL_DRAG =                        "Drag a tool here."
+-- L.PROFTOOL_EQUIP =                       "Equip this tool."
+-- L.PROFTOOL_REMOVE =                      "Remove this tool."
+
+-- L.PERKS_UNLOCKED =                       "perks unlocked"
+-- L.PROFESSION_KNOWLEDGE =                 "knowledge"
+-- L.VENDORS =                              "Vendors"
+-- L.RENOWN =                               COVENANT_SANCTUM_TAB_RENOWN -- "Renown "
+-- L.WORLD =                                "World"
+-- L.HIDDEN_PROFESSION_MASTER =             "Hidden Profession Master"
+-- L.WEEKLY =                               WEEKLY -- "Weekly"
+-- L.TREASURE =                             "Treasure"
+-- L.DROP =                                 BATTLE_PET_SOURCE_1 -- "Drop"
+-- L.CATCHUP_KNOWLEDGE =                    "Available catch-up knowledge:"
+-- L.LOADING =                              SEARCH_LOADING_TEXT -- "Loading..."
+
+-- L.AUCTION_ADDONS =                       "Auctionator, Oribos Exchange, or TradeSkillMaster"
+-- L.ORDERS_PRICING_MISSING =               "Missing"
+-- L.ORDERS_PRICING_UPDATE =                "Update or scan with %s." -- %s becomes L.AUCTION_ADDONS
+-- L.ORDERS_SET_CRITERIA =                  "Set the criteria to track orders."
+-- L.ORDERS_COST_NEED =                     "Cost settings only work with: %s." -- %s becomes L.AUCTION_ADDONS
+-- L.ORDERS_MAX_COST_KNOWLEDGE =            "Maximum cost per knowledge point:"
+-- L.ORDERS_MAX_COST_ARTISAN =              "Maximum cost per artisan currency:" -- This refers to Artisan's Mettle, Artisan's Acuity, and Artisan's Moxie
+-- L.ORDERS_MAX_COST_PAYOUT =               "Maximum cost per reward bag:" -- This refers to Artisan's Payout bag
+-- L.ORDERS_TRACK_AFTER_RESET =             "Track orders available after weekly reset"
+-- L.ORDERS_TRACK_CONCENTRATION =           "Track orders costing concentration:"
+-- L.ORDERS_TRACK_ON =                      "Track on %s:"-- %s becomes a character name
+
+-- L.ORDERSQUEUE_QUEUE =                    "Queue"
+-- L.ORDERSQUEUE_QUEUED =                   "Orders in queue:"
+-- L.ORDERSQUEUE_NEXT =                     "Next Order"
+-- L.ORDERSQUEUE_CLAIM =                    "Claim Order"
+-- L.ORDERSQUEUE_CRAFT =                    "Craft Order"
+-- L.ORDERSQUEUE_CRAFTING =                 "Crafting..."
+-- L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
+-- L.ORDERSQUEUE_WARNING_QUEST =            "You have not picked up %s." -- %s becomes a quest name
+-- L.ORDERSQUEUE_WARNING_REAGENTS =         "You do not have enough reagents for all tracked recipes."
+
+-- Crafting Orders window
+-- L.RECRAFT_TOOLTIP =                      "Select an item with a cached recipe to track it."
+-- L.QUICK_ORDER =                          "Quick Order"
+-- L.QUICKORDER_TOOLTIP1 =                  "Instantly create a crafting order for the specified recipient."
+-- L.QUICKORDER_TOOLTIP2 =                  "Use %s (all uppercase) to place a " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. "." -- "Guild Order", %s becomes "GUILD"
+-- L.QUICKORDER_TOOLTIP3 =                  "Use a character name to place a " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_PRIVATE .. "." -- "Personal Order"
+-- L.QUICKORDER_TOOLTIP4 =                  "Recipients are saved per recipe."
+-- L.USE_LOCAL_REAGENTS =                   "Use local reagents"
+-- L.USE_LOCAL_REAGENTS_DESC =              "Use (the lowest quality) available local reagents. Which reagents are used cannot be customised."
+-- L.REPEAT_LAST_QUICK_ORDER =              "Repeat the last Quick Order done on this character"
+-- L.RECIPIENT =                            "Recipient"
+
+-- L.FALSE =                                "false"
+-- L.TRUE =                                 "true"
+-- L.NO_LAST_QUICK_ORDER_FOUND =            "No last Quick Order found"
+-- L.ERROR =                                "Error:"
+-- L.ERROR_CRAFTSIM =                       "Could not read the information from CraftSim"
+-- L.ERROR_REAGENTS =                       "Can't create a Quick Order for items with mandatory reagents"
+-- L.ERROR_WARBANK =                        "Can't create a Quick Order with items in the Warbank"
+-- L.ERROR_GUILD =                          "Can't create a " .. PROFESSIONS_CRAFTING_FORM_ORDER_RECIPIENT_GUILD .. " while not in a guild" -- "Guild Order"
+-- L.ERROR_RECIPIENT =                      "Target recipient cannot craft that item. Please enter a valid recipient name"
+-- L.ERROR_MULTISIM =                       "No simulated reagents have been used. Please only enable one of the following supported addons:"
