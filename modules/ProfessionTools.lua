@@ -234,17 +234,23 @@ end
 
 app.Event:Register("TRADE_SKILL_SHOW", function()
 	app:CreateProfToolsAssets()
+	app.Flag.LastSeenProfession = app.Flag.LastSeenProfession or 0
 
 	local function updateAssets()
 		local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
-		if not skillLineID or skillLineID == 0 then
+		if not skillLineID or skillLineID == 0 or app.Flag.LastSeenProfession == skillLineID then
 			RunNextFrame(updateAssets)
 			return
 		else
+			app.Flag.LastSeenProfession = skillLineID
 			app:UpdateProfToolsAssets()
 		end
 	end
 	updateAssets()
+end)
+
+app.Event:Register("TRADE_SKILL_CLOSE", function()
+	app.Flag.LastSeenProfession = 0
 end)
 
 EventRegistry:RegisterCallback("ProfessionsFrame.TabSet", function(...)
