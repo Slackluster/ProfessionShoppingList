@@ -627,7 +627,7 @@ EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelecte
 
 	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
-	if professionID == 5 then
+	if professionID == Enum.Profession.Cooking then
 		if app.Data.Pets.ragnaros and app.Data.Pets.ragnaros.enabled then
 			app.RagnarosButton:Show()
 		elseif app.Data.Pets.pierre and app.Data.Pets.pierre.enabled then
@@ -645,7 +645,7 @@ EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelecte
 		end
 	end
 	if app.Retail then
-		if professionID == 1 or professionID == 6 or professionID == 8 then
+		if professionID == Enum.Profession.Blacksmithing or professionID == Enum.Profession.Mining or professionID == Enum.Profession.Engineering then
 			app.ThermalAnvilButton:Show()
 			app.AlvinButton:Show()
 			local _, _, raceID = UnitRace("player")

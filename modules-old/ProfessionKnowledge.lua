@@ -145,17 +145,17 @@ function app:UpdateKnowledgeTracker()
 	end
 
 	-- Professions with Knowledge Points
-	if professionID == 1
-	or professionID == 2
-	or professionID == 3
-	or professionID == 4
-	or professionID == 6
-	or professionID == 7
-	or professionID == 8
-	or professionID == 9
-	or professionID == 11
-	or professionID == 12
-	or professionID == 13 then
+	if professionID == Enum.Profession.Blacksmithing
+	or professionID == Enum.Profession.Leatherworking
+	or professionID == Enum.Profession.Alchemy
+	or professionID == Enum.Profession.Herbalism
+	or professionID == Enum.Profession.Mining
+	or professionID == Enum.Profession.Tailoring
+	or professionID == Enum.Profession.Engineering
+	or professionID == Enum.Profession.Enchanting
+	or professionID == Enum.Profession.Skinning
+	or professionID == Enum.Profession.Jewelcrafting
+	or professionID == Enum.Profession.Inscription then
 		-- When not viewing another character's
 		if C_TradeSkillUI.IsTradeSkillLinked() == false and C_TradeSkillUI.IsTradeSkillGuild() == false then
 			setKnowledgePointTracker()
