@@ -20,20 +20,33 @@ end)
 -- PROFESSION TOOLS --
 ----------------------
 
+local function resizingItemButtonsMakesTheBordersMisalignedAndIFuckingHateItSoWeNeedToFixIt(frame)
+	local frameSize = frame:GetSize()
+
+	frame.IconBorder:SetPoint("TOPLEFT", frame.bg, 1, 0)
+	frame.IconBorder:SetPoint("BOTTOMRIGHT", frame.bg, -1, 1)
+	frame.NormalTexture:SetPoint("CENTER", frame)
+	frame.NormalTexture:SetSize(frameSize * 1.6, frameSize * 1.6)
+	if frame.ProfessionQualityOverlay then
+		frame.ProfessionQualityOverlay:SetScale(frameSize / 40)
+	end
+end
+
 function app:CreateProfToolsAssets()
 	if not app.Settings.enhancedOrders or app.ProfessionToolOrders1 or C_TradeSkillUI.IsTradeSkillLinked() or C_TradeSkillUI.IsTradeSkillGuild() then return end
 
-	local function createProfToolFrame(type, parent)
+	local function createProfToolFrame(type, parent, size)
 		local frame = CreateFrame("ItemButton", nil, parent)
-		frame:SetSize(40, 40)
+		frame:SetSize(size, size)
 		frame.bg = frame:CreateTexture(nil, "BACKGROUND")
 		frame.bg:SetAllPoints()
 		frame.bg:SetAtlas("bags-item-slot64")
 		frame.equipped = frame:CreateTexture(nil, "BACKGROUND")
-		frame.equipped:SetSize(54, 54)
+		frame.equipped:SetSize(size * 1.35, size * 1.35)
 		frame.equipped:SetPoint("CENTER")
 		frame.equipped:SetAtlas("bags-newitem")
 		frame.equipped:Hide()
+		resizingItemButtonsMakesTheBordersMisalignedAndIFuckingHateItSoWeNeedToFixIt(frame)
 
 		frame:SetScript("OnEnter", function(self)
 			local string = L.PROFTOOL_AUTOEQUIP .. "\n"
@@ -139,19 +152,19 @@ function app:CreateProfToolsAssets()
 		return frame
 	end
 
-	app.ProfessionToolOrders1 = createProfToolFrame("orders", ProfessionsFrame.CraftingPage, 20)
-	app.ProfessionToolOrders1:SetPoint("TOPRIGHT", ProfessionsFrame.CraftingPage, -5, -29)
 	app.ProfessionToolDefault1 = createProfToolFrame("default", ProfessionsFrame.CraftingPage, 20)
-	app.ProfessionToolDefault1:SetPoint("RIGHT", app.ProfessionToolOrders1, "LEFT", -2, 0)
+	app.ProfessionToolDefault1:SetPoint("TOPRIGHT", ProfessionsFrame.CraftingPage, -8, -26)
+	app.ProfessionToolOrders1 = createProfToolFrame("orders", ProfessionsFrame.CraftingPage, 20)
+	app.ProfessionToolOrders1:SetPoint("TOPRIGHT", app.ProfessionToolDefault1, "BOTTOMRIGHT", 0, -2)
 
-	ProfessionsFrame.CraftingPage.Prof0ToolSlot:SetAllPoints(app.ProfessionToolDefault1)
-	ProfessionsFrame.CraftingPage.Prof1ToolSlot:SetAllPoints(app.ProfessionToolDefault1)
-	ProfessionsFrame.CraftingPage.FishingToolSlot:SetAllPoints(app.ProfessionToolDefault1)
-	ProfessionsFrame.CraftingPage.CookingToolSlot:SetAllPoints(app.ProfessionToolDefault1)
-	ProfessionsFrame.CraftingPage.RankBar:SetWidth(ProfessionsFrame.CraftingPage.RankBar:GetWidth() - 20)
-	ProfessionsFrame.CraftingPage.RankBar.Background:SetWidth(ProfessionsFrame.CraftingPage.RankBar.Background:GetWidth() - 25)
-	ProfessionsFrame.CraftingPage.RankBar.Border:SetWidth(ProfessionsFrame.CraftingPage.RankBar.Border:GetWidth() - 25)
-	ProfessionsFrame.CraftingPage.RankBar.Fill:SetWidth(ProfessionsFrame.CraftingPage.RankBar.Fill:GetWidth() - 25)
+	ProfessionsFrame.CraftingPage.Prof0ToolSlot:SetPoint("TOPRIGHT", ProfessionsFrame.CraftingPage, -34, -31)
+	ProfessionsFrame.CraftingPage.Prof1ToolSlot:SetPoint("TOPRIGHT", ProfessionsFrame.CraftingPage, -34, -31)
+	ProfessionsFrame.CraftingPage.FishingToolSlot:SetPoint("TOPRIGHT", ProfessionsFrame.CraftingPage, -34, -31)
+	ProfessionsFrame.CraftingPage.CookingToolSlot:SetPoint("TOPRIGHT", ProfessionsFrame.CraftingPage, -34, -31)
+	-- ProfessionsFrame.CraftingPage.RankBar:SetWidth(ProfessionsFrame.CraftingPage.RankBar:GetWidth() - 20)
+	-- ProfessionsFrame.CraftingPage.RankBar.Background:SetWidth(ProfessionsFrame.CraftingPage.RankBar.Background:GetWidth() - 25)
+	-- ProfessionsFrame.CraftingPage.RankBar.Border:SetWidth(ProfessionsFrame.CraftingPage.RankBar.Border:GetWidth() - 25)
+	-- ProfessionsFrame.CraftingPage.RankBar.Fill:SetWidth(ProfessionsFrame.CraftingPage.RankBar.Fill:GetWidth() - 25)
 
 	app.ProfessionToolOrders2 = createProfToolFrame("orders", ProfessionsFrame.OrdersPage, 40)
 	app.ProfessionToolOrders2:SetPoint("TOPRIGHT", ProfessionsFrame.OrdersPage, -5, -29)
@@ -173,8 +186,6 @@ function app:UpdateProfToolsAssets()
 		app.ProfessionToolOrders1:Hide()
 		app.ProfessionToolDefault1:Hide()
 	else
-		ProfessionsFrame.CraftingPage.Prof0ToolSlot:Hide()
-		ProfessionsFrame.CraftingPage.Prof1ToolSlot:Hide()
 		app.ProfessionToolOrders1:Show()
 		app.ProfessionToolDefault1:Show()
 	end
@@ -198,6 +209,7 @@ function app:UpdateProfToolsAssets()
 			local itemGUID = app.CharData.profTools[professionID][type]
 			local itemLink = C_Item.GetItemLink(C_Item.GetItemLocation(itemGUID))
 			frame:SetItem(itemLink)
+			resizingItemButtonsMakesTheBordersMisalignedAndIFuckingHateItSoWeNeedToFixIt(frame)
 
 			local slot = C_TradeSkillUI.GetProfessionSlots(professionID)[1]
 			local slotItemLocation = ItemLocation:CreateFromEquipmentSlot(slot)
@@ -206,6 +218,7 @@ function app:UpdateProfToolsAssets()
 			end
 		else
 			frame:SetItem(nil)
+			resizingItemButtonsMakesTheBordersMisalignedAndIFuckingHateItSoWeNeedToFixIt(frame)
 		end
 	end
 	update("ProfessionToolOrders1", "orders")
