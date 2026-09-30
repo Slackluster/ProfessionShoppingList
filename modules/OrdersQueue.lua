@@ -172,7 +172,7 @@ function app:UpdateOrdersQueue()
 			app.OrdersQueueFrame.Button:SetScript("OnClick", function()
 				ProfessionsFrame.OrdersPage:ViewOrder(app.QueuedOrders[1].view)
 			end)
-			if not app.OrdersQueueFrame.Warning:IsShown() and #app.QueuedOrders > 0 then
+			if app.OrdersQueueFrame:IsShown() and not app.OrdersQueueFrame.Warning:IsShown() and #app.QueuedOrders > 0 then
 				C_Timer.After(0.2, function()
 					ProfessionsFrame.OrdersPage:ViewOrder(app.QueuedOrders[1].view)
 				end)
