@@ -93,6 +93,7 @@ function app:CreateOrdersQueueFrame()
 			UIErrorsFrame:Hide()
 		end)
 		app.OrdersQueueFrame:SetScript("OnHide", function()
+			UIErrorsFrame:Clear()
 			UIErrorsFrame:Show()
 		end)
 
