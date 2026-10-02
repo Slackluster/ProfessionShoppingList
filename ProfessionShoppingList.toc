@@ -30,7 +30,6 @@ libs\ChatThrottleLib\ChatThrottleLib.xml
 libs\LibDBIcon-1.0\embeds.xml
 libs\LibDBIcon-1.0\LibDBIcon-1.0\LibDBIcon-1.0.lua
 Core.lua
-_[Game].lua
 Database.lua
 Settings.lua
 FrameTemplates.xml

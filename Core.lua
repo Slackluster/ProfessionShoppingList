@@ -38,6 +38,12 @@ end)
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
+		if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+			app.Retail = true
+		elseif WOW_PROJECT_ID == WOW_PROJECT_CAMELOT then
+			app.Forever = true
+		end
+
 		ProfessionShoppingList_Cache = ProfessionShoppingList_Cache or {}
 		ProfessionShoppingList_CharacterData = ProfessionShoppingList_CharacterData or {}
 		ProfessionShoppingList_Data = ProfessionShoppingList_Data or {}
