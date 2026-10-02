@@ -2130,7 +2130,7 @@ function api:TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 	end
 
 	if type(app.Library[recipeID]) ~= "table" then
-		ProfessionShoppingListLibrary[recipeID] = {}
+		app.Library[recipeID] = {}
 	end
 	local baseSkillLine, _, skillLine = C_TradeSkillUI.GetTradeSkillLineForRecipe(recipeID)
 	app.Library[recipeID].tradeskillID = skillLine or baseSkillLine
