@@ -528,6 +528,7 @@ EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelecte
 
 	if app.Retail then
 		local function setRecipeInformation()
+			if not ProfessionsFrame.CraftingPage.SchematicForm:IsShown() then return end
 			local function item(itemID, colon)
 				local _, itemLink, _, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemID)
 				if not itemLink then
