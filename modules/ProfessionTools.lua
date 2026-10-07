@@ -266,6 +266,15 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 		end
 	end
 	updateAssets()
+
+	C_Timer.After(0.1, function()
+		if not ProfessionsFrame then return end
+		if ProfessionsFrame.CraftingPage:IsShown() then
+			app:EquipProfTool("default")
+		elseif ProfessionsFrame.OrdersPage:IsShown() then
+			app:EquipProfTool("orders")
+		end
+	end)
 end)
 
 app.Event:Register("TRADE_SKILL_CLOSE", function()
