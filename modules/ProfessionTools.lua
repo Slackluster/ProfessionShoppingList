@@ -207,14 +207,13 @@ function app:UpdateProfToolsAssets()
 		frame.equipped:Hide()
 		if app.CharData.profTools[professionID][type] then
 			local itemGUID = app.CharData.profTools[professionID][type]
-			local itemLocation = C_Item.GetItemLocation(itemGUID)
-			if not itemLocation then return end
-			if not C_Item.DoesItemExist(itemLocation) then
+			if not C_Item.IsItemGUIDInInventory(itemGUID) then
 				app.CharData.profTools[professionID][type] = nil
 				frame:SetItem(nil)
 				resizingItemButtonsMakesTheBordersMisalignedAndIFuckingHateItSoWeNeedToFixIt(frame)
 				return
 			end
+			local itemLocation = C_Item.GetItemLocation(itemGUID)
 			local itemLink = C_Item.GetItemLink(itemLocation)
 			frame:SetItem(itemLink)
 			resizingItemButtonsMakesTheBordersMisalignedAndIFuckingHateItSoWeNeedToFixIt(frame)
