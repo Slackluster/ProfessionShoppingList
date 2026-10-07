@@ -117,6 +117,7 @@ function app:UpdateOrdersQueue()
 	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
 	local concID = C_TradeSkillUI.GetConcentrationCurrencyID(skillLineID)
+	local _, classFilename = UnitClass("player")
 	app.OrderState = app.OrderState or app.Enum.OrderState.Idle
 
 	app.OrdersQueueFrame.Warning:Hide()
@@ -206,7 +207,7 @@ function app:UpdateOrdersQueue()
 				else
 					app.OrdersQueueFrame.Status:SetText(oldText)
 				end
-				if GetShapeshiftForm() ~= 0 then
+				if classFilename == "DRUID" and GetShapeshiftForm() ~= 0 then
 					UIErrorsFrame:Show()
 				end
 				ProfessionsFrame.OrdersPage.OrderView.CreateButton:Click()
