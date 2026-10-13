@@ -1764,14 +1764,16 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 			ProfessionsFrameTabSideBar.Tabs = {}
 			ProfessionsFrameTabSideBar.selTab = 0
 		end
-
 		app:CreateTab(ProfessionsFrame, ProfessionsFrameTabSideBar)
-		hooksecurefunc(ProfessionsFrame.CraftingPage.CraftingOutputLog, "FinalizeResultData", function(self)
-			if app.Tab and app.Tab.IsShown[0] then
-				ProfessionsFrame.CraftingPage.CraftingOutputLog:Cleanup()
-				ProfessionsFrame.OrdersPage.OrderView.CraftingOutputLog:Cleanup()
-			end
-		end)
+
+		if app.Retail then
+			hooksecurefunc(ProfessionsFrame.CraftingPage.CraftingOutputLog, "FinalizeResultData", function(self)
+				if app.Tab and app.Tab.IsShown[0] then
+					ProfessionsFrame.CraftingPage.CraftingOutputLog:Cleanup()
+					ProfessionsFrame.OrdersPage.OrderView.CraftingOutputLog:Cleanup()
+				end
+			end)
+		end
 	end
 end)
 
