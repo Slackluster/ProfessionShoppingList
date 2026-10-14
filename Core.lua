@@ -362,30 +362,3 @@ function app:GetTooltipItem(tooltip, itemData)
 	end
 	return itemID, itemLink
 end
-
-function app:ItemValue(itemID)
-	if not itemID or itemID == 0 then return 0 end
-
-	local price = {}
-	if C_AddOns.IsAddOnLoaded("TradeSkillMaster") then
-		table.insert(price, { price = TSM_API.GetCustomPriceValue("dbregionmarketavg", "i:" .. itemID) or 0, age = -1 })
-		table.insert(price, { price = TSM_API.GetCustomPriceValue("dbmarket", "i:" .. itemID) or 0, age = -2 })
-	end
-	if C_AddOns.IsAddOnLoaded("Auctionator") then
-		table.insert(price, { price = Auctionator.API.v1.GetAuctionPriceByItemID(app.Name, itemID) or 0, age = Auctionator.API.v1.GetAuctionAgeByItemID(app.Name, itemID) or 99 })
-	end
-	if C_AddOns.IsAddOnLoaded("OribosExchange") then
-		local oeData = {}
-		OEMarketInfo(itemID, oeData)
-		table.insert(price, { price = oeData.region or 0, age = (oeData.age and oeData.age / 60 / 60 / 24) or 99 })
-		table.insert(price, { price = oeData.market or 0, age = (oeData.age and oeData.age / 60 / 60 / 24) or 99 })
-	end
-
-	table.sort(price, function(a, b) return a.age < b.age end)
-	for _, value in ipairs(price) do
-		if value.price > 0 then
-			return value.price
-		end
-	end
-	return 0
-end
