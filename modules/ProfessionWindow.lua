@@ -340,14 +340,20 @@ function app:UpdateAssets()
 		end
 
 		local cooldown = C_Spell.GetSpellCooldown(818)
-		app.CookingFireButton.Cooldown:SetCooldown(cooldown.startTime, cooldown.duration)
+		if not issecretvalue(cooldown.duration) then
+			app.CookingFireButton.Cooldown:SetCooldown(cooldown.startTime, cooldown.duration)
+		end
 
 		if app.Retail then
 			local startTime, duration = C_Item.GetItemCooldown(134020)
-			app.ChefsHatButton.Cooldown:SetCooldown(startTime, duration)
+			if not issecretvalue(duration) then
+				app.ChefsHatButton.Cooldown:SetCooldown(startTime, duration)
+			end
 
 			startTime, duration = C_Item.GetItemCooldown(87216)
-			app.ThermalAnvilButton.Cooldown:SetCooldown(startTime, duration)
+			if not issecretvalue(duration) then
+				app.ThermalAnvilButton.Cooldown:SetCooldown(startTime, duration)
+			end
 
 			if app.Data.Pets.ragnaros and C_PetJournal.PetIsSummonable(app.Data.Pets.ragnaros.guid) then
 				app.RagnarosButton:GetNormalTexture():SetDesaturated(false)
@@ -360,12 +366,16 @@ function app:UpdateAssets()
 			end
 
 			cooldown = C_Spell.GetSpellCooldown(61304)
-			app.AlvinButton.Cooldown:SetCooldown(cooldown.startTime, cooldown.duration)
-			app.RagnarosButton.Cooldown:SetCooldown(cooldown.startTime, cooldown.duration)
-			app.PierreButton.Cooldown:SetCooldown(cooldown.startTime, cooldown.duration)
+			if not issecretvalue(cooldown.duration) then
+				app.AlvinButton.Cooldown:SetCooldown(cooldown.startTime, cooldown.duration)
+				app.RagnarosButton.Cooldown:SetCooldown(cooldown.startTime, cooldown.duration)
+				app.PierreButton.Cooldown:SetCooldown(cooldown.startTime, cooldown.duration)
+			end
 
 			cooldown = C_Spell.GetSpellCooldown(259930)
-			app.LightforgeButton.Cooldown:SetCooldown(cooldown.startTime, cooldown.duration)
+			if not issecretvalue(cooldown.duration) then
+				app.LightforgeButton.Cooldown:SetCooldown(cooldown.startTime, cooldown.duration)
+			end
 		end
 	end
 
