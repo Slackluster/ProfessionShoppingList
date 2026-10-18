@@ -596,6 +596,24 @@ function app:UpdateCooldowns()
 end
 
 -- Update recipes and reagents tracked
+local function AcquireTrackingRow(kind, index, parent, id)
+	app.TrackingRowPools = app.TrackingRowPools or { Recipe = {}, Reagent = {}, Cooldown = {} }
+	local pool = app.TrackingRowPools[kind]
+	local row = pool[index]
+	if not row then
+		row = CreateFrame("Button", nil, parent)
+		row.icon = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		row.text1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		row.text2 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		pool[index] = row
+	end
+	row:SetParent(parent)
+	row:SetID(type(id) == "number" and id or 0)
+	row:ClearAllPoints()
+	row:Show()
+	return row
+end
+
 function app:UpdateRecipes()
 	if app.Flag.ChangingRecipes then return end
 
@@ -755,7 +773,7 @@ function app:UpdateRecipes()
 	for _, recipeInfo in ipairs(recipesSorted) do
 		rowNo = rowNo + 1
 
-		local row = CreateFrame("Button", nil, app.Window.Recipes)
+		local row = AcquireTrackingRow("Recipe", rowNo, app.Window.Recipes)
 		row:SetSize(0,16)
 		row:SetHighlightAtlas("Options_List_Active", "ADD")
 		row:RegisterForDrag("LeftButton")
@@ -816,19 +834,19 @@ function app:UpdateRecipes()
 			tradeskill = app.Library[recipeInfo.recipeID].tradeskillID or 999
 		end
 
-		local icon1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		local icon1 = row.icon
 		icon1:SetPoint("LEFT", row)
 		icon1:SetScale(1.2)
 		icon1:SetText(app.IconProfession[tradeskill])
 
-		local text2 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		local text2 = row.text2
 		text2:SetPoint("CENTER", icon1)
 		text2:SetPoint("RIGHT", app.Window.Child)
 		text2:SetJustifyH("RIGHT")
 		text2:SetTextColor(1, 1, 1)
 		text2:SetText(recipeInfo.quantity)
 
-		local text1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		local text1 = row.text1
 		text1:SetPoint("LEFT", icon1, "RIGHT", 3, 0)
 		text1:SetPoint("RIGHT", text2, "LEFT")
 		text1:SetTextColor(1, 1, 1)
@@ -904,7 +922,7 @@ function app:UpdateRecipes()
 	for _, reagentInfo in ipairs(reagentsSorted) do
 		rowNo2 = rowNo2 + 1
 
-		local row = CreateFrame("Button", nil, app.Window.Reagents, nil, reagentInfo.reagentID)
+		local row = AcquireTrackingRow("Reagent", rowNo2, app.Window.Reagents, reagentInfo.reagentID)
 		row:SetSize(0,16)
 		row:SetHighlightAtlas("Options_List_Active", "ADD")
 		row:RegisterForDrag("LeftButton")
@@ -1311,13 +1329,13 @@ function app:UpdateRecipes()
 
 		app.Rows.Reagent[rowNo2] = row
 
-		local icon1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		local icon1 = row.icon
 		icon1:SetPoint("LEFT", row)
 		icon1:SetScale(1.2)
 		icon1:SetText(CreateSimpleTextureMarkup(reagentInfo.icon))
 		row.icon = icon1
 
-		local text2 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		local text2 = row.text2
 		text2:SetPoint("CENTER", icon1)
 		text2:SetPoint("RIGHT", app.Window.Child)
 		text2:SetJustifyH("RIGHT")
@@ -1325,7 +1343,7 @@ function app:UpdateRecipes()
 		text2:SetText(reagentInfo.quantity)
 		row.text2 = text2
 
-		local text1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		local text1 = row.text1
 		text1:SetPoint("LEFT", icon1, "RIGHT", 3, 0)
 		text1:SetPoint("RIGHT", text2, "LEFT")
 		text1:SetTextColor(1, 1, 1)
@@ -1419,7 +1437,7 @@ function app:UpdateRecipes()
 	for _, cooldownInfo in pairs(cooldownsSorted) do
 		rowNo3 = rowNo3 + 1
 
-		local row = CreateFrame("Button", nil, app.Window.Cooldowns, nil, cooldownInfo.id)
+		local row = AcquireTrackingRow("Cooldown", rowNo3, app.Window.Cooldowns, cooldownInfo.id)
 		row:SetSize(0,16)
 		row:SetHighlightAtlas("Options_List_Active", "ADD")
 		row:RegisterForDrag("LeftButton")
@@ -1470,7 +1488,7 @@ function app:UpdateRecipes()
 
 		local tradeskill = app.Library[cooldownInfo.recipeID].tradeskillID or 999
 
-		local icon1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		local icon1 = row.icon
 		icon1:SetPoint("LEFT", row)
 		icon1:SetScale(1.2)
 		icon1:SetText(app.IconProfession[tradeskill])
@@ -1483,7 +1501,7 @@ function app:UpdateRecipes()
 		hours = math.floor((cooldownRemaining - (days*60*60*24))/(60*60))
 		minutes = math.floor((cooldownRemaining - ((days*60*60*24) + (hours*60*60)))/60)
 
-		local text2 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		local text2 = row.text2
 		text2:SetPoint("CENTER", icon1)
 		text2:SetPoint("RIGHT", app.Window.Child)
 		text2:SetJustifyH("RIGHT")
@@ -1499,7 +1517,7 @@ function app:UpdateRecipes()
 		end
 		row.text2 = text2
 
-		local text1 = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		local text1 = row.text1
 		text1:SetPoint("LEFT", icon1, "RIGHT", 3, 0)
 		text1:SetPoint("RIGHT", text2, "LEFT")
 		text1:SetTextColor(1, 1, 1)
@@ -1826,12 +1844,19 @@ end)
 
 -- Register a recipe's information
 function app:RegisterRecipe(recipeID)
-	local item = C_TradeSkillUI.GetRecipeOutputItemData(recipeID).itemID or 0
+	local output = C_TradeSkillUI.GetRecipeOutputItemData(recipeID)
+	local info = C_TradeSkillUI.GetRecipeInfo(recipeID)
+	local legendary = app.slLegendaryRecipeIDs[recipeID]
+	local schematic = C_TradeSkillUI.GetRecipeSchematic(recipeID, false, legendary and legendary.rank)
+	if not output or not info or not schematic or not schematic.reagentSlotSchematics then
+		return false
+	end
+	local item = output.itemID or 0
 	local fallbackTradeskill, _, tradeskill = C_TradeSkillUI.GetTradeSkillLineForRecipe(recipeID)
-	local ability = C_TradeSkillUI.GetRecipeInfo(recipeID).skillLineAbilityID
+	local ability = info.skillLineAbilityID
 
 	-- Register if the recipe is known
-	local recipeLearned = C_TradeSkillUI.GetRecipeInfo(recipeID).learned
+	local recipeLearned = info.learned
 
 	-- Create the table entry
 	if not app.Library[recipeID] or type(app.Library[recipeID]) == "number" then -- I still have no idea where these number values come from
@@ -1848,12 +1873,7 @@ function app:RegisterRecipe(recipeID)
 		app.Library[recipeID].learned = recipeLearned
 	end
 
-	local reagentsTable
-	if app.slLegendaryRecipeIDs[recipeID] then
-		reagentsTable = C_TradeSkillUI.GetRecipeSchematic(recipeID, false, app.slLegendaryRecipeIDs[recipeID].rank).reagentSlotSchematics
-	else
-		reagentsTable = C_TradeSkillUI.GetRecipeSchematic(recipeID, false).reagentSlotSchematics
-	end
+	local reagentsTable = schematic.reagentSlotSchematics
 
 	if reagentsTable then
 		app.Library[recipeID].reagents = {}
@@ -1863,19 +1883,53 @@ function app:RegisterRecipe(recipeID)
 			end
 		end
 	end
+	return true
 end
 
--- When a tradeskill window is opened
-app.Event:Register("TRADE_SKILL_SHOW", function()
-	if not InCombatLockdown() then
-		-- Register all recipes for this profession, on a delay so we give all this info time to load.
-		C_Timer.After(2, function()
-			for _, recipeID in pairs(C_TradeSkillUI.GetAllRecipeIDs()) do
-				app:RegisterRecipe(recipeID)
-			end
-		end)
+local function CancelRecipeRegistration()
+	app.RecipeRegistrationSerial = (app.RecipeRegistrationSerial or 0) + 1
+	if app.RecipeRegistrationFrame then
+		app.RecipeRegistrationFrame:SetScript("OnUpdate", nil)
 	end
+end
+
+-- Keep the initial data-loading delay, but register only a small slice per frame.
+-- A close/reopen invalidates both the delayed start and any pending retries.
+app.Event:Register("TRADE_SKILL_SHOW", function()
+	CancelRecipeRegistration()
+	if InCombatLockdown() then return end
+	local serial = app.RecipeRegistrationSerial
+	C_Timer.After(2, function()
+		if app.RecipeRegistrationSerial ~= serial then return end
+		local recipes = C_TradeSkillUI.GetAllRecipeIDs() or {}
+		local index, retries, missing = 1, 0, {}
+		local frame = app.RecipeRegistrationFrame or CreateFrame("Frame")
+		app.RecipeRegistrationFrame = frame
+		local clock = debugprofilestop or function() return GetTime() * 1000 end
+		local function RegisterSlice()
+			if app.RecipeRegistrationSerial ~= serial then return end
+			if InCombatLockdown() then return end
+			local started, processed = clock(), 0
+			while index <= #recipes do
+				local recipeID = recipes[index]
+				index = index + 1
+				if not app:RegisterRecipe(recipeID) then missing[#missing + 1] = recipeID end
+				processed = processed + 1
+				if processed >= 12 or clock() - started >= 2 then return end
+			end
+			frame:SetScript("OnUpdate", nil)
+			if #missing > 0 and retries < 2 then
+				recipes, missing, index, retries = missing, {}, 1, retries + 1
+				C_Timer.After(0.5, function()
+					if app.RecipeRegistrationSerial == serial then frame:SetScript("OnUpdate", RegisterSlice) end
+				end)
+			end
+		end
+		frame:SetScript("OnUpdate", RegisterSlice)
+	end)
 end)
+
+app.Event:Register("TRADE_SKILL_CLOSE", CancelRecipeRegistration)
 
 -- Save an item to our cache
 function app:CacheItem(itemID)
