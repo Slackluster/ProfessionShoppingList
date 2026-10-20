@@ -1315,8 +1315,8 @@ app.ProfessionKnowledge = {
 	},
 }
 
-if app.Retail then
-	app.RecipeDifficulty = {
+local function retailRecipeDifficulty()
+	return {
 		[818] = { optimal = nil, medium = 1, easy = 1, trivial = 1 },
 		[2018] = { optimal = nil, medium = 1, easy = 1, trivial = 1 },
 		[2108] = { optimal = nil, medium = 1, easy = 1, trivial = 1 },
@@ -11987,8 +11987,10 @@ if app.Retail then
 		[1316323] = { optimal = 140, medium = 160, easy = 167, trivial = 175 },
 		[1317428] = { optimal = nil, medium = 85, easy = 92, trivial = 100 },
 	}
-elseif app.Forever then
-	app.RecipeDifficulty = {
+end
+
+local function foreverRecipeDifficulty()
+	return {
 		[818] = { optimal = 0, medium = 25, easy = 50, trivial = 75 },
 		[2149] = { optimal = 0, medium = 40, easy = 55, trivial = 70 },
 		[2152] = { optimal = 0, medium = 30, easy = 45, trivial = 60 },
@@ -14447,4 +14449,12 @@ elseif app.Forever then
 		[1319165] = { optimal = 275, medium = 275, easy = 280, trivial = 285 },
 		[1319313] = { optimal = 225, medium = 245, easy = 250, trivial = 255 },
 	}
+end
+
+if app.Retail then
+	app.RecipeDifficulty = retailRecipeDifficulty()
+elseif app.Forever then
+	app.RecipeDifficulty = foreverRecipeDifficulty()
+else
+	app.RecipeDifficulty = {}
 end
