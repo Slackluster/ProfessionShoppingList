@@ -67,6 +67,7 @@ local L = app.locales
 -- L.HIGH =                                 HIGH -- "High"
 -- L.INCLUDE_HIGHER_QUALITY =               "Include Higher Quality"
 -- L.INCLUDE_HIGHER_QUALITY_DESC =          "Whether or not to count higher quality reagents. (I.e. include owned tier 2 reagents when counting tier 1 reagents.)"
+-- L.INCLUDE_HIGHER_QUALITY_DESC2 =         "Higher qualities will be counted automatically if they are cheaper."
 -- L.INCLUDE_HIGHER_QUALITIES_YES =         "Include higher qualities"
 -- L.INCLUDE_HIGHER_QUALITIES_NO =          "Don't include higher qualities"
 -- L.COLLECTION_MODE =                      "Collection Mode"

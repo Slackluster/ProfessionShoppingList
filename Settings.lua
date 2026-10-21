@@ -366,7 +366,7 @@ function app:CreateSettings()
 		{ value = 2, name = "|A:Professions-ChatIcon-Quality-12-Tier2:24:24::1|a|A:Professions-ChatIcon-Quality-Tier3:20:18::1|a  " .. L.HIGH, description = nil },
 	}, function() C_Timer.After(0.5, function() app:UpdateRecipes() end) end)
 
-	dropdown("includeHigher", L.INCLUDE_HIGHER_QUALITY, L.INCLUDE_HIGHER_QUALITY_DESC, 1, {
+	dropdown("includeHigher", L.INCLUDE_HIGHER_QUALITY, L.INCLUDE_HIGHER_QUALITY_DESC .. "\n" .. L.INCLUDE_HIGHER_QUALITY_DESC2, 1, {
 		{ value = 1, name = L.INCLUDE_HIGHER_QUALITIES_YES, description = nil },
 		{ value = 2, name = L.INCLUDE_HIGHER_QUALITIES_NO, description = nil },
 	}, function() C_Timer.After(0.5, function() app:UpdateRecipes() end) end)

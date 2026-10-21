@@ -2118,6 +2118,9 @@ function app:GetReagentCount(reagentID)
 			reagentCount = math.max(0, C_Item.GetItemCount(app.Cache.ReagentTiers[reagentID].three, true, false, true, true) - (app.ReagentQuantities[app.Cache.ReagentTiers[reagentID].three] or 0)) + C_Item.GetItemCount(app.Cache.ReagentTiers[reagentID].two, true, false, true, true)
 		elseif app.Settings.includeHigher == 2 then
 			reagentCount = C_Item.GetItemCount(app.Cache.ReagentTiers[reagentID].two, true, false, true, true)
+			if app:ItemValue(app.Cache.ReagentTiers[reagentID].three) < app:ItemValue(app.Cache.ReagentTiers[reagentID].two) then
+				reagentCount = reagentCount + math.max(0, C_Item.GetItemCount(app.Cache.ReagentTiers[reagentID].three, true, false, true, true) - (app.ReagentQuantities[app.Cache.ReagentTiers[reagentID].three] or 0))
+			end
 		end
 		return reagentCount
 	end
@@ -2128,6 +2131,12 @@ function app:GetReagentCount(reagentID)
 			reagentCount = math.max(0, (math.max(0, C_Item.GetItemCount(app.Cache.ReagentTiers[reagentID].three, true, false, true, true) - (app.ReagentQuantities[app.Cache.ReagentTiers[reagentID].three] or 0)) + C_Item.GetItemCount(app.Cache.ReagentTiers[reagentID].two, true, false, true, true)) - (app.ReagentQuantities[app.Cache.ReagentTiers[reagentID].two] or 0)) + C_Item.GetItemCount(app.Cache.ReagentTiers[reagentID].one, true, false, true, true)
 		elseif app.Settings.includeHigher == 2 then
 			reagentCount = C_Item.GetItemCount(app.Cache.ReagentTiers[reagentID].one, true, false, true, true)
+			if app:ItemValue(app.Cache.ReagentTiers[reagentID].two) < app:ItemValue(app.Cache.ReagentTiers[reagentID].one) then
+				reagentCount = reagentCount + math.max(0, C_Item.GetItemCount(app.Cache.ReagentTiers[reagentID].two, true, false, true, true)) - (app.ReagentQuantities[app.Cache.ReagentTiers[reagentID].two] or 0)
+			end
+			if app:ItemValue(app.Cache.ReagentTiers[reagentID].three) < app:ItemValue(app.Cache.ReagentTiers[reagentID].one) then
+				reagentCount = reagentCount + math.max(0, C_Item.GetItemCount(app.Cache.ReagentTiers[reagentID].three, true, false, true, true) - (app.ReagentQuantities[app.Cache.ReagentTiers[reagentID].three] or 0))
+			end
 		end
 		return reagentCount
 	end
