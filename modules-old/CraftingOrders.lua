@@ -299,6 +299,8 @@ function app:CreateProfessionsOrdersAssets()
 							profit = profit + (orderInfo.payout * (app.Settings.craftingOrders.payoutCost * 10000))
 						end
 
+						if orderInfo.spellID == 1246939 then profit = -1 end -- Haranir Canopy Bed, which requires lumber
+
 						if profit >= 0 and (app.CharData.Queue.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings.craftingOrders.trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) and orderInfo.expirationTime > GetServerTime() then
 							api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
 						end
