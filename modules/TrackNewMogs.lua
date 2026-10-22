@@ -120,7 +120,15 @@ function app:TrackUnlearnedMogs()
 		end
 	end
 
-	for i, recipe in ipairs(recipes) do
+	local remaining = #recipes
+	local function finish()
+		app.Flag.ChangingRecipes = false
+		app:UpdateRecipes()
+		app:Print(string.format(L.ADDED_RECIPES, #visibleRecipes, "|cffEDBD21" .. (app.Settings.collectMode == 1 and L.NEW_APPEARANCES or L.NEW_APPEARANCES_AND_SOURCES) .. "|r", added))
+	end
+
+	if remaining == 0 then finish() return end
+	for _, recipe in ipairs(recipes) do
 		local item = Item:CreateFromItemID(recipe.itemID)
 		item:ContinueOnItemLoad(function()
 			local _, itemLink = C_Item.GetItemInfo(recipe.itemID)
@@ -129,12 +137,9 @@ function app:TrackUnlearnedMogs()
 				added = added + 1
 			end
 
-			if i == #recipes then
-				RunNextFrame(function()
-					app.Flag.ChangingRecipes = false
-					app:UpdateRecipes()
-					app:Print(string.format(L.ADDED_RECIPES, #visibleRecipes, "|cffEDBD21" .. (app.Settings.collectMode == 1 and L.NEW_APPEARANCES or L.NEW_APPEARANCES_AND_SOURCES) .. "|r", added))
-				end)
+			remaining = remaining - 1
+			if remaining == 0 then
+				finish()
 			end
 		end)
 	end
