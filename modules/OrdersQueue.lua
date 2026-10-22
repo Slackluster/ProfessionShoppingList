@@ -283,10 +283,12 @@ end)
 
 app.Event:Register("CRAFTINGORDERS_CLAIM_ORDER_RESPONSE", function(result, orderID)
 	if app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() and result == Enum.CraftingOrderResult.MissingOrder then
-		local key = "order:" .. orderID .. ":" .. app.QueuedOrders[1].spellID
-		app.OrderInfo[key] = nil
-		app.Data.Recipes[key] = nil
-		table.remove(app.OrdersQueueFrame, 1)
+		if app.QueuedOrders[1] then
+			local key = "order:" .. orderID .. ":" .. app.QueuedOrders[1].spellID
+			app.OrderInfo[key] = nil
+			app.Data.Recipes[key] = nil
+			table.remove(app.QueuedOrders, 1)
+		end
 		app:UpdateRecipes()
 		app:UpdateOrdersQueue()
 	end
