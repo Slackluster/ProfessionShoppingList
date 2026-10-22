@@ -93,20 +93,18 @@ function api:IsSourceCollected(itemLink, sourceID) -- Thank you Plusmouse!
 	end
 end
 
-function app:GetVisibleRecipes(targetTable)
-	targetTable = targetTable or {}
-
+function app:GetVisibleRecipes()
 	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
-	local targetTable = C_TradeSkillUI.GetFilteredRecipeIDs()
+	local recipes = C_TradeSkillUI.GetFilteredRecipeIDs()
 	if C_TradeSkillUI.GetRecipeItemNameFilter() == "" then
-		for k = #targetTable, 1, -1 do
-			if app.nyiRecipes[k] or not C_TradeSkillUI.IsRecipeInSkillLine(targetTable[k], skillLineID) then
-				table.remove(targetTable, k)
+		for k = #recipes, 1, -1 do
+			if app.nyiRecipes[recipes[k]] or not C_TradeSkillUI.IsRecipeInSkillLine(recipes[k], skillLineID) then
+				table.remove(recipes, k)
 			end
 		end
 	end
 
-	return targetTable
+	return recipes
 end
 
 function app:TrackUnlearnedMogs()
