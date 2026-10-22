@@ -77,7 +77,11 @@ function app:CreateTradeskillAssets()
 		self:ClearFocus()
 	end)
 	app.RecipeQuantityBox:SetScript("OnEscapePressed", function(self, newValue)
-		self:SetText(app.Data.Recipes[app.SelectedRecipe.Profession.recipeID].quantity)
+		if app.Data.Recipes[app.SelectedRecipe.Profession.recipeID] then
+			self:SetText(app.Data.Recipes[app.SelectedRecipe.Profession.recipeID].quantity)
+		else
+			self:SetText(0)
+		end
 		self:ClearFocus()
 	end)
 	app:SetBorder(app.RecipeQuantityBox, -6, 1, 2, -2)
