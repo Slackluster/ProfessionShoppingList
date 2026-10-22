@@ -1,6 +1,6 @@
-----------------------------------------
--- Transmog Loot Helper: Settings.lua --
-----------------------------------------
+-------------------------------------------
+-- Profession Shopping List: Tooltip.lua --
+-------------------------------------------
 
 local appName, app = ...
 local api = app.api
