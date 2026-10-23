@@ -357,7 +357,7 @@ function app:CreateSettings()
 
 	checkbox("showCraftTooltip", L.SHOW_CRAFTING_INFORMATION, L.SHOW_CRAFTING_INFORMATION_DESC, true, nil, parentSetting, parentCheckbox)
 
-	checkbox("showCraftCostTooltip", L.SHOW_CRAFTING_COST, L.SHOW_CRAFTING_COST_DESC, true, nil, parentSetting, parentCheckbox, true)
+	checkbox("showCraftCostTooltip", L.SHOW_CRAFTING_COST, L.SHOW_CRAFTING_COST_DESC, true, nil, parentSetting, parentCheckbox)
 
 	if app.Retail then
 
@@ -378,7 +378,7 @@ function app:CreateSettings()
 
 	header(L.PROFESSION_WINDOW)
 
-	checkbox("filterOptionalReagents", L.FILTER_OPTIONAL_REAGENTS, string.format(L.FILTER_OPTIONAL_REAGENTS_DESC, "\"" .. PROFESSIONS_HIDE_UNOWNED_REAGENTS .. "\""), true, nil, nil, nil, true)
+	checkbox("filterOptionalReagents", L.FILTER_OPTIONAL_REAGENTS, string.format(L.FILTER_OPTIONAL_REAGENTS_DESC, "\"" .. PROFESSIONS_HIDE_UNOWNED_REAGENTS .. "\""), true)
 
 	checkbox("spendToNextPerk", L.SPEND_TO_NEXT_PERK, L.SPEND_TO_NEXT_PERK_DESC, true)
 
