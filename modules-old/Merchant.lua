@@ -120,7 +120,7 @@ end)
 function api:BuyFromMerchant()
 	assert(self == api, "Call ProfessionShoppingList:BuyFromMerchant(), not ProfessionShoppingList.BuyFromMerchant()")
 
-	if not MerchantFrame or not MerchantFrame:IsVisible() then return end
+	if not app.Flag.MerchantOpen then return end
 
 	app:ShowWindow()
 	for itemID, quantity in pairs(app.ReagentQuantities) do
