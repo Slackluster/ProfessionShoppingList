@@ -5,6 +5,9 @@
 -- Toggle the window
 ProfessionShoppingList:ToggleWindow()
 
+-- Attempt to buy tracked items in needed quantities from the currently opened merchant
+ProfessionShoppingList:BuyFromMerchant()
+
 -- Switch between Ragnaros and Pierre for the button PSL adds
 ProfessionShoppingList:SwapCookingPet()
 

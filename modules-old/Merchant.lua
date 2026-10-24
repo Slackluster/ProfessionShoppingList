@@ -96,34 +96,7 @@ app.Event:Register("MERCHANT_SHOW", function()
 		app.MerchantButton:SetPushedTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 		app.MerchantButton:GetPushedTexture():SetTexCoord(219/256, 255/256, 81/128, 119/128)
 		app.MerchantButton:SetScript("OnClick", function()
-			app:ShowWindow() -- Populate app.ReagentQuantities
-
-			for itemID, quantity in pairs(app.ReagentQuantities) do
-				if type(itemID) == "number" then
-					local vendorIndex = 0
-					for index = 1, GetMerchantNumItems() do
-						if GetMerchantItemID(index) == itemID then
-							vendorIndex = index
-							break
-						end
-					end
-
-					if vendorIndex ~= 0 then
-						local need = quantity - app:GetReagentCount(itemID)
-						local itemInfo = C_MerchantFrame.GetItemInfo(vendorIndex)
-						if need >= 1 and itemInfo.isPurchasable then
-							local maxStack = GetMerchantItemMaxStack(vendorIndex)
-
-							while need > 0 do
-								local buy = math.min(need, maxStack)
-								BuyMerchantItem(vendorIndex, buy)
-								need = need - buy
-							end
-						end
-					end
-				end
-			end
-
+			api:BuyFromMerchant()
 		end)
 		app.MerchantButton:SetScript("OnEnter", function(self)
 			GameTooltip:ClearLines()
@@ -143,6 +116,39 @@ app.Event:Register("MERCHANT_SHOW", function()
 		app.Flag.MerchantAssets = true
 	end
 end)
+
+function api:BuyFromMerchant()
+	assert(self == api, "Call ProfessionShoppingList:BuyFromMerchant(), not ProfessionShoppingList.BuyFromMerchant()")
+
+	if not MerchantFrame or not MerchantFrame:IsVisible() then return end
+
+	app:ShowWindow()
+	for itemID, quantity in pairs(app.ReagentQuantities) do
+		if type(itemID) == "number" then
+			local vendorIndex = 0
+			for index = 1, GetMerchantNumItems() do
+				if GetMerchantItemID(index) == itemID then
+					vendorIndex = index
+					break
+				end
+			end
+
+			if vendorIndex ~= 0 then
+				local need = quantity - app:GetReagentCount(itemID)
+				local itemInfo = C_MerchantFrame.GetItemInfo(vendorIndex)
+				if need >= 1 and itemInfo.isPurchasable then
+					local maxStack = GetMerchantItemMaxStack(vendorIndex)
+
+					while need > 0 do
+						local buy = math.min(need, maxStack)
+						BuyMerchantItem(vendorIndex, buy)
+						need = need - buy
+					end
+				end
+			end
+		end
+	end
+end
 
 function app:MoveTSMButton()
 	EventUtil.ContinueOnAddOnLoaded("TradeSkillMaster", function()
