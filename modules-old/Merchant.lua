@@ -123,27 +123,25 @@ function api:BuyFromMerchant()
 	if not app.Flag.MerchantOpen then return end
 
 	app:ShowWindow()
-	for itemID, quantity in pairs(app.ReagentQuantities) do
-		if type(itemID) == "number" then
-			local vendorIndex = 0
-			for index = 1, GetMerchantNumItems() do
-				if GetMerchantItemID(index) == itemID then
-					vendorIndex = index
-					break
-				end
+	for itemID, reagent in pairs(api:GetShoppingList()) do
+		local vendorIndex = 0
+		for index = 1, GetMerchantNumItems() do
+			if GetMerchantItemID(index) == itemID then
+				vendorIndex = index
+				break
 			end
+		end
 
-			if vendorIndex ~= 0 then
-				local need = quantity - app:GetReagentCount(itemID)
-				local itemInfo = C_MerchantFrame.GetItemInfo(vendorIndex)
-				if need >= 1 and itemInfo.isPurchasable then
-					local maxStack = GetMerchantItemMaxStack(vendorIndex)
+		if vendorIndex ~= 0 then
+			local need = reagent.required - reagent.owned
+			local itemInfo = C_MerchantFrame.GetItemInfo(vendorIndex)
+			if need >= 1 and itemInfo.isPurchasable then
+				local maxStack = GetMerchantItemMaxStack(vendorIndex)
 
-					while need > 0 do
-						local buy = math.min(need, maxStack)
-						BuyMerchantItem(vendorIndex, buy)
-						need = need - buy
-					end
+				while need > 0 do
+					local buy = math.min(need, maxStack)
+					BuyMerchantItem(vendorIndex, buy)
+					need = need - buy
 				end
 			end
 		end

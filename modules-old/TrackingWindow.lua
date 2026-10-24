@@ -614,9 +614,8 @@ local function AcquireTrackingRow(kind, index, parent, id)
 	return row
 end
 
-function app:UpdateRecipes()
-	if app.Flag.ChangingRecipes then return end
-
+-- Work out how many of each reagent the tracked recipes need (app.ReagentQuantities)
+function app:UpdateReagentQuantities()
 	app.CharData.Recipes = app.Data.Recipes
 
 	app.ReagentQuantities = {}
@@ -651,6 +650,12 @@ function app:UpdateRecipes()
 			end
 		end
 	end
+end
+
+function app:UpdateRecipes()
+	if app.Flag.ChangingRecipes then return end
+
+	app:UpdateReagentQuantities()
 
 	local rowNo = 0
 	local showRecipes = true
@@ -1591,6 +1596,21 @@ function app:ShowWindow()
 
 	-- Update numbers
 	app:UpdateRecipes()
+end
+
+-- Get the reagents the tracked recipes need, without showing the window
+function api:GetShoppingList()
+	assert(self == api, "Call ProfessionShoppingList:GetShoppingList(), not ProfessionShoppingList.GetShoppingList()")
+
+	app:UpdateReagentQuantities()
+
+	local list = {}
+	for itemID, quantity in pairs(app.ReagentQuantities) do
+		if type(itemID) == "number" then
+			list[itemID] = { required = quantity, owned = app:GetReagentCount(itemID) }
+		end
+	end
+	return list
 end
 
 -- Toggle window
