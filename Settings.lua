@@ -175,9 +175,10 @@ function app:CreateSettings()
 
 	local category, layout
 
-	local function addNewTag(initializer)
+	local function addNewTag(initializer, variable)
 		initializer.data.newTagID = appName
-		app.HasNewFeatures = true
+		app.NewFeatures = app.NewFeatures or {}
+		table.insert(app.NewFeatures, variable)
 	end
 
 	local function showNewTag(self) -- Thank you, R41Z0R!
@@ -191,15 +192,27 @@ function app:CreateSettings()
 
 	hooksecurefunc(SettingsPanel, "DisplayCategory", function(self, category)
 		if category == app.SettingsCategory then
-			app.Settings.seen[app.Version] = true
+			for _, feature in ipairs(app.NewFeatures) do
+				app.Settings.seen[feature] = true
+			end
 		end
 	end)
 
 	local function showNewCategoryTag(self)
-		if app.HasNewFeatures and not app.Settings.seen[app.Version] then
-			local data = self:GetData()
-			if data and data.data and data.data.category and data.data.category.ID == app.SettingsCategory:GetID() then
-				self.NewFeature:SetShown(true)
+		if app.NewFeatures then
+			local unseenNew = false
+			for _, feature in ipairs(app.NewFeatures) do
+				if not app.Settings.seen[feature] then
+					unseenNew = true
+					break
+				end
+			end
+
+			if unseenNew then
+				local data = self:GetData()
+				if data and data.data and data.data.category and data.data.category.ID == app.SettingsCategory:GetID() then
+					self.NewFeature:SetShown(true)
+				end
 			end
 		end
 	end
@@ -222,7 +235,7 @@ function app:CreateSettings()
 			setting:SetValueChangedCallback(callback)
 		end
 
-		if isNew then addNewTag(checkbox) end
+		if isNew then addNewTag(checkbox, variable) end
 
 		return setting, checkbox
 	end
@@ -246,7 +259,7 @@ function app:CreateSettings()
 			ddSetting:SetValueChangedCallback(callback)
 		end
 
-		if isNew then addNewTag(initializer) end
+		if isNew then addNewTag(initializer, cbVariable) end
 	end
 
 	local function dropdown(variable, name, description, default, options, callback, isNew)
@@ -265,7 +278,7 @@ function app:CreateSettings()
 			setting:SetValueChangedCallback(callback)
 		end
 
-		if isNew then addNewTag(initializer) end
+		if isNew then addNewTag(initializer, variable) end
 	end
 
 	local function expandableHeader(name)
