@@ -9,8 +9,8 @@ ProfessionShoppingList:ToggleWindow()
 ProfessionShoppingList:BuyFromMerchant()
 
 -- Get the reagents the tracked recipes need; returns a table of itemID = { required = number, owned = number }
--- Gold and currencies are not included; required - owned is what is still missing
-ProfessionShoppingList:GetShoppingList()
+ProfessionShoppingList:GetMerchantShoppingList()
+
 
 -- Switch between Ragnaros and Pierre for the button PSL adds
 ProfessionShoppingList:SwapCookingPet()

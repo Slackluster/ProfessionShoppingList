@@ -1599,8 +1599,8 @@ function app:ShowWindow()
 end
 
 -- Get the reagents the tracked recipes need, without showing the window
-function api:GetShoppingList()
-	assert(self == api, "Call ProfessionShoppingList:GetShoppingList(), not ProfessionShoppingList.GetShoppingList()")
+function api:GetMerchantShoppingList()
+	assert(self == api, "Call ProfessionShoppingList:GetMerchantShoppingList(), not ProfessionShoppingList.GetMerchantShoppingList()")
 
 	app:UpdateReagentQuantities()
 

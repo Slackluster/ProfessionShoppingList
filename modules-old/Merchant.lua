@@ -123,7 +123,7 @@ function api:BuyFromMerchant()
 	if not app.Flag.MerchantOpen then return end
 
 	app:ShowWindow()
-	for itemID, reagent in pairs(api:GetShoppingList()) do
+	for itemID, reagent in pairs(api:GetMerchantShoppingList()) do
 		local vendorIndex = 0
 		for index = 1, GetMerchantNumItems() do
 			if GetMerchantItemID(index) == itemID then
