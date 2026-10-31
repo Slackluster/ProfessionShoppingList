@@ -11,6 +11,8 @@ ProfessionShoppingList:BuyFromMerchant()
 -- Get the reagents the tracked recipes need; returns a table of itemID = { required = number, owned = number }
 ProfessionShoppingList:GetMerchantShoppingList()
 
+-- Get the reagents the tracked recipes need; returns a TSM-compatible search string
+ProfessionShoppingList:GetTSMSearchString()
 
 -- Switch between Ragnaros and Pierre for the button PSL adds
 ProfessionShoppingList:SwapCookingPet()

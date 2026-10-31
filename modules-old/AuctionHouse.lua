@@ -3,6 +3,7 @@
 ------------------------------------------------
 
 local appName, app = ...
+local api = app.api
 
 -------------
 -- ON LOAD --
@@ -52,78 +53,93 @@ end
 -- AUCTIONATOR IMPORT --
 ------------------------
 
-function app:CreateShoppingList()
-	if C_AddOns.IsAddOnLoaded("Auctionator") then
-		C_Timer.After(0.5, function() -- Add a delay because I have no idea how to optimise my addon
-			local searchStrings = {}
+function app:CreateShoppingList(export)
+	local shoppingList = {}
+	for reagentID, reagentAmount in pairs(app.ReagentQuantities) do
+		if type(reagentID) == "number" then -- Ignore tracked gold and currency costs
+			if not app.Cache.ReagentTiers[reagentID] then
+				app:CacheItem(reagentID)
+			end
 
-			for reagentID, reagentAmount in pairs(app.ReagentQuantities) do
-				if type(reagentID) == "number" then -- Ignore tracked gold and currency costs
-					if not app.Cache.ReagentTiers[reagentID] then
-						app:CacheItem(reagentID)
-					end
+			if not C_Item.IsItemDataCachedByID(reagentID) then
+				C_Item.RequestLoadItemDataByID(reagentID)
+				local item = Item:CreateFromItemID(reagentID)
 
-					if not C_Item.IsItemDataCachedByID(reagentID) then
-						C_Item.RequestLoadItemDataByID(reagentID)
-						local item = Item:CreateFromItemID(reagentID)
+				item:ContinueOnItemLoad(function()
+					app:CreateShoppingList()
+				end)
 
-						item:ContinueOnItemLoad(function()
-							app:CreateShoppingList()
-						end)
+				return
+			end
 
-						return
-					end
-
-					local itemName, _, _, _, _, _, _, _, _, _, _, _, _, bindType = C_Item.GetItemInfo(reagentID)
-					if not (bindType == Enum.ItemBind.OnAcquire or bindType == Enum.ItemBind.ToWoWAccount or bindType == Enum.ItemBind.ToBnetAccount or bindType == Enum.ItemBind.ToBnetAccountUntilEquipped) then
-						local simulatedReagents = {}
-						for k, v in pairs(app.Cache.SimulatedRecipes) do
-							for k2, v2 in pairs(v) do
-								simulatedReagents[k2] = v2
-							end
-						end
-
-						local reagentQuality
-						local preMidnight = app.Cache.ReagentTiers[reagentID].three ~= 0
-						local noQuality = app.Cache.ReagentTiers[reagentID].two == 0
-						if simulatedReagents[reagentID] then
-							if app.Cache.ReagentTiers[reagentID].three == reagentID then
-								reagentQuality = 3
-							elseif app.Cache.ReagentTiers[reagentID].two == reagentID then
-								reagentQuality = 2
-							elseif preMidnight or noQuality then
-								reagentQuality = ""
-							else
-								reagentQuality = 1
-							end
-						elseif app.Settings.reagentQuality == 1 or noQuality then
-							reagentQuality = ""
-						elseif app.Settings.reagentQuality == 2 then
-							reagentQuality = preMidnight and 3 or 2
-						end
-
-						local reagentCount = app:GetReagentCount(reagentID)
-						reagentCount = math.max(0, reagentAmount - reagentCount)
-
-						for k, v in pairs(app.Data.Recipes) do
-							if app.Library[k] and app.Library[k].itemID == reagentID then
-								reagentCount = 0
-							end
-						end
-
-						if reagentCount > 0 then
-							table.insert(searchStrings, Auctionator.API.v1.ConvertToSearchString(app.Name, { searchString = itemName, isExact = true, categoryKey = "", tier = reagentQuality, quantity = reagentCount}))
-						end
+			local itemName, _, _, _, _, _, _, _, _, _, _, _, _, bindType = C_Item.GetItemInfo(reagentID)
+			if not (bindType == Enum.ItemBind.OnAcquire or bindType == Enum.ItemBind.ToWoWAccount or bindType == Enum.ItemBind.ToBnetAccount or bindType == Enum.ItemBind.ToBnetAccountUntilEquipped) then
+				local simulatedReagents = {}
+				for k, v in pairs(app.Cache.SimulatedRecipes) do
+					for k2, v2 in pairs(v) do
+						simulatedReagents[k2] = v2
 					end
 				end
-			end
 
-			local next = next
-			if next(searchStrings) ~= nil then
-				Auctionator.API.v1.CreateShoppingList(app.Name, "PSL", searchStrings)
-			elseif Auctionator.Shopping.ListManager:GetIndexForName("PSL") then
-				Auctionator.Shopping.ListManager:Delete("PSL")
+				local reagentQuality
+				local preMidnight = app.Cache.ReagentTiers[reagentID].three ~= 0
+				local noQuality = app.Cache.ReagentTiers[reagentID].two == 0
+				if simulatedReagents[reagentID] then
+					if app.Cache.ReagentTiers[reagentID].three == reagentID then
+						reagentQuality = 3
+					elseif app.Cache.ReagentTiers[reagentID].two == reagentID then
+						reagentQuality = 2
+					elseif preMidnight or noQuality then
+						reagentQuality = ""
+					else
+						reagentQuality = 1
+					end
+				elseif app.Settings.reagentQuality == 1 or noQuality then
+					reagentQuality = ""
+				elseif app.Settings.reagentQuality == 2 then
+					reagentQuality = preMidnight and 3 or 2
+				end
+
+				local reagentCount = app:GetReagentCount(reagentID)
+				reagentCount = math.max(0, reagentAmount - reagentCount)
+
+				for k, v in pairs(app.Data.Recipes) do
+					if app.Library[k] and app.Library[k].itemID == reagentID then
+						reagentCount = 0
+					end
+				end
+
+				if reagentCount > 0 then
+					table.insert(shoppingList, { name = itemName, itemID = reagentID, quality = reagentQuality, quantity = reagentCount })
+				end
 			end
-		end)
+		end
 	end
+
+	local next = next
+	if export then
+		if export == "tsm" and next(shoppingList) ~= nil then
+			local searchString = {}
+			for _, item in ipairs(shoppingList) do
+				table.insert(searchString, "i:" .. item.itemID .. "/x" .. item.quantity)
+			end
+			return table.concat(searchString, ";")
+		end
+	elseif C_AddOns.IsAddOnLoaded("Auctionator") then
+		if next(shoppingList) ~= nil then
+			local searchString = {}
+			for _, item in ipairs(shoppingList) do
+				table.insert(searchString, Auctionator.API.v1.ConvertToSearchString(app.Name, { searchString = item.name, isExact = true, categoryKey = "", tier = item.quality, quantity = item.quantity}))
+			end
+			Auctionator.API.v1.CreateShoppingList(app.Name, "PSL", searchString)
+		elseif Auctionator.Shopping.ListManager:GetIndexForName("PSL") then
+			Auctionator.Shopping.ListManager:Delete("PSL")
+		end
+	end
+end
+
+function api:GetTSMSearchString()
+	assert(self == api, "Call ProfessionShoppingList:GetTSMSearchString(), not ProfessionShoppingList.GetTSMSearchString()")
+
+	return app:CreateShoppingList("tsm")
 end

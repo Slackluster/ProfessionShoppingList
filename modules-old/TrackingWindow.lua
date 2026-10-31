@@ -243,7 +243,9 @@ function app:CreateWindow()
 	app.AuctionatorButton:GetPushedTexture():SetTexCoord(219/256, 255/256, 81/128, 119/128)
 	app.AuctionatorButton:SetScript("OnClick", function()
 		app:UpdateRecipes()
-		app:CreateShoppingList()
+		if C_AddOns.IsAddOnLoaded("Auctionator") then
+			app:CreateShoppingList()
+		end
 	end)
 	app.AuctionatorButton:SetScript("OnEnter", function(self)
 		app:ShowWindowTooltip(L.UPDATE_AUCTIONATOR_LIST1 .. "\n" .. L.UPDATE_AUCTIONATOR_LIST2, nil, nil, "top")
