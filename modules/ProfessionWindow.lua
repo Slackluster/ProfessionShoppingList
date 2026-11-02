@@ -532,7 +532,7 @@ EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelecte
 	if InCombatLockdown() or not app.Flag.TradeskillAssets then return end
 
 	local recipeID = recipeInfo.recipeID
-	local recipeDif = app.RecipeDifficulty[recipeID]
+	local recipeDif = (app.Forever and app.ForeverRecipeDifficulty or app.RetailRecipeDifficulty)[recipeID]
 	if recipeDif and recipeDif.trivial ~= 1 then
 		app.RecipeDifficultyText:SetText("|cffFF8040" .. (recipeDif.optimal or "")  .. "|r |cffFFFF00" .. (recipeDif.medium or "")  .. "|r |cff40BF40" .. (recipeDif.easy or "")  .. "|r |cff808080" .. (recipeDif.trivial or "")  .. "|r")
 		app.RecipeDifficultyText:Show()
