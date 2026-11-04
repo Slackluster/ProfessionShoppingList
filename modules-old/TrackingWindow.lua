@@ -43,6 +43,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 
 		app:CreateWindow()
 		local function refreshCooldowns()
+			app:UpdateRecipeCharges()
 			app:UpdateCooldowns()
 			C_Timer.After(60, refreshCooldowns)
 		end
@@ -2506,37 +2507,44 @@ end
 -- COOLDOWN TRACKING --
 -----------------------
 
--- When the user encounters a loading screen
+function app:UpdateRecipeCharges()
+	local now = GetServerTime()
+	local changed = false
+
+	for _, info in ipairs(app.Data.Cooldowns) do
+		local maxCharges = info.maxCharges or 0
+		local charges = info.charges or 0
+		local recharge = info.recharge
+		local expires = info.start + info.cooldown
+
+		if maxCharges > charges and recharge and recharge > 0 and now >= expires then
+			local gained = math.min(maxCharges - charges, 1 + math.floor((now - expires) / recharge))
+			info.charges = charges + gained
+
+			if info.charges < maxCharges then
+				info.cooldown = expires + gained * recharge - info.start
+			end
+
+			changed = true
+		end
+	end
+
+	if changed then app:UpdateRecipes() end
+end
+
 app.Event:Register("PLAYER_ENTERING_WORLD", function(isInitialLogin, isReloadingUi)
-	-- Only on initialLoad
-	if isInitialLogin then
-		-- Check all tracked recipe cooldowns
-		for k, recipeInfo in pairs(app.Data.Cooldowns) do
-			-- Check the remaining cooldown
-			local cooldownRemaining = recipeInfo.start + recipeInfo.cooldown - GetServerTime()
+	if not isInitialLogin then return end
 
-			-- If the recipe is off cooldown
-			if cooldownRemaining <= 0 then
-				-- Check charges if they exist and return one
-				if recipeInfo.maxCharges > 0 and recipeInfo.maxCharges > recipeInfo.charges then
-					app.Data.Cooldowns[k].charges = app.Data.Cooldowns[k].charges + 1
+	app:UpdateRecipeCharges()
 
-					-- And move the reset time if we're not at full charges yet
-					if app.Data.Cooldowns[k].charges ~= app.Data.Cooldowns[k].maxCharges then
-						app.Data.Cooldowns[k].start = GetServerTime()
-						app.Data.Cooldowns[k].cooldown = C_DateAndTime.GetSecondsUntilDailyReset()
-					end
-				end
+	for k, recipeInfo in pairs(app.Data.Cooldowns) do
+		local cooldownRemaining = recipeInfo.start + recipeInfo.cooldown - GetServerTime()
+		if cooldownRemaining <= 0 then
+			if app.Settings.showRecipeCooldowns and app.Data.Cooldowns[k].charges == app.Data.Cooldowns[k].maxCharges then
+				app:Print(string.format(L.READY_TO_CRAFT, recipeInfo.name, recipeInfo.user))
 
-				-- If the option to show recipe cooldowns is enabled and all charges are full (or 0 = 0 for recipes without charges)
-				if app.Settings.showRecipeCooldowns and app.Data.Cooldowns[k].charges == app.Data.Cooldowns[k].maxCharges then
-					-- Show the reminder
-					app:Print(string.format(L.READY_TO_CRAFT, recipeInfo.name, recipeInfo.user))
-
-					-- And open the window if that setting is enabled
-					if app.Settings.showWindowCooldown then
-						app:ShowWindow() -- This can run multiple times, but that doesn't do much harm
-					end
+				if app.Settings.showWindowCooldown then
+					app:ShowWindow()
 				end
 			end
 		end
@@ -2552,6 +2560,7 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 
 		local recipeName = C_TradeSkillUI.GetRecipeSchematic(spellID, false).name
 		local cooldown, isDayCooldown, charges, maxCharges = C_TradeSkillUI.GetRecipeCooldown(spellID) -- For daily cooldowns, cooldown returns the time until midnight, after relogging it's accurate. isDayCooldown can be used to identify if it should be aligned with daily reset right away.
+		charges, maxCharges = charges or 0, maxCharges or 0
 		local recipeStart = GetServerTime()
 
 		local function sharedCooldowns(spells)
@@ -2579,15 +2588,26 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 		end
 
 		if cooldown then
-			local cdExists = false
+						local old, oldIndex
 			for k, v in ipairs(app.Data.Cooldowns) do
 				if v.recipeID == spellID and v.user == character .. "-" .. realm then
-					app.Data.Cooldowns[k] = {name = recipeName, recipeID = spellID, cooldown = cooldown, start = recipeStart, user = character .. "-" .. realm, charges = charges, maxCharges = maxCharges}
-					cdExists = true
+					old, oldIndex = v, k
+					break
 				end
 			end
-			if cdExists == false then
-				app.Data.Cooldowns[#app.Data.Cooldowns+1] = {name = recipeName, recipeID = spellID, cooldown = cooldown, start = recipeStart, user = character .. "-" .. realm, charges = charges, maxCharges = maxCharges}
+
+			local recharge = old and old.recharge
+			if maxCharges > 0 and charges == maxCharges - 1
+				and (not old or (old.charges or 0) == (old.maxCharges or 0)) then
+				recharge = isDayCooldown and math.ceil(cooldown / 86400) * 86400 or cooldown
+			end
+
+			local info = { name = recipeName, recipeID = spellID, cooldown = cooldown, start = recipeStart, user = character .. "-" .. realm, charges = charges, maxCharges = maxCharges, recharge = recharge }
+
+			if oldIndex then
+				app.Data.Cooldowns[oldIndex] = info
+			else
+				app.Data.Cooldowns[#app.Data.Cooldowns+1] = info
 			end
 			app:UpdateRecipes()
 		end
