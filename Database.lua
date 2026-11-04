@@ -16,6 +16,7 @@ _G["BINDING_NAME_SLACKWARE"] = "Slackware"
 app.Icon = "Interface\\Icons\\inv_enchant_formulasuperior_01"
 app.IconReady = CreateSimpleTextureMarkup("Interface\\RaidFrame\\ReadyCheck-Ready")
 app.IconNotReady = CreateSimpleTextureMarkup("Interface\\RaidFrame\\ReadyCheck-NotReady")
+app.IconMaybeReady = CreateSimpleTextureMarkup("Interface\\AddOns\\ProfessionShoppingList\\assets\\readycheck-ready-orange.blp")
 app.IconLMB = CreateAtlasMarkup("housing-hotkey-icon-leftclick")
 app.IconRMB = CreateAtlasMarkup("housing-hotkey-icon-rightclick")
 app.IconArrow = CreateSimpleTextureMarkup("Interface\\AddOns\\ProfessionShoppingList\\assets\\UI-RaidFrame-Arrow-Cropped")

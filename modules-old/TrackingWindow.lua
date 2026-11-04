@@ -382,20 +382,33 @@ function app:UpdateNumbers()
 		local itemIcon = CreateSimpleTextureMarkup(app.Cache.Reagents[reagentID].icon)
 
 		if type(reagentID) == "number" then
-			-- Get needed/owned number of reagents
 			local reagentAmountHave = app:GetReagentCount(reagentID)
+			local reagentAmountHaveInBags = C_Item.GetItemCount(reagentID)
+			local needed = math.max(0,amount-reagentAmountHave)
+			local localNeeded = math.max(0,amount-reagentAmountHaveInBags)
 
-			-- Make stuff grey and add a checkmark if 0 are needed
-			if math.max(0,amount-reagentAmountHave) == 0 then
-				itemIcon = app.IconReady
-				itemAmount = "|cff9D9D9D"
-				itemLink = string.gsub(itemLink, "cnIQ0", "cnIQ0") -- Poor
-				itemLink = string.gsub(itemLink, "cnIQ1", "cnIQ0") -- Common
-				itemLink = string.gsub(itemLink, "cnIQ2", "cnIQ0") -- Uncommon
-				itemLink = string.gsub(itemLink, "cnIQ3", "cnIQ0") -- Rare
-				itemLink = string.gsub(itemLink, "cnIQ4", "cnIQ0") -- Epic
-				itemLink = string.gsub(itemLink, "cnIQ5", "cnIQ0") -- Legendary
-				itemLink = string.gsub(itemLink, "cnIQ6", "cnIQ0") -- Artifact
+			if needed == 0 then
+				if app.Forever and localNeeded > 0 then
+					itemIcon = app.IconMaybeReady
+					itemAmount = "|cffFFD100"
+					itemLink = string.gsub(itemLink, "cnIQ0:", "cffFFD100") -- Poor
+					itemLink = string.gsub(itemLink, "cnIQ1:", "cffFFD100") -- Common
+					itemLink = string.gsub(itemLink, "cnIQ2:", "cffFFD100") -- Uncommon
+					itemLink = string.gsub(itemLink, "cnIQ3:", "cffFFD100") -- Rare
+					itemLink = string.gsub(itemLink, "cnIQ4:", "cffFFD100") -- Epic
+					itemLink = string.gsub(itemLink, "cnIQ5:", "cffFFD100") -- Legendary
+					itemLink = string.gsub(itemLink, "cnIQ6:", "cffFFD100") -- Artifact
+				else
+					itemIcon = app.IconReady
+					itemAmount = "|cff9D9D9D"
+					itemLink = string.gsub(itemLink, "cnIQ0", "cnIQ0") -- Poor
+					itemLink = string.gsub(itemLink, "cnIQ1", "cnIQ0") -- Common
+					itemLink = string.gsub(itemLink, "cnIQ2", "cnIQ0") -- Uncommon
+					itemLink = string.gsub(itemLink, "cnIQ3", "cnIQ0") -- Rare
+					itemLink = string.gsub(itemLink, "cnIQ4", "cnIQ0") -- Epic
+					itemLink = string.gsub(itemLink, "cnIQ5", "cnIQ0") -- Legendary
+					itemLink = string.gsub(itemLink, "cnIQ6", "cnIQ0") -- Artifact
+				end
 			-- Make the icon an arrow if it is a subreagent, but not at 0 needed
 			else
 				app.Flag.HaveAllReagents = false
@@ -501,6 +514,7 @@ function app:UpdateNumbers()
 		"|cffFF0000|r|cnIQ2", -- Uncommon
 		"|cffFF0000|r|cnIQ1", -- Common
 		-- Collected reagents
+		"|cffFFD100", -- Default Yellow (quantity 0, banked)
 		"|cnIQ0", -- Poor (quantity 0)
 	}
 
@@ -732,7 +746,7 @@ function app:UpdateRecipes()
 		"|cnIQ3", -- Rare
 		"|cnIQ2", -- Uncommon
 		"|cnIQ1", -- Common
-		"|cnIQ0", -- Poor (quantity 0)
+		"|cnIQ0", -- Poor
 	}
 
 	-- Custom comparison function based on the beginning of the string
