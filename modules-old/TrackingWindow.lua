@@ -2574,7 +2574,7 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 		elseif spellID == 427174 or spellID == 430345 then -- The War Within Alchemy experimentations
 			local spells = {427174, 430345}
 			sharedCooldowns(spells)
-		elseif isDayCooldown then
+		elseif isDayCooldown and cooldown and cooldown <= 86400 then
 			cooldown = C_DateAndTime.GetSecondsUntilDailyReset()
 		end
 
