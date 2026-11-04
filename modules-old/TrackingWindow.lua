@@ -2543,99 +2543,71 @@ app.Event:Register("PLAYER_ENTERING_WORLD", function(isInitialLogin, isReloading
 	end
 end)
 
--- When a spell is succesfully cast by the player
 app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, spellID)
-	if not InCombatLockdown() and unitTarget == "player" then
-		-- Run only when the spell cast is a known recipe
-		if app.Library[spellID] then
-			-- With a delay due to how quickly that info is updated after UNIT_SPELLCAST_SUCCEEDED
-			C_Timer.After(0.1, function()
-				-- Get character info
-				local character = UnitName("player")
-				local realm = GetNormalizedRealmName()
+	if InCombatLockdown() or unitTarget ~= "player" or not app.Library[spellID] then return end
 
-				-- Get spell cooldown info
-				local recipeName = C_TradeSkillUI.GetRecipeSchematic(spellID, false).name
-				local cooldown, isDayCooldown, charges, maxCharges = C_TradeSkillUI.GetRecipeCooldown(spellID) -- For daily cooldowns, cooldown returns the time until midnight, after relogging it's accurate. isDayCooldown can be used to identify if it should be aligned with daily reset right away.
-				local recipeStart = GetServerTime()
+	C_Timer.After(0.1, function()
+		local character = UnitName("player")
+		local realm = GetNormalizedRealmName()
 
-				-- Remove shared cooldowns and only leave the last one done
-				local function sharedCooldowns(spells)
-					for k, v in pairs(spells) do
-						if v ~= spellID then
-							for k2, v2 in pairs(app.Data.Cooldowns) do
-								if v2.recipeID == v and v2.user == character .. "-" .. realm then
-									table.remove(app.Data.Cooldowns, k2)
-								end
-							end
+		local recipeName = C_TradeSkillUI.GetRecipeSchematic(spellID, false).name
+		local cooldown, isDayCooldown, charges, maxCharges = C_TradeSkillUI.GetRecipeCooldown(spellID) -- For daily cooldowns, cooldown returns the time until midnight, after relogging it's accurate. isDayCooldown can be used to identify if it should be aligned with daily reset right away.
+		local recipeStart = GetServerTime()
+
+		local function sharedCooldowns(spells)
+			for k, v in pairs(spells) do
+				if v ~= spellID then
+					for k2, v2 in pairs(app.Data.Cooldowns) do
+						if v2.recipeID == v and v2.user == character .. "-" .. realm then
+							table.remove(app.Data.Cooldowns, k2)
 						end
 					end
 				end
-
-				-- Set timer to 7 days for the Alchemy sac transmutes
-				if spellID == 213256 or spellID == 251808 then
-					cooldown = 7 * 24 * 60 * 60
-				-- Shared cooldowns for Dragonflight Alchemy experimentations
-				elseif spellID == 370743 or spellID == 370745 or spellID == 370746 or spellID == 370747 then
-					local spells = {370743, 370745, 370746, 370747}
-					sharedCooldowns(spells)
-				-- Shared cooldowns for The War Within Alchemy experimentations
-				elseif spellID == 427174 or spellID == 430345 then
-					local spells = {427174, 430345}
-					sharedCooldowns(spells)
-				-- Daily cooldowns (which return the wrong cooldown info initially)
-				elseif isDayCooldown then
-					-- Set the cooldown to align with daily reset
-					cooldown = C_DateAndTime.GetSecondsUntilDailyReset()
-				end
-
-				-- If the spell cooldown exists
-				if cooldown then
-					-- Fix the cooldown table if necessary
-					app.Data.Cooldowns = app:FixTable(app.Data.Cooldowns)
-
-					-- Replace the existing entry if it exists
-					local cdExists = false
-					for k, v in ipairs(app.Data.Cooldowns) do
-						if v.recipeID == spellID and v.user == character .. "-" .. realm then
-							app.Data.Cooldowns[k] = {name = recipeName, recipeID = spellID, cooldown = cooldown, start = recipeStart, user = character .. "-" .. realm, charges = charges, maxCharges = maxCharges}
-							cdExists = true
-						end
-					end
-					-- Otherwise, create a new entry
-					if cdExists == false then
-						app.Data.Cooldowns[#app.Data.Cooldowns+1] = {name = recipeName, recipeID = spellID, cooldown = cooldown, start = recipeStart, user = character .. "-" .. realm, charges = charges, maxCharges = maxCharges}
-					end
-					-- And then update our window
-					app:UpdateRecipes()
-				end
-
-				-- Recharge timer
-				C_Timer.After(1, function()
-					if ProfessionsFrame and ProfessionsFrame.CraftingPage.ConcentrationDisplay.Amount:GetText() then
-						local concentration = string.match(ProfessionsFrame.CraftingPage.ConcentrationDisplay.Amount:GetText(), "%d+")
-
-						if concentration then
-							-- 250 Concentration per 24 hours
-							local timeLeft = math.ceil((1000 - concentration) / 250 * 24)
-
-							if app.Concentration1 then
-								app.Concentration1:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r " .. timeLeft .. L.HOURS)
-							end
-							if app.Concentration2 then
-								app.Concentration2:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r " .. timeLeft .. L.HOURS)
-							end
-						else
-							if app.Concentration1 then
-								app.Concentration1:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r ?")
-							end
-							if app.Concentration2 then
-								app.Concentration2:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r ?")
-							end
-						end
-					end
-				end)
-			end)
+			end
 		end
-	end
+
+		if spellID == 213256 or spellID == 251808 then -- Alchemy sac transmutes
+			cooldown = 7 * 24 * 60 * 60
+		elseif spellID == 370743 or spellID == 370745 or spellID == 370746 or spellID == 370747 then -- Dragonflight Alchemy experimentations
+			local spells = {370743, 370745, 370746, 370747}
+			sharedCooldowns(spells)
+		elseif spellID == 427174 or spellID == 430345 then -- The War Within Alchemy experimentations
+			local spells = {427174, 430345}
+			sharedCooldowns(spells)
+		elseif isDayCooldown then
+			cooldown = C_DateAndTime.GetSecondsUntilDailyReset()
+		end
+
+		if cooldown then
+			local cdExists = false
+			for k, v in ipairs(app.Data.Cooldowns) do
+				if v.recipeID == spellID and v.user == character .. "-" .. realm then
+					app.Data.Cooldowns[k] = {name = recipeName, recipeID = spellID, cooldown = cooldown, start = recipeStart, user = character .. "-" .. realm, charges = charges, maxCharges = maxCharges}
+					cdExists = true
+				end
+			end
+			if cdExists == false then
+				app.Data.Cooldowns[#app.Data.Cooldowns+1] = {name = recipeName, recipeID = spellID, cooldown = cooldown, start = recipeStart, user = character .. "-" .. realm, charges = charges, maxCharges = maxCharges}
+			end
+			app:UpdateRecipes()
+		end
+
+		C_Timer.After(1, function()
+			if ProfessionsFrame and ProfessionsFrame.CraftingPage.ConcentrationDisplay.Amount:GetText() then
+				local concentration = string.match(ProfessionsFrame.CraftingPage.ConcentrationDisplay.Amount:GetText(), "%d+")
+
+				local timeLeft = "?"
+				if concentration then
+					timeLeft = math.ceil((1000 - concentration) / 250 * 24)
+				end
+
+				if app.Concentration1 then
+					app.Concentration1:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r " .. timeLeft .. L.HOURS)
+				end
+				if app.Concentration2 then
+					app.Concentration2:SetText("|cffFFFFFF" .. L.RECHARGED .. ":|r " .. timeLeft .. L.HOURS)
+				end
+			end
+		end)
+	end)
 end)

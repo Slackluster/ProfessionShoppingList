@@ -336,20 +336,6 @@ function app:UpdateButton(button, text)
 	button:SetWidth(button:GetTextWidth()+20)
 end
 
-function app:FixTable(table)
-	local fixedTable = {}
-	local index = 1
-
-	for i = 1, #table do
-		if table[i] ~= nil then
-			fixedTable[index] = table[i]
-			index = index + 1
-		end
-	end
-
-	return fixedTable
-end
-
 function app:GetTooltipItem(tooltip, itemData)
 	local _, itemID, itemLink
 	if itemData and itemData.id then
