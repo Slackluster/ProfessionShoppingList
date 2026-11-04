@@ -1888,7 +1888,7 @@ function app:RegisterRecipe(recipeID)
 	if not info or not schematic or not schematic.reagentSlotSchematics then
 		return false
 	end
-	local item = output.itemID or 0
+	local item = output and output.itemID or 0
 	local fallbackTradeskill, _, tradeskill = C_TradeSkillUI.GetTradeSkillLineForRecipe(recipeID)
 	local ability = info.skillLineAbilityID
 
