@@ -1870,7 +1870,7 @@ function app:RegisterRecipe(recipeID)
 	local info = C_TradeSkillUI.GetRecipeInfo(recipeID)
 	local legendary = app.slLegendaryRecipeIDs[recipeID]
 	local schematic = C_TradeSkillUI.GetRecipeSchematic(recipeID, false, legendary and legendary.rank)
-	if not output or not info or not schematic or not schematic.reagentSlotSchematics then
+	if not info or not schematic or not schematic.reagentSlotSchematics then
 		return false
 	end
 	local item = output.itemID or 0
