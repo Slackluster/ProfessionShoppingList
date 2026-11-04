@@ -42,12 +42,6 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		app.SimAddons = {"CraftSim", "TestFlight"}
 
 		app:CreateWindow()
-		local function refreshCooldowns()
-			app:UpdateRecipeCharges()
-			app:UpdateCooldowns()
-			C_Timer.After(60, refreshCooldowns)
-		end
-		refreshCooldowns()
 
 		-- Legacy compatibility
 		if app.Cache.CraftSimRecipes then
@@ -278,6 +272,25 @@ function app:CreateWindow()
 	scrollFrame:SetScript("OnVerticalScroll", function() scrollChild:SetPoint("BOTTOMRIGHT", scrollFrame) end)
 	app.Window.Child = scrollChild
 	app.Window.ScrollFrame = scrollFrame
+
+	local cooldownTicker
+	app.Window:HookScript("OnShow", function()
+		app:UpdateRecipeCharges()
+		app:UpdateCooldowns()
+
+		if not cooldownTicker then
+			cooldownTicker = C_Timer.NewTicker(60, function()
+				app:UpdateRecipeCharges()
+				app:UpdateCooldowns()
+			end)
+		end
+	end)
+	app.Window:HookScript("OnHide", function()
+		if cooldownTicker then
+			cooldownTicker:Cancel()
+			cooldownTicker = nil
+		end
+	end)
 end
 
 -- Move the main window
