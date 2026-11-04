@@ -2588,7 +2588,7 @@ app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, sp
 		end
 
 		if cooldown then
-						local old, oldIndex
+			local old, oldIndex
 			for k, v in ipairs(app.Data.Cooldowns) do
 				if v.recipeID == spellID and v.user == character .. "-" .. realm then
 					old, oldIndex = v, k
