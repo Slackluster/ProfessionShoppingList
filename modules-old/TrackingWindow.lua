@@ -42,12 +42,6 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		app.SimAddons = {"CraftSim", "TestFlight"}
 
 		app:CreateWindow()
-
-		-- Legacy compatibility
-		if app.Cache.CraftSimRecipes then
-			app.Cache.SimulatedRecipes = app.Cache.CraftSimRecipes
-			app.Cache.CraftSimRecipes = nil
-		end
 	end
 end)
 

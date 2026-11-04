@@ -21,9 +21,6 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 
 		app:CreateMinimapButton()
 		app:CreateSettings()
-
-		-- Midnight cleanup
-		app.Settings.midClean1 = nil
 	end
 end)
 
