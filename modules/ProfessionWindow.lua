@@ -638,29 +638,19 @@ EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelecte
 			app.ShadowlandsRankText:Hide()
 			app.ShadowlandsRankBox:Hide()
 		end
-	end
 
-	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
-	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
-	if professionID == Enum.Profession.Cooking then
-		if app.Data.Pets.ragnaros and app.Data.Pets.ragnaros.enabled then
-			app.RagnarosButton:Show()
-		elseif app.Data.Pets.pierre and app.Data.Pets.pierre.enabled then
-			app.PierreButton:Show()
-		else
-			app.CookingFireButton:Show()
-		end
-		app.ChefsHatButton:Show()
-	else
-		app.CookingFireButton:Hide()
-		if app.Retail then
-			app.RagnarosButton:Hide()
-			app.PierreButton:Hide()
-			app.ChefsHatButton:Hide()
-		end
-	end
-	if app.Retail then
-		if professionID == Enum.Profession.Blacksmithing or professionID == Enum.Profession.Mining or professionID == Enum.Profession.Engineering then
+		local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
+		local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
+		if professionID == Enum.Profession.Cooking then
+			if app.Data.Pets.ragnaros and app.Data.Pets.ragnaros.enabled then
+				app.RagnarosButton:Show()
+			elseif app.Data.Pets.pierre and app.Data.Pets.pierre.enabled then
+				app.PierreButton:Show()
+			else
+				app.CookingFireButton:Show()
+			end
+			app.ChefsHatButton:Show()
+		elseif professionID == Enum.Profession.Blacksmithing or professionID == Enum.Profession.Mining or professionID == Enum.Profession.Engineering then
 			app.ThermalAnvilButton:Show()
 			app.AlvinButton:Show()
 			local _, _, raceID = UnitRace("player")
@@ -668,6 +658,10 @@ EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelecte
 				app.LightforgeButton:Show()
 			end
 		else
+			app.CookingFireButton:Hide()
+			app.RagnarosButton:Hide()
+			app.PierreButton:Hide()
+			app.ChefsHatButton:Hide()
 			app.ThermalAnvilButton:Hide()
 			app.AlvinButton:Hide()
 			app.LightforgeButton:Hide()
