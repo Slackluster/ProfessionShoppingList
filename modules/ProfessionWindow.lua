@@ -670,9 +670,20 @@ EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelecte
 end)
 
 EventRegistry:RegisterCallback("Professions.RecipeSelected", function() -- The other callback is too quick for this to properly take, and this one only exists in Forever
-	if InCombatLockdown() or not app.Forever then return end
+	if not app.Forever then return end
 
-	ProfessionsFrame.CraftingPage.SchematicForm.OutputText:SetPoint("LEFT", ProfessionsFrame.CraftingPage.SchematicForm.OutputIcon, "RIGHT", 16, 8)
+	local schematicForm = ProfessionsFrame.CraftingPage.SchematicForm
+	if not app.Flag.ForeverSchematicHook then
+		hooksecurefunc(schematicForm, "Init", function(self)
+			if InCombatLockdown() then return end
+			self.OutputText:SetPoint("LEFT", self.OutputIcon, "RIGHT", 16, 8)
+		end)
+		app.Flag.ForeverSchematicHook = true
+	end
+
+	if not InCombatLockdown() then
+		schematicForm.OutputText:SetPoint("LEFT", schematicForm.OutputIcon, "RIGHT", 16, 8)
+	end
 end)
 
 app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, spellID)
