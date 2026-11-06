@@ -1717,7 +1717,7 @@ function app:CreateTab(frame, tabFrame)
 				unshown = unshown + 1
 			end
 			if (unshown == 2 and attLoaded) or (unshown == 1 and not attLoaded) then
-				app.Tab[frame]:SetPoint("TOPLEFT", frame1, x, y)
+				app.Tab[frame]:SetPoint("TOPLEFT", frame1)
 				break
 			end
 		end
@@ -1850,7 +1850,7 @@ app.Event:Register("SKILL_LINES_CHANGED", function()
 			unshown = unshown + 1
 		end
 		if (unshown == 2 and attLoaded) or (unshown == 1 and not attLoaded) then
-			app.Tab[ProfessionsFrame]:SetPoint("TOPLEFT", frame1, x, y)
+			app.Tab[ProfessionsFrame]:SetPoint("TOPLEFT", frame1)
 			break
 		end
 	end
