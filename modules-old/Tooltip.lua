@@ -89,7 +89,12 @@ function app:AddTooltipInfo()
 							end
 							totalCost = totalCost + (((#reagentCost > 0 and math.min(unpack(reagentCost))) or 0) * reagent.quantityRequired)
 						end
-						totalCost = math.ceil(totalCost / 10000) * 10000
+
+						if totalCost >= 10000 then
+							totalCost = math.floor(totalCost / 10000) * 10000
+						elseif totalCost >= 100 then
+							totalCost = math.floor(totalCost / 100) * 100
+						end
 					end
 
 					local tradeskillID, learned
