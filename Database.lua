@@ -23,6 +23,7 @@ app.IconArrow = CreateSimpleTextureMarkup("Interface\\AddOns\\ProfessionShopping
 app.IconProfession = {
 	[0] = CreateSimpleTextureMarkup("Interface\\MoneyFrame\\UI-GoldIcon"), -- Vendor
 	[1] = CreateSimpleTextureMarkup("Interface\\AddOns\\ProfessionShoppingList\\assets\\hammer-32"), -- Crafting order
+	[129] = CreateSimpleTextureMarkup("Interface\\Icons\\spell_holy_sealofsacrifice"),
 	[164] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_blacksmithing"),
 	[165] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_leatherworking"),
 	[171] = CreateSimpleTextureMarkup("Interface\\Icons\\ui_profession_alchemy"),
