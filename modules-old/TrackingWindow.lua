@@ -1840,7 +1840,7 @@ app.Event:Register("TRADE_SKILL_SHOW", function()
 end)
 
 app.Event:Register("SKILL_LINES_CHANGED", function()
-	if not app.Forever or not ProfessionsFrame or not app.Tab then return end
+	if not app.Forever or not ProfessionsFrame or not app.Tab or not app.Tab[ProfessionsFrame] then return end
 	local attLoaded = C_AddOns.IsAddOnLoaded("AllTheThings")
 	local foreverTabs = { "Overview", 1, 2, 3, 4, 5, 6, 7 }
 	local unshown = 0
