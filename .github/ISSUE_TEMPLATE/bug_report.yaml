@@ -3,7 +3,6 @@ description: Did I do an oopsie again? Let me know!
 labels: ["bug"]
 assignees:
   - Slackluster
-type: bug
 body:
   - type: checkboxes
     id: reload
