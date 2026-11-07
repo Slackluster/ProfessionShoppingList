@@ -674,7 +674,7 @@ end)
 app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numOrders)
 	if ProfessionsFrame.OrdersPage:IsVisible() then
 		local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
-		if skillLineID and not app.ProfessionKnowledge[skillLineID] then
+		if skillLineID and skillLineID ~= 0 and not app.ProfessionKnowledge[skillLineID] then
 			local profInfo = C_TradeSkillUI.GetChildProfessionInfos()
 			if profInfo and profInfo[1] and profInfo[1].professionID then
 				C_TradeSkillUI.SetProfessionChildSkillLineID(profInfo[1].professionID)
