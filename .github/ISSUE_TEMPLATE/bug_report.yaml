@@ -44,7 +44,7 @@ body:
     attributes:
       label: Version
       description: What version of the addon are you using when the issue happens?
-      placeholder: v12.1.0
+      placeholder: v42
     validations:
       required: true
   - type: textarea
