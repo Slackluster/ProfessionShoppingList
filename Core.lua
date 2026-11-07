@@ -99,32 +99,13 @@ app.Event:Register("PLAYER_ENTERING_WORLD", function(isInitialLogin, isReloading
 end)
 
 app.Event:Register("CHAT_MSG_ADDON", function(prefix, text, channel, sender, target, zoneChannelID, localID, name, instanceID)
-	if prefix == app.NamePrefix then
-		local version = text:match("version:(.+)")
-		if version and not app.Flag.VersionCheck then
-			local expansion, major, minor, iteration = version:match("v(%d+)%.(%d+)%.(%d+)%-(%d+)")
-			if expansion then
-				expansion = string.format("%02d", expansion)
-				major = string.format("%02d", major)
-				minor = string.format("%02d", minor)
-				local otherGameVersion = tonumber(expansion .. major .. minor)
-				local otherAddonVersion = tonumber(iteration)
+	if prefix == app.NamePrefix and not app.Flag.VersionCheck then
+		local otherversion = text:match("^version:v(%d+)$")
+		local localVersion = app.Version:match("^v(%d+)$")
 
-				local localVersion = app.Version
-				local expansion2, major2, minor2, iteration2 = localVersion:match("v(%d+)%.(%d+)%.(%d+)%-(%d+)")
-				if expansion2 then
-					expansion2 = string.format("%02d", expansion2)
-					major2 = string.format("%02d", major2)
-					minor2 = string.format("%02d", minor2)
-					local localGameVersion = tonumber(expansion2 .. major2 .. minor2)
-					local localAddonVersion = tonumber(iteration2)
-
-					if otherGameVersion > localGameVersion or (otherGameVersion == localGameVersion and otherAddonVersion > localAddonVersion) then
-						app:Print(string.format(L.NEW_VERSION_AVAILABLE, app.NameLong), version)
-						app.Flag.VersionCheck = true
-					end
-				end
-			end
+		if otherversion and localVersion and tonumber(otherversion) > tonumber(localVersion) then
+			app:Print(string.format(L.NEW_VERSION_AVAILABLE, app.NameLong), "v" .. otherversion)
+			app.Flag.VersionCheck = true
 		end
 	end
 end)
