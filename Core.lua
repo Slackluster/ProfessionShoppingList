@@ -79,34 +79,41 @@ end)
 -------------------
 
 function app:SendAddonMessage(message)
+	local messageString = C_EncodingUtil.EncodeBase64(C_EncodingUtil.SerializeCBOR(message))
+
 	if IsInRaid(2) or IsInGroup(2) then
-		ChatThrottleLib:SendAddonMessage("NORMAL", app.NamePrefix, message, "INSTANCE_CHAT")
+		ChatThrottleLib:SendAddonMessage("NORMAL", app.NamePrefix, messageString, "INSTANCE_CHAT")
 	elseif IsInGroup() or IsInRaid() then
-		ChatThrottleLib:SendAddonMessage("NORMAL", app.NamePrefix, message, "RAID")
+		ChatThrottleLib:SendAddonMessage("NORMAL", app.NamePrefix, messageString, "RAID")
 	elseif IsInGuild() then
-		ChatThrottleLib:SendAddonMessage("NORMAL", app.NamePrefix, message, "GUILD")
+		ChatThrottleLib:SendAddonMessage("NORMAL", app.NamePrefix, messageString, "GUILD")
 	end
 end
 
 app.Event:Register("GROUP_ROSTER_UPDATE", function(category, partyGUID)
-	app:SendAddonMessage("version:" .. app.Version)
+	app:SendAddonMessage({ version = app.Version })
 end)
 
 app.Event:Register("PLAYER_ENTERING_WORLD", function(isInitialLogin, isReloadingUi)
 	if isInitialLogin or isReloadingUi then
-		app:SendAddonMessage("version:" .. app.Version)
+		app:SendAddonMessage({ version = app.Version })
 	end
 end)
 
 app.Event:Register("CHAT_MSG_ADDON", function(prefix, text, channel, sender, target, zoneChannelID, localID, name, instanceID)
-	if prefix == app.NamePrefix and not app.Flag.VersionCheck then
-		local otherversion = text:match("^version:v(%d+)$")
-		local localVersion = app.Version:match("^v(%d+)$")
+	if prefix ~= app.NamePrefix or app.Flag.VersionCheck then return end
 
-		if otherversion and localVersion and tonumber(otherversion) > tonumber(localVersion) then
-			app:Print(string.format(L.NEW_VERSION_AVAILABLE, app.NameLong), "v" .. otherversion)
-			app.Flag.VersionCheck = true
-		end
+	local ok, message = pcall(function()
+		return C_EncodingUtil.DeserializeCBOR(C_EncodingUtil.DecodeBase64(text))
+	end)
+	if not ok or type(message) ~= "table" or not message.version then return end
+
+	local otherVersion = tonumber(message.version:match("^v(%d+)$"))
+	local localVersion = tonumber(app.Version:match("^v(%d+)$"))
+
+	if otherVersion and localVersion and otherVersion > localVersion then
+		app:Print(string.format(L.NEW_VERSION_AVAILABLE, app.NameLong), message.version)
+		app.Flag.VersionCheck = true
 	end
 end)
 
