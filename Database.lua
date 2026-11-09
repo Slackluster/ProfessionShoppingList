@@ -14152,7 +14152,7 @@ app.ForeverRecipeDifficulty = {
 	[1262998] = { optimal = 300, medium = 300, easy = 300, trivial = 300 },
 	[1263001] = { optimal = 300, medium = 300, easy = 300, trivial = 300 },
 	[1263005] = { optimal = 140, medium = 140, easy = 142, trivial = 145 },
-	[1263031] = { optimal = 140, medium = 140, easy = 142, trivial = 145 },
+	[1263031] = { optimal = 125, medium = 125, easy = 127, trivial = 130 },
 	[1263032] = { optimal = 140, medium = 140, easy = 142, trivial = 145 },
 	[1263034] = { optimal = 140, medium = 140, easy = 142, trivial = 145 },
 	[1263041] = { optimal = 140, medium = 140, easy = 142, trivial = 145 },
