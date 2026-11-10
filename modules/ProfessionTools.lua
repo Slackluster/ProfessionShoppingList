@@ -10,9 +10,9 @@ local L = app.locales
 -------------
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
-	if addOnName == appName then
-		app.CharData.profTools = app.CharData.profTools or {}
-	end
+	if addOnName ~= appName then return end
+
+	app.CharData.profTools = app.CharData.profTools or {}
 end)
 
 ----------------------

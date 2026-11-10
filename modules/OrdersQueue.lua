@@ -10,16 +10,16 @@ local L = app.locales
 -------------
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
-	if addOnName == appName then
-		app.Enum.OrderState = {
-			Idle = 0,
-			Opened = 1,
-			Claimed = 2,
-			Crafting = 3,
-			Created = 4,
-		}
-		app.QueuedOrders = {}
-	end
+	if addOnName ~= appName then return end
+
+	app.Enum.OrderState = {
+		Idle = 0,
+		Opened = 1,
+		Claimed = 2,
+		Crafting = 3,
+		Created = 4,
+	}
+	app.QueuedOrders = {}
 end)
 
 ------------------
@@ -27,88 +27,88 @@ end)
 ------------------
 
 function app:CreateOrdersQueueFrame()
-	if not app.OrdersQueueFrame then
-		app.OrdersQueueFrame = CreateFrame("Frame", nil, ProfessionsFrame.OrdersPage, "DefaultPanelTemplate")
-		app.OrdersQueueFrame:SetFrameStrata("DIALOG")
-		app.OrdersQueueFrame:EnableMouse(true) -- Stop OnEnter for the frames below from triggering
-		app.OrdersQueueFrame:SetSize(220, 100)
-		app.OrdersQueueFrame:SetPoint("CENTER", ProfessionsFrame.OrdersPage.BrowseFrame.OrderList)
-		app.OrdersQueueFrame:Hide()
-		app.OrdersQueueFrame.TitleContainer.TitleText:SetText(app.NameLong)
-		app.OrdersQueueFrame.CloseButton = CreateFrame("Button", nil, app.OrdersQueueFrame, "UIPanelCloseButton")
-		app.OrdersQueueFrame.CloseButton:SetPoint("TOPRIGHT", app.OrdersQueueFrame)
-		app.OrdersQueueFrame.CloseButton:SetScript("OnClick", function()
-			app.OrdersQueueFrame:Hide()
-		end)
+	if app.OrdersQueueFrame then return end
 
-		app.OrdersQueueFrame.Button = app:MakeButton(app.OrdersQueueFrame, "", "ProfessionShoppingList_OrdersQueueButton")
-		app.OrdersQueueFrame.Button:SetPoint("TOP", app.OrdersQueueFrame, 0, -30)
-		app:UpdateButton(app.OrdersQueueFrame.Button, AUCTION_HOUSE_REFRESH_BUTTON_TOOLTIP)
-		app.OrdersQueueFrame.Button:SetScript("OnClick", function()
+	app.OrdersQueueFrame = CreateFrame("Frame", nil, ProfessionsFrame.OrdersPage, "DefaultPanelTemplate")
+	app.OrdersQueueFrame:SetFrameStrata("DIALOG")
+	app.OrdersQueueFrame:EnableMouse(true) -- Stop OnEnter for the frames below from triggering
+	app.OrdersQueueFrame:SetSize(220, 100)
+	app.OrdersQueueFrame:SetPoint("CENTER", ProfessionsFrame.OrdersPage.BrowseFrame.OrderList)
+	app.OrdersQueueFrame:Hide()
+	app.OrdersQueueFrame.TitleContainer.TitleText:SetText(app.NameLong)
+	app.OrdersQueueFrame.CloseButton = CreateFrame("Button", nil, app.OrdersQueueFrame, "UIPanelCloseButton")
+	app.OrdersQueueFrame.CloseButton:SetPoint("TOPRIGHT", app.OrdersQueueFrame)
+	app.OrdersQueueFrame.CloseButton:SetScript("OnClick", function()
+		app.OrdersQueueFrame:Hide()
+	end)
+
+	app.OrdersQueueFrame.Button = app:MakeButton(app.OrdersQueueFrame, "", "ProfessionShoppingList_OrdersQueueButton")
+	app.OrdersQueueFrame.Button:SetPoint("TOP", app.OrdersQueueFrame, 0, -30)
+	app:UpdateButton(app.OrdersQueueFrame.Button, AUCTION_HOUSE_REFRESH_BUTTON_TOOLTIP)
+	app.OrdersQueueFrame.Button:SetScript("OnClick", function()
+		app:UpdateOrdersQueue()
+	end)
+
+	app.OrdersQueueFrame.Status = app.OrdersQueueFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	app.OrdersQueueFrame.Status:SetPoint("TOP", app.OrdersQueueFrame.Button, 0, -30)
+	app.OrdersQueueFrame.Status:SetJustifyH("CENTER")
+	app.OrdersQueueFrame.Status:SetText(L.LOADING)
+
+	app.OrdersQueueFrame.Warning = CreateFrame("Button", nil, app.OrdersQueueFrame)
+	app.OrdersQueueFrame.Warning:SetPoint("RIGHT", app.OrdersQueueFrame.Bg)
+	app.OrdersQueueFrame.Warning:SetSize(48, 48)
+	app.OrdersQueueFrame.Warning.Texture = app.OrdersQueueFrame.Warning:CreateTexture(nil, "ARTWORK")
+	app.OrdersQueueFrame.Warning.Texture:SetAllPoints(app.OrdersQueueFrame.Warning)
+	app.OrdersQueueFrame.Warning.Texture:SetAtlas("Ping_Wheel_Icon_Warning", true)
+	app.OrdersQueueFrame.Warning.Animation = app.OrdersQueueFrame.Warning:CreateAnimationGroup()
+		local fadeOut = app.OrdersQueueFrame.Warning.Animation:CreateAnimation("Alpha")
+		fadeOut:SetFromAlpha(1)
+		fadeOut:SetToAlpha(0.4)
+		fadeOut:SetDuration(1)
+		fadeOut:SetStartDelay(2)
+		fadeOut:SetOrder(1)
+		local fadeIn = app.OrdersQueueFrame.Warning.Animation:CreateAnimation("Alpha")
+		fadeIn:SetFromAlpha(0.4)
+		fadeIn:SetToAlpha(1)
+		fadeIn:SetDuration(1)
+		fadeIn:SetOrder(2)
+	app.OrdersQueueFrame.Warning.Animation:SetLooping("REPEAT")
+	app.OrdersQueueFrame.Warning.Text = ""
+	app.OrdersQueueFrame.Warning:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+		GameTooltip:SetText(app.OrdersQueueFrame.Warning.Text)
+		GameTooltip:Show()
+	end)
+	app.OrdersQueueFrame.Warning:SetScript("OnLeave", function()
+		GameTooltip:Hide()
+	end)
+	app.OrdersQueueFrame.Warning:Hide()
+
+	app.OrdersQueueFrame:SetFlattensRenderLayers(true)
+	app.OrdersQueueFrame:SetScript("OnShow", function()
+		RunNextFrame(function()
+			app.OrdersQueueFrame:SetHeight(math.abs(app.OrdersQueueFrame.Status:GetBottom() - app.OrdersQueueFrame:GetTop()) + 12)
 			app:UpdateOrdersQueue()
 		end)
+		UIErrorsFrame:Hide()
+	end)
+	app.OrdersQueueFrame:SetScript("OnHide", function()
+		UIErrorsFrame:Clear()
+		UIErrorsFrame:Show()
+	end)
 
-		app.OrdersQueueFrame.Status = app.OrdersQueueFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		app.OrdersQueueFrame.Status:SetPoint("TOP", app.OrdersQueueFrame.Button, 0, -30)
-		app.OrdersQueueFrame.Status:SetJustifyH("CENTER")
-		app.OrdersQueueFrame.Status:SetText(L.LOADING)
-
-		app.OrdersQueueFrame.Warning = CreateFrame("Button", nil, app.OrdersQueueFrame)
-		app.OrdersQueueFrame.Warning:SetPoint("RIGHT", app.OrdersQueueFrame.Bg)
-		app.OrdersQueueFrame.Warning:SetSize(48, 48)
-		app.OrdersQueueFrame.Warning.Texture = app.OrdersQueueFrame.Warning:CreateTexture(nil, "ARTWORK")
-		app.OrdersQueueFrame.Warning.Texture:SetAllPoints(app.OrdersQueueFrame.Warning)
-		app.OrdersQueueFrame.Warning.Texture:SetAtlas("Ping_Wheel_Icon_Warning", true)
-		app.OrdersQueueFrame.Warning.Animation = app.OrdersQueueFrame.Warning:CreateAnimationGroup()
-			local fadeOut = app.OrdersQueueFrame.Warning.Animation:CreateAnimation("Alpha")
-			fadeOut:SetFromAlpha(1)
-			fadeOut:SetToAlpha(0.4)
-			fadeOut:SetDuration(1)
-			fadeOut:SetStartDelay(2)
-			fadeOut:SetOrder(1)
-			local fadeIn = app.OrdersQueueFrame.Warning.Animation:CreateAnimation("Alpha")
-			fadeIn:SetFromAlpha(0.4)
-			fadeIn:SetToAlpha(1)
-			fadeIn:SetDuration(1)
-			fadeIn:SetOrder(2)
-		app.OrdersQueueFrame.Warning.Animation:SetLooping("REPEAT")
-		app.OrdersQueueFrame.Warning.Text = ""
-		app.OrdersQueueFrame.Warning:SetScript("OnEnter", function(self)
-			GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
-			GameTooltip:SetText(app.OrdersQueueFrame.Warning.Text)
-			GameTooltip:Show()
-		end)
-		app.OrdersQueueFrame.Warning:SetScript("OnLeave", function()
-			GameTooltip:Hide()
-		end)
-		app.OrdersQueueFrame.Warning:Hide()
-
-		app.OrdersQueueFrame:SetFlattensRenderLayers(true)
-		app.OrdersQueueFrame:SetScript("OnShow", function()
-			RunNextFrame(function()
-				app.OrdersQueueFrame:SetHeight(math.abs(app.OrdersQueueFrame.Status:GetBottom() - app.OrdersQueueFrame:GetTop()) + 12)
-				app:UpdateOrdersQueue()
-			end)
-			UIErrorsFrame:Hide()
-		end)
-		app.OrdersQueueFrame:SetScript("OnHide", function()
-			UIErrorsFrame:Clear()
-			UIErrorsFrame:Show()
-		end)
-
-		app.QueueOrdersButton = app:MakeButton(app.TrackOrdersButton, L.ORDERSQUEUE_QUEUE)
-		app.QueueOrdersButton:SetPoint("LEFT", app.TrackOrdersButton, "RIGHT", 29, 0)
-		app.QueueOrdersButton:SetScript("OnClick", function()
-			if not app.OrdersQueueFrame:IsVisible() then
-				app.OrdersQueueFrame:Show()
-			else
-				app.OrdersQueueFrame:Hide()
-			end
-		end)
-
-		if C_AddOns.IsAddOnLoaded("DialogKey_Numy") then
-			DialogKeyAPI:RegisterAddonFrame(DialogKeyAPI.Enum.FrameType.CraftingOrder, app.OrdersQueueFrame.Button)
+	app.QueueOrdersButton = app:MakeButton(app.TrackOrdersButton, L.ORDERSQUEUE_QUEUE)
+	app.QueueOrdersButton:SetPoint("LEFT", app.TrackOrdersButton, "RIGHT", 29, 0)
+	app.QueueOrdersButton:SetScript("OnClick", function()
+		if not app.OrdersQueueFrame:IsVisible() then
+			app.OrdersQueueFrame:Show()
+		else
+			app.OrdersQueueFrame:Hide()
 		end
+	end)
+
+	if C_AddOns.IsAddOnLoaded("DialogKey_Numy") then
+		DialogKeyAPI:RegisterAddonFrame(DialogKeyAPI.Enum.FrameType.CraftingOrder, app.OrdersQueueFrame.Button)
 	end
 end
 
@@ -240,27 +240,27 @@ app.Event:Register("TRADE_SKILL_CLOSE", function()
 end)
 
 app.Event:Register("TRADE_SKILL_SHOW", function()
-	if not InCombatLockdown() then
-		if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
-			app:CreateOrdersQueueFrame()
-			if not app.OrdersHook1 then
-				hooksecurefunc(ProfessionsFrame.OrdersPage, "ViewOrder", function(_, orderDetails)
-					if app.OrderState == app.Enum.OrderState.Idle then
-						app.OrderState = app.Enum.OrderState.Opened
-						app:Debug("app.Enum.OrderState.Opened 1")
-						if app.OrdersQueueFrame:IsVisible() then
-							app:UpdateOrdersQueue()
-						end
-					end
-				end)
-				ProfessionsFrame.OrdersPage.OrderView.CreateButton:HookScript("OnClick", function()
-					if StaticPopup1:IsVisible() then
-						StaticPopup1Button1:Click()
+	if InCombatLockdown() then return end
+
+	if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
+		app:CreateOrdersQueueFrame()
+		if not app.OrdersHook1 then
+			hooksecurefunc(ProfessionsFrame.OrdersPage, "ViewOrder", function(_, orderDetails)
+				if app.OrderState == app.Enum.OrderState.Idle then
+					app.OrderState = app.Enum.OrderState.Opened
+					app:Debug("app.Enum.OrderState.Opened 1")
+					if app.OrdersQueueFrame:IsVisible() then
 						app:UpdateOrdersQueue()
 					end
-				end)
-				app.OrdersHook1 = true
-			end
+				end
+			end)
+			ProfessionsFrame.OrdersPage.OrderView.CreateButton:HookScript("OnClick", function()
+				if StaticPopup1:IsVisible() then
+					StaticPopup1Button1:Click()
+					app:UpdateOrdersQueue()
+				end
+			end)
+			app.OrdersHook1 = true
 		end
 	end
 end)

@@ -11,9 +11,9 @@ local L = app.locales
 -------------
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
-	if addOnName == appName then
-		app.Data.Pets = app.Data.Pets or {}
-	end
+	if addOnName ~= appName then return end
+
+	app.Data.Pets = app.Data.Pets or {}
 end)
 
 -----------------------

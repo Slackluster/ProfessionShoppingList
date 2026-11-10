@@ -10,33 +10,28 @@ local L = app.locales
 -- ON LOAD --
 -------------
 
--- When the addon is fully loaded, actually run the components
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
-	if addOnName == appName then
-		app.Settings.craftingOrders = app.Settings.craftingOrders or {
-			knowledgeCost = 85,
-			artisanCost = 3,
-			payoutCost = 50,
-		}
-		if app.Settings.craftingOrders.trackReset == nil then app.Settings.craftingOrders.trackReset = true end
+	if addOnName ~= appName then return end
 
-		app.CharData.Queue = app.CharData.Queue or {}
-		if app.CharData.TrackConcentration ~= nil then
-			app.CharData.Queue.TrackConcentration = app.CharData.TrackConcentration
-			app.CharData.TrackConcentration = nil
-		end
-		if app.CharData.Queue.TrackConcentration == nil then
-			app.CharData.Queue.TrackConcentration = true
-		end
-		app.CharData.Queue.Knowledge = app.CharData.Queue.Knowledge or {}
+	app.Settings.craftingOrders = app.Settings.craftingOrders or { knowledgeCost = 85, artisanCost = 3, payoutCost = 50 }
+	if app.Settings.craftingOrders.trackReset == nil then app.Settings.craftingOrders.trackReset = true end
 
-		app.Flag.CraftingOrderAssets = false
-		app.Flag.QuickOrder = 0
-		app.RepeatQuickOrderTooltip = {}
-		app.QuickOrderRecipeID = 0
-		app.QuickOrderAttempts = 0
-		app.QuickOrderErrors = 0
+	app.CharData.Queue = app.CharData.Queue or {}
+	if app.CharData.TrackConcentration ~= nil then
+		app.CharData.Queue.TrackConcentration = app.CharData.TrackConcentration
+		app.CharData.TrackConcentration = nil
 	end
+	if app.CharData.Queue.TrackConcentration == nil then
+		app.CharData.Queue.TrackConcentration = true
+	end
+	app.CharData.Queue.Knowledge = app.CharData.Queue.Knowledge or {}
+
+	app.Flag.CraftingOrderAssets = false
+	app.Flag.QuickOrder = 0
+	app.RepeatQuickOrderTooltip = {}
+	app.QuickOrderRecipeID = 0
+	app.QuickOrderAttempts = 0
+	app.QuickOrderErrors = 0
 end)
 
 ------------
@@ -272,293 +267,293 @@ function app:CreateCraftingOrdersAssets()
 end
 
 function app:CreateProfessionsOrdersAssets()
-	if not app.TrackOrdersButton then
-		app.TrackOrdersButton = app:MakeButton(ProfessionsFrame.OrdersPage.BrowseFrame, L.TRACK)
-		app.TrackOrdersButton:SetPoint("LEFT", ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "RIGHT", 6, 0)
-		app.TrackOrdersButton:SetScript("OnClick", function()
-			if not app.OrderInfo then return end
-			if app.Flag.ProcessingOrders and app.Flag.ProcessingOrders ~= 0 then
-				C_Timer.After(0.1, function()
-					app.TrackOrdersButton:Click()
-				end)
-			end
+	if app.TrackOrdersButton then return end
 
-			local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
-			if ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
-				for key, orderInfo in pairs(app.OrderInfo) do
-					if orderInfo.learned and not app.Data.Recipes[key] and skillLineID == orderInfo.skillLineID and orderInfo.view.orderType == Enum.CraftingOrderType.Npc then
-						local profit = 1
-						if app.Flag.IsAuctionAddonLoaded then
-							profit = orderInfo.profit
-							for tradeSkillLineID, knowledge in pairs(orderInfo.knowledge) do
-								if app.CharData.Queue.Knowledge[tradeSkillLineID] then
-									profit = profit + (knowledge * (app.Settings.craftingOrders.knowledgeCost * 10000))
-								end
+	app.TrackOrdersButton = app:MakeButton(ProfessionsFrame.OrdersPage.BrowseFrame, L.TRACK)
+	app.TrackOrdersButton:SetPoint("LEFT", ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "RIGHT", 6, 0)
+	app.TrackOrdersButton:SetScript("OnClick", function()
+		if not app.OrderInfo then return end
+		if app.Flag.ProcessingOrders and app.Flag.ProcessingOrders ~= 0 then
+			C_Timer.After(0.1, function()
+				app.TrackOrdersButton:Click()
+			end)
+		end
+
+		local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
+		if ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
+			for key, orderInfo in pairs(app.OrderInfo) do
+				if orderInfo.learned and not app.Data.Recipes[key] and skillLineID == orderInfo.skillLineID and orderInfo.view.orderType == Enum.CraftingOrderType.Npc then
+					local profit = 1
+					if app.Flag.IsAuctionAddonLoaded then
+						profit = orderInfo.profit
+						for tradeSkillLineID, knowledge in pairs(orderInfo.knowledge) do
+							if app.CharData.Queue.Knowledge[tradeSkillLineID] then
+								profit = profit + (knowledge * (app.Settings.craftingOrders.knowledgeCost * 10000))
 							end
-							profit = profit + (orderInfo.artisan * (app.Settings.craftingOrders.artisanCost * 10000))
-							profit = profit + (orderInfo.payout * (app.Settings.craftingOrders.payoutCost * 10000))
 						end
-
-						if orderInfo.spellID == 1246939 then profit = -1 end -- Haranir Canopy Bed, which requires lumber
-
-						if profit >= 0 and (app.CharData.Queue.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings.craftingOrders.trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) and orderInfo.expirationTime > GetServerTime() then
-							api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
-						end
+						profit = profit + (orderInfo.artisan * (app.Settings.craftingOrders.artisanCost * 10000))
+						profit = profit + (orderInfo.payout * (app.Settings.craftingOrders.payoutCost * 10000))
 					end
-				end
-				if app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() then
-					app:UpdateOrdersQueue()
-				end
-			elseif ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected then
-				for key, orderInfo in pairs(app.OrderInfo) do
-					if orderInfo.learned and not app.Data.Recipes[key] and orderInfo.view.orderType == Enum.CraftingOrderType.Personal then
+
+					if orderInfo.spellID == 1246939 then profit = -1 end -- Haranir Canopy Bed, which requires lumber
+
+					if profit >= 0 and (app.CharData.Queue.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings.craftingOrders.trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) and orderInfo.expirationTime > GetServerTime() then
 						api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
 					end
 				end
 			end
-		end)
-		app.TrackOrdersButton:Hide()
+			if app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() then
+				app:UpdateOrdersQueue()
+			end
+		elseif ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected then
+			for key, orderInfo in pairs(app.OrderInfo) do
+				if orderInfo.learned and not app.Data.Recipes[key] and orderInfo.view.orderType == Enum.CraftingOrderType.Personal then
+					api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
+				end
+			end
+		end
+	end)
+	app.TrackOrdersButton:Hide()
 
-		app.TrackOrdersSettingsButton = CreateFrame("Button", nil, app.TrackOrdersButton)
+	app.TrackOrdersSettingsButton = CreateFrame("Button", nil, app.TrackOrdersButton)
+	app.TrackOrdersSettingsButton:SetPoint("LEFT", app.TrackOrdersButton, "RIGHT", 3, 0)
+	app.TrackOrdersSettingsButton:SetSize(24, 24)
+	local texture = app.TrackOrdersSettingsButton:CreateTexture(nil, "ARTWORK")
+	texture:SetAllPoints(app.TrackOrdersSettingsButton)
+	texture:SetTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\settings-gear.png")
+	app.TrackOrdersSettingsButton:SetHighlightTexture("UI-Niffen-Highlight-Bottom")
+	app.TrackOrdersSettingsButton:SetScript("OnMouseDown", function()
+		app.TrackOrdersSettingsButton:SetPoint("LEFT", app.TrackOrdersButton, "RIGHT", 4, -1)
+	end)
+	app.TrackOrdersSettingsButton:SetScript("OnMouseUp", function()
 		app.TrackOrdersSettingsButton:SetPoint("LEFT", app.TrackOrdersButton, "RIGHT", 3, 0)
-		app.TrackOrdersSettingsButton:SetSize(24, 24)
-		local texture = app.TrackOrdersSettingsButton:CreateTexture(nil, "ARTWORK")
-		texture:SetAllPoints(app.TrackOrdersSettingsButton)
-		texture:SetTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\settings-gear.png")
-		app.TrackOrdersSettingsButton:SetHighlightTexture("UI-Niffen-Highlight-Bottom")
-		app.TrackOrdersSettingsButton:SetScript("OnMouseDown", function()
-			app.TrackOrdersSettingsButton:SetPoint("LEFT", app.TrackOrdersButton, "RIGHT", 4, -1)
-		end)
-		app.TrackOrdersSettingsButton:SetScript("OnMouseUp", function()
-			app.TrackOrdersSettingsButton:SetPoint("LEFT", app.TrackOrdersButton, "RIGHT", 3, 0)
-		end)
-		app.TrackOrdersSettingsButton:SetScript("OnClick", function()
-			if not app.TrackOrdersSettings:IsVisible() then
-				app.TrackOrdersSettings:Show()
-				app.TrackOrdersSettings:SetToplevel(true)
-			else
-				app.TrackOrdersSettings:Hide()
-			end
-		end)
-
-		app.Flag.ReloadingOrders = 0
-		local function sortOrders()
-			ProfessionsFrame.OrdersPage:ResetSortOrder()
-			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration)
-			ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration) -- Can't specify descending
-			C_Timer.After(0.5, function()
-				if app.OrderState ~= app.Enum.OrderState.Idle and not C_CraftingOrders.GetClaimedOrder() then
-					app.OrderState = app.Enum.OrderState.Idle
-					app:Debug("app.Enum.OrderState.Idle 3")
-				end
-
-				app.Flag.ReloadingOrders = app.Flag.ReloadingOrders + 1
-				if (ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.LoadingSpinner:IsVisible() or ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ResultsText:IsVisible()) and app.Flag.ReloadingOrders < 6 then
-					sortOrders()
-				else
-					app.Flag.ReloadingOrders = 0
-				end
-			end)
+	end)
+	app.TrackOrdersSettingsButton:SetScript("OnClick", function()
+		if not app.TrackOrdersSettings:IsVisible() then
+			app.TrackOrdersSettings:Show()
+			app.TrackOrdersSettings:SetToplevel(true)
+		else
+			app.TrackOrdersSettings:Hide()
 		end
+	end)
 
-		hooksecurefunc(ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton, "SetTabSelected", function()
-			if app.Settings.enhancedOrders and (ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected or ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected) then
-				app.TrackOrdersButton:Show()
+	app.Flag.ReloadingOrders = 0
+	local function sortOrders()
+		ProfessionsFrame.OrdersPage:ResetSortOrder()
+		ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration)
+		ProfessionsFrame.OrdersPage:SetSortOrder(ProfessionsSortOrder.Expiration) -- Can't specify descending
+		C_Timer.After(0.5, function()
+			if app.OrderState ~= app.Enum.OrderState.Idle and not C_CraftingOrders.GetClaimedOrder() then
+				app.OrderState = app.Enum.OrderState.Idle
+				app:Debug("app.Enum.OrderState.Idle 3")
+			end
+
+			app.Flag.ReloadingOrders = app.Flag.ReloadingOrders + 1
+			if (ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.LoadingSpinner:IsVisible() or ProfessionsFrame.OrdersPage.BrowseFrame.OrderList.ResultsText:IsVisible()) and app.Flag.ReloadingOrders < 6 then
 				sortOrders()
 			else
-				app.TrackOrdersButton:Hide()
+				app.Flag.ReloadingOrders = 0
 			end
-		end)
-
-		ProfessionsFrame.OrdersPage:HookScript("OnShow", function()
-			if app.Settings.enhancedOrders and ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
-				sortOrders()
-			end
-		end)
-
-		hooksecurefunc(ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "SetTabSelected", function()
-			if app.Settings.enhancedOrders and (ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected or ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected) then
-				app.TrackOrdersButton:Show()
-			else
-				app.TrackOrdersButton:Hide()
-			end
-		end)
-
-		local _, classFilename = UnitClass("player")
-		local _, _, _, classColor = GetClassColor(classFilename)
-		local charName = "|c" .. classColor .. UnitName("player") .. "-" .. GetNormalizedRealmName() .. "|r"
-
-		app.TrackOrdersSettings = CreateFrame("Frame", nil, ProfessionsFrame, "BasicFrameTemplate")
-		app.TrackOrdersSettings:SetFrameStrata("DIALOG")
-		app.TrackOrdersSettings:SetPoint("TOPLEFT", app.TrackOrdersSettingsButton, "TOPRIGHT", 6, 0)
-		app.TrackOrdersSettings:EnableMouse(true) -- Stop OnEnter for the frames below from triggering
-		app.TrackOrdersSettings:Hide()
-		app.TrackOrdersSettings.TitleText:SetText(app.NameLong)
-
-		local text0 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		text0:SetPoint("TOPLEFT", app.TrackOrdersSettings, "TOPLEFT", 10, -30)
-		text0:SetJustifyH("LEFT")
-		text0:SetText(L.ORDERS_SET_CRITERIA .. " " .. string.format(L.ORDERS_COST_NEED, "\n" .. L.AUCTION_ADDONS))
-
-		local text1 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		text1:SetPoint("TOPLEFT", text0, "BOTTOMLEFT", 0, -10)
-		text1:SetJustifyH("LEFT")
-		text1:SetText(L.ORDERS_MAX_COST_KNOWLEDGE)
-
-		local editbox1 = CreateFrame("EditBox", nil, app.TrackOrdersSettings, "InputBoxTemplate")
-		editbox1:SetSize(40,20)
-		editbox1:SetPoint("TOPLEFT", text1, "BOTTOMLEFT", 4, -4)
-		editbox1:SetAutoFocus(false)
-		editbox1:SetCursorPosition(0)
-		editbox1:SetText(app.Settings.craftingOrders.knowledgeCost)
-		editbox1:SetJustifyH("RIGHT")
-		editbox1:SetTextInsets(0, 3, 0, 0)
-		editbox1:SetScript("OnEditFocusLost", function(self)
-			app.Settings.craftingOrders.knowledgeCost = math.floor(tonumber(self:GetText()) or app.Settings.craftingOrders.knowledgeCost)
-			self:SetText(app.Settings.craftingOrders.knowledgeCost)
-		end)
-		editbox1:SetScript("OnEnterPressed", function(self)
-			self:ClearFocus()
-		end)
-		editbox1:SetScript("OnEscapePressed", function(self)
-			self:SetText(app.Settings.craftingOrders.knowledgeCost)
-		end)
-		app:SetBorder(editbox1, -6, 1, 2, -1)
-
-		local gold1 = CreateFrame("Button", nil, app.TrackOrdersSettings)
-		gold1:SetPoint("LEFT", editbox1, "RIGHT", 6, 0)
-		gold1:SetSize(16, 16)
-		local texture = gold1:CreateTexture(nil, "ARTWORK")
-		texture:SetAllPoints(gold1)
-		texture:SetAtlas("auctionhouse-icon-coin-gold", true)
-
-		local function isSelected(index)
-			if app.CharData.Queue.Knowledge[index] == nil then
-				app.CharData.Queue.Knowledge[index] = true
-			end
-			return app.CharData.Queue.Knowledge[index]
-		end
-		local function setSelected(index)
-			app.CharData.Queue.Knowledge[index] = not app.CharData.Queue.Knowledge[index]
-		end
-		function listStyleGenerator(owner, rootDescription)
-			rootDescription:CreateTitle(string.format(L.ORDERS_TRACK_ON, charName))
-			local professions = {}
-			for tradeSkillLineID, info in pairs(app.ProfessionKnowledge) do
-				local professionInfo = C_TradeSkillUI.GetProfessionInfoBySkillLineID(tradeSkillLineID)
-				if professionInfo.skillLevel > 0 and not info.gathering then
-					table.insert(professions, { tradeSkillLineID = tradeSkillLineID, professionName = professionInfo.professionName })
-				end
-			end
-			table.sort(professions, function(a, b) return a.tradeSkillLineID > b.tradeSkillLineID end)
-			for _, profession in ipairs(professions) do
-				rootDescription:CreateCheckbox(profession.professionName, isSelected, setSelected, profession.tradeSkillLineID)
-			end
-		end
-		app.TrackOrdersSettings.KnowledgeDropdown = CreateFrame("DropdownButton", nil, app.TrackOrdersSettings, "WowStyle1DropdownTemplate")
-		app.TrackOrdersSettings.KnowledgeDropdown:SetWidth(120)
-		app.TrackOrdersSettings.KnowledgeDropdown:SetPoint("LEFT", gold1, "RIGHT", 10, 0)
-		app.TrackOrdersSettings.KnowledgeDropdown:SetupMenu(listStyleGenerator)
-		app.TrackOrdersSettings.KnowledgeDropdown:OverrideText(TRADE_SKILLS)
-		app:SetBorder(app.TrackOrdersSettings.KnowledgeDropdown, -1, 1, 1, -1)
-
-		local text2 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		text2:SetPoint("TOPLEFT", text1, "BOTTOMLEFT", 0, -30)
-		text2:SetJustifyH("LEFT")
-		text2:SetText(L.ORDERS_MAX_COST_ARTISAN)
-
-		local editbox2 = CreateFrame("EditBox", nil, app.TrackOrdersSettings, "InputBoxTemplate")
-		editbox2:SetSize(40,20)
-		editbox2:SetPoint("TOPLEFT", text2, "BOTTOMLEFT", 4, -4)
-		editbox2:SetAutoFocus(false)
-		editbox2:SetCursorPosition(0)
-		editbox2:SetText(app.Settings.craftingOrders.artisanCost)
-		editbox2:SetJustifyH("RIGHT")
-		editbox2:SetTextInsets(0, 3, 0, 0)
-		editbox2:SetScript("OnEditFocusLost", function(self)
-			app.Settings.craftingOrders.artisanCost = math.floor(tonumber(self:GetText()) or app.Settings.craftingOrders.artisanCost)
-			self:SetText(app.Settings.craftingOrders.artisanCost)
-		end)
-		editbox2:SetScript("OnEnterPressed", function(self)
-			self:ClearFocus()
-		end)
-		editbox2:SetScript("OnEscapePressed", function(self)
-			self:SetText(app.Settings.craftingOrders.artisanCost)
-		end)
-		app:SetBorder(editbox2, -6, 1, 2, -1)
-
-		local gold2 = CreateFrame("Button", nil, app.TrackOrdersSettings)
-		gold2:SetPoint("LEFT", editbox2, "RIGHT", 6, 0)
-		gold2:SetSize(16, 16)
-		local texture = gold2:CreateTexture(nil, "ARTWORK")
-		texture:SetAllPoints(gold2)
-		texture:SetAtlas("auctionhouse-icon-coin-gold", true)
-
-		local text3 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		text3:SetPoint("TOPLEFT", text2, "BOTTOMLEFT", 0, -30)
-		text3:SetJustifyH("LEFT")
-		text3:SetText(L.ORDERS_MAX_COST_PAYOUT)
-
-		local editbox3 = CreateFrame("EditBox", nil, app.TrackOrdersSettings, "InputBoxTemplate")
-		editbox3:SetSize(40,20)
-		editbox3:SetPoint("TOPLEFT", text3, "BOTTOMLEFT", 4, -4)
-		editbox3:SetAutoFocus(false)
-		editbox3:SetCursorPosition(0)
-		editbox3:SetText(app.Settings.craftingOrders.payoutCost)
-		editbox3:SetJustifyH("RIGHT")
-		editbox3:SetTextInsets(0, 3, 0, 0)
-		editbox3:SetScript("OnEditFocusLost", function(self)
-			app.Settings.craftingOrders.payoutCost = math.floor(tonumber(self:GetText()) or app.Settings.craftingOrders.payoutCost)
-			self:SetText(app.Settings.craftingOrders.payoutCost)
-		end)
-		editbox3:SetScript("OnEnterPressed", function(self)
-			self:ClearFocus()
-		end)
-		editbox3:SetScript("OnEscapePressed", function(self)
-			self:SetText(app.Settings.craftingOrders.payoutCost)
-		end)
-		app:SetBorder(editbox3, -6, 1, 2, -1)
-
-		local gold3 = CreateFrame("Button", nil, app.TrackOrdersSettings)
-		gold3:SetPoint("LEFT", editbox3, "RIGHT", 6, 0)
-		gold3:SetSize(16, 16)
-		local texture = gold3:CreateTexture(nil, "ARTWORK")
-		texture:SetAllPoints(gold3)
-		texture:SetAtlas("auctionhouse-icon-coin-gold", true)
-
-		local checkbox1 = CreateFrame("CheckButton", nil, app.TrackOrdersSettings, "ChatConfigCheckButtonTemplate")
-		checkbox1:SetPoint("TOPLEFT", text3, "BOTTOMLEFT", -3, -26)
-		checkbox1.Text:SetText(L.ORDERS_TRACK_AFTER_RESET)
-		checkbox1.Text:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
-		checkbox1.Text:SetPoint("LEFT", checkbox1, "RIGHT")
-		checkbox1:SetChecked(app.Settings.craftingOrders.trackReset)
-		checkbox1:SetScript("OnClick", function(self)
-			app.Settings.craftingOrders.trackReset = self:GetChecked()
-		end)
-
-		local text4 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		text4:SetPoint("LEFT", text3)
-		text4:SetPoint("TOP", checkbox1, "BOTTOM", 0, -4)
-		text4:SetJustifyH("LEFT")
-		text4:SetText(L.ORDERS_TRACK_CONCENTRATION)
-
-		local checkbox2 = CreateFrame("CheckButton", nil, app.TrackOrdersSettings, "ChatConfigCheckButtonTemplate")
-		checkbox2:SetPoint("TOPLEFT", text4, "BOTTOMLEFT", -3, -2)
-		checkbox2.Text:SetText(charName)
-		checkbox2.Text:SetPoint("LEFT", checkbox2, "RIGHT")
-		checkbox2:SetChecked(app.CharData.Queue.TrackConcentration)
-		checkbox2:SetScript("OnClick", function(self)
-			app.CharData.Queue.TrackConcentration = self:GetChecked()
-		end)
-
-		app.TrackOrdersSettings:SetFlattensRenderLayers(true)
-		app.TrackOrdersSettings:SetSize(text0:GetStringWidth() + 20, 235)
-		app.TrackOrdersSettings:SetScript("OnShow", function()
-			RunNextFrame(function()
-				app.TrackOrdersSettings:SetHeight(math.abs(checkbox2:GetBottom() - app.TrackOrdersSettings:GetTop()) + 6)
-			end)
 		end)
 	end
+
+	hooksecurefunc(ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton, "SetTabSelected", function()
+		if app.Settings.enhancedOrders and (ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected or ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected) then
+			app.TrackOrdersButton:Show()
+			sortOrders()
+		else
+			app.TrackOrdersButton:Hide()
+		end
+	end)
+
+	ProfessionsFrame.OrdersPage:HookScript("OnShow", function()
+		if app.Settings.enhancedOrders and ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected then
+			sortOrders()
+		end
+	end)
+
+	hooksecurefunc(ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "SetTabSelected", function()
+		if app.Settings.enhancedOrders and (ProfessionsFrame.OrdersPage.BrowseFrame.NpcOrdersButton.isSelected or ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton.isSelected) then
+			app.TrackOrdersButton:Show()
+		else
+			app.TrackOrdersButton:Hide()
+		end
+	end)
+
+	local _, classFilename = UnitClass("player")
+	local _, _, _, classColor = GetClassColor(classFilename)
+	local charName = "|c" .. classColor .. UnitName("player") .. "-" .. GetNormalizedRealmName() .. "|r"
+
+	app.TrackOrdersSettings = CreateFrame("Frame", nil, ProfessionsFrame, "BasicFrameTemplate")
+	app.TrackOrdersSettings:SetFrameStrata("DIALOG")
+	app.TrackOrdersSettings:SetPoint("TOPLEFT", app.TrackOrdersSettingsButton, "TOPRIGHT", 6, 0)
+	app.TrackOrdersSettings:EnableMouse(true) -- Stop OnEnter for the frames below from triggering
+	app.TrackOrdersSettings:Hide()
+	app.TrackOrdersSettings.TitleText:SetText(app.NameLong)
+
+	local text0 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	text0:SetPoint("TOPLEFT", app.TrackOrdersSettings, "TOPLEFT", 10, -30)
+	text0:SetJustifyH("LEFT")
+	text0:SetText(L.ORDERS_SET_CRITERIA .. " " .. string.format(L.ORDERS_COST_NEED, "\n" .. L.AUCTION_ADDONS))
+
+	local text1 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	text1:SetPoint("TOPLEFT", text0, "BOTTOMLEFT", 0, -10)
+	text1:SetJustifyH("LEFT")
+	text1:SetText(L.ORDERS_MAX_COST_KNOWLEDGE)
+
+	local editbox1 = CreateFrame("EditBox", nil, app.TrackOrdersSettings, "InputBoxTemplate")
+	editbox1:SetSize(40,20)
+	editbox1:SetPoint("TOPLEFT", text1, "BOTTOMLEFT", 4, -4)
+	editbox1:SetAutoFocus(false)
+	editbox1:SetCursorPosition(0)
+	editbox1:SetText(app.Settings.craftingOrders.knowledgeCost)
+	editbox1:SetJustifyH("RIGHT")
+	editbox1:SetTextInsets(0, 3, 0, 0)
+	editbox1:SetScript("OnEditFocusLost", function(self)
+		app.Settings.craftingOrders.knowledgeCost = math.floor(tonumber(self:GetText()) or app.Settings.craftingOrders.knowledgeCost)
+		self:SetText(app.Settings.craftingOrders.knowledgeCost)
+	end)
+	editbox1:SetScript("OnEnterPressed", function(self)
+		self:ClearFocus()
+	end)
+	editbox1:SetScript("OnEscapePressed", function(self)
+		self:SetText(app.Settings.craftingOrders.knowledgeCost)
+	end)
+	app:SetBorder(editbox1, -6, 1, 2, -1)
+
+	local gold1 = CreateFrame("Button", nil, app.TrackOrdersSettings)
+	gold1:SetPoint("LEFT", editbox1, "RIGHT", 6, 0)
+	gold1:SetSize(16, 16)
+	local texture = gold1:CreateTexture(nil, "ARTWORK")
+	texture:SetAllPoints(gold1)
+	texture:SetAtlas("auctionhouse-icon-coin-gold", true)
+
+	local function isSelected(index)
+		if app.CharData.Queue.Knowledge[index] == nil then
+			app.CharData.Queue.Knowledge[index] = true
+		end
+		return app.CharData.Queue.Knowledge[index]
+	end
+	local function setSelected(index)
+		app.CharData.Queue.Knowledge[index] = not app.CharData.Queue.Knowledge[index]
+	end
+	function listStyleGenerator(owner, rootDescription)
+		rootDescription:CreateTitle(string.format(L.ORDERS_TRACK_ON, charName))
+		local professions = {}
+		for tradeSkillLineID, info in pairs(app.ProfessionKnowledge) do
+			local professionInfo = C_TradeSkillUI.GetProfessionInfoBySkillLineID(tradeSkillLineID)
+			if professionInfo.skillLevel > 0 and not info.gathering then
+				table.insert(professions, { tradeSkillLineID = tradeSkillLineID, professionName = professionInfo.professionName })
+			end
+		end
+		table.sort(professions, function(a, b) return a.tradeSkillLineID > b.tradeSkillLineID end)
+		for _, profession in ipairs(professions) do
+			rootDescription:CreateCheckbox(profession.professionName, isSelected, setSelected, profession.tradeSkillLineID)
+		end
+	end
+	app.TrackOrdersSettings.KnowledgeDropdown = CreateFrame("DropdownButton", nil, app.TrackOrdersSettings, "WowStyle1DropdownTemplate")
+	app.TrackOrdersSettings.KnowledgeDropdown:SetWidth(120)
+	app.TrackOrdersSettings.KnowledgeDropdown:SetPoint("LEFT", gold1, "RIGHT", 10, 0)
+	app.TrackOrdersSettings.KnowledgeDropdown:SetupMenu(listStyleGenerator)
+	app.TrackOrdersSettings.KnowledgeDropdown:OverrideText(TRADE_SKILLS)
+	app:SetBorder(app.TrackOrdersSettings.KnowledgeDropdown, -1, 1, 1, -1)
+
+	local text2 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	text2:SetPoint("TOPLEFT", text1, "BOTTOMLEFT", 0, -30)
+	text2:SetJustifyH("LEFT")
+	text2:SetText(L.ORDERS_MAX_COST_ARTISAN)
+
+	local editbox2 = CreateFrame("EditBox", nil, app.TrackOrdersSettings, "InputBoxTemplate")
+	editbox2:SetSize(40,20)
+	editbox2:SetPoint("TOPLEFT", text2, "BOTTOMLEFT", 4, -4)
+	editbox2:SetAutoFocus(false)
+	editbox2:SetCursorPosition(0)
+	editbox2:SetText(app.Settings.craftingOrders.artisanCost)
+	editbox2:SetJustifyH("RIGHT")
+	editbox2:SetTextInsets(0, 3, 0, 0)
+	editbox2:SetScript("OnEditFocusLost", function(self)
+		app.Settings.craftingOrders.artisanCost = math.floor(tonumber(self:GetText()) or app.Settings.craftingOrders.artisanCost)
+		self:SetText(app.Settings.craftingOrders.artisanCost)
+	end)
+	editbox2:SetScript("OnEnterPressed", function(self)
+		self:ClearFocus()
+	end)
+	editbox2:SetScript("OnEscapePressed", function(self)
+		self:SetText(app.Settings.craftingOrders.artisanCost)
+	end)
+	app:SetBorder(editbox2, -6, 1, 2, -1)
+
+	local gold2 = CreateFrame("Button", nil, app.TrackOrdersSettings)
+	gold2:SetPoint("LEFT", editbox2, "RIGHT", 6, 0)
+	gold2:SetSize(16, 16)
+	local texture = gold2:CreateTexture(nil, "ARTWORK")
+	texture:SetAllPoints(gold2)
+	texture:SetAtlas("auctionhouse-icon-coin-gold", true)
+
+	local text3 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	text3:SetPoint("TOPLEFT", text2, "BOTTOMLEFT", 0, -30)
+	text3:SetJustifyH("LEFT")
+	text3:SetText(L.ORDERS_MAX_COST_PAYOUT)
+
+	local editbox3 = CreateFrame("EditBox", nil, app.TrackOrdersSettings, "InputBoxTemplate")
+	editbox3:SetSize(40,20)
+	editbox3:SetPoint("TOPLEFT", text3, "BOTTOMLEFT", 4, -4)
+	editbox3:SetAutoFocus(false)
+	editbox3:SetCursorPosition(0)
+	editbox3:SetText(app.Settings.craftingOrders.payoutCost)
+	editbox3:SetJustifyH("RIGHT")
+	editbox3:SetTextInsets(0, 3, 0, 0)
+	editbox3:SetScript("OnEditFocusLost", function(self)
+		app.Settings.craftingOrders.payoutCost = math.floor(tonumber(self:GetText()) or app.Settings.craftingOrders.payoutCost)
+		self:SetText(app.Settings.craftingOrders.payoutCost)
+	end)
+	editbox3:SetScript("OnEnterPressed", function(self)
+		self:ClearFocus()
+	end)
+	editbox3:SetScript("OnEscapePressed", function(self)
+		self:SetText(app.Settings.craftingOrders.payoutCost)
+	end)
+	app:SetBorder(editbox3, -6, 1, 2, -1)
+
+	local gold3 = CreateFrame("Button", nil, app.TrackOrdersSettings)
+	gold3:SetPoint("LEFT", editbox3, "RIGHT", 6, 0)
+	gold3:SetSize(16, 16)
+	local texture = gold3:CreateTexture(nil, "ARTWORK")
+	texture:SetAllPoints(gold3)
+	texture:SetAtlas("auctionhouse-icon-coin-gold", true)
+
+	local checkbox1 = CreateFrame("CheckButton", nil, app.TrackOrdersSettings, "ChatConfigCheckButtonTemplate")
+	checkbox1:SetPoint("TOPLEFT", text3, "BOTTOMLEFT", -3, -26)
+	checkbox1.Text:SetText(L.ORDERS_TRACK_AFTER_RESET)
+	checkbox1.Text:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
+	checkbox1.Text:SetPoint("LEFT", checkbox1, "RIGHT")
+	checkbox1:SetChecked(app.Settings.craftingOrders.trackReset)
+	checkbox1:SetScript("OnClick", function(self)
+		app.Settings.craftingOrders.trackReset = self:GetChecked()
+	end)
+
+	local text4 = app.TrackOrdersSettings:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	text4:SetPoint("LEFT", text3)
+	text4:SetPoint("TOP", checkbox1, "BOTTOM", 0, -4)
+	text4:SetJustifyH("LEFT")
+	text4:SetText(L.ORDERS_TRACK_CONCENTRATION)
+
+	local checkbox2 = CreateFrame("CheckButton", nil, app.TrackOrdersSettings, "ChatConfigCheckButtonTemplate")
+	checkbox2:SetPoint("TOPLEFT", text4, "BOTTOMLEFT", -3, -2)
+	checkbox2.Text:SetText(charName)
+	checkbox2.Text:SetPoint("LEFT", checkbox2, "RIGHT")
+	checkbox2:SetChecked(app.CharData.Queue.TrackConcentration)
+	checkbox2:SetScript("OnClick", function(self)
+		app.CharData.Queue.TrackConcentration = self:GetChecked()
+	end)
+
+	app.TrackOrdersSettings:SetFlattensRenderLayers(true)
+	app.TrackOrdersSettings:SetSize(text0:GetStringWidth() + 20, 235)
+	app.TrackOrdersSettings:SetScript("OnShow", function()
+		RunNextFrame(function()
+			app.TrackOrdersSettings:SetHeight(math.abs(checkbox2:GetBottom() - app.TrackOrdersSettings:GetTop()) + 6)
+		end)
+	end)
 end
 
 ---------------------
@@ -664,10 +659,10 @@ end)
 -----------------------
 
 app.Event:Register("TRADE_SKILL_SHOW", function()
-	if not InCombatLockdown() then
-		if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
-			app:CreateProfessionsOrdersAssets()
-		end
+	if InCombatLockdown() then return end
+
+	if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
+		app:CreateProfessionsOrdersAssets()
 	end
 end)
 

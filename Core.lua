@@ -37,31 +37,31 @@ end)
 -------------
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
-	if addOnName == appName then
-		if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-			app.Retail = true
-		elseif WOW_PROJECT_ID == WOW_PROJECT_CAMELOT then
-			app.Forever = true
-		end
+	if addOnName ~= appName then return end
 
-		ProfessionShoppingList_Cache = ProfessionShoppingList_Cache or {}
-		ProfessionShoppingList_CharacterData = ProfessionShoppingList_CharacterData or {}
-		ProfessionShoppingList_Data = ProfessionShoppingList_Data or {}
-		ProfessionShoppingList_Library = ProfessionShoppingList_Library or {}
-		ProfessionShoppingList_Settings = ProfessionShoppingList_Settings or {}
-
-		app.Cache = ProfessionShoppingList_Cache
-		app.Data = ProfessionShoppingList_Data
-		app.CharData = ProfessionShoppingList_CharacterData
-		app.Library = ProfessionShoppingList_Library
-		app.Settings = ProfessionShoppingList_Settings
-		app.Version = C_AddOns.GetAddOnMetadata(appName, "Version")
-		app.Enum = {}
-		app.Flag = {}
-
-		C_ChatInfo.RegisterAddonMessagePrefix(app.NamePrefix)
-		app:CreateSlashCommands()
+	if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+		app.Retail = true
+	elseif WOW_PROJECT_ID == WOW_PROJECT_CAMELOT then
+		app.Forever = true
 	end
+
+	ProfessionShoppingList_Cache = ProfessionShoppingList_Cache or {}
+	ProfessionShoppingList_CharacterData = ProfessionShoppingList_CharacterData or {}
+	ProfessionShoppingList_Data = ProfessionShoppingList_Data or {}
+	ProfessionShoppingList_Library = ProfessionShoppingList_Library or {}
+	ProfessionShoppingList_Settings = ProfessionShoppingList_Settings or {}
+
+	app.Cache = ProfessionShoppingList_Cache
+	app.Data = ProfessionShoppingList_Data
+	app.CharData = ProfessionShoppingList_CharacterData
+	app.Library = ProfessionShoppingList_Library
+	app.Settings = ProfessionShoppingList_Settings
+	app.Version = C_AddOns.GetAddOnMetadata(appName, "Version")
+	app.Enum = {}
+	app.Flag = {}
+
+	C_ChatInfo.RegisterAddonMessagePrefix(app.NamePrefix)
+	app:CreateSlashCommands()
 end)
 
 app.Event:Register("PLAYER_ENTERING_WORLD", function(isInitialLogin, isReloadingUi)

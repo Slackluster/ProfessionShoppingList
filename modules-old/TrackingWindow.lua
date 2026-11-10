@@ -11,38 +11,38 @@ local L = app.locales
 -------------
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
-	if addOnName == appName then
-		app.Data.Recipes = app.Data.Recipes or {}
-		app.Data.Cooldowns = app.Data.Cooldowns or {}
+	if addOnName ~= appName then return end
 
-		app.Cache.ReagentTiers = app.Cache.ReagentTiers or {}
-		app.Cache.Reagents = app.Cache.Reagents or {}
-		app.Cache.FakeRecipes = app.Cache.FakeRecipes or {}
-		app.Cache.SimulatedRecipes = app.Cache.SimulatedRecipes or {}
+	app.Data.Recipes = app.Data.Recipes or {}
+	app.Data.Cooldowns = app.Data.Cooldowns or {}
 
-		app.CharData.Recipes = app.CharData.Recipes or {}
-		app.CharData.Orders = app.CharData.Orders or {}
+	app.Cache.ReagentTiers = app.Cache.ReagentTiers or {}
+	app.Cache.Reagents = app.Cache.Reagents or {}
+	app.Cache.FakeRecipes = app.Cache.FakeRecipes or {}
+	app.Cache.SimulatedRecipes = app.Cache.SimulatedRecipes or {}
 
-		if app.Settings.pcRecipes then
-			app.Data.Recipes = app.CharData.Recipes
-		end
+	app.CharData.Recipes = app.CharData.Recipes or {}
+	app.CharData.Orders = app.CharData.Orders or {}
 
-		app.Hidden = CreateFrame("Frame")
-		app.ReagentQuantities = {}
-		app.SelectedRecipe = {}
-		app.SelectedRecipe.Profession = { recipeID = 0, recraft = false, recipeType = 0 }
-		app.SelectedRecipe.PlaceOrder = { recipeID = 0, recraft = false, recipeType = 0 }
-		app.SelectedRecipe.MakeOrder = {}
-		app.Rows = {}
-		app.Rows.Recipe = {}
-		app.Rows.Reagent = {}
-		app.Rows.Cooldown = {}
-		app.Rows.CooldownWidth = 0
-		app.Rows.ReagentWidth = 0
-		app.SimAddons = {"CraftSim", "TestFlight"}
-
-		app:CreateWindow()
+	if app.Settings.pcRecipes then
+		app.Data.Recipes = app.CharData.Recipes
 	end
+
+	app.Hidden = CreateFrame("Frame")
+	app.ReagentQuantities = {}
+	app.SelectedRecipe = {}
+	app.SelectedRecipe.Profession = { recipeID = 0, recraft = false, recipeType = 0 }
+	app.SelectedRecipe.PlaceOrder = { recipeID = 0, recraft = false, recipeType = 0 }
+	app.SelectedRecipe.MakeOrder = {}
+	app.Rows = {}
+	app.Rows.Recipe = {}
+	app.Rows.Reagent = {}
+	app.Rows.Cooldown = {}
+	app.Rows.CooldownWidth = 0
+	app.Rows.ReagentWidth = 0
+	app.SimAddons = {"CraftSim", "TestFlight"}
+
+	app:CreateWindow()
 end)
 
 function app:FireTrackedRecipesChanged(recipeID, newQuantity) -- Thank you, Vamoose!
@@ -1596,12 +1596,10 @@ function app:UpdateRecipes()
 		app:ResizeWindow(true)
 	end)
 
-	-- Update numbers tracked and assets like buttons
 	app:UpdateNumbers()
 	app:UpdateAssets()
 end
 
--- Show window and update numbers
 function app:ShowWindow()
 	if not app.Window:IsVisible() then
 		app.Window:ClearAllPoints()
@@ -1618,11 +1616,9 @@ function app:ShowWindow()
 		app.Window:Raise()
 	end
 
-	-- Update numbers
 	app:UpdateRecipes()
 end
 
--- Get the reagents the tracked recipes need, without showing the window
 function api:GetMerchantShoppingList()
 	assert(self == api, "Call ProfessionShoppingList:GetMerchantShoppingList(), not ProfessionShoppingList.GetMerchantShoppingList()")
 
@@ -1637,7 +1633,6 @@ function api:GetMerchantShoppingList()
 	return list
 end
 
--- Toggle window
 function api:ToggleWindow()
 	assert(self == api, "Call ProfessionShoppingList:ToggleWindow(), not ProfessionShoppingList.ToggleWindow()")
 
@@ -1649,37 +1644,29 @@ function api:ToggleWindow()
 	end
 end
 
--- When the player gains currency
 app.Event:Register("CHAT_MSG_CURRENCY", function()
-	if not InCombatLockdown() then
-		-- If any recipes are tracked
-		local next = next
-		if next(app.Data.Recipes) ~= nil then
-			app:UpdateNumbers()
-		end
+	if InCombatLockdown() then return end
+
+	local next = next
+	if next(app.Data.Recipes) ~= nil then
+		app:UpdateNumbers()
 	end
 end)
 
--- When bag changes occur (out of combat)
 app.Event:Register("BAG_UPDATE_DELAYED", function()
-	if not InCombatLockdown() then
-		-- If any recipes are tracked
-		local next = next
-		if next(app.Data.Recipes) ~= nil then
-			app:UpdateNumbers()
-		end
+	if InCombatLockdown() then return end
 
-		-- If the setting for split reagent bag count is enabled
-		if app.Settings.backpackCount then
-			-- Get number of free bag slots
-			local freeSlots1 = C_Container.GetContainerNumFreeSlots(0) + C_Container.GetContainerNumFreeSlots(1) + C_Container.GetContainerNumFreeSlots(2) + C_Container.GetContainerNumFreeSlots(3) + C_Container.GetContainerNumFreeSlots(4)
-			local freeSlots2 = C_Container.GetContainerNumFreeSlots(5)
+	local next = next
+	if next(app.Data.Recipes) ~= nil then
+		app:UpdateNumbers()
+	end
 
-			-- If a reagent bag is equipped
-			if C_Container.GetContainerNumSlots(5) ~= 0 then
-				-- Replace the bag count text
-				MainMenuBarBackpackButtonCount:SetText("(" .. freeSlots1 .. "+" .. freeSlots2 .. ")")
-			end
+	if app.Settings.backpackCount then
+		local freeSlots1 = C_Container.GetContainerNumFreeSlots(0) + C_Container.GetContainerNumFreeSlots(1) + C_Container.GetContainerNumFreeSlots(2) + C_Container.GetContainerNumFreeSlots(3) + C_Container.GetContainerNumFreeSlots(4)
+		local freeSlots2 = C_Container.GetContainerNumFreeSlots(5)
+
+		if C_Container.GetContainerNumSlots(5) ~= 0 then
+			MainMenuBarBackpackButtonCount:SetText("(" .. freeSlots1 .. "+" .. freeSlots2 .. ")")
 		end
 	end
 end)
@@ -2480,24 +2467,19 @@ app.Event:Register("OPEN_RECIPE_RESPONSE", function(recipeID, skillLineID, expan
 	app:UpdateAssets()
 end)
 
--- When a spell is succesfully cast by the player (for removing crafted recipes)
 app.Event:Register("UNIT_SPELLCAST_SUCCEEDED", function(unitTarget, castGUID, spellID)
-	if not InCombatLockdown() and unitTarget == "player" then
-		-- Run only when crafting a tracked recipe, and if the remove craft option is enabled
-		if app.Data.Recipes[spellID] and app.Settings.removeCraft then
-			-- Remove 1 tracked recipe when it has been crafted (if the option is enabled)
-			api:UntrackRecipe(spellID, 1)
+	if InCombatLockdown() or unitTarget ~= "player" then return end
 
-			-- Close window if no recipes are left and the option is enabled
-			local next = next
-			if next(app.Data.Recipes) == nil and app.Settings.closeWhenDone and not (app.Tab and app.Tab.IsShown[0]) then
-				app.Window:Hide()
-			end
+	if app.Data.Recipes[spellID] and app.Settings.removeCraft then
+		api:UntrackRecipe(spellID, 1)
+
+		local next = next
+		if next(app.Data.Recipes) == nil and app.Settings.closeWhenDone and not (app.Tab and app.Tab.IsShown[0]) then
+			app.Window:Hide()
 		end
 	end
 end)
 
--- Count how many supported sim addons are enabled
 function app:SimAddonCount()
 	local addonCount = 0
 
