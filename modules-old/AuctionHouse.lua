@@ -41,7 +41,7 @@ end)
 
 function app:SendLinkToSearch(itemLink)
 	if app.Flag.AuctionHouseIsOpen then
-		local query = { sorts = { sortOrder = Enum.AuctionHouseSortOrder.Price, reverseSort = false }, filters = {}, searchString = C_Item.GetItemInfo(itemLink) }
+		local query = { sorts = { sortOrder = Enum.AuctionHouseSortOrder.Price, reverseSort = false }, filters = {}, searchString = C_Item.GetItemInfo(itemLink) or itemLink }
 		C_AuctionHouse.SendBrowseQuery(query)
 	elseif ProfessionsCustomerOrdersFrame and ProfessionsCustomerOrdersFrame:IsVisible() then
 		ProfessionsCustomerOrdersFrame.BrowseOrders.SearchBar.SearchBox:SetText(C_Item.GetItemInfo(itemLink))
