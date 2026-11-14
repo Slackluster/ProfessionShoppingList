@@ -21,8 +21,12 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		app.CharData.Queue.TrackConcentration = app.CharData.TrackConcentration
 		app.CharData.TrackConcentration = nil
 	end
-	if app.CharData.Queue.TrackConcentration == nil then
-		app.CharData.Queue.TrackConcentration = true
+	-- Convert legacy boolean TrackConcentration setting into a per-profession table
+	-- while preserving the character's previous default preference.
+	if type(app.CharData.Queue.TrackConcentration) == "boolean" then
+		app.CharData.Queue.TrackConcentration = { default = app.CharData.Queue.TrackConcentration }
+	elseif type(app.CharData.Queue.TrackConcentration) ~= "table" then
+		app.CharData.Queue.TrackConcentration = {}
 	end
 	app.CharData.Queue.Knowledge = app.CharData.Queue.Knowledge or {}
 
@@ -269,6 +273,22 @@ end
 function app:CreateProfessionsOrdersAssets()
 	if app.TrackOrdersButton then return end
 
+	-- Track whether concentration patron orders are enabled per profession (tradeSkillLineID)
+	-- on the current character, falling back to any migrated character default or true.
+	local function isConcentrationSelected(index)
+		if app.CharData.Queue.TrackConcentration[index] == nil then
+			if app.CharData.Queue.TrackConcentration.default ~= nil then
+				app.CharData.Queue.TrackConcentration[index] = app.CharData.Queue.TrackConcentration.default
+			else
+				app.CharData.Queue.TrackConcentration[index] = true
+			end
+		end
+		return app.CharData.Queue.TrackConcentration[index]
+	end
+	local function setConcentrationSelected(index)
+		app.CharData.Queue.TrackConcentration[index] = not isConcentrationSelected(index)
+	end
+
 	app.TrackOrdersButton = app:MakeButton(ProfessionsFrame.OrdersPage.BrowseFrame, L.TRACK)
 	app.TrackOrdersButton:SetPoint("LEFT", ProfessionsFrame.OrdersPage.BrowseFrame.PersonalOrdersButton, "RIGHT", 6, 0)
 	app.TrackOrdersButton:SetScript("OnClick", function()
@@ -297,7 +317,7 @@ function app:CreateProfessionsOrdersAssets()
 
 					if orderInfo.spellID == 1246939 then profit = -1 end -- Haranir Canopy Bed, which requires lumber
 
-					if profit >= 0 and (app.CharData.Queue.TrackConcentration or orderInfo.concentrationCost == 0) and (app.Settings.craftingOrders.trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) and orderInfo.expirationTime > GetServerTime() then
+					if profit >= 0 and (isConcentrationSelected(orderInfo.skillLineID) or orderInfo.concentrationCost == 0) and (app.Settings.craftingOrders.trackReset or orderInfo.expirationTime < (GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() + (24 * 60 * 60))) and orderInfo.expirationTime > GetServerTime() then
 						api:TrackRecipe(orderInfo.spellID, 1, orderInfo.isRecraft, orderInfo.orderID)
 					end
 				end
@@ -538,20 +558,34 @@ function app:CreateProfessionsOrdersAssets()
 	text4:SetJustifyH("LEFT")
 	text4:SetText(L.ORDERS_TRACK_CONCENTRATION)
 
-	local checkbox2 = CreateFrame("CheckButton", nil, app.TrackOrdersSettings, "ChatConfigCheckButtonTemplate")
-	checkbox2:SetPoint("TOPLEFT", text4, "BOTTOMLEFT", -3, -2)
-	checkbox2.Text:SetText(charName)
-	checkbox2.Text:SetPoint("LEFT", checkbox2, "RIGHT")
-	checkbox2:SetChecked(app.CharData.Queue.TrackConcentration)
-	checkbox2:SetScript("OnClick", function(self)
-		app.CharData.Queue.TrackConcentration = self:GetChecked()
-	end)
+	-- Use a per-profession dropdown matching KnowledgeDropdown so characters can
+	-- toggle concentration patron orders independently for each profession.
+	local function concentrationListGenerator(owner, rootDescription)
+		rootDescription:CreateTitle(string.format(L.ORDERS_TRACK_ON, charName))
+		local professions = {}
+		for tradeSkillLineID, info in pairs(app.ProfessionKnowledge) do
+			local professionInfo = C_TradeSkillUI.GetProfessionInfoBySkillLineID(tradeSkillLineID)
+			if professionInfo.skillLevel > 0 and not info.gathering then
+				table.insert(professions, { tradeSkillLineID = tradeSkillLineID, professionName = professionInfo.professionName })
+			end
+		end
+		table.sort(professions, function(a, b) return a.tradeSkillLineID > b.tradeSkillLineID end)
+		for _, profession in ipairs(professions) do
+			rootDescription:CreateCheckbox(profession.professionName, isConcentrationSelected, setConcentrationSelected, profession.tradeSkillLineID)
+		end
+	end
+	app.TrackOrdersSettings.ConcentrationDropdown = CreateFrame("DropdownButton", nil, app.TrackOrdersSettings, "WowStyle1DropdownTemplate")
+	app.TrackOrdersSettings.ConcentrationDropdown:SetWidth(120)
+	app.TrackOrdersSettings.ConcentrationDropdown:SetPoint("TOPLEFT", text4, "BOTTOMLEFT", 0, -4)
+	app.TrackOrdersSettings.ConcentrationDropdown:SetupMenu(concentrationListGenerator)
+	app.TrackOrdersSettings.ConcentrationDropdown:OverrideText(TRADE_SKILLS)
+	app:SetBorder(app.TrackOrdersSettings.ConcentrationDropdown, -1, 1, 1, -1)
 
 	app.TrackOrdersSettings:SetFlattensRenderLayers(true)
 	app.TrackOrdersSettings:SetSize(text0:GetStringWidth() + 20, 235)
 	app.TrackOrdersSettings:SetScript("OnShow", function()
 		RunNextFrame(function()
-			app.TrackOrdersSettings:SetHeight(math.abs(checkbox2:GetBottom() - app.TrackOrdersSettings:GetTop()) + 6)
+			app.TrackOrdersSettings:SetHeight(math.abs(app.TrackOrdersSettings.ConcentrationDropdown:GetBottom() - app.TrackOrdersSettings:GetTop()) + 8)
 		end)
 	end)
 end
