@@ -103,9 +103,25 @@ function app:CreateShoppingList(export)
 				local reagentCount = app:GetReagentCount(reagentID)
 				reagentCount = math.max(0, reagentAmount - reagentCount)
 
+				-- Exclude reagents that are already tracked as intermediate crafts or vendor items
 				for k, v in pairs(app.Data.Recipes) do
-					if app.Library[k] and app.Library[k].itemID == reagentID then
+					if (app.Library[k] and app.Library[k].itemID == reagentID) or (app.Cache.FakeRecipes[k] and app.Cache.FakeRecipes[k].itemID == reagentID) then
 						reagentCount = 0
+					end
+				end
+
+				-- Exclude infinite-stock gold vendor reagents from the shopping list unless
+				-- the Auction House price is strictly cheaper than buying from the vendor.
+				if reagentCount > 0 then
+					local vendorPrice = app.Cache.VendorItems and app.Cache.VendorItems[reagentID]
+					if not vendorPrice and C_AddOns.IsAddOnLoaded("TradeSkillMaster") and TSM_API and TSM_API.GetCustomPriceValue then
+						vendorPrice = TSM_API.GetCustomPriceValue("VendorBuy", "i:" .. reagentID)
+					end
+					if vendorPrice and vendorPrice > 0 then
+						local ahPrice = app:ItemValue(reagentID)
+						if ahPrice == 0 or ahPrice >= vendorPrice then
+							reagentCount = 0
+						end
 					end
 				end
 
