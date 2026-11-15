@@ -753,7 +753,8 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 						end
 					end
 
-					for _, v in ipairs(C_TradeSkillUI.GetRecipeSchematic(data.option.spellID, false).reagentSlotSchematics) do
+					-- Pass data.option.isRecraft so personal/guild recrafting orders calculate recraft reagent quantities
+					for _, v in ipairs(C_TradeSkillUI.GetRecipeSchematic(data.option.spellID, data.option.isRecraft).reagentSlotSchematics) do
 						local provided = false
 						for _, j in ipairs(v.reagents) do
 							if providedReagents[j.itemID] then
@@ -828,7 +829,8 @@ app.Event:Register("CRAFTINGORDERS_UPDATE_ORDER_COUNT", function(orderType, numO
 					app.OrderAdjustments[v].conc:SetPoint("BOTTOMLEFT", v.cells[4], "BOTTOMLEFT", -26, 0)
 					app.OrderAdjustments[v].conc:Hide()
 
-					local concInfo = C_TradeSkillUI.GetCraftingOperationInfo(app.OrderInfo[key].spellID, concReagents, nil, false)
+					-- Pass data.option.isRecraft so concentration cost is calculated for a recraft when applicable
+					local concInfo = C_TradeSkillUI.GetCraftingOperationInfo(app.OrderInfo[key].spellID, concReagents, nil, data.option.isRecraft)
 					if concInfo and concInfo.craftingQuality < data.option.minQuality then
 						app.OrderInfo[key].concentrationCost = concInfo.concentrationCost
 
