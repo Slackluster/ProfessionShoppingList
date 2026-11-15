@@ -282,6 +282,37 @@ function app:CreateTradeskillAssets()
 		app.Concentration2:SetJustifyH("LEFT")
 	end
 
+	-- Refresh selected recipe state, skill thresholds, and Shadowlands legendary rank
+	-- when the user manually switches recipe ranks inside SchematicForm.
+	hooksecurefunc(ProfessionsFrame.CraftingPage.SchematicForm, "Init", function(_, recipeInfo)
+		if InCombatLockdown() or not recipeInfo or not recipeInfo.recipeID then return end
+
+		local recipeID = recipeInfo.recipeID
+		if app.SelectedRecipe.Profession.recipeID ~= recipeID then
+			app.SelectedRecipe.Profession = { recipeID = recipeID, recraft = recipeInfo.isRecraft, recipeType = C_TradeSkillUI.GetRecipeSchematic(recipeID, recipeInfo.isRecraft).recipeType }
+			app:UpdateAssets()
+		end
+
+		local recipeDif = (app.Forever and app.ForeverRecipeDifficulty or app.RetailRecipeDifficulty)[recipeID]
+		if recipeDif and recipeDif.trivial ~= 1 then
+			app.RecipeDifficultyText:SetText("|cffFF8040" .. (recipeDif.optimal or "")  .. "|r |cffFFFF00" .. (recipeDif.medium or "")  .. "|r |cff40BF40" .. (recipeDif.easy or "")  .. "|r |cff808080" .. (recipeDif.trivial or "")  .. "|r")
+			app.RecipeDifficultyText:Show()
+		else
+			app.RecipeDifficultyText:Hide()
+		end
+
+		if app.Retail then
+			if app.slLegendaryRecipeIDs[recipeID] then
+				app.ShadowlandsRankText:Show()
+				app.ShadowlandsRankBox:Show()
+				app.ShadowlandsRankBox:SetText(app.slLegendaryRecipeIDs[recipeID].rank)
+			else
+				app.ShadowlandsRankText:Hide()
+				app.ShadowlandsRankBox:Hide()
+			end
+		end
+	end)
+
 	app.Flag.TradeskillAssets = true
 end
 
@@ -531,7 +562,8 @@ end
 EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelected", function(_, recipeInfo)
 	if InCombatLockdown() or not app.Flag.TradeskillAssets then return end
 
-	local recipeID = recipeInfo.recipeID
+	-- Use the rank-resolved recipeID from TrackingWindow so ranked recipes show the active rank's thresholds
+	local recipeID = app.SelectedRecipe.Profession.recipeID
 	local recipeDif = (app.Forever and app.ForeverRecipeDifficulty or app.RetailRecipeDifficulty)[recipeID]
 	if recipeDif and recipeDif.trivial ~= 1 then
 		app.RecipeDifficultyText:SetText("|cffFF8040" .. (recipeDif.optimal or "")  .. "|r |cffFFFF00" .. (recipeDif.medium or "")  .. "|r |cff40BF40" .. (recipeDif.easy or "")  .. "|r |cff808080" .. (recipeDif.trivial or "")  .. "|r")
