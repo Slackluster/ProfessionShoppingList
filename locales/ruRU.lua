@@ -201,6 +201,7 @@ L.ORDERSQUEUE_CLAIM =                    "Принять заказ"
 L.ORDERSQUEUE_CRAFT =                    "Изготовить"
 L.ORDERSQUEUE_CRAFTING =                 "Изготовление..."
 L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
+-- L.CANCEL_FORM =                          "Cancel Form" -- Cancel Shapeshift Form
 L.ORDERSQUEUE_WARNING_QUEST =            "Вы не взяли %s." -- %s becomes a quest name
 L.ORDERSQUEUE_WARNING_REAGENTS =         "У вас недостаточно реагентов для всех отслеживаемых рецептов."
 

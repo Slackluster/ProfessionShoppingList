@@ -201,6 +201,7 @@ L.ORDERSQUEUE_CLAIM =                    "开始接单"
 L.ORDERSQUEUE_CRAFT =                    "制作订单"
 L.ORDERSQUEUE_CRAFTING =                 "制作中..."
 L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "完成订单"
+-- L.CANCEL_FORM =                          "Cancel Form" -- Cancel Shapeshift Form
 L.ORDERSQUEUE_WARNING_QUEST =            "你尚未接取任务：%s。" -- %s becomes a quest name
 L.ORDERSQUEUE_WARNING_REAGENTS =         "你的材料不足以完成所有已追踪的配方。"
 

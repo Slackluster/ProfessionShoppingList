@@ -51,7 +51,7 @@ function app:CreateOrdersQueueFrame()
 
 	local _, classFilename = UnitClass("player")
 	if classFilename == "DRUID" then
-		app.OrdersQueueFrame.CancelFormButton = app:MakeButton(app.OrdersQueueFrame, "Cancel Form", "ProfessionShoppingList_CancelFormButton", "UIPanelButtonTemplate,SecureActionButtonTemplate")
+		app.OrdersQueueFrame.CancelFormButton = app:MakeButton(app.OrdersQueueFrame, L.CANCEL_FORM, "ProfessionShoppingList_CancelFormButton", "UIPanelButtonTemplate,SecureActionButtonTemplate")
 		app.OrdersQueueFrame.CancelFormButton:SetAllPoints(app.OrdersQueueFrame.Button)
 		app.OrdersQueueFrame.CancelFormButton:SetFrameLevel(app.OrdersQueueFrame.Button:GetFrameLevel() + 1)
 		app.OrdersQueueFrame.CancelFormButton:RegisterForClicks("AnyUp", "AnyDown")
