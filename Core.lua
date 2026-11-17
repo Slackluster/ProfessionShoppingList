@@ -310,8 +310,11 @@ function app:SetBorder(parent, a, b, c, d)
 	border:SetBackdropBorderColor(0.25, 0.78, 0.92)
 end
 
-function app:MakeButton(parent, text, name)
-	local frame = CreateFrame("Button", name, parent, "UIPanelButtonTemplate")
+function app:MakeButton(parent, text, name, template)
+	if not template then
+		template = "UIPanelButtonTemplate"
+	end
+	local frame = CreateFrame("Button", name, parent, template)
 	frame:SetText(text)
 	frame:SetWidth(frame:GetTextWidth()+20)
 

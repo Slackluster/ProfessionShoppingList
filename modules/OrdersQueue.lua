@@ -49,6 +49,17 @@ function app:CreateOrdersQueueFrame()
 		app:UpdateOrdersQueue()
 	end)
 
+	local _, classFilename = UnitClass("player")
+	if classFilename == "DRUID" then
+		app.OrdersQueueFrame.CancelFormButton = app:MakeButton(app.OrdersQueueFrame, "Cancel Form", "ProfessionShoppingList_CancelFormButton", "UIPanelButtonTemplate,SecureActionButtonTemplate")
+		app.OrdersQueueFrame.CancelFormButton:SetAllPoints(app.OrdersQueueFrame.Button)
+		app.OrdersQueueFrame.CancelFormButton:SetFrameLevel(app.OrdersQueueFrame.Button:GetFrameLevel() + 1)
+		app.OrdersQueueFrame.CancelFormButton:RegisterForClicks("AnyUp", "AnyDown")
+		app.OrdersQueueFrame.CancelFormButton:SetAttribute("type", "macro")
+		app.OrdersQueueFrame.CancelFormButton:SetAttribute("macrotext", "/cancelform")
+		app.OrdersQueueFrame.CancelFormButton:Hide()
+	end
+
 	app.OrdersQueueFrame.Status = app.OrdersQueueFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	app.OrdersQueueFrame.Status:SetPoint("TOP", app.OrdersQueueFrame.Button, 0, -30)
 	app.OrdersQueueFrame.Status:SetJustifyH("CENTER")
@@ -116,7 +127,6 @@ function app:UpdateOrdersQueue()
 	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 	local professionID = C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID).profession
 	local concID = C_TradeSkillUI.GetConcentrationCurrencyID(skillLineID)
-	local _, classFilename = UnitClass("player")
 	app.OrderState = app.OrderState or app.Enum.OrderState.Idle
 
 	app.OrdersQueueFrame.Warning:Hide()
@@ -184,6 +194,10 @@ function app:UpdateOrdersQueue()
 				C_CraftingOrders.ClaimOrder(app.QueuedOrders[1].orderID, professionID)
 			end)
 		elseif app.OrderState == app.Enum.OrderState.Claimed then
+			if app.OrdersQueueFrame.CancelFormButton and not InCombatLockdown() then
+				app.OrdersQueueFrame.CancelFormButton:SetShown(GetShapeshiftForm() ~= 0)
+			end
+
 			local oldText = app.OrdersQueueFrame.Status:GetText()
 			app:UpdateButton(app.OrdersQueueFrame.Button, L.ORDERSQUEUE_CRAFT)
 			app.OrdersQueueFrame.Button:SetScript("OnClick", function()
@@ -205,9 +219,6 @@ function app:UpdateOrdersQueue()
 					app.OrdersQueueFrame.Status:SetText("|cffFF0000" .. errorReason .. "|r")
 				else
 					app.OrdersQueueFrame.Status:SetText(oldText)
-				end
-				if classFilename == "DRUID" and GetShapeshiftForm() ~= 0 then
-					UIErrorsFrame:Show()
 				end
 				ProfessionsFrame.OrdersPage.OrderView.CreateButton:Click()
 			end)
@@ -347,6 +358,12 @@ app.Event:Register("CRAFTINGORDERS_RELEASE_ORDER_RESPONSE", function(result, ord
 	if app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() then
 		app.OrderState = app.Enum.OrderState.Idle
 		app:Debug("app.Enum.OrderState.Idle 2")
+		app:UpdateOrdersQueue()
+	end
+end)
+
+app.Event:Register("UPDATE_SHAPESHIFT_FORM", function(result, orderID)
+	if app.OrdersQueueFrame and app.OrdersQueueFrame:IsVisible() and app.OrdersQueueFrame.CancelFormButton then
 		app:UpdateOrdersQueue()
 	end
 end)
