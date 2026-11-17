@@ -29,6 +29,7 @@ end)
 function app:CreateOrdersQueueFrame()
 	if app.OrdersQueueFrame then return end
 
+	app.OrdersQueueBindingOwner = CreateFrame("Frame")
 	app.OrdersQueueFrame = CreateFrame("Frame", nil, ProfessionsFrame.OrdersPage, "DefaultPanelTemplate")
 	app.OrdersQueueFrame:SetFrameStrata("DIALOG")
 	app.OrdersQueueFrame:EnableMouse(true) -- Stop OnEnter for the frames below from triggering
@@ -104,6 +105,7 @@ function app:CreateOrdersQueueFrame()
 		UIErrorsFrame:Hide()
 	end)
 	app.OrdersQueueFrame:SetScript("OnHide", function()
+		if not InCombatLockdown() then ClearOverrideBindings(app.OrdersQueueBindingOwner) end
 		UIErrorsFrame:Clear()
 		UIErrorsFrame:Show()
 	end)
@@ -117,10 +119,6 @@ function app:CreateOrdersQueueFrame()
 			app.OrdersQueueFrame:Hide()
 		end
 	end)
-
-	if C_AddOns.IsAddOnLoaded("DialogKey_Numy") then
-		DialogKeyAPI:RegisterAddonFrame(DialogKeyAPI.Enum.FrameType.CraftingOrder, app.OrdersQueueFrame.Button)
-	end
 end
 
 function app:UpdateOrdersQueue()
@@ -151,6 +149,10 @@ function app:UpdateOrdersQueue()
 				app.OrdersQueueFrame.Warning.Animation:Play()
 			elseif not app.Flag.HaveAllReagents then
 				app.OrdersQueueFrame.Warning.Text = L.ORDERSQUEUE_WARNING_REAGENTS
+				app.OrdersQueueFrame.Warning:Show()
+				app.OrdersQueueFrame.Warning.Animation:Play()
+			elseif C_AddOns.IsAddOnLoaded("DialogKey_Numy") and DialogKeyNumyDB and DialogKeyNumyDB.handleCraftingOrders then
+				app.OrdersQueueFrame.Warning.Text = string.format(L.ORDERSQUEUE_WARNING_KEYBIND_DK, app.NameShort)
 				app.OrdersQueueFrame.Warning:Show()
 				app.OrdersQueueFrame.Warning.Animation:Play()
 			end
@@ -243,8 +245,37 @@ function app:UpdateOrdersQueue()
 				end
 			end)
 		end
+		app:UpdateOrdersQueueKeybind()
 	end)
 end
+
+function app:UpdateOrdersQueueKeybind()
+	local owner = app.OrdersQueueBindingOwner
+	if not owner or InCombatLockdown() then return end
+
+	ClearOverrideBindings(owner)
+
+	if not app.OrdersQueueFrame:IsVisible() then return end
+
+	local button
+	if app.OrderState == app.Enum.OrderState.Claimed and app.OrdersQueueFrame.CancelFormButton and app.OrdersQueueFrame.CancelFormButton:IsVisible() then
+		button = app.OrdersQueueFrame.CancelFormButton
+	else
+		button = app.OrdersQueueFrame.Button
+	end
+
+	if button and button:IsVisible() and button:IsEnabled() then
+		for _, key in ipairs(app.Settings.ordersQueueKey or {}) do
+			if key and key ~= "NONE" then
+				SetOverrideBindingClick(owner, true, key, button:GetName(), "LeftButton")
+			end
+		end
+	end
+end
+
+app.Event:Register("PLAYER_REGEN_ENABLED", function()
+	app:UpdateOrdersQueueKeybind()
+end)
 
 app.Event:Register("TRADE_SKILL_CLOSE", function()
 	if app.OrdersQueueFrame then app.OrdersQueueFrame:Hide() end

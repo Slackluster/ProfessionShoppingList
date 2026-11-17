@@ -33,6 +33,7 @@ L.LINK_COPIED =                          "連結已複製到剪貼簿"
 
 L.KEYBINDINGS_AND_SLASH_COMMANDS =       SETTINGS_KEYBINDINGS_LABEL .. " & 斜線指令" -- "Keybindings"
 _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =    app.NameShort .. "：切換視窗"
+-- L.ORDERS_QUEUE =                         "Orders Queue"
 L.TOGGLE_TRACKING_WINDOW =               "切換追蹤視窗"
 L.RESET_WINDOW_POSITION =                "重置追蹤視窗的位置"
 L.RESET_SAVED_DATA =                     "重置已儲存的資料"
@@ -204,6 +205,7 @@ L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete
 -- L.CANCEL_FORM =                          "Cancel Form" -- Cancel Shapeshift Form
 L.ORDERSQUEUE_WARNING_QUEST =            "你尚未接取任務：%s。" -- %s becomes a quest name
 L.ORDERSQUEUE_WARNING_REAGENTS =         "你的材料不足以製作所有追蹤中的配方。"
+-- L.ORDERSQUEUE_WARNING_KEYBIND_DK =       "To use %s's own keybind, disable DialogKey's \"Crafting Orders\" setting." -- %s becomes PSL
 
 -- Crafting Orders window
 L.RECRAFT_TOOLTIP =                      "選擇一件有快取配方的物品即可追蹤。"

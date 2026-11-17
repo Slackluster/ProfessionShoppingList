@@ -142,6 +142,157 @@ function app:CreateSettings()
 		SettingsPanel.Container.SettingsList.Header.Title:SetText(CreateSimpleTextureMarkup(app.Icon, 16, 16) .. " " .. app.NameLong)
 	end
 
+	ProfessionShoppingList_SettingsKeybindMixin = {}
+
+	function ProfessionShoppingList_SettingsKeybindMixin:OnLoad()
+		for slot, button in ipairs({self.Key1, self.Key2}) do
+			button:RegisterForClicks("AnyUp")
+			button:EnableKeyboard(false)
+			button:EnableMouseWheel(false)
+			if not InCombatLockdown() then button:SetPropagateKeyboardInput(true) end
+			local highlight = button:GetHighlightTexture()
+			if highlight then
+				button.originalHighlightR, button.originalHighlightG, button.originalHighlightB, button.originalHighlightA = highlight:GetVertexColor()
+			end
+			button:SetScript("OnClick", function(_, mouseButton)
+				if mouseButton == "RightButton" then
+					if self.listeningSlot then self:StopListening() end
+					self:SetKey(slot, "NONE")
+				elseif mouseButton == "LeftButton" then
+					if self.listeningSlot == slot then
+						self:StopListening()
+					else
+						self:StartListening(slot)
+					end
+				end
+			end)
+			button:HookScript("OnEnter", function(b)
+				if not self.listeningSlot then
+					b:EnableKeyboard(false)
+					if not InCombatLockdown() then b:SetPropagateKeyboardInput(true) end
+				end
+				local key = self.variable and app.Settings[self.variable] and app.Settings[self.variable][slot]
+				if not key or key == "NONE" then return end
+				GameTooltip:SetOwner(b, "ANCHOR_RIGHT")
+				GameTooltip:SetText(app.NameShort .. ": " .. self.label .. " (" .. (GetBindingText(key, "KEY_") or key) .. ")", 1, 1, 1)
+				GameTooltip:AddLine(KEY_BINDING_TOOLTIP, 1, 0.82, 0)
+				GameTooltip:Show()
+			end)
+			button:HookScript("OnLeave", function() GameTooltip:Hide() end)
+			button:HookScript("OnMouseDown", function(_, mouseButton)
+				if self.listeningSlot == slot and mouseButton ~= "LeftButton" and mouseButton ~= "RightButton" then
+					self:OnInput(mouseButton)
+				end
+			end)
+			button:SetScript("OnMouseWheel", function(_, delta)
+				if self.listeningSlot == slot then
+					self:OnInput(delta > 0 and "MOUSEWHEELUP" or "MOUSEWHEELDOWN")
+				end
+			end)
+		end
+	end
+
+	function ProfessionShoppingList_SettingsKeybindMixin:Init(initializer)
+		self:StopListening()
+		local data = initializer:GetData()
+		self.variable = data.variable
+		self.label = data.label
+		self.callback = data.callback
+		self.Label:SetText(app.NameShort .. ": " .. self.label)
+		self:UpdateKeys()
+	end
+
+	function ProfessionShoppingList_SettingsKeybindMixin:UpdateKeys()
+		if not self.variable then return end
+		for slot, button in ipairs({self.Key1, self.Key2}) do
+			local key = app.Settings[self.variable][slot]
+			button:SetText(key and key ~= "NONE" and (GetBindingText(key, "KEY_") or key) or (NOT_BOUND or "Not Bound"))
+			button:GetFontString():SetTextColor(key and key ~= "NONE" and 1 or 0.45, key and key ~= "NONE" and 1 or 0.45, key and key ~= "NONE" and 1 or 0.45)
+
+			local highlight = button:GetHighlightTexture()
+			if self.listeningSlot == slot then
+				if highlight then
+					highlight:SetDesaturated(true)
+					highlight:SetVertexColor(1, 0.82, 0.1)
+				end
+				button:LockHighlight()
+			else
+				button:UnlockHighlight()
+				if highlight then
+					highlight:SetDesaturated(false)
+					highlight:SetVertexColor(button.originalHighlightR or 1, button.originalHighlightG or 1, button.originalHighlightB or 1, button.originalHighlightA or 1)
+				end
+			end
+		end
+	end
+
+	function ProfessionShoppingList_SettingsKeybindMixin:StopListening()
+		self.captureGeneration = (self.captureGeneration or 0) + 1
+		self.finishingInput = nil
+		for _, button in ipairs({self.Key1, self.Key2}) do
+			button:EnableKeyboard(false)
+			button:EnableMouseWheel(false)
+			button:SetScript("OnKeyDown", nil)
+			if not InCombatLockdown() then button:SetPropagateKeyboardInput(true) end
+		end
+		self.listeningButton = nil
+		self.listeningSlot = nil
+		if app.CustomKeybindCapture == self then app.CustomKeybindCapture = nil end
+		self:UpdateKeys()
+	end
+
+	function ProfessionShoppingList_SettingsKeybindMixin:StartListening(slot)
+		if InCombatLockdown() then return end
+		if app.CustomKeybindCapture then app.CustomKeybindCapture:StopListening() end
+		self.captureGeneration = (self.captureGeneration or 0) + 1
+		self.listeningSlot = slot
+		self.listeningButton = slot == 1 and self.Key1 or self.Key2
+		app.CustomKeybindCapture = self
+		GameTooltip:Hide()
+		self.listeningButton:SetScript("OnKeyDown", function(_, key) self:OnInput(key) end)
+		self.listeningButton:SetPropagateKeyboardInput(false)
+		self.listeningButton:EnableKeyboard(true)
+		self.listeningButton:EnableMouseWheel(true)
+		self:UpdateKeys()
+	end
+
+	function ProfessionShoppingList_SettingsKeybindMixin:SetKey(slot, key)
+		local keys = app.Settings[self.variable]
+		keys[slot] = key
+		if key ~= "NONE" and keys[3 - slot] == key then keys[3 - slot] = "NONE" end
+		self:StopListening()
+		if key == "NONE" then GameTooltip:Hide() end
+		if self.callback then self.callback(key, slot) end
+	end
+
+	function ProfessionShoppingList_SettingsKeybindMixin:OnInput(rawKey)
+		if not self.listeningSlot or self.finishingInput then return end
+		local generation = self.captureGeneration
+		if rawKey == "ESCAPE" then
+			self.finishingInput = true
+			RunNextFrame(function()
+				if self.captureGeneration == generation then self:StopListening() end
+			end)
+			return
+		end
+		if (IsKeyPressIgnoredForBinding and IsKeyPressIgnoredForBinding(rawKey)) or rawKey == "LSHIFT" or rawKey == "RSHIFT" or rawKey == "LCTRL" or rawKey == "RCTRL" or rawKey == "LALT" or rawKey == "RALT" or rawKey == "SHIFT" or rawKey == "CTRL" or rawKey == "ALT" then return end
+
+		local converted = GetConvertedKeyOrButton and GetConvertedKeyOrButton(rawKey) or rawKey
+		if not converted then return end
+		local key = CreateKeyChordStringUsingMetaKeyState and CreateKeyChordStringUsingMetaKeyState(converted) or converted
+		if key then
+			local slot = self.listeningSlot
+			self.finishingInput = true
+			RunNextFrame(function()
+				if self.captureGeneration == generation and self.listeningSlot == slot then self:SetKey(slot, key) end
+			end)
+		end
+	end
+
+	function ProfessionShoppingList_SettingsKeybindMixin:OnHide()
+		self:StopListening()
+	end
+
 	ProfessionShoppingList_SettingsExpandMixin = CreateFromMixins(SettingsExpandableSectionMixin)
 
 	function ProfessionShoppingList_SettingsExpandMixin:Init(initializer)
@@ -304,6 +455,21 @@ function app:CreateSettings()
 		if isExpanded ~= nil then keybind:AddShownPredicate(isExpanded) end
 	end
 
+	local function overrideKeybind(variable, label, default, isExpanded, callback)
+		if type(app.Settings[variable]) ~= "table" then
+			app.Settings[variable] = {default or "NONE", "NONE"}
+		end
+		app.Settings[variable][1] = app.Settings[variable][1] or default or "NONE"
+		app.Settings[variable][2] = app.Settings[variable][2] or "NONE"
+
+		local data = {variable = variable, label = label, callback = callback}
+		local initializer = Settings.CreateElementInitializer("ProfessionShoppingList_SettingsKeybind", data)
+		if isExpanded then initializer:AddShownPredicate(isExpanded) end
+		initializer:AddSearchTags(label)
+		function initializer:GetExtent() return 32 end
+		layout:AddInitializer(initializer)
+	end
+
 	local function text(leftText, middleText, rightText, customExtent, isExpanded)
 		local data = { leftText = leftText, middleText = middleText, rightText = rightText }
 		local text = layout:AddInitializer(Settings.CreateElementInitializer("ProfessionShoppingList_SettingsText", data))
@@ -327,6 +493,10 @@ function app:CreateSettings()
 	local _, isExpanded = expandableHeader(L.KEYBINDINGS_AND_SLASH_COMMANDS)
 
 		keybind("PSL_TOGGLEWINDOW", isExpanded)
+
+		if app.Retail then
+			overrideKeybind("ordersQueueKey", L.ORDERS_QUEUE, "SPACE", isExpanded, function() app:UpdateOrdersQueueKeybind() end)
+		end
 
 		local leftText = { "|cffFFFFFF" ..
 			"/psl",

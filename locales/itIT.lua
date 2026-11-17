@@ -33,6 +33,7 @@ local L = app.locales
 
 -- L.KEYBINDINGS_AND_SLASH_COMMANDS =       SETTINGS_KEYBINDINGS_LABEL .. " & Slash Commands" -- "Keybindings"
 -- _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =    app.NameShort .. ": Toggle Window"
+-- L.ORDERS_QUEUE =                         "Orders Queue"
 -- L.TOGGLE_TRACKING_WINDOW =               "Toggle the tracking window"
 -- L.RESET_WINDOW_POSITION =                "Reset the tracking window position"
 -- L.RESET_SAVED_DATA =                     "Reset saved data"
@@ -204,6 +205,7 @@ local L = app.locales
 -- L.CANCEL_FORM =                          "Cancel Form" -- Cancel Shapeshift Form
 -- L.ORDERSQUEUE_WARNING_QUEST =            "You have not picked up %s." -- %s becomes a quest name
 -- L.ORDERSQUEUE_WARNING_REAGENTS =         "You do not have enough reagents for all tracked recipes."
+-- L.ORDERSQUEUE_WARNING_KEYBIND_DK =       "To use %s's own keybind, disable DialogKey's \"Crafting Orders\" setting." -- %s becomes PSL
 
 -- Crafting Orders window
 -- L.RECRAFT_TOOLTIP =                      "Select an item with a cached recipe to track it."

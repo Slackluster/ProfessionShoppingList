@@ -22,6 +22,32 @@
 		</Layers>
 	</Frame>
 
+	<Frame name="ProfessionShoppingList_SettingsKeybind" mixin="ProfessionShoppingList_SettingsKeybindMixin" virtual="true">
+		<Size x="580" y="32" />
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Label" inherits="GameFontNormal" justifyH="LEFT" justifyV="MIDDLE">
+					<Size x="215" y="32" />
+					<Anchors><Anchor point="LEFT" x="37" /></Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button parentKey="Key1" inherits="UIMenuButtonStretchTemplate">
+				<Size x="160" y="22" />
+				<Anchors><Anchor point="LEFT" x="238" /></Anchors>
+			</Button>
+			<Button parentKey="Key2" inherits="UIMenuButtonStretchTemplate">
+				<Size x="160" y="22" />
+				<Anchors><Anchor point="LEFT" x="398" /></Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad method="OnLoad" />
+			<OnHide method="OnHide" />
+		</Scripts>
+	</Frame>
+
 	<Frame name="ProfessionShoppingList_SettingsExpandTemplate" inherits="SettingsExpandableSectionTemplate" mixin="ProfessionShoppingList_SettingsExpandMixin" virtual="true">
 		<Size y="24" />
 	</Frame>

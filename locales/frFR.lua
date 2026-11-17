@@ -33,6 +33,7 @@ L.LINK_COPIED =                          "lien a été copié dans le presse-pap
 
 L.KEYBINDINGS_AND_SLASH_COMMANDS =       SETTINGS_KEYBINDINGS_LABEL .. " & Commandes « Slash »" -- "Keybindings"
 _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =    app.NameShort .. " : afficher / masquer la fenêtre"
+-- L.ORDERS_QUEUE =                         "Orders Queue"
 L.TOGGLE_TRACKING_WINDOW =               "Afficher / masquer la fenêtre de suivi"
 L.RESET_WINDOW_POSITION =                "Réinitialiser la position de la fenêtre de suivi"
 L.RESET_SAVED_DATA =                     "Réinitialiser les données enregistrées"
@@ -204,6 +205,7 @@ L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete
 -- L.CANCEL_FORM =                          "Cancel Form" -- Cancel Shapeshift Form
 -- L.ORDERSQUEUE_WARNING_QUEST =            "You have not picked up %s." -- %s becomes a quest name
 -- L.ORDERSQUEUE_WARNING_REAGENTS =         "You do not have enough reagents for all tracked recipes."
+-- L.ORDERSQUEUE_WARNING_KEYBIND_DK =       "To use %s's own keybind, disable DialogKey's \"Crafting Orders\" setting." -- %s becomes PSL
 
 -- Crafting Orders window
 L.RECRAFT_TOOLTIP =                      "Sélectionnez un objet dont la recette a été mise en cache pour en assurer le suivi."
