@@ -90,9 +90,9 @@ function app:AddTooltipInfo()
 							totalCost = totalCost + (((#reagentCost > 0 and math.min(unpack(reagentCost))) or 0) * reagent.quantityRequired)
 						end
 
-						if totalCost >= 10000 then
+						if app.Retail and totalCost >= 10000 then
 							totalCost = math.floor(totalCost / 10000) * 10000
-						elseif totalCost >= 100 then
+						elseif totalCost >= 100 and (app.Retail or totalCost >= 10000) then
 							totalCost = math.floor(totalCost / 100) * 100
 						end
 					end
