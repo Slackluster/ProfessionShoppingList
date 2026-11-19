@@ -33,7 +33,7 @@ L.LINK_COPIED =                          "Ссылка скопирована в
 
 L.KEYBINDINGS_AND_SLASH_COMMANDS =       SETTINGS_KEYBINDINGS_LABEL .. " & Слэш-команды" -- "Keybindings"
 _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =    app.NameShort .. ": Включить окно"
--- L.ORDERS_QUEUE =                         "Orders Queue"
+L.ORDERS_QUEUE =                         "Очередь заказов"
 L.TOGGLE_TRACKING_WINDOW =               "Переключить окно отслеживания"
 L.RESET_WINDOW_POSITION =                "Сбросить положение окна отслеживания"
 L.RESET_SAVED_DATA =                     "Сбросить сохраненные данные"
@@ -202,10 +202,10 @@ L.ORDERSQUEUE_CLAIM =                    "Принять заказ"
 L.ORDERSQUEUE_CRAFT =                    "Изготовить"
 L.ORDERSQUEUE_CRAFTING =                 "Изготовление..."
 L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
--- L.CANCEL_FORM =                          "Cancel Form" -- Cancel Shapeshift Form
+L.CANCEL_FORM =                          "Отменить облик" -- Cancel Shapeshift Form
 L.ORDERSQUEUE_WARNING_QUEST =            "Вы не взяли %s." -- %s becomes a quest name
 L.ORDERSQUEUE_WARNING_REAGENTS =         "У вас недостаточно реагентов для всех отслеживаемых рецептов."
--- L.ORDERSQUEUE_WARNING_KEYBIND_DK =       "To use %s's own keybind, disable DialogKey's \"Crafting Orders\" setting." -- %s becomes PSL
+L.ORDERSQUEUE_WARNING_KEYBIND_DK =       "Чтобы использовать назначение клавиш %s, отключите параметр \"Изготовить\" в настройках." -- %s becomes PSL
 
 -- Crafting Orders window
 L.RECRAFT_TOOLTIP =                      "Выберите предмет с сохраненным рецептом, чтобы отслеживать его."
