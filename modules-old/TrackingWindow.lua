@@ -2452,12 +2452,10 @@ end)
 EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelected", function(_, recipeInfo)
 	local recipeID = recipeInfo.recipeID
 
-	-- Check for ranks
-	if recipeInfo.nextRecipeID and C_TradeSkillUI.GetRecipeInfo(recipeInfo.nextRecipeID).learned then
+	-- Advance through all learned ranks in the chain (including 4-rank Shadowlands legendaries)
+	while recipeInfo.nextRecipeID and C_TradeSkillUI.GetRecipeInfo(recipeInfo.nextRecipeID).learned do
 		recipeID = recipeInfo.nextRecipeID
-		if C_TradeSkillUI.GetRecipeInfo(recipeInfo.nextRecipeID).nextRecipeID and C_TradeSkillUI.GetRecipeInfo(C_TradeSkillUI.GetRecipeInfo(recipeInfo.nextRecipeID).nextRecipeID).learned then
-			recipeID = C_TradeSkillUI.GetRecipeInfo(recipeInfo.nextRecipeID).nextRecipeID
-		end
+		recipeInfo = C_TradeSkillUI.GetRecipeInfo(recipeID)
 	end
 
 	app.SelectedRecipe.Profession = { recipeID = recipeID, recraft = recipeInfo.isRecraft, recipeType = C_TradeSkillUI.GetRecipeSchematic(recipeID, recipeInfo.isRecraft).recipeType }
