@@ -1802,7 +1802,7 @@ function app:CreateTab(frame, tabFrame)
 end
 
 app.Event:Register("TRADE_SKILL_SHOW", function()
-	if C_AddOns.IsAddOnLoaded("Numdelicious_QoL_Tweaks") and NumyQT_DB.modules.ProfessionButtonTab then return end
+	if not app.Settings.showTab then return end
 
 	if ProfessionsFrame then
 		if not ProfessionsFrameTabSideBar then
@@ -1844,6 +1844,8 @@ app.Event:Register("SKILL_LINES_CHANGED", function()
 end)
 
 app.Event:Register("AUCTION_HOUSE_SHOW", function()
+	if app.Settings.showTab == false then return end
+
 	if not AuctionHouseFrameTabSideBar then
 		AuctionHouseFrameTabSideBar = CreateFrame("Frame", nil, AuctionHouseFrame)
 		AuctionHouseFrameTabSideBar:SetWidth(1)
@@ -1857,6 +1859,8 @@ app.Event:Register("AUCTION_HOUSE_SHOW", function()
 end)
 
 app.Event:Register("CRAFTINGORDERS_SHOW_CUSTOMER", function()
+	if app.Settings.showTab == false then return end
+
 	if not ProfessionsCustomerOrdersFrameTabSideBar then
 		ProfessionsCustomerOrdersFrameTabSideBar = CreateFrame("Frame", nil, ProfessionsCustomerOrdersFrame)
 		ProfessionsCustomerOrdersFrameTabSideBar:SetWidth(1)

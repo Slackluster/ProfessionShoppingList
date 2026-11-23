@@ -528,6 +528,8 @@ function app:CreateSettings()
 
 	checkbox("minimapIcon", L.SHOW_MINIMAP_ICON, string.format(L.SHOW_MINIMAP_ICON_DESC, app.NameShort), true, function() app:ToggleMinimapIcon() end)
 
+	checkbox("showTab", L.SHOW_TAB, string.format(L.SHOW_TAB_DESC, app.NameShort) .. "\n\n|cffFF0000" .. L.REQUIRES_RELOAD, true, nil, nil, nil, true)
+
 	local parentSetting, parentCheckbox = checkbox("showRecipeCooldowns", L.TRACK_RECIPE_COOLDOWNS, L.TRACK_RECIPE_COOLDOWNS_DESC, true, function() app:UpdateRecipes() end)
 
 	checkbox("showWindowCooldown", L.SHOW_WINDOW_WHEN_READY, L.SHOW_WINDOW_WHEN_READY_DESC, false, nil, parentSetting, parentCheckbox)
