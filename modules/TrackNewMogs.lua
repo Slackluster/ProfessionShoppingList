@@ -96,15 +96,30 @@ end
 function app:GetVisibleRecipes()
 	local skillLineID = C_TradeSkillUI.GetProfessionChildSkillLineID()
 	local recipes = C_TradeSkillUI.GetFilteredRecipeIDs()
-	if C_TradeSkillUI.GetRecipeItemNameFilter() == "" then
-		for k = #recipes, 1, -1 do
-			if app.nyiRecipes[recipes[k]] or not C_TradeSkillUI.IsRecipeInSkillLine(recipes[k], skillLineID) then
-				table.remove(recipes, k)
+	local filter = C_TradeSkillUI.GetRecipeItemNameFilter()
+	local visibleRecipes = {}
+	local seen = {}
+
+	for _, recipeID in ipairs(recipes) do
+		if not (filter == "" and (app.nyiRecipes[recipeID] or not C_TradeSkillUI.IsRecipeInSkillLine(recipeID, skillLineID))) then
+			local recipeInfo = C_TradeSkillUI.GetRecipeInfo(recipeID)
+			while recipeInfo and recipeInfo.previousRecipeID do
+				recipeID = recipeInfo.previousRecipeID
+				recipeInfo = C_TradeSkillUI.GetRecipeInfo(recipeID)
+			end
+			while recipeInfo and recipeInfo.nextRecipeID and C_TradeSkillUI.GetRecipeInfo(recipeInfo.nextRecipeID).learned do
+				recipeID = recipeInfo.nextRecipeID
+				recipeInfo = C_TradeSkillUI.GetRecipeInfo(recipeID)
+			end
+
+			if not seen[recipeID] then
+				seen[recipeID] = true
+				table.insert(visibleRecipes, recipeID)
 			end
 		end
 	end
 
-	return recipes
+	return visibleRecipes
 end
 
 function app:TrackUnlearnedMogs()
