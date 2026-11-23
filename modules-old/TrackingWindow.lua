@@ -2312,10 +2312,11 @@ function api:TrackRecipe(recipeID, recipeQuantity, recraft, orderID)
 		if not app.Cache.FakeRecipes[key] then
 			key = "order:" .. orderID .. ":" .. recipeID
 
+			-- Fall back to cached order view reagents when tracking a personal/guild order from BrowseFrame without opening OrderView
 			app.Cache.FakeRecipes[key] = {
 				spellID = recipeID,
 				tradeskillID = 1, -- Crafting order
-				reagents = app.SelectedRecipe.MakeOrder.reagents
+				reagents = (app.OrderInfo and app.OrderInfo[key] and app.OrderInfo[key].view and app.OrderInfo[key].view.reagents) or app.SelectedRecipe.MakeOrder.reagents
 			}
 
 			recipeID = key
