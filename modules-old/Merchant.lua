@@ -13,6 +13,7 @@ local L = app.locales
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName ~= appName then return end
 
+	app.Cache.VendorItems = app.Cache.VendorItems or {}
 	app:MoveTSMButton()
 	app.Flag.MerchantAssets = false
 end)
@@ -23,6 +24,21 @@ end)
 
 app.Event:Register("MERCHANT_SHOW", function()
 	app.Flag.MerchantOpen = true
+
+	-- Cache unit gold prices for infinite-stock vendor items in the background so
+	-- vendor reagents can be excluded from Auction House shopping lists unless the
+	-- Auction House is cheaper than buying from the vendor.
+	for index = 1, GetMerchantNumItems() do
+		local itemID = GetMerchantItemID(index)
+		local itemInfo = C_MerchantFrame.GetItemInfo(index)
+		if itemID and itemInfo and itemInfo.numAvailable == -1 and itemInfo.price and itemInfo.price > 0 and GetMerchantItemCostInfo(index) == 0 then
+			local stackCount = math.max(1, itemInfo.stackCount or 1)
+			local unitPrice = math.ceil(itemInfo.price / stackCount)
+			if not app.Cache.VendorItems[itemID] or unitPrice < app.Cache.VendorItems[itemID] then
+				app.Cache.VendorItems[itemID] = unitPrice
+			end
+		end
+	end
 
 	local function TrackMerchantItem(vendorIndex)
 		if IsAltKeyDown() then
