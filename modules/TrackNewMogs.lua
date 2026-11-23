@@ -100,8 +100,6 @@ function app:GetVisibleRecipes()
 	local visibleRecipes = {}
 	local seen = {}
 
-	-- Resolve ranked recipe chains to their highest learned rank (or Rank 1 if unlearned)
-	-- and deduplicate so Track New Mogs only checks and tracks one rank per recipe chain.
 	for _, recipeID in ipairs(recipes) do
 		if not (filter == "" and (app.nyiRecipes[recipeID] or not C_TradeSkillUI.IsRecipeInSkillLine(recipeID, skillLineID))) then
 			local recipeInfo = C_TradeSkillUI.GetRecipeInfo(recipeID)
