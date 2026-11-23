@@ -196,7 +196,7 @@ L.ORDERS_TRACK_CONCENTRATION =           "Отслеживать заказы, �
 L.ORDERS_TRACK_ON =                      "Отслеживать на %s:"  -- %s becomes a character name
 
 L.ORDERSQUEUE_QUEUE =                    "Очередь"
-L.ORDERSQUEUE_QUEUE =                    "Заказов в очереди:"
+L.ORDERSQUEUE_QUEUED =                   "Заказов в очереди:"
 L.ORDERSQUEUE_NEXT =                     "След. заказ"
 L.ORDERSQUEUE_CLAIM =                    "Принять заказ"
 L.ORDERSQUEUE_CRAFT =                    "Изготовить"

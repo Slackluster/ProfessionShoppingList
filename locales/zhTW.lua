@@ -33,7 +33,7 @@ L.LINK_COPIED =                          "連結已複製到剪貼簿"
 
 L.KEYBINDINGS_AND_SLASH_COMMANDS =       SETTINGS_KEYBINDINGS_LABEL .. " & 斜線指令" -- "Keybindings"
 _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =    app.NameShort .. "：切換視窗"
--- L.ORDERS_QUEUE =                         "Orders Queue"
+L.ORDERS_QUEUE =                         "訂單佇列"
 L.TOGGLE_TRACKING_WINDOW =               "切換追蹤視窗"
 L.RESET_WINDOW_POSITION =                "重置追蹤視窗的位置"
 L.RESET_SAVED_DATA =                     "重置已儲存的資料"
@@ -68,7 +68,7 @@ L.LOW =                                  LOW -- "Low"
 L.HIGH =                                 HIGH -- "High"
 L.INCLUDE_HIGHER_QUALITY =               "包含較高品質"
 L.INCLUDE_HIGHER_QUALITY_DESC =          "是否計入較高品質的材料。（例如：計算 1 階材料時，也計入你擁有的 2 階材料。）"
--- L.INCLUDE_HIGHER_QUALITY_DESC2 =         "Higher qualities will be counted automatically if they are cheaper."
+L.INCLUDE_HIGHER_QUALITY_DESC2 =         "如果高品質材料比較便宜，便會自動計入。"
 L.INCLUDE_HIGHER_QUALITIES_YES =         "包含較高品質"
 L.INCLUDE_HIGHER_QUALITIES_NO =          "不包含較高品質"
 L.COLLECTION_MODE =                      "收藏模式"
@@ -202,10 +202,10 @@ L.ORDERSQUEUE_CLAIM =                    "接取訂單"
 L.ORDERSQUEUE_CRAFT =                    "製作訂單"
 L.ORDERSQUEUE_CRAFTING =                 "製作中..."
 L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "Complete Order"
--- L.CANCEL_FORM =                          "Cancel Form" -- Cancel Shapeshift Form
+L.CANCEL_FORM =                          "取消表單" -- Cancel Shapeshift Form
 L.ORDERSQUEUE_WARNING_QUEST =            "你尚未接取任務：%s。" -- %s becomes a quest name
 L.ORDERSQUEUE_WARNING_REAGENTS =         "你的材料不足以製作所有追蹤中的配方。"
--- L.ORDERSQUEUE_WARNING_KEYBIND_DK =       "To use %s's own keybind, disable DialogKey's \"Crafting Orders\" setting." -- %s becomes PSL
+L.ORDERSQUEUE_WARNING_KEYBIND_DK =       "若要使用 %s 自己的快捷鍵，請停用 DialogKey 的「製作訂單」設定。" -- %s becomes PSL
 
 -- Crafting Orders window
 L.RECRAFT_TOOLTIP =                      "選擇一件有快取配方的物品即可追蹤。"

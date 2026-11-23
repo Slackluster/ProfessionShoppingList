@@ -33,7 +33,7 @@ L.LINK_COPIED =                          "链接已复制到剪贴板"
 
 L.KEYBINDINGS_AND_SLASH_COMMANDS =       SETTINGS_KEYBINDINGS_LABEL .. " & 斜杠命令" -- "Keybindings"
 _G["BINDING_NAME_PSL_TOGGLEWINDOW"] =    app.NameShort .. "： 切换窗口"
--- L.ORDERS_QUEUE =                         "Orders Queue"
+L.ORDERS_QUEUE =                         "订单队列"
 L.TOGGLE_TRACKING_WINDOW =               "切换追踪窗口"
 L.RESET_WINDOW_POSITION =                "重置窗口位置"
 L.RESET_SAVED_DATA =                     "重置保存的数据"
@@ -51,7 +51,7 @@ L.TRACK_REAGENT_RECIPES =                "追踪所有使用此材料的配方"
 
 L.GENERAL =                              GENERAL -- "General"
 L.SHOW_MINIMAP_ICON =                    "显示小地图图标"
-L.SHOW_MINIMAP_ICON_DESC =               "显示小地图图标。禁用后仍可通过插件菜单访问。" -- %s becomes the addon name
+L.SHOW_MINIMAP_ICON_DESC =               "显示小地图图标。如果您禁用此选项，仍可通过插件目录访问 %s。" -- %s becomes the addon name
 L.TRACK_RECIPE_COOLDOWNS =               "追踪配方冷却"
 L.TRACK_RECIPE_COOLDOWNS_DESC =          "启用配方冷却时间追踪。显示在追踪窗口，并在登录时通过聊天提醒就绪冷却。"
 L.SHOW_WINDOW_WHEN_READY =               "冷却就绪时显示窗口"
@@ -68,7 +68,7 @@ L.LOW =                                  LOW -- "低"
 L.HIGH =                                 HIGH -- "高"
 L.INCLUDE_HIGHER_QUALITY =               "包含更高品质"
 L.INCLUDE_HIGHER_QUALITY_DESC =          "是否统计高品质材料。（例如：在统计1级材料时包含拥有的2级材料。）"
--- L.INCLUDE_HIGHER_QUALITY_DESC2 =         "Higher qualities will be counted automatically if they are cheaper."
+L.INCLUDE_HIGHER_QUALITY_DESC2 =         "如果更高品质的材料更便宜，则会自动计入。"
 L.INCLUDE_HIGHER_QUALITIES_YES =         "包含更高品质"
 L.INCLUDE_HIGHER_QUALITIES_NO =          "不包含更高品质"
 L.COLLECTION_MODE =                      "收集模式"
@@ -196,16 +196,16 @@ L.ORDERS_TRACK_CONCENTRATION =           "追踪消耗专注度的订单："
 L.ORDERS_TRACK_ON =                      "在 %s 上追踪："  -- %s becomes a character name
 
 L.ORDERSQUEUE_QUEUE =                    "队列"
-L.ORDERSQUEUE_QUEUE =                    "队列中的订单："
+L.ORDERSQUEUE_QUEUED =                   "队列中的订单："
 L.ORDERSQUEUE_NEXT =                     "下一个订单"
 L.ORDERSQUEUE_CLAIM =                    "开始接单"
 L.ORDERSQUEUE_CRAFT =                    "制作订单"
 L.ORDERSQUEUE_CRAFTING =                 "制作中..."
 L.ORDERSQUEUE_COMPLETE =                 PROFESSIONS_COMPLETE_ORDER -- "完成订单"
--- L.CANCEL_FORM =                          "Cancel Form" -- Cancel Shapeshift Form
+L.CANCEL_FORM =                          "取消表单" -- Cancel Shapeshift Form
 L.ORDERSQUEUE_WARNING_QUEST =            "你尚未接取任务：%s。" -- %s becomes a quest name
 L.ORDERSQUEUE_WARNING_REAGENTS =         "你的材料不足以完成所有已追踪的配方。"
--- L.ORDERSQUEUE_WARNING_KEYBIND_DK =       "To use %s's own keybind, disable DialogKey's \"Crafting Orders\" setting." -- %s becomes PSL
+L.ORDERSQUEUE_WARNING_KEYBIND_DK =       "要使用 %s 自带的快捷键，请关闭 DialogKey 的“制造订单”设置。" -- %s becomes PSL
 
 -- Crafting Orders window
 L.RECRAFT_TOOLTIP =                      "选择带有缓存配方的物品进行追踪。"
