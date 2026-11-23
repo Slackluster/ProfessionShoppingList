@@ -282,8 +282,6 @@ function app:CreateTradeskillAssets()
 		app.Concentration2:SetJustifyH("LEFT")
 	end
 
-	-- Refresh selected recipe state, skill thresholds, and Shadowlands legendary rank
-	-- when the user manually switches recipe ranks inside SchematicForm.
 	hooksecurefunc(ProfessionsFrame.CraftingPage.SchematicForm, "Init", function(_, recipeInfo)
 		if InCombatLockdown() or not recipeInfo or not recipeInfo.recipeID then return end
 
@@ -562,7 +560,6 @@ end
 EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelected", function(_, recipeInfo)
 	if InCombatLockdown() or not app.Flag.TradeskillAssets then return end
 
-	-- Use the rank-resolved recipeID from TrackingWindow so ranked recipes show the active rank's thresholds
 	local recipeID = app.SelectedRecipe.Profession.recipeID
 	local recipeDif = (app.Forever and app.ForeverRecipeDifficulty or app.RetailRecipeDifficulty)[recipeID]
 	if recipeDif and recipeDif.trivial ~= 1 then
