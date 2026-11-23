@@ -135,7 +135,7 @@ L.AUTOSIZE_WINDOW =                      "Ajustar tamaño automáticamente a la 
 -- L.GOLD =                                 BONUS_ROLL_REWARD_MONEY -- "Gold"
 -- L.MERCHANT_BUY =                         "Buy all tracked reagents, if available."
 
--- L.READY =                                "Ready"
+-- L.READY =                                READY -- "Ready"
 -- L.DAYS =                                 "d"
 -- L.HOURS =                                "h"
 -- L.MINUTES =                              "m"
@@ -148,8 +148,8 @@ L.AUTOSIZE_WINDOW =                      "Ajustar tamaño automáticamente a la 
 -- L.CRAFTING_COST =                        "Crafting Cost"
 
 -- Profession window
--- L.TRACK =                                "Track"
--- L.UNTRACK =                              "Untrack"
+-- L.TRACK =                                TRACK_QUEST_ABBREV -- "Track"
+-- L.UNTRACK =                              PROFESSIONS_UNTRACK_RECIPE -- "Untrack"
 -- L.RANK =                                 RANK -- "Rank"
 -- L.MILLING_INFORMATION =                  "Milling Information"
 -- L.THAUMATURGY_INFORMATION =              "Thaumaturgy Information"
@@ -175,7 +175,7 @@ L.AUTOSIZE_WINDOW =                      "Ajustar tamaño automáticamente a la 
 -- L.PROFESSION_KNOWLEDGE =                 "knowledge"
 -- L.VENDORS =                              "Vendors"
 -- L.RENOWN =                               COVENANT_SANCTUM_TAB_RENOWN -- "Renown "
--- L.WORLD =                                "World"
+-- L.WORLD =                                WORLD -- "World"
 -- L.HIDDEN_PROFESSION_MASTER =             "Hidden Profession Master"
 -- L.WEEKLY =                               WEEKLY -- "Weekly"
 -- L.TREASURE =                             "Treasure"

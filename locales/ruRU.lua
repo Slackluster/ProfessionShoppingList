@@ -135,7 +135,7 @@ L.SUBREAGENTS2 =                         "Пожалуйста, выберите
 L.GOLD =                                 BONUS_ROLL_REWARD_MONEY -- "Gold"
 L.MERCHANT_BUY =                         "Купить все отслеживаемые реагенты, если они доступны."
 
-L.READY =                                "Готов"
+L.READY =                                READY -- "Ready"
 L.DAYS =                                 "д"
 L.HOURS =                                "ч"
 L.MINUTES =                              "м"
@@ -148,8 +148,8 @@ L.RECIPE_UNLEARNED =                     "рецепт не изучен"
 L.CRAFTING_COST =                        "Стоимость создания"
 
 -- Profession window
-L.TRACK =                                "Отслеживать"
-L.UNTRACK =                              "Не отслеживать"
+L.TRACK =                                TRACK_QUEST_ABBREV -- "Track"
+L.UNTRACK =                              PROFESSIONS_UNTRACK_RECIPE -- "Untrack"
 L.RANK =                                 RANK -- "Rank"
 L.MILLING_INFORMATION =                  "Информация о Измельчении"
 L.THAUMATURGY_INFORMATION =              "Информация о Тауматургии"
@@ -175,7 +175,7 @@ L.PERKS_UNLOCKED =                       "перки разблокирован�
 L.PROFESSION_KNOWLEDGE =                 "знание"
 L.VENDORS =                              "Торговцы"
 L.RENOWN =                               COVENANT_SANCTUM_TAB_RENOWN -- "Renown "
-L.WORLD =                                "Мир"
+L.WORLD =                                WORLD -- "World"
 L.HIDDEN_PROFESSION_MASTER =             "Скрыть мастера профессии"
 L.WEEKLY =                               WEEKLY -- "Weekly"
 L.TREASURE =                             "Сокровище"
