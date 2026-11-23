@@ -24,7 +24,9 @@ app.Event:Register("AUCTION_HOUSE_SHOW", function(addOnName, containsBindings)
 	C_Timer.After(0.5, function()
 		if not app.Flag.AuctionatorHook and C_AddOns.IsAddOnLoaded("Auctionator") and AuctionatorShoppingFrame then
 			AuctionatorShoppingFrame:HookScript("OnShow", function()
-				app:CreateShoppingList()
+				if not app.Flag.ShoppingListCreated then
+					app:CreateShoppingList()
+				end
 			end)
 			app:CreateShoppingList()
 			app.Flag.AuctionatorHook = true
@@ -34,6 +36,8 @@ end)
 
 app.Event:Register("AUCTION_HOUSE_CLOSED", function(addOnName, containsBindings)
 	app.Flag.AuctionHouseIsOpen = false
+	app.Flag.ShoppingListCreated = false
+	app.PendingCommodityPurchase = nil
 	if C_AddOns.IsAddOnLoaded("Auctionator") and Auctionator.Shopping.ListManager:GetIndexForName("PSL") then
 		Auctionator.Shopping.ListManager:Delete("PSL")
 	end
@@ -126,6 +130,7 @@ function app:CreateShoppingList(export)
 			return table.concat(searchString, ";")
 		end
 	elseif C_AddOns.IsAddOnLoaded("Auctionator") then
+		app.Flag.ShoppingListCreated = true
 		if next(shoppingList) ~= nil then
 			local searchString = {}
 			for _, item in ipairs(shoppingList) do
@@ -137,6 +142,73 @@ function app:CreateShoppingList(export)
 		end
 	end
 end
+
+if C_AuctionHouse and C_AuctionHouse.ConfirmCommoditiesPurchase then
+	hooksecurefunc(C_AuctionHouse, "ConfirmCommoditiesPurchase", function(itemID, quantity)
+		if type(itemID) == "number" and type(quantity) == "number" and quantity > 0 then
+			app.PendingCommodityPurchase = { itemID = itemID, quantity = quantity }
+		end
+	end)
+end
+
+app.Event:Register("COMMODITY_PURCHASE_FAILED", function()
+	app.PendingCommodityPurchase = nil
+end)
+
+app.Event:Register("COMMODITY_PURCHASE_SUCCEEDED", function()
+	local purchased = app.PendingCommodityPurchase
+	app.PendingCommodityPurchase = nil
+	if not purchased or not C_AddOns.IsAddOnLoaded("Auctionator") or not Auctionator.Shopping.ListManager:GetIndexForName("PSL") then
+		return
+	end
+
+	local item = Item:CreateFromItemID(purchased.itemID)
+	item:ContinueOnItemLoad(function()
+		if not Auctionator.Shopping.ListManager:GetIndexForName("PSL") then return end
+
+		local ok, items = pcall(Auctionator.API.v1.GetShoppingListItems, app.Name, "PSL")
+		if not ok or type(items) ~= "table" then return end
+
+		local itemName = item:GetItemName() or C_Item.GetItemNameByID(purchased.itemID)
+		if not itemName or itemName == "" then return end
+
+		local itemTier = C_TradeSkillUI and C_TradeSkillUI.GetItemReagentQualityByItemInfo and C_TradeSkillUI.GetItemReagentQualityByItemInfo(purchased.itemID) or nil
+
+		local matchedRaw, matchedTerms, matchPriority
+		for _, raw in ipairs(items) do
+			local okTerm, terms = pcall(Auctionator.API.v1.ConvertFromSearchString, app.Name, raw)
+			if okTerm and type(terms) == "table" and terms.searchString == itemName then
+				local priority
+				if terms.tier ~= nil and itemTier ~= nil and terms.tier == itemTier then
+					priority = 1
+				elseif terms.tier == nil then
+					priority = 2
+				elseif app.Settings.includeHigher == 1 and itemTier ~= nil and itemTier > terms.tier then
+					priority = 3
+				end
+				if priority and (not matchPriority or priority < matchPriority) then
+					matchedRaw, matchedTerms, matchPriority = raw, terms, priority
+					if priority == 1 then break end
+				end
+			end
+		end
+
+		if not matchedRaw or not matchedTerms then return end
+
+		local remaining = (tonumber(matchedTerms.quantity) or 0) - purchased.quantity
+		if remaining > 0 then
+			matchedTerms.quantity = remaining
+			matchedTerms.categoryKey = matchedTerms.categoryKey or ""
+			matchedTerms.tier = matchedTerms.tier or ""
+			local okNew, newRaw = pcall(Auctionator.API.v1.ConvertToSearchString, app.Name, matchedTerms)
+			if okNew and type(newRaw) == "string" then
+				pcall(Auctionator.API.v1.AlterShoppingListItem, app.Name, "PSL", matchedRaw, newRaw)
+			end
+		else
+			pcall(Auctionator.API.v1.DeleteShoppingListItem, app.Name, "PSL", matchedRaw)
+		end
+	end)
+end)
 
 function api:GetTSMSearchString()
 	assert(self == api, "Call ProfessionShoppingList:GetTSMSearchString(), not ProfessionShoppingList.GetTSMSearchString()")
