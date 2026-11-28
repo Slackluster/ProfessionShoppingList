@@ -105,6 +105,11 @@ app.Event:Register("MERCHANT_SHOW", function()
 
 		app.MerchantButton = CreateFrame("Button", "ProfessionShoppingList_MerchantButton", MerchantFrame, "UIPanelCloseButton")
 		app.MerchantButton:SetPoint("TOPRIGHT", MerchantFrameCloseButton, "TOPLEFT", -2, 0)
+		local frameLevel = MerchantFrameCloseButton:GetFrameLevel()
+		if MerchantFrame.TitleContainer then
+			frameLevel = math.max(frameLevel, MerchantFrame.TitleContainer:GetFrameLevel())
+		end
+		app.MerchantButton:SetFrameLevel(frameLevel + 5)
 		app.MerchantButton:SetNormalTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
 		app.MerchantButton:GetNormalTexture():SetTexCoord(219/256, 255/256, 1/128, 39/128)
 		app.MerchantButton:SetDisabledTexture("Interface\\AddOns\\ProfessionShoppingList\\assets\\buttons.blp")
